@@ -17,7 +17,7 @@
 #   FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, APP_URL
 #
 # Prerequisites this script cannot do for you:
-#   * Claude enabled in Vertex AI Model Garden (manual console step)
+#   * aiplatform.googleapis.com enabled (this script enables it)
 #   * Firebase Authentication configured
 #   * The two Stripe secrets present in Secret Manager
 # See DEPLOY.md.
@@ -33,7 +33,7 @@ SERVICE="${SERVICE:-copyloom}"
 REPO="${REPO:-copyloom}"
 RUNTIME_SA="${RUNTIME_SA:-copyloom-run}"
 VERTEX_REGION="${VERTEX_REGION:-global}"
-VERTEX_MODEL="${VERTEX_MODEL:-claude-opus-5}"
+VERTEX_MODEL="${VERTEX_MODEL:-gemini-2.5-pro}"
 FIREBASE_API_KEY="${FIREBASE_API_KEY:-}"
 FIREBASE_AUTH_DOMAIN="${FIREBASE_AUTH_DOMAIN:-}"
 APP_URL="${APP_URL:-}"
@@ -109,7 +109,7 @@ fi
 # --- 3. Runtime service account -------------------------------------------
 #
 # This is the identity that makes keyless Vertex AI calls. roles/aiplatform.user
-# is what allows it to invoke Claude; without it every generation returns 403.
+# is what allows it to invoke Gemini; without it every generation returns 403.
 
 step "Ensuring runtime service account '$RUNTIME_SA_EMAIL' exists"
 if gcloud iam service-accounts describe "$RUNTIME_SA_EMAIL" \

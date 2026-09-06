@@ -2,20 +2,20 @@
 
 Copyloom is a Next.js 15 app that runs on **Cloud Run**, stores data in
 **Firestore (Native mode)**, authenticates users with **Firebase
-Authentication**, bills through **Stripe**, and generates content with **Claude
+Authentication**, bills through **Stripe**, and generates content with **Gemini
 on Vertex AI**.
 
-The single most important design point: **there is no Anthropic API key and no
-service-account JSON anywhere.** Claude is called through Vertex AI using
+The single most important design point: **there is no model API key and no
+service-account JSON anywhere.** Gemini is called through Vertex AI using
 Application Default Credentials — the Cloud Run runtime service account holds
-`roles/aiplatform.user`, and the Anthropic Vertex SDK picks that identity up
+`roles/aiplatform.user`, and the Vertex AI SDK picks that identity up
 automatically. The same identity reaches Firestore and Secret Manager. The only
 real secrets in the system are the two Stripe values, and they live in Secret
 Manager.
 
-Follow the steps in order. Steps 2 and 3 are **manual console steps that cannot
-be automated**, and skipping step 2 is by far the most common cause of a failed
-first deploy.
+Follow the steps in order. Step 3 is a **manual console step that cannot be
+automated**; step 2 is a two-minute smoke test that catches a broken model
+configuration before you spend a build on it.
 
 ---
 
@@ -60,46 +60,38 @@ gcloud services enable \
 
 ---
 
-## 2. Enable Claude in Vertex AI Model Garden — MANUAL, DO NOT SKIP
+## 2. Confirm Gemini model access
 
-**This is the step that breaks first deploys.** Enabling
-`aiplatform.googleapis.com` does *not* give you Claude. Anthropic models are
-third-party publisher models and each one has to be individually enabled for
-your project, which means accepting Anthropic's terms in the console. There is
-no `gcloud` command and no Terraform resource for it.
+There is nothing to accept and nothing to enable per model: Gemini is a
+first-party Google model and is available as soon as `aiplatform.googleapis.com`
+is enabled on the project (step 1). No Model Garden visit, no `gcloud` command,
+no Terraform resource.
 
-1. Open <https://console.cloud.google.com/vertex-ai/model-garden> with
-   `$PROJECT_ID` selected.
-2. Search for **Claude**.
-3. Open **Claude Opus 5** and click **Enable** (some accounts show
-   "Enable" behind a **Manage / Request access** button on the model card).
-4. Accept the Anthropic terms when prompted.
-5. Repeat for **Claude Sonnet 5** — it costs nothing to enable and gives you a
-   working fallback.
-
-Verify before you go further:
+Still, prove model access before you spend a build on it:
 
 ```bash
-# Should return HTTP 200 and a JSON message body.
+# Should return HTTP 200 and a JSON candidates body.
 curl -sS -o /dev/null -w '%{http_code}\n' \
   -X POST \
   -H "Authorization: Bearer $(gcloud auth print-access-token)" \
   -H "Content-Type: application/json" \
-  "https://aiplatform.googleapis.com/v1/projects/${PROJECT_ID}/locations/global/publishers/anthropic/models/claude-opus-5:rawPredict" \
-  -d '{"anthropic_version":"vertex-2023-10-16","max_tokens":16,"messages":[{"role":"user","content":"ping"}]}'
+  "https://aiplatform.googleapis.com/v1/projects/${PROJECT_ID}/locations/global/publishers/google/models/gemini-2.5-pro:generateContent" \
+  -d '{"contents":[{"role":"user","parts":[{"text":"ping"}]}],"generationConfig":{"maxOutputTokens":16}}'
 ```
 
-* `200` — you are good.
-* `404` — the model is not enabled for this project (or not in this location).
-  Go back to Model Garden. If Opus 5 is genuinely unavailable to you, set
-  `VERTEX_MODEL=claude-sonnet-5` (Terraform: `vertex_model`) and use Sonnet 5.
+* `200` — you are good. `gemini-2.5-pro` and `gemini-2.5-flash` are both
+  verified working on `global` and on `us-central1`.
+* `404` — the model ID is wrong, or that model is not served in this location.
+  `gemini-3-pro-preview`, for example, returns 404: it is not available.
 * `403` — the API is not enabled or your account lacks `roles/aiplatform.user`.
+* `429` — quota. This is what you get if you point the probe at a Claude model
+  on a brand-new project; see the troubleshooting section.
 
 **Region note.** Copyloom defaults to `VERTEX_REGION=global`, which routes
 across regions and has the best availability and quota. If you pin a specific
-region for data residency (e.g. `us-east5`, `europe-west1`), the model must be
-enabled and available *in that region*, and `global` is the safer default
-otherwise.
+region for data residency (e.g. `us-central1`, `europe-west1`), the model must
+be served *in that region* — swap `locations/global` for `locations/<region>` in
+the probe above and re-run it. `global` is the safer default otherwise.
 
 ---
 
@@ -227,7 +219,8 @@ terraform apply
 ```
 
 Terraform enables the APIs, creates the Artifact Registry repo, the Firestore
-database, the runtime service account with `roles/aiplatform.user`,
+database, the runtime service account with `roles/aiplatform.user` (the
+keyless path to Gemini),
 `roles/datastore.user` and `roles/secretmanager.secretAccessor`, the two Stripe
 secrets, and the public Cloud Run service (min 0 / max 10 instances,
 concurrency 80, 1 vCPU, 1 GiB, 600 s request timeout for long streaming
@@ -289,8 +282,8 @@ curl -sS -o /dev/null -w '%{http_code}\n' "$SERVICE_URL"   # expect 200
 ```
 
 Then in a browser: sign up with email/password, sign in with Google, and run one
-generation. If the generation fails, the answer is almost always in step 2 —
-check the logs:
+generation. If the generation fails, re-run the `curl` probe from step 2 to
+separate a model/quota problem from an app problem, then check the logs:
 
 ```bash
 gcloud run services logs read copyloom \
@@ -388,18 +381,37 @@ The generation route returns 403, or logs show
 
 ### `404 NOT_FOUND` / "model not found" / "Publisher Model ... not found"
 
-This is step 2, essentially always. The model is not enabled in Vertex AI Model
-Garden for this project, or not available in the location you pinned.
+The model ID does not exist, or that model is not served in the location you
+pinned.
 
-* Re-open Model Garden and confirm **Claude Opus 5** shows as enabled.
 * Try the `curl` probe in step 2 — it isolates the problem from the app.
-* If Opus 5 is not offered to your account, set `VERTEX_MODEL=claude-sonnet-5`
-  (Terraform `vertex_model`, or `--update-env-vars VERTEX_MODEL=claude-sonnet-5`)
-  and redeploy.
 * Check for a typo in the model ID. Vertex uses the **bare** ID —
-  `claude-opus-5`, not `anthropic.claude-opus-5`, and with no date suffix.
-* If you set `VERTEX_REGION` to a specific region, switch back to `global`; a
-  model enabled in Model Garden is not necessarily served in every region.
+  `gemini-2.5-pro`, not `google/gemini-2.5-pro`, and with no date suffix.
+* Check the model actually exists. `gemini-3-pro-preview` returns 404 — it is
+  not available. `gemini-2.5-pro` and `gemini-2.5-flash` are verified working.
+* If you set `VERTEX_REGION` to a specific region, switch back to `global`; not
+  every model is served in every region. Both verified models work on `global`
+  and on `us-central1`.
+* To change it: `VERTEX_MODEL=gemini-2.5-flash` (Terraform `vertex_model`, or
+  `--update-env-vars VERTEX_MODEL=gemini-2.5-flash`), then redeploy.
+
+### `429 RESOURCE_EXHAUSTED` from Vertex AI
+
+Quota, not permissions. Vertex AI meters generative models with a
+**per-base-model** quota, and on a brand-new project some base models default to
+**zero** — every request fails with 429 until you request an increase, no matter
+how little traffic you send.
+
+* This is what you hit if you switch `VERTEX_MODEL` to a **Claude** model:
+  Anthropic models on Vertex returned `429 RESOURCE_EXHAUSTED` on a brand-new
+  project, because their per-base-model quota starts at zero. Nothing in Model
+  Garden fixes that — you have to file a quota-increase request and wait for it.
+  Gemini does not have this problem out of the box.
+* Check and raise the quota for the exact base model and location you are using:
+  <https://cloud.google.com/vertex-ai/docs/generative-ai/quotas-genai>, or
+  **IAM & Admin > Quotas** filtered on `aiplatform.googleapis.com`.
+* A 429 under real traffic is the ordinary rate limit instead: retry with
+  backoff, or spread load by leaving `VERTEX_REGION=global`.
 
 ### `auth/unauthorized-domain` in the browser
 

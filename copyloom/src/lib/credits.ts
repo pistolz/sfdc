@@ -5,13 +5,18 @@
  * fee, so a one-line social post costs a fraction of a full landing page and the
  * unit economics hold no matter what mix of generators people use.
  *
- * weighted = input + 5 x output, because output tokens cost roughly 5x input.
- * Cache writes are billed at ~1.25x and cache reads at ~0.1x, mirrored here so a
- * cached brand kit genuinely costs the user less.
+ * weighted = input + 8 x output, because Gemini 2.5 Pro on Vertex bills roughly
+ * $1.25 per 1M input tokens against ~$10 per 1M output — an 8:1 ratio. At those
+ * rates 1000 weighted tokens is on the order of a tenth of a cent, so a credit
+ * is cheap enough to hand out generously and still price well above cost.
+ *
+ * The cache weights are kept for callers that report cache tokens, but the Gen
+ * AI SDK folds implicitly cached input into `promptTokenCount` rather than
+ * splitting it out, so in practice today they stay zero.
  */
 
 export const TOKENS_PER_CREDIT = 1000;
-const OUTPUT_WEIGHT = 5;
+const OUTPUT_WEIGHT = 8;
 const CACHE_WRITE_WEIGHT = 1.25;
 const CACHE_READ_WEIGHT = 0.1;
 

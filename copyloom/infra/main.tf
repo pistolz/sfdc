@@ -6,9 +6,9 @@
 #   Stripe secrets -> Cloud Run service -> public invoker binding.
 #
 # The design goal is keyless credentials: the Cloud Run service runs as a
-# dedicated service account that holds roles/aiplatform.user, so the Anthropic
-# Vertex SDK authenticates to Claude via Application Default Credentials. No
-# Anthropic API key and no service-account JSON file exists anywhere.
+# dedicated service account that holds roles/aiplatform.user, so the Vertex AI
+# SDK authenticates to Gemini via Application Default Credentials. No model API
+# key and no service-account JSON file exists anywhere.
 #
 # NOTE: the container image must already be pushed before `apply` — Cloud Run
 # validates that it can pull it. Run scripts/deploy.sh (or the build half of
@@ -36,7 +36,7 @@ locals {
   # Enabled before anything else; every other resource depends on this set.
   services = [
     "run.googleapis.com",             # Cloud Run
-    "aiplatform.googleapis.com",      # Vertex AI (Claude via Model Garden)
+    "aiplatform.googleapis.com",      # Vertex AI (Gemini)
     "firestore.googleapis.com",       # Firestore Native
     "secretmanager.googleapis.com",   # Stripe secrets
     "artifactregistry.googleapis.com", # container images
@@ -45,8 +45,8 @@ locals {
   ]
 
   runtime_roles = [
-    # The one that makes keyless Claude calls work: lets the runtime service
-    # account call Vertex AI's :streamRawPredict on Anthropic publisher models.
+    # The one that makes keyless Gemini calls work: lets the runtime service
+    # account call Vertex AI's :streamGenerateContent on Google publisher models.
     "roles/aiplatform.user",
     # Firestore Native data plane read/write.
     "roles/datastore.user",

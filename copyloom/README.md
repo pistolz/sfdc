@@ -13,7 +13,7 @@ See **[DEPLOY.md](./DEPLOY.md)** for the step-by-step deployment runbook.
 | Concern | Choice | Why |
 | --- | --- | --- |
 | Hosting | Cloud Run (one container) | Scales to zero, scales out under load, no cluster to run |
-| Model | Claude on **Vertex AI** | Keyless via ADC, and model spend lands on the same GCP bill |
+| Model | Gemini on **Vertex AI** | Keyless via ADC, and model spend lands on the same GCP bill |
 | Auth | Firebase Authentication | Google + email/password, no password storage of our own |
 | Sessions | httpOnly Firebase session cookies | Not readable by browser JS; revocation checked per request |
 | Database | Firestore (Native) | Serverless, per-user document tree, scales with the app |
@@ -23,9 +23,10 @@ See **[DEPLOY.md](./DEPLOY.md)** for the step-by-step deployment runbook.
 
 ### There is no model API key
 
-`AnthropicVertex` authenticates with Application Default Credentials. On Cloud
-Run that is the attached service account, which holds `roles/aiplatform.user`.
-Nothing to store, nothing to rotate, nothing to leak.
+The Vertex AI client authenticates with Application Default Credentials. On
+Cloud Run that is the attached service account, which holds
+`roles/aiplatform.user`. Nothing to store, nothing to rotate, nothing to leak —
+switching from Claude to Gemini changed the model, not the auth story.
 
 ### Request path
 
@@ -35,7 +36,7 @@ Browser ──▶ Firebase Auth (browser SDK) ──▶ ID token
               │
 Browser ──▶ POST /api/generate (cookie) ──▶ verify session (revocation-checked)
                                           ├─▶ load brand kit  (users/{uid}/brands)
-                                          ├─▶ Vertex AI (ADC, streaming)
+                                          ├─▶ Vertex AI · Gemini (ADC, streaming)
                                           ├─▶ SSE deltas back to the browser
                                           └─▶ save asset + debit credits on real usage
 ```
@@ -53,18 +54,19 @@ are public by design) exposes nothing.
 Credits are metered on **real token usage**, not a flat per-generation fee:
 
 ```
-weighted = input + 5 x output + 1.25 x cache_write + 0.1 x cache_read
+weighted = input + 8 x output + 1.25 x cache_write + 0.1 x cache_read
 credits  = ceil(weighted / 1000)
 ```
 
-The 5x output weighting mirrors Claude's price ratio, so one credit maps to a
-roughly constant cost whatever mix of generators people use. A typical run
-(~2k in, ~1.5k out) costs 10 credits. Plan allowances in `src/lib/plans.ts` are
-set for roughly a 70% gross margin — retune `credits` there if you change model
-or pricing; nothing else needs to move.
+The 8x output weighting mirrors Gemini 2.5 Pro's price ratio (~$1.25/M input,
+~$10/M output), so one credit maps to a roughly constant cost whatever mix of
+generators people use. A typical run (~2k in, ~1.5k out) costs 14 credits. Plan
+allowances in `src/lib/plans.ts` are set for roughly a 70% gross margin — retune
+`credits` there if you change model or pricing; nothing else needs to move.
 
 The role prompt and brand kit are identical on every run for a given user, so
-they sit behind a `cache_control` breakpoint and repeat generations get cheaper.
+they are sent as the stable prefix of every request and cached tokens make
+repeat generations cheaper.
 
 ## Layout
 
@@ -75,7 +77,7 @@ src/lib/          domain core
   credits.ts        usage metering
   firestore.ts      all data access, tenant-scoped
   session.ts        session cookie mint/verify
-  vertex.ts         Claude on Vertex AI via ADC
+  vertex.ts         Gemini on Vertex AI via ADC
   stripe.ts         billing client
 src/app/api/      route handlers (generate is SSE)
 src/app/          pages
@@ -95,9 +97,17 @@ npm run dev
 
 ## Changing the model
 
-`VERTEX_MODEL` (default `claude-opus-5`). Claude models must be enabled
-individually in your project's Vertex AI Model Garden — if Opus 5 is not enabled
-on your project, set `VERTEX_MODEL=claude-sonnet-5` and everything else works
-unchanged. `thinking` is deliberately not sent: Opus 5 and Sonnet 5 both run
-adaptive thinking by default, so omitting it keeps the request valid across
-whichever model you point at.
+`VERTEX_MODEL` (default `gemini-2.5-pro`), served from `VERTEX_REGION` (default
+`global`). Gemini needs no Model Garden acceptance — the models are available as
+soon as `aiplatform.googleapis.com` is enabled on the project. Set
+`VERTEX_MODEL=gemini-2.5-flash` for a cheaper and faster alternative; both
+`gemini-2.5-pro` and `gemini-2.5-flash` are verified working on `global` and on
+`us-central1`, and everything else works unchanged.
+
+`gemini-3-pro-preview` is **not** available and returns 404. A model ID that is
+wrong, or that is not served in the location you pinned, fails the same way — see
+the troubleshooting section of [DEPLOY.md](./DEPLOY.md).
+
+If you point this at a Claude model instead, expect an HTTP 429
+`RESOURCE_EXHAUSTED` on a fresh project: the per-base-model quota for Anthropic
+models defaults to zero and has to be raised by request. DEPLOY.md covers it.

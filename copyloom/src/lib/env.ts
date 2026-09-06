@@ -40,18 +40,18 @@ export function gcpProjectId(): string {
  * Vertex AI settings.
  *
  * `global` spreads across regions and has the best availability; pin a
- * specific region (e.g. `us-east5`) if you have data-residency requirements.
+ * specific region (e.g. `us-central1`) if you have data-residency requirements.
  *
- * The model is configurable because Claude models must be individually
- * enabled in your project's Vertex AI Model Garden. If `claude-opus-5` is not
- * enabled for you, set VERTEX_MODEL=claude-sonnet-5 and everything else works
- * unchanged.
+ * Gemini models need no per-project enablement on Vertex, so the default works
+ * on a fresh project. The model stays configurable for cost control: set
+ * VERTEX_MODEL=gemini-2.5-flash for a cheaper and faster run when the extra
+ * quality of Pro is not worth paying for.
  */
 export function vertexConfig() {
   return {
     projectId: gcpProjectId(),
     region: optional("VERTEX_REGION", "global"),
-    model: optional("VERTEX_MODEL", "claude-opus-5"),
+    model: optional("VERTEX_MODEL", "gemini-2.5-pro"),
   };
 }
 

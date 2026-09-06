@@ -69,9 +69,9 @@ variable "image" {
 
 variable "vertex_region" {
   description = <<-EOT
-    Vertex AI serving region for Claude. "global" is recommended for
+    Vertex AI serving region for Gemini. "global" is recommended for
     availability; use a specific region only for data residency. The chosen
-    model must be enabled in Model Garden for that location.
+    model must be served in that location.
   EOT
   type        = string
   default     = "global"
@@ -79,12 +79,12 @@ variable "vertex_region" {
 
 variable "vertex_model" {
   description = <<-EOT
-    Claude model ID on Vertex AI (bare ID, no prefix). Defaults to
-    claude-opus-5. If Opus 5 is not enabled for the project in Vertex AI Model
-    Garden, set this to claude-sonnet-5.
+    Gemini model ID on Vertex AI (bare ID, no prefix). Defaults to
+    gemini-2.5-pro. Set this to gemini-2.5-flash for a cheaper and faster
+    alternative. Both are verified working on "global" and "us-central1".
   EOT
   type        = string
-  default     = "claude-opus-5"
+  default     = "gemini-2.5-pro"
 }
 
 # --- Firebase Authentication ----------------------------------------------
