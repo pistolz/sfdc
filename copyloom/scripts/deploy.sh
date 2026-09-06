@@ -123,7 +123,7 @@ else
 fi
 
 step "Granting runtime roles"
-for ROLE in roles/aiplatform.user roles/datastore.user roles/secretmanager.secretAccessor; do
+for ROLE in roles/aiplatform.user roles/datastore.user roles/secretmanager.secretAccessor roles/firebaseauth.admin; do
   info "$ROLE"
   gcloud projects add-iam-policy-binding "$PROJECT_ID" \
     --member "serviceAccount:${RUNTIME_SA_EMAIL}" \

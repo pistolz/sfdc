@@ -52,6 +52,11 @@ locals {
     "roles/datastore.user",
     # Read the Stripe secret versions mounted below.
     "roles/secretmanager.secretAccessor",
+    # Mint and verify Firebase session cookies. The Admin SDK's
+    # createSessionCookie() calls the Identity Toolkit admin API, which fails
+    # with "insufficient permission" without this - sign-in returns a 500 even
+    # though the browser-side Firebase sign-up succeeds.
+    "roles/firebaseauth.admin",
   ]
 
   # Billing is optional. With no Stripe key the secrets are not created, the
