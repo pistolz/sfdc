@@ -36,7 +36,7 @@ export function Alert({
       <div className="min-w-0">
         {title ? <p className="font-semibold">{title}</p> : null}
         {children ? (
-          <div className={cn(title && "mt-0.5", "text-[13px] leading-relaxed")}>
+          <div className={cn(title ? "mt-0.5" : null, "text-[13px] leading-relaxed")}>
             {children}
           </div>
         ) : null}

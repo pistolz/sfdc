@@ -23,7 +23,7 @@
   /* Text */
   --cl-fg: #191713;
   --cl-muted: #635d54;
-  --cl-faint: #857e74;
+  --cl-faint: #706a60;
   --cl-inverse: #fbfaf8;
 
   /* One accent, used only for actions and emphasis. */
@@ -58,7 +58,7 @@
 
     --cl-fg: #f3f0ea;
     --cl-muted: #aaa298;
-    --cl-faint: #8b837a;
+    --cl-faint: #978f86;
     --cl-inverse: #121110;
 
     --cl-accent: #e2673c;
