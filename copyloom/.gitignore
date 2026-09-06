@@ -5,6 +5,9 @@ out/
 .env.local
 *.tsbuildinfo
 infra/.terraform/
+# Holds live Stripe secrets — never commit. Use terraform.tfvars.example as the template.
+infra/terraform.tfvars
+infra/*.auto.tfvars
 infra/*.tfstate
 infra/*.tfstate.backup
 infra/.terraform.lock.hcl
