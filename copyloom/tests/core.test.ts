@@ -235,3 +235,25 @@ test("plan lookup is not fooled by inherited object keys", () => {
     assert.ok(Array.isArray(planFor(key).features));
   }
 });
+
+test("advertised generation counts match what a generation actually costs", () => {
+  // The pricing page shows "~N generations" per plan. Those strings drifted
+  // silently when the credit weighting changed for a different model, so this
+  // ties them back to the real cost of a representative run.
+  const perRun = creditsForUsage({ input_tokens: 2000, output_tokens: 1500 });
+  for (const id of PLAN_ORDER) {
+    const plan = PLANS[id];
+    const advertised = plan.features
+      .map((f) => /~([\d,]+)\s+generations/.exec(f))
+      .find((m) => m !== null);
+    assert.ok(advertised, `${id} advertises a generation count`);
+
+    const claimed = Number(advertised[1].replace(/,/g, ""));
+    const actual = plan.credits / perRun;
+    // Allow rounding to a friendly number, but not a misleading one.
+    assert.ok(
+      Math.abs(claimed - actual) / actual <= 0.05,
+      `${id} claims ~${claimed} generations but ${plan.credits} credits at ${perRun}/run gives ${actual.toFixed(0)}`,
+    );
+  }
+});

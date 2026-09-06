@@ -2,16 +2,18 @@
  * Plan catalog.
  *
  * Credits are the user-facing unit of consumption. One credit is billed per
- * 1,000 "weighted tokens", where weighted = input + 5 x output. The 5x factor
- * mirrors Claude's output:input price ratio, so a credit maps to a roughly
- * constant real cost regardless of whether a generation is prompt-heavy or
- * output-heavy.
+ * 1,000 "weighted tokens", where weighted = input + 8 x output. The 8x factor
+ * mirrors Gemini 2.5 Pro's output:input price ratio, so a credit maps to a
+ * roughly constant real cost regardless of whether a generation is prompt-heavy
+ * or output-heavy.
  *
- * At Opus-tier pricing one credit costs on the order of half a cent to serve,
- * so the allowances below leave roughly a 70% gross margin. Retune
- * `credits` here if you change model or pricing; nothing else needs to move.
+ * At Gemini 2.5 Pro pricing (~$1.25 per 1M input, ~$10 per 1M output) one credit
+ * costs on the order of a tenth of a cent to serve, so these allowances leave a
+ * very wide gross margin -- Starter costs about $1.90 a month to serve at full
+ * usage. There is room to be more generous here if you would rather compete on
+ * allowance than on price: raise `credits` below and nothing else has to move.
  *
- * A typical single generation (~2k in, ~1.5k out) costs about 10 credits.
+ * A typical single generation (~2k in, ~1.5k out) costs about 14 credits.
  */
 
 export type PlanId = "free" | "starter" | "pro" | "agency";
@@ -38,7 +40,7 @@ export const PLANS: Record<PlanId, Plan> = {
     credits: 200,
     blurb: "Kick the tyres on your own brand voice.",
     features: [
-      "200 credits per month (~20 generations)",
+      "200 credits per month (~14 generations)",
       "1 brand kit",
       "All 8 content generators",
       "Asset library",
@@ -52,7 +54,7 @@ export const PLANS: Record<PlanId, Plan> = {
     priceEnvVar: "STRIPE_PRICE_STARTER",
     blurb: "For solo founders and one-person marketing teams.",
     features: [
-      "1,500 credits per month (~150 generations)",
+      "1,500 credits per month (~105 generations)",
       "3 brand kits",
       "All 8 content generators",
       "Export to HTML, Markdown and plain text",
@@ -67,7 +69,7 @@ export const PLANS: Record<PlanId, Plan> = {
     priceEnvVar: "STRIPE_PRICE_PRO",
     blurb: "For marketers shipping campaigns every week.",
     features: [
-      "6,000 credits per month (~600 generations)",
+      "6,000 credits per month (~430 generations)",
       "10 brand kits",
       "All 8 content generators",
       "Campaign builder (multi-asset briefs)",
@@ -83,7 +85,7 @@ export const PLANS: Record<PlanId, Plan> = {
     priceEnvVar: "STRIPE_PRICE_AGENCY",
     blurb: "For agencies running many client brands at once.",
     features: [
-      "20,000 credits per month (~2,000 generations)",
+      "20,000 credits per month (~1,400 generations)",
       "Unlimited brand kits",
       "All 8 content generators",
       "Campaign builder (multi-asset briefs)",
