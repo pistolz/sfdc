@@ -122,9 +122,17 @@ variable "app_url" {
 # --- Stripe ----------------------------------------------------------------
 
 variable "stripe_secret_key" {
-  description = "Stripe secret key (sk_live_... / sk_test_...). Stored in Secret Manager."
+  description = <<-EOT
+    Stripe secret key (sk_live_... / sk_test_...). Stored in Secret Manager.
+
+    Leave empty to deploy without billing: no Stripe secrets are created, the
+    container gets no Stripe env vars, and the app renders the billing page as
+    "not configured" rather than showing buttons that cannot work. Set it and
+    re-apply whenever you are ready to charge.
+  EOT
   type        = string
   sensitive   = true
+  default     = ""
 }
 
 variable "stripe_webhook_secret" {
@@ -137,6 +145,7 @@ variable "stripe_webhook_secret" {
   EOT
   type        = string
   sensitive   = true
+  default     = ""
 }
 
 variable "stripe_price_starter" {

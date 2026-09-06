@@ -54,12 +54,24 @@ locals {
     "roles/secretmanager.secretAccessor",
   ]
 
+  # Billing is optional. With no Stripe key the secrets are not created, the
+  # container gets no Stripe env vars, and src/lib/env.ts isBillingEnabled()
+  # reports false so the app shows a "billing not configured" notice instead of
+  # buttons that cannot work. Set stripe_secret_key and re-apply to turn it on.
+  billing_enabled = var.stripe_secret_key != ""
+
   # Logical key -> Secret Manager secret ID. Deliberately NOT sensitive, so it
   # can be used as a for_each key (Terraform rejects sensitive for_each values).
-  stripe_secret_ids = {
+  stripe_secret_ids = local.billing_enabled ? {
     stripe_secret_key     = "copyloom-stripe-secret-key"
     stripe_webhook_secret = "copyloom-stripe-webhook-secret"
-  }
+  } : {}
+
+  # Container env var name -> logical secret key, for the dynamic block below.
+  stripe_env = local.billing_enabled ? {
+    STRIPE_SECRET_KEY     = "stripe_secret_key"
+    STRIPE_WEBHOOK_SECRET = "stripe_webhook_secret"
+  } : {}
 
   # Same keys, the actual sensitive payloads.
   stripe_secret_values = {
@@ -188,8 +200,17 @@ resource "google_secret_manager_secret" "stripe" {
 resource "google_secret_manager_secret_version" "stripe" {
   for_each = local.stripe_secret_ids
 
-  secret      = google_secret_manager_secret.stripe[each.key].id
-  secret_data = local.stripe_secret_values[each.key]
+  secret = google_secret_manager_secret.stripe[each.key].id
+
+  # Secret Manager rejects an empty payload, and the webhook secret cannot be
+  # known until the service URL exists (see var.stripe_webhook_secret). Seed a
+  # placeholder so the first apply succeeds and the revision can start; the
+  # webhook simply rejects every signature until the real value is set.
+  secret_data = (
+    local.stripe_secret_values[each.key] != ""
+    ? local.stripe_secret_values[each.key]
+    : "placeholder-replace-after-first-apply"
+  )
 
   # Keep the previous version around briefly so an in-flight revision that has
   # already resolved "latest" is not broken by a rotation.
@@ -251,25 +272,21 @@ resource "google_cloud_run_v2_service" "app" {
         }
       }
 
-      # Secrets are referenced, never copied into the service definition.
-      env {
-        name = "STRIPE_SECRET_KEY"
+      # Secrets are referenced, never copied into the service definition. Emitted
+      # only when billing is configured, so a Stripe-less deploy does not
+      # reference a secret that does not exist (Cloud Run refuses to start a
+      # revision whose secret is missing).
+      dynamic "env" {
+        for_each = local.stripe_env
 
-        value_source {
-          secret_key_ref {
-            secret  = google_secret_manager_secret.stripe["stripe_secret_key"].secret_id
-            version = "latest"
-          }
-        }
-      }
+        content {
+          name = env.key
 
-      env {
-        name = "STRIPE_WEBHOOK_SECRET"
-
-        value_source {
-          secret_key_ref {
-            secret  = google_secret_manager_secret.stripe["stripe_webhook_secret"].secret_id
-            version = "latest"
+          value_source {
+            secret_key_ref {
+              secret  = google_secret_manager_secret.stripe[env.value].secret_id
+              version = "latest"
+            }
           }
         }
       }

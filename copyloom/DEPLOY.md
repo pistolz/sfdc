@@ -135,6 +135,18 @@ the choice is permanent.
 
 ## 4. Create the Stripe products and prices
 
+> **Skipping billing for now?** This whole step is optional. Leave
+> `stripe_secret_key` empty in `terraform.tfvars` (or just do not create the
+> Secret Manager secrets if you are using `scripts/deploy.sh`) and deploy as
+> normal. Terraform then creates no Stripe secrets and Cloud Run gets no Stripe
+> env vars; `scripts/deploy.sh` prints a note and carries on rather than failing.
+>
+> Everything except subscriptions works: sign-up, sign-in, brand kits, all eight
+> generators, streaming, the asset library and free-tier credits. The billing
+> page renders a "billing is not configured" notice instead of buttons that
+> cannot work. Come back and run this step, then re-apply or re-run the script,
+> whenever you are ready to charge — nothing else has to change.
+
 In the Stripe dashboard (start in **test mode**), under **Product catalogue**,
 create three products, each with one **recurring monthly** price in USD. These
 match `src/lib/plans.ts`:

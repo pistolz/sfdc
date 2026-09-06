@@ -77,8 +77,9 @@ steps:
 
   # 3. Deploy to Cloud Run.
   #
-  #    Secrets are attached by reference (--update-secrets), so no Stripe value
-  #    ever passes through the build. The Stripe price IDs are intentionally
+  #    Secrets are attached by reference (--update-secrets) when they exist, so
+  #    no Stripe value ever passes through the build, and a deploy with billing
+  #    not yet set up simply omits them. The Stripe price IDs are intentionally
   #    NOT set here: they are managed by Terraform, and --update-env-vars only
   #    touches the keys it names, leaving everything else on the service
   #    untouched.
@@ -104,6 +105,18 @@ steps:
           ENV_VARS="$${ENV_VARS},APP_URL=${_APP_URL}"
         fi
 
+        # Billing is optional. Cloud Run refuses to start a revision whose
+        # referenced secret is missing, so only attach the Stripe secrets once
+        # they actually exist. Without them the app reports billing as not
+        # configured and everything else works normally.
+        SECRET_ARGS=()
+        if gcloud secrets describe copyloom-stripe-secret-key --project "${PROJECT_ID}" >/dev/null 2>&1 \
+           && gcloud secrets describe copyloom-stripe-webhook-secret --project "${PROJECT_ID}" >/dev/null 2>&1; then
+          SECRET_ARGS=(--update-secrets "STRIPE_SECRET_KEY=copyloom-stripe-secret-key:latest,STRIPE_WEBHOOK_SECRET=copyloom-stripe-webhook-secret:latest")
+        else
+          echo "Stripe secrets not found - deploying without billing enabled."
+        fi
+
         gcloud run deploy "${_SERVICE}" \
           --project "${PROJECT_ID}" \
           --region "${_REGION}" \
@@ -118,7 +131,7 @@ steps:
           --max-instances 10 \
           --allow-unauthenticated \
           --update-env-vars "$${ENV_VARS}" \
-          --update-secrets "STRIPE_SECRET_KEY=copyloom-stripe-secret-key:latest,STRIPE_WEBHOOK_SECRET=copyloom-stripe-webhook-secret:latest"
+          "$${SECRET_ARGS[@]}"
 
         URL="$$(gcloud run services describe "${_SERVICE}" \
           --project "${PROJECT_ID}" --region "${_REGION}" --format='value(status.url)')"

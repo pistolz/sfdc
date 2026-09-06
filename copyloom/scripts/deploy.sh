@@ -43,9 +43,9 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # --- Output helpers --------------------------------------------------------
 
 if [ -t 1 ]; then
-  BOLD=$'\033[1m'; DIM=$'\033[2m'; RED=$'\033[31m'; GREEN=$'\033[32m'; RESET=$'\033[0m'
+  BOLD=$'\033[1m'; DIM=$'\033[2m'; RED=$'\033[31m'; GREEN=$'\033[32m'; YELLOW=$'\033[33m'; RESET=$'\033[0m'
 else
-  BOLD=""; DIM=""; RED=""; GREEN=""; RESET=""
+  BOLD=""; DIM=""; RED=""; GREEN=""; YELLOW=""; RESET=""
 fi
 
 step() { printf '\n%s==>%s %s%s%s\n' "$GREEN" "$RESET" "$BOLD" "$1" "$RESET"; }
@@ -184,10 +184,15 @@ for SECRET in copyloom-stripe-secret-key copyloom-stripe-webhook-secret; do
 done
 
 if [ "${#MISSING_SECRETS[@]}" -gt 0 ]; then
-  printf '\n%serror:%s missing Secret Manager secrets: %s\n' "$RED" "$RESET" "${MISSING_SECRETS[*]}" >&2
+  # Not fatal: billing is optional. The deploy step attaches the Stripe secrets
+  # only when they exist, so the app deploys with billing switched off and the
+  # billing page renders a "not configured" notice instead of dead buttons.
+  printf '\n%snote:%s Stripe secrets not found: %s\n' "$YELLOW" "$RESET" "${MISSING_SECRETS[*]}" >&2
   cat >&2 <<'HINT'
 
-Create them (values from your Stripe dashboard), then re-run this script:
+Deploying WITHOUT billing. Sign-up, the brand kit and every generator work;
+only subscriptions are disabled. To enable billing later, create the secrets
+and re-run this script:
 
   printf %s "sk_live_..."  | gcloud secrets create copyloom-stripe-secret-key     --data-file=- --replication-policy=automatic
   printf %s "whsec_..."    | gcloud secrets create copyloom-stripe-webhook-secret --data-file=- --replication-policy=automatic
@@ -196,7 +201,6 @@ The webhook secret is only known after the service exists, so a placeholder is
 fine on the first run; update it with `gcloud secrets versions add` afterwards.
 See DEPLOY.md step 7.
 HINT
-  exit 1
 fi
 
 # --- 6. Build and deploy ---------------------------------------------------
