@@ -1,0 +1,23 @@
+# Controls what `gcloud builds submit` uploads as the build context.
+#
+# Explicit rather than relying on gcloud's fallback to .gitignore: the fallback
+# is easy to lose (adding this file at all disables it), and the difference here
+# is an 812MB node_modules versus a sub-megabyte upload. The Dockerfile runs
+# `npm ci` inside the build, so dependencies must NOT be shipped.
+.git/
+.gitignore
+
+# Reinstalled during the build.
+node_modules/
+.next/
+out/
+
+# Never send local state or secrets to a build worker.
+.env
+.env.local
+infra/.terraform/
+infra/terraform.tfvars
+infra/*.auto.tfvars
+infra/*.tfstate
+infra/*.tfstate.backup
+*.tsbuildinfo

@@ -15,9 +15,9 @@ import type { BrandKit } from "../src/lib/types";
 
 /* ------------------------------- credits -------------------------------- */
 
-test("weights output tokens 5x input", () => {
+test("weights output tokens 8x input", () => {
   assert.equal(weightedTokens({ input_tokens: 1000, output_tokens: 0 }), 1000);
-  assert.equal(weightedTokens({ input_tokens: 0, output_tokens: 1000 }), 5000);
+  assert.equal(weightedTokens({ input_tokens: 0, output_tokens: 1000 }), 8000);
 });
 
 test("cache reads are far cheaper than fresh input", () => {
@@ -34,9 +34,9 @@ test("every generation costs at least one credit", () => {
 test("a typical generation lands in a sane credit range", () => {
   // ~2k in, ~1.5k out is a representative newsletter run.
   const credits = creditsForUsage({ input_tokens: 2000, output_tokens: 1500 });
-  assert.equal(credits, 10);
+  assert.equal(credits, 14);
   // The free tier should therefore be worth a meaningful number of runs.
-  assert.ok(PLANS.free.credits / credits >= 15);
+  assert.ok(PLANS.free.credits / credits >= 14);
 });
 
 test("missing usage fields are treated as zero rather than NaN", () => {

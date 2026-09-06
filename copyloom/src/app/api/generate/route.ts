@@ -1,4 +1,7 @@
-import type Anthropic from "@anthropic-ai/sdk";
+import {
+  FinishReason,
+  type GenerateContentResponseUsageMetadata,
+} from "@google/genai";
 import { handleRouteError, jsonError, readJson } from "@/lib/api";
 import { requireUser } from "@/lib/session";
 import {
@@ -40,6 +43,19 @@ function unwrapFence(text: string, format: "markdown" | "html"): string {
   const match = trimmed.match(/^```(?:html)?\s*\n([\s\S]*?)\n?```$/);
   return match ? match[1].trim() : trimmed;
 }
+
+/**
+ * Finish reasons where the model stopped because of a content filter rather
+ * than because it was done. These arrive with the text truncated or absent, so
+ * they must never be saved as an asset.
+ */
+const BLOCKED_FINISH_REASONS: ReadonlySet<FinishReason> = new Set([
+  FinishReason.SAFETY,
+  FinishReason.RECITATION,
+  FinishReason.PROHIBITED_CONTENT,
+  FinishReason.BLOCKLIST,
+  FinishReason.SPII,
+]);
 
 export async function POST(request: Request) {
   let user;
@@ -102,48 +118,44 @@ export async function POST(request: Request) {
       try {
         send({ type: "start" });
 
-        const system: Anthropic.TextBlockParam[] = [
-          { type: "text", text: ROLE_PROMPT },
-          {
-            type: "text",
-            text: brandBlock(brand),
-            // The role prompt and brand kit are identical across every run for
-            // this user, so caching the prefix cuts cost on repeat generations.
-            cache_control: { type: "ephemeral" },
+        const responseStream = await vertex().models.generateContentStream({
+          model: modelId(),
+          contents: activeGenerator.instruction(activeInputs),
+          config: {
+            // The role prompt and brand kit describe *who is writing*, not the
+            // task, so they belong in the system instruction where the model
+            // weighs them across the whole answer.
+            systemInstruction: `${ROLE_PROMPT}\n\n${brandBlock(brand)}`,
+            maxOutputTokens: activeGenerator.maxTokens,
+            // Stops us reading and forwarding bytes once the browser is gone.
+            // Vertex keeps generating server-side and still bills for it, so
+            // the abort saves bandwidth, not spend.
+            abortSignal: request.signal,
           },
-        ];
-
-        const messageStream = vertex().messages.stream(
-          {
-            model: modelId(),
-            max_tokens: activeGenerator.maxTokens,
-            // `thinking` is deliberately omitted: Claude Opus 5 and Sonnet 5
-            // both run adaptive thinking by default, and omitting it keeps this
-            // request valid across every model VERTEX_MODEL might be set to.
-            system,
-            messages: [
-              { role: "user", content: activeGenerator.instruction(activeInputs) },
-            ],
-          },
-          // Propagates browser disconnects upstream so we stop paying for a
-          // generation nobody is watching.
-          { signal: request.signal },
-        );
+        });
 
         let text = "";
-        for await (const event of messageStream) {
-          if (
-            event.type === "content_block_delta" &&
-            event.delta.type === "text_delta"
-          ) {
-            text += event.delta.text;
-            send({ type: "delta", text: event.delta.text });
+        // Usage and the finish reason land on the trailing chunks, so keep the
+        // last non-empty value seen rather than reading only the final chunk,
+        // which may carry neither.
+        let usage: GenerateContentResponseUsageMetadata | undefined;
+        let finishReason: FinishReason | undefined;
+        let blocked = false;
+
+        for await (const chunk of responseStream) {
+          if (chunk.usageMetadata) usage = chunk.usageMetadata;
+          if (chunk.promptFeedback?.blockReason) blocked = true;
+          const candidate = chunk.candidates?.[0];
+          if (candidate?.finishReason) finishReason = candidate.finishReason;
+
+          const delta = chunk.text;
+          if (delta) {
+            text += delta;
+            send({ type: "delta", text: delta });
           }
         }
 
-        const final = await messageStream.finalMessage();
-
-        if (final.stop_reason === "refusal") {
+        if (blocked || (finishReason && BLOCKED_FINISH_REASONS.has(finishReason))) {
           send({
             type: "error",
             message:
@@ -155,7 +167,7 @@ export async function POST(request: Request) {
           send({ type: "error", message: "The model returned no content. Please try again." });
           return;
         }
-        if (final.stop_reason === "max_tokens") {
+        if (finishReason === FinishReason.MAX_TOKENS) {
           send({
             type: "delta",
             text: "\n\n> Note: output reached the length limit and may be truncated.",
@@ -163,8 +175,17 @@ export async function POST(request: Request) {
           text += "\n\n> Note: output reached the length limit and may be truncated.";
         }
 
+        const inputTokens = usage?.promptTokenCount ?? 0;
+        // Thinking tokens are billed at the output rate and 2.5 Pro always
+        // thinks, so leaving them out would undercharge every run.
+        const outputTokens =
+          (usage?.candidatesTokenCount ?? 0) + (usage?.thoughtsTokenCount ?? 0);
+
         // Charged on real usage, so a short post costs far less than a landing page.
-        const creditsUsed = creditsForUsage(final.usage);
+        const creditsUsed = creditsForUsage({
+          input_tokens: inputTokens,
+          output_tokens: outputTokens,
+        });
         const content = unwrapFence(text, activeGenerator.format);
         const title = deriveTitle(activeGenerator, activeInputs);
 
@@ -185,8 +206,8 @@ export async function POST(request: Request) {
         void recordUsage(uid, {
           generatorId: activeGenerator.id,
           creditsUsed,
-          inputTokens: final.usage.input_tokens ?? 0,
-          outputTokens: final.usage.output_tokens ?? 0,
+          inputTokens,
+          outputTokens,
           assetId,
         }).catch(() => {});
 
@@ -200,7 +221,7 @@ export async function POST(request: Request) {
           console.error("[generate]", error);
           const message =
             error instanceof Error && /permission|denied|403/i.test(error.message)
-              ? "The server is not authorised to call Vertex AI. Check that the service account has roles/aiplatform.user and that the model is enabled in Model Garden."
+              ? "The server is not authorised to call Vertex AI. Check that the service account has roles/aiplatform.user and that the Vertex AI API is enabled on the project."
               : "Generation failed. Please try again.";
           send({ type: "error", message });
         }
