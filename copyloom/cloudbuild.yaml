@@ -1,0 +1,123 @@
+# ---------------------------------------------------------------------------
+# Copyloom: build -> push -> deploy.
+#
+# Run manually:
+#   gcloud builds submit --config cloudbuild.yaml \
+#     --substitutions=_REGION=us-central1,_SERVICE=copyloom,_REPO=copyloom,_TAG=$(git rev-parse --short HEAD)
+#
+# Or wire it to a Cloud Build trigger on push to main, in which case $SHORT_SHA
+# is populated automatically and _TAG can be left at its default.
+#
+# The Cloud Build service account needs roles/run.admin (to deploy),
+# roles/iam.serviceAccountUser on the runtime service account (to run the
+# service as it), and roles/artifactregistry.writer. scripts/deploy.sh grants
+# these idempotently.
+# ---------------------------------------------------------------------------
+
+substitutions:
+  # $PROJECT_ID is a built-in substitution and always resolves to the project
+  # the build runs in; the rest are user substitutions with defaults.
+  _REGION: "us-central1"
+  _SERVICE: "copyloom"
+  _REPO: "copyloom"
+  _RUNTIME_SA: "copyloom-run"
+  _TAG: "latest"
+  # Vertex AI configuration applied to the revision. Override _VERTEX_MODEL
+  # with claude-sonnet-5 if Opus 5 is not enabled on the project.
+  _VERTEX_REGION: "global"
+  _VERTEX_MODEL: "claude-opus-5"
+  # Optional. Leave empty when Terraform owns these values on the service;
+  # set them if cloudbuild.yaml / scripts/deploy.sh is your only deploy path.
+  _FIREBASE_API_KEY: ""
+  _FIREBASE_AUTH_DOMAIN: ""
+  _APP_URL: ""
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: E2_HIGHCPU_8
+  dynamicSubstitutions: true
+
+timeout: 1800s
+
+images:
+  - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${_TAG}"
+  - "${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:latest"
+
+steps:
+  # 1. Build. --cache-from lets an existing :latest prime the layer cache; it is
+  #    a no-op (and must not fail the build) on the very first run.
+  - id: build
+    name: gcr.io/cloud-builders/docker
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        set -euo pipefail
+        IMAGE="${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}"
+        docker pull "$${IMAGE}:latest" || echo "no cached image yet, building from scratch"
+        docker build \
+          --cache-from "$${IMAGE}:latest" \
+          --tag "$${IMAGE}:${_TAG}" \
+          --tag "$${IMAGE}:latest" \
+          .
+
+  # 2. Push both tags.
+  - id: push
+    name: gcr.io/cloud-builders/docker
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        set -euo pipefail
+        IMAGE="${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}"
+        docker push "$${IMAGE}:${_TAG}"
+        docker push "$${IMAGE}:latest"
+
+  # 3. Deploy to Cloud Run.
+  #
+  #    Secrets are attached by reference (--set-secrets), so no Stripe value
+  #    ever passes through the build. The Stripe price IDs are intentionally
+  #    NOT set here: they are managed by Terraform, and --update-env-vars only
+  #    touches the keys it names, leaving everything else on the service
+  #    untouched.
+  - id: deploy
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        set -euo pipefail
+        IMAGE="${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO}/${_SERVICE}:${_TAG}"
+
+        # Only send keys we actually have a value for, so an empty substitution
+        # never overwrites a value Terraform already set on the service.
+        ENV_VARS="GOOGLE_CLOUD_PROJECT=${PROJECT_ID},VERTEX_REGION=${_VERTEX_REGION},VERTEX_MODEL=${_VERTEX_MODEL},NODE_ENV=production"
+        if [ -n "${_FIREBASE_API_KEY}" ]; then
+          ENV_VARS="$${ENV_VARS},FIREBASE_API_KEY=${_FIREBASE_API_KEY}"
+        fi
+        if [ -n "${_FIREBASE_AUTH_DOMAIN}" ]; then
+          ENV_VARS="$${ENV_VARS},FIREBASE_AUTH_DOMAIN=${_FIREBASE_AUTH_DOMAIN}"
+        fi
+        if [ -n "${_APP_URL}" ]; then
+          ENV_VARS="$${ENV_VARS},APP_URL=${_APP_URL}"
+        fi
+
+        gcloud run deploy "${_SERVICE}" \
+          --project "${PROJECT_ID}" \
+          --region "${_REGION}" \
+          --image "$${IMAGE}" \
+          --service-account "${_RUNTIME_SA}@${PROJECT_ID}.iam.gserviceaccount.com" \
+          --port 8080 \
+          --cpu 1 \
+          --memory 1Gi \
+          --concurrency 80 \
+          --timeout 600 \
+          --min-instances 0 \
+          --max-instances 10 \
+          --allow-unauthenticated \
+          --update-env-vars "$${ENV_VARS}" \
+          --update-secrets "STRIPE_SECRET_KEY=copyloom-stripe-secret-key:latest,STRIPE_WEBHOOK_SECRET=copyloom-stripe-webhook-secret:latest"
+
+        URL="$(gcloud run services describe "${_SERVICE}" \
+          --project "${PROJECT_ID}" --region "${_REGION}" --format='value(status.url)')"
+        echo "Copyloom deployed: $${URL}"

@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Copyloom design tokens.
+
+   Every colour is declared once, in full, on :root — the dark block below only
+   reassigns the same names. Tailwind utilities read the semantic aliases in
+   @theme, so nothing in the app ever names a raw hex value.
+--------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  /* Surfaces: warm neutrals rather than blue-greys, so the accent reads as
+     considered rather than default-bootstrap. */
+  --cl-bg: #fbfaf8;
+  --cl-surface: #ffffff;
+  --cl-surface-2: #f5f3ef;
+  --cl-surface-3: #ece8e1;
+  --cl-border: #e5e1d9;
+  --cl-border-strong: #cfc9bd;
+
+  /* Text */
+  --cl-fg: #191713;
+  --cl-muted: #635d54;
+  --cl-faint: #857e74;
+  --cl-inverse: #fbfaf8;
+
+  /* One accent, used only for actions and emphasis. */
+  --cl-accent: #b4471f;
+  --cl-accent-hover: #973815;
+  --cl-accent-fg: #ffffff;
+  --cl-accent-soft: #fbeee8;
+  --cl-accent-soft-border: #f0d5c8;
+  --cl-accent-text: #93350f;
+
+  --cl-success: #1f6b40;
+  --cl-success-soft: #e7f3ec;
+  --cl-danger: #a52717;
+  --cl-danger-soft: #fdeceb;
+  --cl-warning: #7a5310;
+  --cl-warning-soft: #fbf1dd;
+
+  --cl-ring: #b4471f;
+  --cl-shadow: 0 1px 2px rgb(25 23 19 / 0.05), 0 8px 24px -12px rgb(25 23 19 / 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --cl-bg: #121110;
+    --cl-surface: #1a1917;
+    --cl-surface-2: #21201d;
+    --cl-surface-3: #2a2825;
+    --cl-border: #302d29;
+    --cl-border-strong: #45413b;
+
+    --cl-fg: #f3f0ea;
+    --cl-muted: #aaa298;
+    --cl-faint: #8b837a;
+    --cl-inverse: #121110;
+
+    --cl-accent: #e2673c;
+    --cl-accent-hover: #ef7a50;
+    --cl-accent-fg: #1b0f09;
+    --cl-accent-soft: #2a1a12;
+    --cl-accent-soft-border: #4a2c1d;
+    --cl-accent-text: #f18f66;
+
+    --cl-success: #6ed49b;
+    --cl-success-soft: #16281e;
+    --cl-danger: #f28b80;
+    --cl-danger-soft: #2c1815;
+    --cl-warning: #e3b567;
+    --cl-warning-soft: #2b2113;
+
+    --cl-ring: #f18f66;
+    --cl-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -12px rgb(0 0 0 / 0.6);
+  }
+}
+
+@theme inline {
+  --color-bg: var(--cl-bg);
+  --color-surface: var(--cl-surface);
+  --color-surface-2: var(--cl-surface-2);
+  --color-surface-3: var(--cl-surface-3);
+  --color-border: var(--cl-border);
+  --color-border-strong: var(--cl-border-strong);
+
+  --color-fg: var(--cl-fg);
+  --color-muted: var(--cl-muted);
+  --color-faint: var(--cl-faint);
+  --color-inverse: var(--cl-inverse);
+
+  --color-accent: var(--cl-accent);
+  --color-accent-hover: var(--cl-accent-hover);
+  --color-accent-fg: var(--cl-accent-fg);
+  --color-accent-soft: var(--cl-accent-soft);
+  --color-accent-soft-border: var(--cl-accent-soft-border);
+  --color-accent-text: var(--cl-accent-text);
+
+  --color-success: var(--cl-success);
+  --color-success-soft: var(--cl-success-soft);
+  --color-danger: var(--cl-danger);
+  --color-danger-soft: var(--cl-danger-soft);
+  --color-warning: var(--cl-warning);
+  --color-warning-soft: var(--cl-warning-soft);
+
+  --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  --radius-card: 0.875rem;
+
+  --shadow-soft: var(--cl-shadow);
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--cl-border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--cl-bg);
+    color: var(--cl-fg);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--cl-ring);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background: var(--cl-accent-soft);
+    color: var(--cl-accent-text);
+  }
+
+  ::placeholder {
+    color: var(--cl-faint);
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+@layer utilities {
+  /* Wide content (tables, code) scrolls inside its own box, never the page. */
+  .scroll-x {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+
+  .cl-grid-bg {
+    background-image:
+      linear-gradient(to right, var(--cl-border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--cl-border) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+  }
+
+  .animate-caret {
+    animation: cl-caret 1s steps(2, start) infinite;
+  }
+
+  @keyframes cl-caret {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes cl-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-spin-slow {
+    animation: cl-spin 0.7s linear infinite;
+  }
+
+  @keyframes cl-rise {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .animate-rise {
+    animation: cl-rise 0.25s ease-out both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,59 @@
+# ---------------------------------------------------------------------------
+# Copy to terraform.tfvars and fill in.
+#
+# WARNING: terraform.tfvars will hold a live Stripe secret key, and the repo's
+# .gitignore currently covers infra/.terraform/ and infra/*.tfstate* but NOT
+# terraform.tfvars. Add `infra/terraform.tfvars` to .gitignore before you fill
+# this in, and in CI prefer environment variables (TF_VAR_stripe_secret_key,
+# TF_VAR_stripe_webhook_secret) over a file on disk.
+#
+# Note that `terraform.tfstate` also contains the secret values in plaintext —
+# use a remote backend with a GCS bucket for anything shared.
+#
+#   cp terraform.tfvars.example terraform.tfvars
+#   terraform init && terraform apply
+# ---------------------------------------------------------------------------
+
+# --- Required --------------------------------------------------------------
+
+project_id = "my-copyloom-project"
+
+# Image must already exist in Artifact Registry (scripts/deploy.sh pushes it).
+image = "us-central1-docker.pkg.dev/my-copyloom-project/copyloom/copyloom:latest"
+
+# Firebase console > Project settings > General > Your apps > Web app.
+firebase_api_key     = "AIzaSyDUMMYDUMMYDUMMYDUMMYDUMMYDUMMY00"
+firebase_auth_domain = "my-copyloom-project.firebaseapp.com"
+
+# Stripe dashboard > Developers > API keys.
+stripe_secret_key = "sk_test_replace_me"
+
+# Stripe dashboard > Developers > Webhooks > endpoint > Signing secret.
+# The endpoint cannot be created until the service URL exists, so apply once
+# with this placeholder, create the webhook, then set the real value and apply
+# again. See DEPLOY.md step 7.
+stripe_webhook_secret = "whsec_replace_me_after_first_apply"
+
+# --- Optional (defaults shown) --------------------------------------------
+
+region             = "us-central1"
+firestore_location = "nam5"
+service_name       = "copyloom"
+repository_id      = "copyloom"
+service_account_id = "copyloom-run"
+
+# "global" is recommended. Claude must be enabled in Model Garden for the
+# location you choose.
+vertex_region = "global"
+
+# Set to "claude-sonnet-5" if Opus 5 is not enabled on the project.
+vertex_model = "claude-opus-5"
+
+# Leave empty on the first apply; then set to the `service_url` output (or your
+# custom domain) and apply again.
+app_url = ""
+
+# Stripe price IDs (price_..., not prod_...). Leave a plan empty to disable it.
+stripe_price_starter = ""
+stripe_price_pro     = ""
+stripe_price_agency  = ""

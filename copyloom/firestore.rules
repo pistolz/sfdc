@@ -1,0 +1,17 @@
+rules_version = '2';
+
+// The browser never talks to Firestore directly. Every read and write goes
+// through this app's API routes, which authenticate with a session cookie and
+// scope all access to users/{uid} server-side using the Admin SDK (the Admin
+// SDK bypasses these rules by design).
+//
+// Denying everything here means that even if a Firebase Web API key leaks —
+// and web API keys are public by nature — there is no client-reachable path to
+// any customer's data.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
