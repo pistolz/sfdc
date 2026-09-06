@@ -103,7 +103,12 @@ export const BRAND_LIMIT: Record<PlanId, number> = {
 };
 
 export function isPlanId(value: unknown): value is PlanId {
-  return typeof value === "string" && value in PLANS;
+  // hasOwnProperty, not `in`: `"constructor" in PLANS` is true via the
+  // prototype chain, which would let junk input resolve to Object's
+  // constructor and flow onward as if it were a Plan.
+  return (
+    typeof value === "string" && Object.prototype.hasOwnProperty.call(PLANS, value)
+  );
 }
 
 export function planFor(id: unknown): Plan {

@@ -6,10 +6,10 @@ import { planIdForStripePrice, type PlanId } from "./plans";
  * Stripe client and the small pure helpers that translate Stripe objects into
  * the shape our Firestore layer wants.
  *
- * Nothing here imports `@/lib/firestore` at module scope: that module pulls in
- * `server-only` and firebase-admin, which would make this file unloadable from
- * a plain `node --test` process. The one place we need it (`ensureCustomer`)
- * imports it lazily instead, so the pure helpers below stay unit-testable.
+ * Nothing here imports `./firestore` at module scope: that module pulls in
+ * `server-only` and firebase-admin, neither of which loads outside the Next
+ * server runtime. The one place we need it (`ensureCustomer`) imports it
+ * lazily instead, so the pure helpers below stay unit-testable.
  */
 
 /**

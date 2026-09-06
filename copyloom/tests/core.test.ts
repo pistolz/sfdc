@@ -225,3 +225,13 @@ test("brand input rejects non-string and oversized values", () => {
   assert.equal(parseBrandInput({ name: "Acme", oneLiner: "x".repeat(4001) }).ok, false);
   assert.equal(parseBrandInput({ name: "Acme", exampleCopy: "x".repeat(4001) }).ok, true);
 });
+
+test("plan lookup is not fooled by inherited object keys", () => {
+  // `"constructor" in PLANS` is true via the prototype chain; the guard must
+  // not let that through as a plan.
+  for (const key of ["constructor", "toString", "hasOwnProperty", "__proto__"]) {
+    assert.equal(isPlanId(key), false, `${key} is not a plan id`);
+    assert.equal(planFor(key).id, "free", `${key} falls back to free`);
+    assert.ok(Array.isArray(planFor(key).features));
+  }
+});

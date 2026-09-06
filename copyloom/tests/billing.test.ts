@@ -1,26 +1,32 @@
-import assert from "node:assert/strict";
-import { registerHooks } from "node:module";
 import test from "node:test";
+import assert from "node:assert/strict";
 
 /*
- * These tests run under `node --test --experimental-strip-types`, whose ESM
- * resolver (unlike the Next bundler) requires explicit file extensions. The
- * hook below re-adds the `.ts` extension for the app's own relative imports so
- * `src/lib/stripe.ts` can be loaded directly. Nothing else is stubbed: every
- * function exercised here is pure, so there is no network and no Firestore.
+ * Pure billing logic only: plan <-> Stripe price mapping and the helpers that
+ * read Stripe objects. Nothing here touches the network or Firestore, so no
+ * stubbing is needed — `src/lib/stripe.ts` deliberately keeps its Firestore
+ * dependency behind a lazy import so it can be loaded in a test process.
+ *
+ * Price env vars are set before the modules are used because `stripePriceId`
+ * reads process.env at call time.
  */
-registerHooks({
-  resolve(specifier, context, nextResolve) {
-    try {
-      return nextResolve(specifier, context);
-    } catch (error) {
-      // Only retry our own extensionless relative imports; anything else
-      // (a genuinely missing dependency) keeps its original error.
-      if (specifier.startsWith(".")) return nextResolve(`${specifier}.ts`, context);
-      throw error;
-    }
-  },
-});
+import {
+  isPlanId,
+  PLAN_ORDER,
+  planIdForStripePrice,
+  stripePriceId,
+  type PlanId,
+} from "../src/lib/plans";
+import {
+  invoiceLinePriceId,
+  invoicePlan,
+  invoiceSubscriptionId,
+  isEntitlementEndingStatus,
+  stripeIdOf,
+  subscriptionPeriodEndMs,
+  subscriptionPriceId,
+  subscriptionStateFor,
+} from "../src/lib/stripe";
 
 const PRICES = {
   STRIPE_PRICE_STARTER: "price_starter_test",
@@ -31,20 +37,6 @@ const PRICES = {
 for (const [name, value] of Object.entries(PRICES)) {
   process.env[name] = value;
 }
-
-const { isPlanId, PLAN_ORDER, planIdForStripePrice, stripePriceId } =
-  await import("../src/lib/plans");
-type PlanId = import("../src/lib/plans").PlanId;
-const {
-  invoiceLinePriceId,
-  invoicePlan,
-  invoiceSubscriptionId,
-  isEntitlementEndingStatus,
-  stripeIdOf,
-  subscriptionPeriodEndMs,
-  subscriptionPriceId,
-  subscriptionStateFor,
-} = await import("../src/lib/stripe");
 
 /* -------------------------------------------------------------------------- */
 /* Plan <-> Stripe price mapping                                               */
