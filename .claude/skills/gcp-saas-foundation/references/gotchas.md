@@ -25,6 +25,7 @@ expensive. A green build proves none of them are absent.
 - [15. Build-time vs runtime public config](#15)
 - [16. Changing token weighting silently falsifies pricing copy](#16)
 - [17. Assorted smaller traps](#17)
+- [18. Authenticating a sandboxed agent to GCP with no browser](#18)
 
 ---
 
@@ -361,3 +362,63 @@ fail with *"React is not defined"* — including from inside the component under
 so copy it to the image root — not to `/app/.next/standalone`. Static assets are **not** in
 standalone output; copy `.next/static` separately, plus `public/`. Create `public/.gitkeep` so
 the `COPY` does not fail on an empty directory.
+
+---
+
+<a id="18"></a>
+## 18. Authenticating a sandboxed agent to GCP with no browser
+
+**The situation.** An agent running in a cloud sandbox has no browser, no display, and often no
+`gcloud` at all. The normal `gcloud auth login` flow assumes it can open a browser locally.
+Without a way around this, the agent cannot provision or deploy anything.
+
+**Step 1 — install the SDK.** `dl.google.com` and `packages.cloud.google.com` are commonly
+blocked by egress policy, but the release mirror on `storage.googleapis.com` usually is not:
+
+```bash
+curl -o /tmp/gcloud.tar.gz \
+  https://storage.googleapis.com/cloud-sdk-release/google-cloud-cli-linux-x86_64.tar.gz
+tar -xzf /tmp/gcloud.tar.gz -C /opt/
+/opt/google-cloud-sdk/bin/gcloud --version
+```
+
+Probe reachability first (`curl -sI -o /dev/null -w '%{http_code}'`). A `000` means the proxy
+refused the CONNECT — try the mirror rather than concluding there is no network.
+
+**Step 2 — the headless login.** `gcloud auth login --no-launch-browser` prints a URL, then
+**blocks reading a verification code from stdin**. In most agent harnesses each command runs in
+a fresh shell, so you cannot simply type into it later. Use a named pipe with a holder process
+so the reader does not see EOF and the code can be delivered by a later command:
+
+```bash
+mkfifo /tmp/authpipe
+# The holder keeps a writer open, so gcloud's stdin blocks instead of hitting EOF.
+nohup sleep 1800 > /tmp/authpipe 2>/dev/null &
+nohup gcloud auth login --no-launch-browser > /tmp/authout 2>&1 < /tmp/authpipe &
+sleep 5 && cat /tmp/authout          # shows the URL to hand to the user
+```
+
+Give the user the URL. When they return the code, deliver it in a *separate* command:
+
+```bash
+echo "4/0A...their-code..." > /tmp/authpipe
+grep -q "You are now logged in" /tmp/authout   # then verify
+```
+
+**Step 3 — remember gotcha §11.** A preset `CLOUDSDK_AUTH_ACCESS_TOKEN` will override this
+login on every invocation. Unset it, ideally via a wrapper script.
+
+**Be straight with the user about scope.** This is not the same as Claude Code running on their
+own machine, where credentials stay local. Here:
+
+- `gcloud auth login` grants **`cloud-platform` across every project the account can reach**,
+  not just the one you are building. Suggest a dedicated account if their main one touches
+  production.
+- The verification code passes through the conversation transcript, and the resulting refresh
+  token lands in a container the user does not control.
+
+Offer the lower-risk alternative first: the user runs `gcloud auth print-access-token` in Cloud
+Shell and pastes a **short-lived token** (about an hour, no refresh token), used via
+`CLOUDSDK_AUTH_ACCESS_TOKEN`. That is enough for a full provision-and-deploy and expires on its
+own. Whichever they pick, run `gcloud auth revoke` when the work is done, and tell them they can
+also revoke at myaccount.google.com/permissions.
