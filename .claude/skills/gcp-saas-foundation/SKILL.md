@@ -3,16 +3,16 @@ name: gcp-saas-foundation
 description: >-
   Build and ship a real multi-tenant, subscription-billed SaaS entirely on Google Cloud —
   Cloud Run + Firestore + Firebase Auth + Vertex AI (Gemini) + Stripe, provisioned with
-  Terraform and deployed with Cloud Build. Carries a proven architecture, copy-pasteable
+  Terraform and deployed via Cloud Build. Carries a proven architecture, idempotent
   provisioning scripts, and a catalogue of the specific failures that break a first deploy
-  (Cloud Run not injecting GOOGLE_CLOUD_PROJECT, missing roles/firebaseauth.admin silently
-  breaking every login, Vertex quota being zero for some models, .gcloudignore disabling the
-  .gitignore fallback). Use this skill whenever the user wants to build, scaffold, or deploy
-  a SaaS, web app with user accounts, AI product, or any app needing login plus payments on
-  GCP, Cloud Run, Firebase, or Vertex AI — and also when they are only partway there, e.g.
-  "add auth to my app", "deploy this to Cloud Run", "why does my Firebase login 500",
-  "how do I call Gemini without an API key", or "set up Stripe subscriptions" — even if they
-  never say the words "SaaS" or name these services explicitly.
+  (Cloud Run not injecting GOOGLE_CLOUD_PROJECT, a missing IAM role silently breaking every
+  login, Vertex quota being zero for some models, .gcloudignore disabling the .gitignore
+  fallback). Use whenever the user wants to build, scaffold, or deploy a SaaS, web app with
+  user accounts, AI product, or anything needing login plus payments on GCP, Cloud Run,
+  Firebase, or Vertex AI — and when they are only partway there, e.g. "add auth to my app",
+  "deploy this to Cloud Run", "why does my Firebase login 500", "call Gemini without an API
+  key", or "set up Stripe subscriptions" — even if they never say "SaaS" or name these
+  services.
 ---
 
 # GCP SaaS Foundation
