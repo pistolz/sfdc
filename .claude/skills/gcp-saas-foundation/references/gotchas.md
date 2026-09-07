@@ -287,8 +287,15 @@ Streaming responses need three things or they arrive as one lump at the end, or 
   long generations). Set the client-side SDK timeout *below* that so you get a clean error
   rather than a truncated connection.
 
-Also propagate the request's `AbortSignal` upstream to the model call, so a user closing the
-tab stops the spend. On abort, do not save and do not charge — you have no usage numbers.
+Also propagate the request's `AbortSignal` into the model call. Be precise about what this
+buys you: in the Google Gen AI SDK the signal is **client-side only**. It stops you reading and
+forwarding bytes once the browser is gone, but the service keeps generating and you are still
+billed. So it saves bandwidth, connection slots, and a write of a result nobody asked for — not
+spend. Do not write a comment claiming it saves money; someone will rely on that.
+
+On abort, do not save and do not charge: you have no usage numbers to charge against, and the
+user is gone. Treat a client disconnect as a normal outcome rather than an error worth logging
+or reporting back through the stream.
 
 ---
 
