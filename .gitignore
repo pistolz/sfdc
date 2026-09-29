@@ -9,3 +9,6 @@ $RECYCLE.BIN/
 
 # VS Code project settings
 .vscode/
+
+# Arbres de travail temporaires des sous-agents (jetables, recrees a la demande)
+.claude/worktrees/
