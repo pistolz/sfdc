@@ -212,7 +212,7 @@ function onFrame() {
     const w = el.offsetWidth || 160, h = el.offsetHeight || 50;
     // left-wall ledges get their card to the right of the anchor and vice versa
     let x = p.side < 0 ? p.x : p.x - w;
-    x = Math.min(W - w - 8, Math.max(8, x));
+    x = Math.min(W - w - (innerWidth < 760 ? 46 : 70), Math.max(8, x));
     const y = p.y - h / 2;
     const off = y < minY || y + h > maxY;
     el.classList.toggle("on", !off);
@@ -325,7 +325,7 @@ function syncInset() {
   if (!shaft || $("panel").hidden) return;
   const r = $("panel").getBoundingClientRect();
   if (innerWidth >= 760) shaft.setInset(innerWidth - r.left, 0);
-  else shaft.setInset(0, Math.max(0, innerHeight - r.top - 120));
+  else shaft.setInset(0, Math.max(0, innerHeight - r.top - $("hud-anchor").getBoundingClientRect().bottom));
 }
 addEventListener("resize", syncInset);
 

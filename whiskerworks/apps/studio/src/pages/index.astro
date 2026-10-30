@@ -17,7 +17,7 @@ const featured = getFeatured(games);
 const live = games.filter((g) => g.data.status === 'live');
 const moodKeys = Object.keys(moods) as Mood[];
 const byMood = Object.fromEntries(moodKeys.map((m) => [m, games.filter((g) => g.data.mood === m).slice(0, 3)])) as Record<Mood, typeof games>;
-const intents = games.flatMap((g) => (g.data.keywords[0] ? [{ phrase: g.data.keywords[0], game: g }] : [])).slice(0, 9);
+const intents = games.flatMap((g) => (g.data.keywords[0] ? [{ phrase: g.data.keywords[0], game: g }] : [])).slice(0, 12);
 
 const itemList = {
   '@context': 'https://schema.org',
@@ -130,13 +130,13 @@ const itemList = {
     <div class="container">
       <div class="section-head">
         <div>
-          <p class="kicker">Out now</p>
-          <h2 id="now-title" class="h2">Available to play today.</h2>
+          <p class="kicker">{live.length ? 'Out now' : 'Launching soon'}</p>
+          <h2 id="now-title" class="h2">{live.length ? 'Available to play today.' : 'Next up on your phone.'}</h2>
         </div>
-        <p class="muted">Every game is free to start. Tap one to see how it plays, try it in your browser when there is a web version, and get it from there.</p>
+        <p class="muted">{live.length ? 'Every game is free to play. Tap one to see how it plays and get it from there.' : 'These are finished, polished and on their way to the App Store and Google Play. Tap one to see how it plays.'}</p>
       </div>
       <div class="game-grid">
-        {(live.length ? live : games).slice(0, 8).map((g, i) => <GameCard game={g} delay={(i % 4) * 0.06} />)}
+        {(live.length ? live : games.filter((g) => g.data.status !== 'dev')).slice(0, 8).map((g, i) => <GameCard game={g} delay={(i % 4) * 0.06} />)}
       </div>
       <p class="more"><a class="btn btn-secondary" href="/games/">See all {games.length} games <span aria-hidden="true">→</span></a></p>
     </div>

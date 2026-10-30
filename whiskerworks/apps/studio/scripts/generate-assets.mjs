@@ -121,7 +121,7 @@ for (const file of fs.readdirSync(gamesDir).filter((f) => f.endsWith('.md') && !
   const src = fs.readFileSync(path.join(gamesDir, file), 'utf8');
   const fm = YAML.parse(src.split(/^---$/m)[1] ?? '') ?? {};
   if (fm.draft) continue;
-  const status = { live: 'Out now', beta: 'In beta', soon: 'Coming soon' }[fm.status ?? 'soon'];
+  const status = { live: 'Out now', beta: 'In beta', soon: 'Launching soon', dev: 'In the workshop' }[fm.status ?? 'soon'];
   await writeOg(`game-${file.replace(/\.md$/, '')}`, { kicker: `${fm.genre ?? 'Game'} · ${status}`, title: fm.title, sub: fm.tagline, colors: fm.colors ?? undefined });
 }
 log('og images ok');

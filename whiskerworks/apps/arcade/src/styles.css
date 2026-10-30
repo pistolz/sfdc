@@ -371,7 +371,7 @@ img { display: block; }
 .drawer-inner, .panel { border-color: var(--fw-cyan); }
 
 @media (min-width: 760px) {
-  .newest { top: 236px; left: 28px; width: 250px; padding: 14px; }
+  .newest { top: 290px; left: 28px; width: 250px; padding: 14px; }
   .newest .name { font-size: 0.9rem; }
   .ruler { right: 22px; top: 120px; bottom: 150px; }
   .headline { font-size: clamp(2rem, 3.6vw, 3.4rem); }
@@ -382,3 +382,5 @@ img { display: block; }
   .search .btn { font-size: 0; }
   .search .btn::after { content: "Find"; font-size: 0.95rem; }
 }
+
+.toast { white-space: nowrap; max-width: calc(100vw - 32px); overflow: hidden; text-overflow: ellipsis; }

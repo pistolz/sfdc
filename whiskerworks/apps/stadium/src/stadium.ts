@@ -41,15 +41,17 @@ function tierLayout(tiers: number) {
 }
 
 /** Closed band between two offset ellipses, as a triangle strip-like indexed geometry. */
-function ringStrip(s0: number, y0: number, s1: number, y1: number, seg = 220): THREE.BufferGeometry {
-  const pos: number[] = [], idx: number[] = [];
+function ringStrip(s0: number, y0: number, s1: number, y1: number, seg = 220, uRepeat = 1): THREE.BufferGeometry {
+  const pos: number[] = [], idx: number[] = [], uv: number[] = [];
   for (let i = 0; i <= seg; i++) {
     const t = (i / seg) * TAU, c = Math.cos(t), sn = Math.sin(t);
     pos.push((A0 + s0) * c, y0, (B0 + s0) * sn, (A0 + s1) * c, y1, (B0 + s1) * sn);
+    uv.push((i / seg) * uRepeat, 0, (i / seg) * uRepeat, 1);
     if (i < seg) { const k = i * 2; idx.push(k, k + 1, k + 2, k + 1, k + 3, k + 2); }
   }
   const g = new THREE.BufferGeometry();
   g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
   g.setIndex(idx);
   g.computeVertexNormals();
   return g;
@@ -76,6 +78,27 @@ function pitchTexture(): THREE.CanvasTexture {
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
   t.anisotropy = 8;
+  return t;
+}
+
+/** Outer facade: light concrete panels, pillars, a navy crown band with a gold LED line. */
+function facadeTexture(): THREE.CanvasTexture {
+  const c = document.createElement("canvas");
+  c.width = 256; c.height = 256;
+  const x = c.getContext("2d")!;
+  const g = x.createLinearGradient(0, 0, 0, 256);
+  g.addColorStop(0, "#f4f6f9"); g.addColorStop(1, "#cfd5de");
+  x.fillStyle = g; x.fillRect(0, 0, 256, 256);
+  x.fillStyle = "#1d2654"; x.fillRect(0, 0, 256, 46);
+  x.fillStyle = "#ffc93c"; x.fillRect(0, 46, 256, 7);
+  x.fillStyle = "rgba(29,38,84,0.18)";
+  for (let i = 0; i < 2; i++) x.fillRect(i * 128 + 60, 53, 8, 203);
+  x.fillStyle = "rgba(29,38,84,0.35)";
+  for (let i = 0; i < 4; i++) for (let r = 0; r < 3; r++) x.fillRect(i * 64 + 14, 84 + r * 56, 22, 28);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.wrapS = THREE.RepeatWrapping;
+  t.anisotropy = 4;
   return t;
 }
 
@@ -130,7 +153,7 @@ export class Stadium {
   private raycaster = new THREE.Raycaster();
   private seatGeo: THREE.BufferGeometry;
   private static = new THREE.Group();
-  private inset = { right: 0, bottom: 0 };
+  private inset = { right: 0, bottom: 0, top: 0 };
 
   constructor(private canvas: HTMLCanvasElement, opts: StadiumOptions) {
     this.opts = opts;
@@ -163,9 +186,9 @@ export class Stadium {
     this.controls.addEventListener("end", () => { this.idleSince = performance.now(); });
 
     // seat: base + back, facing +z
-    const base = new THREE.BoxGeometry(0.82, 0.16, 0.66).translate(0, 0.32, 0.02);
-    const back = new THREE.BoxGeometry(0.82, 0.62, 0.13).translate(0, 0.62, -0.3);
-    const leg = new THREE.BoxGeometry(0.5, 0.26, 0.4).translate(0, 0.12, 0);
+    const base = new THREE.BoxGeometry(0.96, 0.2, 0.86).translate(0, 0.36, 0.04);
+    const back = new THREE.BoxGeometry(0.96, 0.82, 0.16).translate(0, 0.72, -0.38);
+    const leg = new THREE.BoxGeometry(0.6, 0.3, 0.5).translate(0, 0.14, 0);
     this.seatGeo = mergeGeometries([base, back, leg])!;
 
     this.buildStatic();
@@ -284,15 +307,17 @@ export class Stadium {
       }
     });
     // back wall + outer facade down to the ground
-    parts.push([ringStrip(this.outerS, last.y1 + 0.05, this.outerS, last.y1 + 2.4), concrete]);
-    parts.push([ringStrip(this.outerS + 0.3, 0, this.outerS + 0.3, last.y1 + 2.4), darker]);
-    parts.push([ringStrip(this.outerS, last.y1 + 2.4, this.outerS + 0.3, last.y1 + 2.4), concrete]);
+    parts.push([ringStrip(this.outerS, last.y1 + 0.05, this.outerS, last.y1 + 8.4), concrete]);
+    const facadeMat = new THREE.MeshStandardMaterial({ map: facadeTexture(), roughness: 0.85, side: THREE.DoubleSide });
+    parts.push([ringStrip(this.outerS + 0.3, 0, this.outerS + 0.3, last.y1 + 8.4, 360, 40), facadeMat]);
+    parts.push([ringStrip(this.outerS, last.y1 + 8.4, this.outerS + 0.3, last.y1 + 8.4), concrete]);
     // roof ring from the third tier on
     if (this.tiers >= 3) {
-      const roofY = last.y1 + 9;
-      const roofMat = new THREE.MeshStandardMaterial({ color: "#ffffff", roughness: 0.5, transparent: true, opacity: 0.94, side: THREE.DoubleSide });
-      parts.push([ringStrip(this.outerS - 16 - this.tiers * 2, roofY - 1.2, this.outerS + 1.5, roofY), roofMat]);
-      parts.push([ringStrip(this.outerS - 16 - this.tiers * 2, roofY - 1.2, this.outerS - 16 - this.tiers * 2, roofY - 2.2), fascia]);
+      const roofY = last.y1 + 13;
+      const roofIn = this.outerS - 7 - this.tiers * 1.5;
+      const roofMat = new THREE.MeshStandardMaterial({ color: "#ffffff", roughness: 0.5, transparent: true, opacity: 0.88, side: THREE.DoubleSide });
+      parts.push([ringStrip(roofIn, roofY - 1.2, this.outerS + 1.5, roofY), roofMat]);
+      parts.push([ringStrip(roofIn, roofY - 1.2, roofIn, roofY - 2.4), fascia]);
       // supports
       const sup = new THREE.CylinderGeometry(0.5, 0.5, roofY - last.y1, 6);
       const supMat = new THREE.MeshStandardMaterial({ color: "#dfe3ea", roughness: 0.6 });
@@ -392,7 +417,7 @@ export class Stadium {
       this.clubAnchor.set(rg.id, {
         pos: new THREE.Vector3((A0 + sMid) * Math.cos(t), yMid, (B0 + sMid) * Math.sin(t)),
         inward,
-        label: new THREE.Vector3((A0 + this.outerS) * Math.cos(t), this.topY + 6.5, (B0 + this.outerS) * Math.sin(t)),
+        label: new THREE.Vector3((A0 + sMid) * Math.cos(t), yMid + 3, (B0 + sMid) * Math.sin(t)),
       });
     }
     // seat owners: fan k of a club sits at best-seat index k*3 (spaced so names never stack)
@@ -406,12 +431,12 @@ export class Stadium {
     }
 
     // banners on the back wall of each stand wide enough to carry a name
-    const bannerY = this.topY + 1.3;
+    const bannerY = this.topY + 2.6;
     for (const rg of ranges.slice().sort((a, b) => (b.u1 - b.u0) - (a.u1 - a.u0)).slice(0, 26)) {
       const c = state.clubs[rg.id];
       const arcLen = (rg.u1 - rg.u0) * TAU * ((A0 + B0) / 2 + this.outerS);
       if (!c || arcLen < 9) continue;
-      const w = Math.min(arcLen * 0.82, 46), h = Math.max(2.2, Math.min(4.2, w / 6.4));
+      const w = Math.min(arcLen * 0.86, 52), h = Math.max(2.6, Math.min(5.6, w / 5.6));
       const t = tStart + ((rg.u0 + rg.u1) / 2) * TAU;
       const pos = new THREE.Vector3((A0 + this.outerS - 0.2) * Math.cos(t), bannerY + h / 2, (B0 + this.outerS - 0.2) * Math.sin(t));
       const tex = bannerTexture(c.banner, c.colors[0], c.colors[1]);
@@ -512,12 +537,13 @@ export class Stadium {
     const p1 = p0.clone().add(new THREE.Vector3(0, high * 0.6, 0));
     const p2 = endPos.clone().add(dir.multiplyScalar(70)).add(new THREE.Vector3(0, high, 0));
     const dist = p0.distanceTo(endPos);
-    this.flight = { p0, p1, p2, p3: endPos.clone(), t0: this.controls.target.clone(), t1: endTarget.clone(), start: performance.now(), dur: opts.dur ?? Math.min(3600, 1500 + dist * 6), done };
+    this.flight = { p0, p1, p2, p3: endPos.clone(), t0: this.controls.target.clone(), t1: endTarget.clone(), start: performance.now(), dur: opts.dur ?? Math.min(4200, 2600 + dist * 5), done };
   }
 
   focusSeat(ref: SeatRef, opts: { instant?: boolean } = {}) {
     const target = ref.pos.clone().add(new THREE.Vector3(0, 0.6, 0));
-    const camPos = ref.pos.clone().add(ref.inward.clone().multiplyScalar(10.5)).add(new THREE.Vector3(0, 4.2, 0));
+    const near = this.camera.aspect < 0.8 ? 1.35 : 1;
+    const camPos = ref.pos.clone().add(ref.inward.clone().multiplyScalar(17 * near)).add(new THREE.Vector3(0, 7 * near, 0));
     this.highlight.visible = false;
     this.fly(camPos, target, { instant: opts.instant, high: 110 }, () => this.showHighlight(ref));
   }
@@ -532,8 +558,9 @@ export class Stadium {
 
   overview(opts: { instant?: boolean } = {}) {
     this.highlight.visible = false;
-    const d = 200 + this.tiers * 26;
-    this.fly(new THREE.Vector3(0, d * 0.62, d), new THREE.Vector3(0, 4, -12), { instant: opts.instant, high: 30 }, () => { this.controls.autoRotate = !this.opts.reducedMotion; });
+    const portrait = this.camera.aspect < 0.8;
+    const d = (200 + this.tiers * 26) * (portrait ? 1.42 : 1);
+    this.fly(new THREE.Vector3(0, d * (portrait ? 0.8 : 0.62), d), new THREE.Vector3(0, 0, portrait ? -62 : -12), { instant: opts.instant, high: 30 }, () => { this.controls.autoRotate = !this.opts.reducedMotion; });
   }
 
   private showHighlight(ref: SeatRef) {
@@ -547,8 +574,8 @@ export class Stadium {
   get isFlying() { return !!this.flight; }
   get highlightVisible() { return this.highlight.visible; }
 
-  setInset(right: number, bottom: number) {
-    this.inset = { right, bottom };
+  setInset(right: number, bottom: number, top = 0) {
+    this.inset = { right, bottom, top };
     this.resize();
   }
 
@@ -570,8 +597,8 @@ export class Stadium {
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
     // keep the subject centred in the visible area when a side panel / bottom sheet covers part of the canvas
-    const vw = Math.max(1, w - this.inset.right), vh = Math.max(1, h - this.inset.bottom);
-    if (this.inset.right || this.inset.bottom) this.camera.setViewOffset(w, h, this.inset.right / 2, this.inset.bottom / 2, w, h);
+    const vw = Math.max(1, w - this.inset.right), vh = Math.max(1, h - this.inset.bottom - this.inset.top);
+    if (this.inset.right || this.inset.bottom || this.inset.top) this.camera.setViewOffset(w, h, this.inset.right / 2, (this.inset.bottom - this.inset.top) / 2, w, h);
     else this.camera.clearViewOffset();
     this.camera.fov = vw / vh < 0.75 ? 56 : 42;
     this.camera.updateProjectionMatrix();
@@ -611,7 +638,7 @@ export class Stadium {
       this.highlightSeat.scale.setScalar(s * (0.4 + 0.6 * easeInOut(pop)));
       (this.beam.material as THREE.MeshBasicMaterial).opacity = 0.22 + 0.12 * Math.sin(t * 3);
       this.beam.scale.set(1, Math.min(1, t * 1.6), 1);
-      this.ring.scale.setScalar(1 + ((t * 0.9) % 1) * 2.4);
+      this.ring.scale.setScalar(1 + ((t * 0.9) % 1) * 1.3);
       (this.ring.material as THREE.MeshBasicMaterial).opacity = 0.9 * (1 - ((t * 0.9) % 1));
     }
     this.renderer.render(this.scene, this.camera);

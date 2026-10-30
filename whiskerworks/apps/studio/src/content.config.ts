@@ -15,7 +15,7 @@ const games = defineCollection({
       tagline: z.string().max(140),
       /** 1–2 sentences for search engines and social previews. */
       description: z.string().max(300),
-      status: z.enum(['live', 'beta', 'soon']).default('soon'),
+      status: z.enum(['live', 'beta', 'soon', 'dev']).default('soon'),
       /** Puzzle, Arcade, Word, Strategy, Idle… free text, shown as kicker. */
       genre: z.string(),
       /** Drives the "Find your next game" picker on the home page. */

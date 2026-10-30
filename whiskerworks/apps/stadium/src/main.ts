@@ -202,10 +202,12 @@ function placeLabels() {
   const showClubs = !(selected?.kind === "handle" && stadium.highlightVisible) && !stadium.isFlying;
   const want = showClubs ? state.leaderboard.slice(0, innerWidth < 700 ? 5 : 9).map((r) => r.id) : [];
   if (showClubs && selected?.kind === "club") { const i = want.indexOf(selected.key); if (i >= 0) want.splice(i, 1); want.unshift(selected.key); }
-  const minY = $("hud-top-anchor").getBoundingClientRect().bottom + 4;
+  const wide = innerWidth >= 760;
+  const minY = wide ? document.querySelector(".topbar")!.getBoundingClientRect().bottom + 4 : $("hud-top-anchor").getBoundingClientRect().bottom + 4;
   const panel = $("panel");
-  const maxY = !panel.hidden && innerWidth < 760 ? panel.getBoundingClientRect().top - 4 : $("search-form").getBoundingClientRect().top - 4;
+  const maxY = !panel.hidden && !wide ? panel.getBoundingClientRect().top - 4 : $("search-form").getBoundingClientRect().top - 4;
   const placed: DOMRect[] = app.classList.contains("has-panel") ? [] : [$("top3").getBoundingClientRect()];
+  if (wide) for (const sel of [".headline", ".pills", "#hud-top-anchor", "#panel"]) { const el = document.querySelector<HTMLElement>(sel); if (el && !el.hidden) placed.push(el.getBoundingClientRect()); }
   const seen = new Set<string>();
   for (const id of want) {
     const pos = stadium.clubLabelPos(id);
@@ -229,6 +231,7 @@ function placeLabels() {
     if (!isSel && placed.some((q) => !(r.right < q.left || r.left > q.right || r.bottom < q.top || r.top > q.bottom))) { el.classList.remove("on"); continue; }
     placed.push(r);
     el.style.transform = `translate3d(${Math.round(p.x)}px, ${Math.round(p.y)}px, 0) translate(-50%, -100%) translate(0, -8px)`;
+    el.style.opacity = "1";
     el.classList.add("on");
   }
   for (const [id, el] of labelEls) if (!seen.has(id)) el.classList.remove("on");
@@ -279,7 +282,7 @@ function syncInset() {
   if (!stadium || $("panel").hidden) return;
   const r = $("panel").getBoundingClientRect();
   if (innerWidth >= 760) stadium.setInset(innerWidth - r.left, 0);
-  else stadium.setInset(0, Math.max(0, innerHeight - r.top - 40));
+  else stadium.setInset(0, Math.max(0, innerHeight - r.top), $("hud-top-anchor").getBoundingClientRect().bottom);
 }
 addEventListener("resize", syncInset);
 

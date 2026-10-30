@@ -79,7 +79,7 @@ async function boot() {
   } else if (tower) {
     // opening shot: start at the base and rise to the newest floor
     tower.flyTo(1, { instant: true, select: false });
-    setTimeout(() => tower?.flyTo(state.floors.length, { select: false }), 700);
+    setTimeout(() => tower?.flyTo(Math.max(1, state.floors.length - 2.5), { select: false }), 700);
   }
 
   setInterval(refresh, 5 * 60 * 1000);
@@ -222,7 +222,7 @@ function placeLabels() {
   const n = state.floors.length;
   const sel = selectedFloor();
   const want: number[] = [];
-  for (let f = hi; f >= lo; f--) if (f === sel || f === 1 || f === n + 1 || pickerOf(f)) want.push(f);
+  for (let f = hi; f >= lo; f--) want.push(f);
   if (sel && !want.includes(sel)) want.unshift(sel);
   const minY = $("now").getBoundingClientRect().bottom + 4;
   const panel = $("panel");
@@ -239,8 +239,12 @@ function placeLabels() {
     const isSel = f === sel && !tower.isFlying;
     const ghost = f === n + 1;
     const th = ghost ? null : themeOf(f);
-    const who = ghost ? "like to build it" : pickerOf(f) ? `@${pickerOf(f)}` : f === 1 ? "the base" : "rotating world";
-    const html = `<b>${ghost ? `Floor ${fmt(f)} · Your pick?` : `Floor ${fmt(f)} · ${esc(th!.name)}`}</b><span>${esc(who)}</span>`;
+    const who = ghost ? "like to build it" : pickerOf(f) ? `@${pickerOf(f)}` : f === 1 ? "the base" : "open world";
+    const next = ghost ? state.queue[0] : undefined;
+    const nextTheme = next && state.themes.find((t) => t.id === next.theme);
+    const html = ghost
+      ? `<b>Floor ${fmt(f)} · ${nextTheme ? esc(nextTheme.name) : "Your pick?"}</b><span>${next ? `next up: @${esc(next.handle)}` : esc(who)}</span>`
+      : `<b>Floor ${fmt(f)} · ${esc(th!.name)}</b><span>${esc(who)}</span>`;
     if (el.dataset.html !== html) { el.innerHTML = html; el.dataset.html = html; }
     el.classList.toggle("is-selected", isSel);
     el.classList.toggle("is-ghost", ghost);
@@ -251,7 +255,9 @@ function placeLabels() {
     // labels sit outside the island edge, like the signs in the video
     let x = p.side > 0 ? p.x + 6 : p.x - w - 6;
     x = Math.max(6, Math.min(maxX - w, x));
-    const y = p.y - h / 2;
+    let y = p.y - h / 2;
+    // the searched floor's sign is always shown: clamp it into the free band instead of hiding it
+    if (isSel) y = Math.max(minY + 4, Math.min(maxY - h - 4, y));
     const r = new DOMRect(x, y, w, h);
     if (r.top < minY || r.bottom > maxY) { el.classList.remove("on"); continue; }
     if (!isSel && placed.some((q) => !(r.right < q.left || r.left > q.right || r.bottom < q.top - 4 || r.top > q.bottom + 4))) { el.classList.remove("on"); continue; }

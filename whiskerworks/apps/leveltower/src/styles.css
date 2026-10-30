@@ -315,6 +315,7 @@ img { display: block; }
   .panel-grip { display: none; }
   @keyframes panel-in { from { transform: translateX(30px); opacity: 0; } }
   .app.has-panel .dock { opacity: 1; pointer-events: auto; left: calc(50% - 250px); }
+  .app.has-panel .ruler-thumb span { display: none; }
   .drawer-inner { left: auto; top: 24px; right: 24px; bottom: 24px; width: 440px; max-height: none; border-radius: 22px; border: 3px solid var(--lt-gold); transform: translateX(30px); }
   .no-webgl #drawer-board { top: 210px; }
   .no-webgl #drawer-board .drawer-inner { left: 50%; right: auto; top: 0; transform: translateX(-50%); width: min(640px, 92vw); }

@@ -142,7 +142,7 @@ img { display: block; }
 
 /* ------------------------------------------------------------ level ruler (right edge) */
 .ruler {
-  position: absolute; z-index: 4; right: 6px; top: calc(var(--safe-t) + 196px); bottom: calc(var(--safe-b) + 150px);
+  position: absolute; z-index: 4; right: 6px; top: calc(var(--safe-t) + 214px); bottom: calc(var(--safe-b) + 150px);
   width: 34px; display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: none;
 }
 .ruler > * { pointer-events: auto; }
@@ -199,7 +199,7 @@ img { display: block; }
 
 /* ------------------------------------------------------------ panel (bottom sheet on mobile) */
 .panel {
-  position: absolute; z-index: 8; left: 0; right: 0; bottom: 0; max-height: 52vh; overflow: auto; overscroll-behavior: contain;
+  position: absolute; z-index: 8; left: 0; right: 0; bottom: 0; max-height: 46vh; overflow: auto; overscroll-behavior: contain;
   padding: 10px 18px calc(var(--safe-b) + 18px); border-radius: 24px 24px 0 0;
   background: var(--nb-card-solid); border-top: 3px solid var(--nb-gold); box-shadow: 0 -24px 60px -20px rgb(0 0 0 / 0.6);
   animation: sheet-in .38s var(--ww-ease-out);

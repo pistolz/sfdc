@@ -20,7 +20,6 @@ const SCREEN_W = 160, SCREEN_H = 128;
 interface Options { reducedMotion: boolean; onPick: (index: number | null) => void; onArrive: (index: number) => void; onFrame: () => void }
 
 const ease = (u: number) => (u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2);
-const easeOut = (u: number) => 1 - Math.pow(1 - Math.min(1, u), 3);
 
 /* ------------------------------------------------------------------ shaders */
 const FOG_GLSL = /* glsl */ `
@@ -177,8 +176,8 @@ export class Arcade {
     this.controls.addEventListener("start", () => { this.pan = null; });
 
     // lights: purple sky, deep floor bounce, a cool key light from the entrance
-    this.scene.add(new THREE.HemisphereLight("#7b6bff", "#160a26", 1.5));
-    const key = new THREE.DirectionalLight("#bfc8ff", 0.9); key.position.set(3, 8, 10); this.scene.add(key);
+    this.scene.add(new THREE.HemisphereLight("#6a5cff", "#120822", 0.85));
+    const key = new THREE.DirectionalLight("#b8b0ff", 0.55); key.position.set(3, 8, 10); this.scene.add(key);
     this.scene.add(this.hall);
 
     this.screenCanvas.width = SCREEN_W * 3; this.screenCanvas.height = SCREEN_H * 2;
@@ -200,7 +199,7 @@ export class Arcade {
 
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
-    this.bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.95, 0.55, 0.62);
+    this.bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.7, 0.35, 0.78);
     this.composer.addPass(this.bloom);
     this.composer.addPass(new OutputPass());
 
@@ -284,7 +283,7 @@ export class Arcade {
     add(cabinetTrims(), new THREE.ShaderMaterial({
       uniforms: this.uniforms, vertexShader: INST_VERT,
       fragmentShader: /* glsl */ `${FOG_GLSL}${POWER_GLSL} varying vec2 vUv; varying float vIdx; varying float vFog; varying vec3 vNeon;
-        void main() { vec3 c = vNeon * 1.35 * power(vIdx); gl_FragColor = vec4(applyFog(c, vFog), 1.0); }`,
+        void main() { vec3 c = vNeon * 1.05 * power(vIdx); gl_FragColor = vec4(applyFog(c, vFog), 1.0); }`,
     }), true).name = "trims";
 
     const screenGeo = new THREE.PlaneGeometry(0.8, 0.64);
@@ -303,7 +302,7 @@ export class Arcade {
           vec2 e = min(vUv, 1.0 - vUv);
           float vig = smoothstep(0.0, 0.12, min(e.x, e.y));
           float p = power(vIdx);
-          c = c * vig * (0.75 + 0.45 * p) + vNeon * 0.05;
+          c = c * vig * (0.55 + 0.35 * p) + vNeon * 0.03;
           gl_FragColor = vec4(applyFog(c, vFog), 1.0);
         }`,
     }), true).name = "screens";
@@ -325,7 +324,7 @@ export class Arcade {
             float cx = mod(vCell, uGrid.x), cy = floor(vCell / uGrid.x);
             vec2 uv = vec2((cx + vUv.x) / uGrid.x, 1.0 - (cy + 1.0 - vUv.y) / uGrid.y);
             vec4 t = texture2D(uAtlas, uv);
-            c += t.rgb * mix(vNeon, vec3(1.0), 0.72) * (0.85 + 0.35 * p);
+            c += t.a * mix(vNeon, vec3(1.0), 0.6) * (0.5 + 0.22 * min(p, 2.0));
           } else {
             float bar = smoothstep(0.03, 0.0, abs(vUv.y - 0.42)) * step(0.22, vUv.x) * step(vUv.x, 0.78);
             c += vNeon * bar * 0.5;
@@ -344,7 +343,7 @@ export class Arcade {
       uniforms: { ...this.uniforms, uMap: { value: radialTexture() } }, vertexShader: INST_VERT,
       fragmentShader: /* glsl */ `${FOG_GLSL}${POWER_GLSL} uniform sampler2D uMap; uniform float uTime; varying vec2 vUv; varying float vIdx; varying float vFog; varying vec3 vNeon;
         void main() {
-          float a = texture2D(uMap, vUv).r * (0.42 + 0.06 * sin(uTime * 1.7 + vIdx * 1.3)) * power(vIdx);
+          float a = texture2D(uMap, vUv).r * (0.2 + 0.04 * sin(uTime * 1.7 + vIdx * 1.3)) * power(vIdx);
           float f = 1.0 - smoothstep(uFogNear, uFogFar, vFog);
           gl_FragColor = vec4(vNeon * a * f, 1.0);
         }`,
@@ -411,7 +410,7 @@ export class Arcade {
     x.save();
     x.beginPath(); x.rect(ox, oy, CELL_W, CELL_H); x.clip();
     x.fillStyle = "#fff"; x.textAlign = "center"; x.textBaseline = "middle";
-    x.shadowColor = "rgba(255,255,255,.9)"; x.shadowBlur = 10;
+    x.shadowColor = "rgba(255,255,255,.6)"; x.shadowBlur = 4;
     x.font = `600 17px ui-monospace, Menlo, monospace`;
     x.globalAlpha = 0.8;
     x.fillText(pad(i + 1), ox + CELL_W / 2, oy + 26);
@@ -424,7 +423,7 @@ export class Arcade {
   }
 
   /* ---------------------------------------------------------------- camera */
-  private dist() { const a = this.camera.aspect; return a < 0.7 ? 15 : a < 1.1 ? 12 : 10; }
+  private dist() { const a = this.camera.aspect; return a < 0.7 ? 16 : a < 1.1 ? 14 : 13; }
   home(instant = false) {
     const t = new THREE.Vector3(0, 1.4, -3.5);
     const p = t.clone().add(new THREE.Vector3(0, 0.42, 1).normalize().multiplyScalar(this.dist()));
@@ -448,8 +447,8 @@ export class Arcade {
     const s = slot(index);
     const f = new THREE.Vector3(Math.sin(s.rot), 0, Math.cos(s.rot));
     const portrait = this.camera.aspect < 0.8;
-    const t1 = new THREE.Vector3(s.x, 1.72, s.z).addScaledVector(f, 0.4);
-    const p1 = new THREE.Vector3(s.x, 0, s.z).addScaledVector(f, portrait ? 5.2 : 3.9).add(new THREE.Vector3(0, portrait ? 2.5 : 2.2, 0));
+    const t1 = new THREE.Vector3(s.x, 1.6, s.z).addScaledVector(f, 0.4);
+    const p1 = new THREE.Vector3(s.x, 0, s.z).addScaledVector(f, portrait ? 8.2 : 5.4).add(new THREE.Vector3(0, portrait ? 3.3 : 3.0, 0));
     const p0 = this.camera.position.clone();
     const d = p0.distanceTo(p1);
     if (opts.instant || this.opts.reducedMotion || d < 0.05) {
@@ -458,10 +457,12 @@ export class Arcade {
       this.arrive(index);
       return Promise.resolve();
     }
-    const lift = Math.min(9, 2.5 + d * 0.09);
-    const mid = p0.clone().lerp(p1, 0.45); mid.y = Math.max(p0.y, p1.y) + lift;
-    const approach = p1.clone().addScaledVector(f, 2.8); approach.y = p1.y + 1.1;
-    const pts = d > 6 ? [p0, mid, approach, p1] : [p0, approach.lerp(p0, 0.3), p1];
+    // rise just above the cabinet tops, glide down the hall, then swoop in front of the machine
+    const cruise = Math.max(p0.y, 4.6 + Math.min(2.2, d * 0.02));
+    const approach = p1.clone().addScaledVector(f, 3.2); approach.y = p1.y + 1.3;
+    const pts = d > 8
+      ? [p0, new THREE.Vector3(p0.x, cruise, p0.z).lerp(approach, 0.18).setY(cruise), new THREE.Vector3(approach.x, cruise, approach.z).lerp(p0, 0.2).setY(cruise), approach, p1]
+      : [p0, approach.clone().lerp(p0, 0.35), p1];
     const curve = new THREE.CatmullRomCurve3(pts, false, "centripetal");
     this.controls.enabled = false;
     return new Promise((resolve) => {
@@ -509,9 +510,9 @@ export class Arcade {
     const v = new THREE.Vector3(s.x, 2.48, s.z).addScaledVector(f, 0.55);
     const depth = v.clone().applyMatrix4(this.camera.matrixWorldInverse).z;
     v.project(this.camera);
+    // the projection matrix already includes the view offset, so NDC maps straight onto the canvas
     const r = this.canvas.getBoundingClientRect();
-    const fullW = r.width + this.inset.r, fullH = r.height + this.inset.b;
-    const x = ((v.x + 1) / 2) * fullW - this.inset.r, y = ((1 - v.y) / 2) * fullH - this.inset.b;
+    const x = ((v.x + 1) / 2) * r.width, y = ((1 - v.y) / 2) * r.height;
     return { x, y, visible: depth < -0.5 && -depth < FOG_FAR * 0.8 && x > -40 && x < r.width + 40 && y > -40 && y < r.height + 40 };
   }
 
@@ -533,7 +534,9 @@ export class Arcade {
     this.bloom.resolution.set(w / 2, h / 2);
     this.camera.aspect = w / h;
     this.camera.fov = w / h < 0.8 ? 58 : 48;
-    if (this.inset.r || this.inset.b) this.camera.setViewOffset(w + this.inset.r, h + this.inset.b, this.inset.r, this.inset.b, w, h);
+    // signed insets: positive shifts the view centre up/left, negative down/right
+    const { r, b } = this.inset;
+    if (r || b) this.camera.setViewOffset(w + Math.abs(r), h + Math.abs(b), Math.max(0, r), Math.max(0, b), w, h);
     else this.camera.clearViewOffset();
     this.camera.updateProjectionMatrix();
   }
@@ -567,8 +570,12 @@ export class Arcade {
 
     if (this.fly) {
       const u = Math.min(1, (now - this.fly.start) / this.fly.dur);
-      this.camera.position.copy(this.fly.curve.getPoint(ease(u)));
-      this.controls.target.lerpVectors(this.fly.t0, this.fly.t1, easeOut(u * 1.15));
+      const e = ease(u);
+      this.camera.position.copy(this.fly.curve.getPoint(e));
+      // look a little ahead along the path (down the aisle), settling on the machine at the end
+      const ahead = this.fly.curve.getPoint(Math.min(1, e + 0.22)).setY(1.2);
+      const k = Math.pow(Math.min(1, u * 1.25), 3);
+      this.controls.target.copy(ahead).lerp(this.fly.t1, Math.max(k, 1 - Math.min(1, u * 6)) );
       this.camera.lookAt(this.controls.target);
       if (u > 0.55) this.refreshAtlas();
       if (u >= 1) {

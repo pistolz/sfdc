@@ -6,9 +6,9 @@
 import * as THREE from "three";
 import type { TowerState, Theme } from "./types";
 
-export const FLOOR_H = 7; // vertical distance between floors
+export const FLOOR_H = 5.2; // vertical distance between floors
 const ISLAND_R = 4;
-const CONE_H = 3.3;
+const CONE_H = 2.5;
 const COL_R = 0.62;
 const STEPS_PER_FLOOR = 16;
 const STEP_R = 1.32;
@@ -219,11 +219,11 @@ function buildProps(theme: Theme, floor: number, add: Add, r: number) {
 /* ------------------------------------------------------------------ sky palette by altitude */
 const SKY: [number, string, string][] = [
   [0, "#4f9cf0", "#d6ebff"],
-  [80, "#3f86e6", "#bcdcff"],
-  [180, "#2c5fc4", "#8fb6f2"],
-  [300, "#18307a", "#4e6fc0"],
-  [450, "#0b1240", "#273a86"],
-  [700, "#04051a", "#12163f"],
+  [250, "#3f86e6", "#c4e0ff"],
+  [600, "#2f6dd6", "#9cc4f5"],
+  [1000, "#1d3d99", "#5d82d0"],
+  [1600, "#0b1240", "#273a86"],
+  [2500, "#04051a", "#12163f"],
 ];
 function skyAt(floor: number): [THREE.Color, THREE.Color] {
   let i = 0; while (i < SKY.length - 1 && floor > SKY[i + 1][0]) i++;
@@ -336,7 +336,7 @@ export class Tower {
     }
     for (const im of [this.islandTop, this.islandRim, this.islandCone]) { im.instanceMatrix.needsUpdate = true; if (im.instanceColor) im.instanceColor.needsUpdate = true; }
     // column from below floor 1 to the top
-    const h = yOf(n + 1) + 12;
+    const h = yOf(n) + 10;
     this.column.scale.set(1, h, 1);
     this.column.position.y = h / 2 - 6;
     this.buildTop();
@@ -457,12 +457,13 @@ export class Tower {
 
   /* ---------------------------------------------------------------- camera control */
   get maxFloor() { return this.floors + 1; }
+  private get zoomK() { return this.selected ? (this.camera.aspect > 1 ? 0.66 : 0.5) : 1; }
   get isFlying() { return !!this.flight; }
 
   flyTo(floor: number, opts: { instant?: boolean; select?: boolean } = {}) {
     floor = THREE.MathUtils.clamp(floor, 1, this.maxFloor);
     if (opts.select !== false) { this.selected = floor <= this.floors ? floor : 0; this.selectedAt = performance.now(); }
-    const close = this.baseDist * (this.selected ? 0.62 : 1);
+    const close = this.baseDist * this.zoomK;
     if (opts.instant || this.opts.reducedMotion) {
       this.flight = null; this.floorPos = floor; this.dist = close; this.vFloor = 0;
       this.updateWindows(true);
@@ -497,7 +498,7 @@ export class Tower {
       pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
       if (pointers.size === 2) {
         const [a, b] = [...pointers.values()]; const d = Math.hypot(a.x - b.x, a.y - b.y);
-        if (pinch) this.baseDist = THREE.MathUtils.clamp(this.baseDist * (pinch / d), 12, 60), this.dist = this.baseDist * (this.selected ? 0.62 : 1);
+        if (pinch) this.baseDist = THREE.MathUtils.clamp(this.baseDist * (pinch / d), 16, 110), this.dist = this.baseDist * this.zoomK;
         pinch = d; return;
       }
       if (!down) return;
@@ -521,7 +522,7 @@ export class Tower {
     el.addEventListener("wheel", (e) => {
       e.preventDefault();
       this.flight = null; this.lastInput = performance.now();
-      if (e.ctrlKey) { this.baseDist = THREE.MathUtils.clamp(this.baseDist * (1 + e.deltaY * 0.01), 12, 60); this.dist = this.baseDist; return; }
+      if (e.ctrlKey) { this.baseDist = THREE.MathUtils.clamp(this.baseDist * (1 + e.deltaY * 0.01), 16, 110); this.dist = this.baseDist; return; }
       const d = (e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY) / 900;
       this.vFloor += -d * 1.4;
     }, { passive: false });
@@ -592,7 +593,7 @@ export class Tower {
       this.vFloor *= 0.9; this.vAngle *= 0.9;
       if (Math.abs(this.vFloor) < 1e-4) this.vFloor = 0;
       if (!this.opts.reducedMotion && now - this.lastInput > 2500) this.angle += dt * (this.selected ? 0.05 : 0.09);
-      const target = this.baseDist * (this.selected ? 0.62 : 1);
+      const target = this.baseDist * this.zoomK;
       this.dist += (target - this.dist) * Math.min(1, dt * 3);
     }
 
@@ -607,8 +608,8 @@ export class Tower {
     root.setProperty("--sky-top", `#${skyTop.getHexString()}`);
     root.setProperty("--sky-bottom", `#${skyBottom.getHexString()}`);
     this.fog.color.copy(skyBottom);
-    this.fog.near = this.dist + 8; this.fog.far = this.dist + 95;
-    (this.stars.material as THREE.PointsMaterial).opacity = THREE.MathUtils.clamp((this.floorPos - 240) / 220, 0, 1);
+    this.fog.near = this.dist + 6; this.fog.far = this.dist + 80;
+    (this.stars.material as THREE.PointsMaterial).opacity = THREE.MathUtils.clamp((this.floorPos - 1100) / 600, 0, 1);
     this.stars.position.y = y; this.stars.rotation.y = t * 0.01;
 
     // animated materials
@@ -631,8 +632,8 @@ export class Tower {
       const ring = h.getObjectByName("ring")!, ring2 = h.getObjectByName("ring2")!, beam = h.getObjectByName("beam") as THREE.Mesh, glow = h.getObjectByName("glow") as THREE.Mesh;
       ring.scale.setScalar((r + 0.55) * pulse); ring.position.y = 0.4;
       const w = (t * 0.7) % 1; ring2.scale.setScalar(r + 0.4 + w * 3); ring2.position.y = 0.4; ((ring2 as THREE.Mesh).material as THREE.MeshBasicMaterial).opacity = (1 - w) * 0.8;
-      beam.scale.set(r * 0.9, 60, r * 0.9); beam.position.y = 30; (beam.material as THREE.MeshBasicMaterial).opacity = arrived ? 0.12 + 0.05 * Math.sin(t * 3) : 0.05;
-      glow.scale.setScalar(r * 1.25); glow.position.y = -0.4;
+      beam.scale.set(r + 0.7, 40, r + 0.7); beam.position.y = 20; (beam.material as THREE.MeshBasicMaterial).opacity = arrived ? 0.06 + 0.03 * Math.sin(t * 3) : 0.02;
+      glow.scale.setScalar(r * 1.6); glow.position.y = 0.3; (glow.material as THREE.MeshBasicMaterial).opacity = arrived ? 0.05 + 0.03 * Math.sin(t * 3) : 0;
       const g = this.details.get(this.selected);
       if (g) { const pop = arrived ? 1 + 0.06 * Math.max(0, Math.sin(Math.min(age, 1.2) * Math.PI / 1.2)) : 1; g.scale.setScalar(pop); }
     } else this.highlight.visible = false;
@@ -658,8 +659,8 @@ export class Tower {
     this.renderer.setSize(W, H, false);
     this.camera.aspect = W / H;
     // portrait screens need to back off so the island fits the width
-    this.baseDist = W / H < 0.75 ? 30 : W / H < 1.2 ? 25 : 21;
-    if (!this.flight) this.dist = this.baseDist * (this.selected ? 0.62 : 1);
+    this.baseDist = W / H < 0.75 ? 60 : W / H < 1.2 ? 50 : 46;
+    if (!this.flight) this.dist = this.baseDist * this.zoomK;
     this.applyView();
   }
 }

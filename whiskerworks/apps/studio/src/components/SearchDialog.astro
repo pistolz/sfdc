@@ -100,7 +100,7 @@ const pages = [
     list.innerHTML = current
       .map((r, i) => {
         const swatch = r.c ? `background:linear-gradient(135deg,${r.c[0]},${r.c[1]})` : 'background:var(--ww-ink)';
-        const meta = 'g' in r && r.g ? `${esc(r.g)}${r.s === 'live' ? '' : r.s === 'beta' ? ' · Beta' : ' · Coming soon'}` : 'Page';
+        const meta = 'g' in r && r.g ? `${esc(r.g)}${r.s === 'live' ? '' : r.s === 'beta' ? ' · Beta' : r.s === 'soon' ? ' · Launching soon' : ' · In the workshop'}` : 'Page';
         return `<li role="option" id="sr-${i}" aria-selected="${i === 0}"><a href="${r.u}"><span class="sw" style="${swatch}"></span><span class="tx"><b>${esc(r.t)}</b><small>${esc(r.d)}</small></span><span class="mt">${meta}</span></a></li>`;
       })
       .join('');

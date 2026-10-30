@@ -191,7 +191,7 @@ function seedDemo() {
     cyber: ["cyber grid 🤖", "robot world"], gold: ["gold 💰", "treasure vault"], autumn: ["autumn 🍂"], sakura: ["sakura 🌸", "cherry blossom"], grassland: ["grass 🌳"] };
   const picks = [];
   let id = 1;
-  const days = [[1, 58], [2, 96], [3, 112]];
+  const days = [[1, 72], [2, 131], [3, 149]];
   for (const [day, n] of days) {
     for (let k = 0; k < n; k++) {
       const handle = rnd() < 0.18 ? pick(regulars) : pick(pool);
@@ -208,7 +208,7 @@ function seedDemo() {
   S.episodes = [
     { day: 1, date: "2026-10-28", title: "One like. One floor.", summary: "Floor 1 is a quiet grassland. Every like adds a floor, and your comments pick the world.", links: { instagram: "https://www.instagram.com/ads_noads/" } },
     { day: 2, date: "2026-10-29", title: "You pick the world", summary: "Lava, ice and neon city stack up fast. The tower passes 180 floors.", links: { instagram: "https://www.instagram.com/ads_noads/" } },
-    { day: 3, date: "2026-10-30", title: "Above the clouds", summary: "338 floors. The tower breaks through the cloud layer and the first space floors appear.", links: { instagram: "https://www.instagram.com/ads_noads/" } },
+    { day: 3, date: "2026-10-30", title: "Above the clouds", summary: "338 floors and every one of them named. 14 worlds are already waiting in the queue for the next likes.", links: { instagram: "https://www.instagram.com/ads_noads/" } },
   ];
   writeJSON(P.series, S);
   return picks.length;

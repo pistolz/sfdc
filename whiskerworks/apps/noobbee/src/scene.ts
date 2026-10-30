@@ -1,16 +1,18 @@
 import * as THREE from "three";
+import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { Bee } from "./bee";
 import type { GameState } from "./types";
 
 /* Shaft geometry (world units). Level n's ledge top sits at y = n * SPACING; the floor is level 0. */
 export const SPACING = 2.4;
-const INNER = 3.4; // inner wall faces at x = ±INNER
+const INNER = 2.75; // inner wall faces at x = ±INNER
 const WALL_W = 2.6;
-const DEPTH = 5.2; // walls span z ∈ [-DEPTH/2, DEPTH/2]
-const LEDGE_W = 2.5;
+const DEPTH = 5.2; // ledges / shaft core span z ∈ [-DEPTH/2, DEPTH/2]
+const WALL_FRONT = 7.5; // walls extend toward the camera up to this z
+const LEDGE_W = 2.1;
 const LEDGE_D = 2.3;
 const LEDGE_H = 0.38;
-const STAND_X = INNER - 1.25; // bee x on a ledge (sign = side)
+const STAND_X = INNER - 1.05; // bee x on a ledge (sign = side)
 
 export const sideOf = (n: number) => (n % 2 === 1 ? -1 : 1); // odd levels on the left wall
 const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
@@ -103,6 +105,10 @@ export class Shaft {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
+    const pmrem = new THREE.PMREMGenerator(this.renderer);
+    this.scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    this.scene.environmentIntensity = 0.55;
+    pmrem.dispose();
     // light: warm sun + sky fill
     this.scene.add(new THREE.HemisphereLight(0xdff3ff, 0xf3c46a, 1.25));
     const sun = new THREE.DirectionalLight(0xfff1d0, 2.1);
@@ -118,19 +124,19 @@ export class Shaft {
     this.scene.add(rim);
 
     this.scene.add(this.wallGroup);
-    this.bee.root.scale.setScalar(0.92);
+    this.bee.root.scale.setScalar(0.84);
     this.scene.add(this.bee.root);
 
     // selection glow (hex ring on the ledge) + soft light beam
     const ringShape = new THREE.Shape();
     const hexPts = (rr: number) => Array.from({ length: 6 }, (_, k) => new THREE.Vector2(Math.cos((k * Math.PI) / 3) * rr, Math.sin((k * Math.PI) / 3) * rr));
-    ringShape.setFromPoints(hexPts(1.15));
-    ringShape.holes.push(new THREE.Path(hexPts(0.92).reverse()));
+    ringShape.setFromPoints(hexPts(1.02));
+    ringShape.holes.push(new THREE.Path(hexPts(0.82).reverse()));
     this.glow = new THREE.Mesh(new THREE.ShapeGeometry(ringShape), new THREE.MeshBasicMaterial({ color: 0xfff27a, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false }));
     this.glow.rotation.x = -Math.PI / 2;
     this.glow.visible = false;
     this.scene.add(this.glow);
-    const beamGeo = new THREE.CylinderGeometry(0.9, 1.25, 4.2, 6, 1, true);
+    const beamGeo = new THREE.CylinderGeometry(0.75, 1.05, 4.2, 6, 1, true);
     beamGeo.translate(0, 2.1, 0);
     this.beam = new THREE.Mesh(beamGeo, new THREE.MeshBasicMaterial({ color: 0xfff5b0, transparent: true, opacity: 0.16, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
     this.beam.visible = false;
@@ -179,17 +185,18 @@ export class Shaft {
       return new THREE.MeshStandardMaterial({ map: t, roughness: 0.55, metalness: 0.05 });
     };
     for (const side of [-1, 1]) {
-      const inner = new THREE.Mesh(new THREE.PlaneGeometry(DEPTH, H), wallMat(DEPTH / 2.2, H / 2.2));
-      inner.position.set(side * INNER, H / 2, 0);
+      const WD = WALL_FRONT + DEPTH / 2;
+      const inner = new THREE.Mesh(new THREE.PlaneGeometry(WD, H), wallMat(WD / 2.2, H / 2.2));
+      inner.position.set(side * INNER, H / 2, (WALL_FRONT - DEPTH / 2) / 2);
       inner.rotation.y = -side * Math.PI / 2;
       inner.receiveShadow = true;
       const front = new THREE.Mesh(new THREE.PlaneGeometry(WALL_W, H), wallMat(WALL_W / 2.2, H / 2.2));
-      front.position.set(side * (INNER + WALL_W / 2), H / 2, DEPTH / 2);
-      const back = new THREE.Mesh(new THREE.BoxGeometry(WALL_W, H, DEPTH), new THREE.MeshStandardMaterial({ color: 0xd9971f, roughness: 0.8 }));
-      back.position.set(side * (INNER + WALL_W / 2), H / 2, -0.01);
+      front.position.set(side * (INNER + WALL_W / 2), H / 2, WALL_FRONT);
+      const back = new THREE.Mesh(new THREE.BoxGeometry(WALL_W, H, WD), new THREE.MeshStandardMaterial({ color: 0xd9971f, roughness: 0.8 }));
+      back.position.set(side * (INNER + WALL_W / 2), H / 2, (WALL_FRONT - DEPTH / 2) / 2 - 0.01);
       back.scale.set(0.999, 1, 0.999);
-      const cap = new THREE.Mesh(new THREE.BoxGeometry(WALL_W + 0.35, 0.55, DEPTH + 0.35), new THREE.MeshStandardMaterial({ color: 0x45b04a, roughness: 0.6 }));
-      cap.position.set(side * (INNER + WALL_W / 2), H + 0.27, 0);
+      const cap = new THREE.Mesh(new THREE.BoxGeometry(WALL_W + 0.35, 0.55, WD + 0.35), new THREE.MeshStandardMaterial({ color: 0x45b04a, roughness: 0.6 }));
+      cap.position.set(side * (INNER + WALL_W / 2), H + 0.27, (WALL_FRONT - DEPTH / 2) / 2);
       cap.castShadow = true;
       this.wallGroup.add(back, inner, front, cap);
     }
@@ -221,7 +228,7 @@ export class Shaft {
     // spinning coins: one hovering on every 3rd ledge + a few on the floor
     this.coinLevels = [0, 0, 0];
     for (let i = 3; i <= n; i += 3) this.coinLevels.push(i);
-    const coinMat = new THREE.MeshStandardMaterial({ color: 0xffc23a, metalness: 0.9, roughness: 0.25, emissive: 0x7a4b00, emissiveIntensity: 0.35 });
+    const coinMat = new THREE.MeshStandardMaterial({ color: 0xffc23a, metalness: 0.6, roughness: 0.28, emissive: 0xb07400, emissiveIntensity: 0.45 });
     const coinGeo = new THREE.CylinderGeometry(0.26, 0.26, 0.07, 28);
     coinGeo.rotateX(Math.PI / 2);
     this.coins = new THREE.InstancedMesh(coinGeo, coinMat, this.coinLevels.length);
@@ -286,8 +293,8 @@ export class Shaft {
   /* ------------------------------------------------------------ camera */
   private levelView(level: number, close: boolean) {
     const y = level * SPACING + (close ? 1.15 : 1.0);
-    const x = level > 0 && close ? sideOf(level) * 0.9 : 0;
-    return { y, d: close ? this.baseDist * 0.6 : this.baseDist, x };
+    const x = level > 0 && close ? sideOf(level) * 0.7 : 0;
+    return { y, d: close ? this.baseDist * (this.size.x < 760 ? 0.8 : 0.62) : this.baseDist, x };
   }
   private clampY(y: number) { return Math.min(Math.max(y, 1.2), (this.top + 1.6) * SPACING); }
 
@@ -424,9 +431,9 @@ export class Shaft {
     this.camera.aspect = w / h;
     // fit the shaft width on portrait screens, keep ~5 levels visible on landscape
     const hfov = 2 * Math.atan(Math.tan((this.camera.fov * Math.PI) / 360) * this.camera.aspect);
-    const fit = (INNER - 0.35) / Math.tan(hfov / 2);
+    const fit = (INNER + 0.25) / Math.tan(hfov / 2);
     const prev = this.baseDist;
-    this.baseDist = Math.min(17, Math.max(12, fit));
+    this.baseDist = Math.min(16, Math.max(11, fit));
     this.dist *= this.baseDist / prev;
     this.applyView();
   }
@@ -442,14 +449,16 @@ export class Shaft {
   stop() { cancelAnimationFrame(this.raf); this.raf = 0; }
   private frame = () => {
     this.raf = requestAnimationFrame(this.frame);
-    const dt = Math.min(0.05, this.clock.getDelta());
+    const raw = Math.min(0.25, this.clock.getDelta());
+    const dt = Math.min(0.05, raw); // physics-ish motion; tweens use wall time so slow devices don't drag
+
     this.t += dt;
     const reduced = this.opts.reducedMotion;
 
     // camera tween / inertia
     if (this.tween) {
       const tw = this.tween;
-      tw.t += dt / tw.dur;
+      tw.t += raw / tw.dur;
       const k = ease(Math.min(1, tw.t));
       this.camY = tw.from.y + (tw.to.y - tw.from.y) * k;
       this.dist = tw.from.d + (tw.to.d - tw.from.d) * k + Math.sin(Math.min(1, tw.t) * Math.PI) * tw.pull;
@@ -467,7 +476,7 @@ export class Shaft {
     // bee flight along an arc that swings out of the shaft towards the camera
     if (this.beeTween) {
       const b = this.beeTween;
-      b.t += dt / b.dur;
+      b.t += raw / b.dur;
       const k = ease(Math.min(1, b.t));
       const p = b.from.clone().lerp(b.to, k);
       p.z += Math.sin(k * Math.PI) * 1.6;
@@ -476,18 +485,18 @@ export class Shaft {
       this.bee.root.rotation.y = Math.sin(k * Math.PI) * 0.4 * Math.sign(b.to.x - b.from.x || 1);
       if (b.t >= 1) { this.beeTween = null; this.arrive(b.level); }
     }
+    this.bee.setLevel(Math.round(this.bee.root.position.y / SPACING));
     this.bee.update(this.t, dt, reduced);
 
     // coins spin and bob
     if (this.coins) {
       const m = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler();
       this.coinLevels.forEach((lv, i) => {
-        const s = lv === 0 ? [-2.2, 0, 2.3][i] : -sideOf(lv) * -1;
-        const x = lv === 0 ? s : sideOf(lv) * (INNER - 0.55);
+        const x = lv === 0 ? [-2.4, 0.4, 2.5][i] : sideOf(lv) * (INNER - 0.55);
         const y = lv === 0 ? 0.55 + i * 0.05 : lv * SPACING + 0.65;
         e.set(0, this.t * 2.4 + i, 0);
         q.setFromEuler(e);
-        m.compose(new THREE.Vector3(x, y + (reduced ? 0 : Math.sin(this.t * 2 + i) * 0.08), lv === 0 ? 0.9 - i * 0.6 : -0.6), q, new THREE.Vector3(1, 1, 1));
+        m.compose(new THREE.Vector3(x, y + (reduced ? 0 : Math.sin(this.t * 2 + i) * 0.08), lv === 0 ? -1.2 + i * 0.3 : -0.6), q, new THREE.Vector3(1, 1, 1));
         this.coins.setMatrixAt(i, m);
       });
       this.coins.instanceMatrix.needsUpdate = true;

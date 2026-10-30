@@ -296,6 +296,9 @@ select {
   color: #5546c9;
 }
 .badge-soon {
+  color: var(--ww-marmalade-ink);
+}
+.badge-dev {
   color: var(--ww-ink-3);
 }
 @keyframes ww-pulse {

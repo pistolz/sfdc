@@ -179,7 +179,7 @@ function renderList(filter: string) {
 /* ------------------------------------------------------------------ labels + ruler (per frame) */
 function placeLabels() {
   if (!arcade) return;
-  const minY = $("hud-top-anchor").getBoundingClientRect().bottom + 4;
+  const minY = $("hud-top-anchor").getBoundingClientRect().bottom - 6;
   const tag = $("tag-selected");
   if (selected != null && arrived) {
     const p = arcade.project(selected);
@@ -277,8 +277,10 @@ function setUrl(params: Record<string, string>) {
 function syncInset() {
   if (!arcade || $("panel").hidden) return;
   const r = $("panel").getBoundingClientRect();
-  if (innerWidth >= 760) arcade.setInset(innerWidth - r.left, 0);
-  else arcade.setInset(0, Math.max(0, innerHeight - r.top - 40));
+  if (innerWidth >= 760) { arcade.setInset(innerWidth - r.left, 0); return; }
+  // centre the machine in the free band between the HUD and the bottom sheet
+  const hudB = $("hud-top-anchor").getBoundingClientRect().bottom;
+  arcade.setInset(0, innerHeight - (hudB + r.top));
 }
 addEventListener("resize", syncInset);
 

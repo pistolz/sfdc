@@ -26,6 +26,7 @@ export class Bee {
   private celebrateT = -1;
   private flying = 0; // 0..1 blend
   private flyTarget = 0;
+  private shownLevel = -1;
   private readonly R = 0.62; // head radius
   private readonly headCenter = new THREE.Vector3(0, 1.08, 0);
 
@@ -225,6 +226,8 @@ export class Bee {
 
   /** Unlock accessories with the bee's level. */
   setLevel(level: number) {
+    if (level === this.shownLevel) return;
+    this.shownLevel = level;
     this.accessories.headband.visible = level >= 10 && level < 200;
     this.accessories.cape.visible = level >= 50;
     this.accessories.crown.visible = level >= 200;
