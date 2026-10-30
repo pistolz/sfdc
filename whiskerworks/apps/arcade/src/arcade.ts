@@ -458,7 +458,7 @@ export class Arcade {
       return Promise.resolve();
     }
     // rise just above the cabinet tops, glide down the hall, then swoop in front of the machine
-    const cruise = Math.max(p0.y, 4.6 + Math.min(2.2, d * 0.02));
+    const cruise = Math.max(p0.y * 0.8, 5.2 + Math.min(2.4, d * 0.02));
     const approach = p1.clone().addScaledVector(f, 3.2); approach.y = p1.y + 1.3;
     const pts = d > 8
       ? [p0, new THREE.Vector3(p0.x, cruise, p0.z).lerp(approach, 0.18).setY(cruise), new THREE.Vector3(approach.x, cruise, approach.z).lerp(p0, 0.2).setY(cruise), approach, p1]
@@ -574,8 +574,9 @@ export class Arcade {
       this.camera.position.copy(this.fly.curve.getPoint(e));
       // look a little ahead along the path (down the aisle), settling on the machine at the end
       const ahead = this.fly.curve.getPoint(Math.min(1, e + 0.22)).setY(1.2);
-      const k = Math.pow(Math.min(1, u * 1.25), 3);
-      this.controls.target.copy(ahead).lerp(this.fly.t1, Math.max(k, 1 - Math.min(1, u * 6)) );
+      const k = Math.pow(Math.min(1, u * 1.2), 3);
+      if (u < 0.18) this.controls.target.copy(this.fly.t0).lerp(ahead.lerp(this.fly.t1, k), ease(u / 0.18));
+      else this.controls.target.copy(ahead).lerp(this.fly.t1, k);
       this.camera.lookAt(this.controls.target);
       if (u > 0.55) this.refreshAtlas();
       if (u >= 1) {
