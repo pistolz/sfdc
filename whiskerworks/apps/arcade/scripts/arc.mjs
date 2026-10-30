@@ -46,6 +46,8 @@ const DEFAULT_SERIES = {
   episodes: [],
 };
 const series = () => ({ ...DEFAULT_SERIES, ...readJSON(P.series, {}) });
+/** Today = the series day, or later if follows were already recorded for a later day. */
+const currentDay = () => Math.max(series().day, ...readJSON(P.ledger, []).map((e) => e.day), 1);
 
 export const cleanHandle = (h) => String(h ?? "").trim().replace(/^@+/, "").toLowerCase().replace(/[^a-z0-9._]/g, "").slice(0, 30);
 function hash(s) { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
@@ -169,7 +171,7 @@ switch (cmd) {
     if (!handle) die("Usage: add <@handle> [--day d] [--at ISO]");
     const ledger = readJSON(P.ledger, []);
     if (ledger.some((e) => e.handle === handle)) die(`@${handle} already has machine #${ledger.findIndex((e) => e.handle === handle) + 1}`);
-    const day = Number(opt("day", series().day));
+    const day = Number(opt("day", currentDay()));
     ledger.push({ handle, day, ts: opt("at", new Date().toISOString()), source: "manual" });
     writeJSON(P.ledger, ledger);
     buildState();
@@ -181,7 +183,7 @@ switch (cmd) {
     if (!file) die("Usage: import <followers.csv|json> [--day d] [--dry-run]");
     const ledger = readJSON(P.ledger, []);
     const known = new Set(ledger.map((e) => e.handle));
-    const day = Number(opt("day", series().day));
+    const day = Number(opt("day", currentDay()));
     const rows = readFollowers(file);
     const fresh = [];
     for (const r of rows) if (!known.has(r.handle)) { known.add(r.handle); fresh.push(r); }

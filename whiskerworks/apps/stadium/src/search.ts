@@ -39,8 +39,13 @@ export function search(items: SearchItem[], q: string, limit = 8): { results: Se
     let bd = Infinity;
     const max = n.length <= 5 ? 1 : n.length <= 9 ? 2 : 3;
     for (const it of items) for (const t of it.terms) {
-      const d = lev(n, t.slice(0, Math.max(n.length, t.length)), max);
-      if (d < bd) { bd = d; didYouMean = it; }
+      // compare with the whole term, each word, and same-length prefixes ("massila" → "massilia_sami")
+      const cands = [t, ...t.split(/[\s._-]+/), t.slice(0, n.length), t.slice(0, n.length + 1)];
+      for (const c of cands) {
+        if (!c || c.length < 3) continue;
+        const d = lev(n, c, max);
+        if (d < bd) { bd = d; didYouMean = it; }
+      }
     }
     if (bd > max) didYouMean = null;
   }

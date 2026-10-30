@@ -311,12 +311,12 @@ img { display: block; }
   .card { max-width: 320px; }
   .dock { left: 50%; right: auto; width: min(620px, calc(100% - 56px)); transform: translateX(-50%); background: none; padding-bottom: 24px; }
   .panel {
-    left: auto; right: 72px; top: 92px; bottom: 24px; width: 380px; max-height: none; border-radius: 22px;
+    left: auto; right: 96px; top: 92px; bottom: 24px; width: 380px; max-height: none; border-radius: 22px;
     border: 3px solid var(--nb-gold); animation-name: panel-in;
   }
   .panel-grip { display: none; }
   @keyframes panel-in { from { transform: translateX(30px); opacity: 0; } }
-  .app.has-panel .dock { opacity: 1; pointer-events: auto; left: calc(50% - 226px); }
+  .app.has-panel .dock { opacity: 1; pointer-events: auto; left: calc(50% - 238px); }
   .drawer-inner { left: auto; top: 24px; right: 24px; bottom: 24px; width: 440px; max-height: none; border-radius: 22px; border: 3px solid var(--nb-gold); transform: translateX(30px); }
   .no-webgl #drawer-book .drawer-inner { left: 50%; right: auto; transform: translateX(-50%); width: min(640px, 92vw); }
 }
