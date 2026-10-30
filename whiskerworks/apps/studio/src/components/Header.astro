@@ -41,10 +41,17 @@ const isCurrent = (href: string) => path === href || (href !== '/' && path.start
 <style>
   .site-header {
     position: sticky; top: 0; z-index: 200; height: var(--header-h);
-    background: color-mix(in oklab, var(--ww-paper) 86%, transparent);
-    backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px);
     border-bottom: 1.5px solid transparent; transition: border-color var(--ww-dur);
   }
+  /* The blur lives on a pseudo-element: a backdrop-filter on the header itself would become the containing
+     block of the fixed mobile menu sheet and squash it into the header's height. */
+  .site-header::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: color-mix(in oklab, var(--ww-paper) 86%, transparent);
+    backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  }
+  .site-header:has(.menu[open])::before { background: var(--ww-paper); }
+  :global(html:has(.menu[open])) { overflow: hidden; }
   :global(.scrolled) .site-header { border-bottom-color: var(--ww-rule); }
   .bar { display: flex; align-items: center; gap: 1.5rem; height: 100%; }
   .home { text-decoration: none; display: inline-flex; min-height: 44px; align-items: center; }
@@ -72,7 +79,7 @@ const isCurrent = (href: string) => path === href || (href !== '/' && path.start
   .menu[open] .burger i:first-child { transform: translateY(3.75px) rotate(45deg); }
   .menu[open] .burger i:last-child { transform: translateY(-3.75px) rotate(-45deg); }
   .sheet {
-    position: fixed; left: 0; right: 0; top: var(--header-h); bottom: 0; padding: 1rem var(--gutter) 2rem;
+    position: fixed; z-index: 199; left: 0; right: 0; top: var(--header-h); bottom: 0; height: calc(100dvh - var(--header-h)); padding: 1rem var(--gutter) 2rem;
     background: var(--ww-paper); border-top: 1.5px solid var(--ww-rule); overflow-y: auto;
     animation: sheet-in var(--ww-dur) var(--ww-ease-out);
   }
