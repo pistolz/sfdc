@@ -1,0 +1,79 @@
+name: WhiskerWorks deploy
+
+# Builds the 6 WhiskerWorks sites and uploads them to Cloudflare Pages on every push to whiskerworks-site.
+# Needs two repository secrets (Settings › Secrets and variables › Actions):
+#   CLOUDFLARE_API_TOKEN   token with "Cloudflare Pages: Edit"
+#   CLOUDFLARE_ACCOUNT_ID  your Cloudflare account id
+# Pages project names default to whiskerworks-<app>; override any of them with a repository *variable*
+# named CF_PROJECT_<APP> (e.g. CF_PROJECT_STUDIO=whiskerworks) if your projects are named differently.
+
+on:
+  push:
+    branches: [whiskerworks-site]
+    paths: ['whiskerworks/**', '.github/workflows/whiskerworks-deploy.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: whiskerworks-deploy
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: whiskerworks
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      PUBLIC_GA4_ID: ${{ vars.GA4_ID }}
+      VITE_GA4_ID: ${{ vars.GA4_ID }}
+    steps:
+      - name: Check Cloudflare secrets
+        id: secrets
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::warning::CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID secrets are missing, skipping deploy."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+        working-directory: .
+      - uses: actions/checkout@v4
+        if: steps.secrets.outputs.ok == 'true'
+      - uses: actions/setup-node@v4
+        if: steps.secrets.outputs.ok == 'true'
+        with:
+          node-version-file: whiskerworks/.nvmrc
+          cache: npm
+          cache-dependency-path: whiskerworks/package-lock.json
+      - if: steps.secrets.outputs.ok == 'true'
+        run: npm ci
+      - if: steps.secrets.outputs.ok == 'true'
+        run: npm run build
+      - name: Upload to Cloudflare Pages
+        if: steps.secrets.outputs.ok == 'true'
+        env:
+          P_STUDIO: ${{ vars.CF_PROJECT_STUDIO || 'whiskerworks-studio' }}
+          P_FLAGWARS: ${{ vars.CF_PROJECT_FLAGWARS || 'whiskerworks-flagwars' }}
+          P_STADIUM: ${{ vars.CF_PROJECT_STADIUM || 'whiskerworks-stadium' }}
+          P_ARCADE: ${{ vars.CF_PROJECT_ARCADE || 'whiskerworks-arcade' }}
+          P_NOOBBEE: ${{ vars.CF_PROJECT_NOOBBEE || 'whiskerworks-noobbee' }}
+          P_LEVELTOWER: ${{ vars.CF_PROJECT_LEVELTOWER || 'whiskerworks-leveltower' }}
+        run: |
+          set -e
+          # Deploy to each project's own production branch so the upload goes live (not to a preview URL).
+          deploy() {
+            branch=$(curl -fsS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$2" \
+              | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>console.log(JSON.parse(s).result.production_branch||"main"))')
+            echo "▶ $1 → Pages project $2 (production branch: $branch)"
+            npx --yes wrangler@3 pages deploy "apps/$1/dist" --project-name "$2" --branch "$branch" --commit-dirty=true
+          }
+          deploy studio "$P_STUDIO"
+          deploy flagwars "$P_FLAGWARS"
+          deploy stadium "$P_STADIUM"
+          deploy arcade "$P_ARCADE"
+          deploy noobbee "$P_NOOBBEE"
+          deploy leveltower "$P_LEVELTOWER"
