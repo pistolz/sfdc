@@ -32,8 +32,8 @@ const games = defineCollection({
         })
         .default({}),
       price: z.string().default('Free to play'),
-      /** In-app purchases / ads, shown on the product page: "Contains ads · In-app purchases". */
-      monetization: z.string().default('Contains ads · In-app purchases'),
+      /** Short business-model note shown on the product page. */
+      monetization: z.string().default('In-app purchases'),
       /** Folder of this game's legal pages in /public (privacy.html, terms.html, support.html + -fr). */
       legal: z.string().optional(),
       languages: z.array(z.string()).default([]),
