@@ -2,7 +2,7 @@
   "name": "Level Tower",
   "tagline": "1 like = 1 floor. You pick the world.",
   "rule": "1 like = 1 floor",
-  "day": 3,
+  "day": 2,
   "links": {
     "latestEpisode": "https://www.instagram.com/ads_noads/",
     "instagram": "https://www.instagram.com/ads_noads/",
@@ -22,20 +22,12 @@
     {
       "day": 2,
       "date": "2026-10-29",
-      "title": "You pick the world",
-      "summary": "Lava, ice and neon city stack up fast. The tower passes 180 floors.",
-      "links": {
-        "instagram": "https://www.instagram.com/ads_noads/"
-      }
-    },
-    {
-      "day": 3,
-      "date": "2026-10-30",
-      "title": "Above the clouds",
-      "summary": "338 floors and every one of them named. 14 worlds are already waiting in the queue for the next likes.",
+      "title": "67 likes = 67 floors",
+      "summary": "Day 1 got 67 likes, so the tower has 67 floors. 11 floors are named after your comments. What should floor 68 be?",
       "links": {
         "instagram": "https://www.instagram.com/ads_noads/"
       }
     }
-  ]
+  ],
+  "openWorld": "plain"
 }

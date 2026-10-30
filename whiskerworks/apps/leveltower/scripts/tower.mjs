@@ -24,7 +24,9 @@
  *   OPTION 2 · a brand-new world (own colours, aliases, props; then add a "kit" in src/themes.json if wanted):
  *   node scripts/tower.mjs world-new <id> "<Name>" --like <world> [--emoji 🟡] [--colors top,rim,rock,accent]
  *                                    [--aliases "a,b,c"] [--from-label "<Label>"]   (--from-label upgrades option-1 floors)
- *   node scripts/tower.mjs add <world> <@handle> [--floor n] [--day d]   (--floor reserves that floor number)
+ *   node scripts/tower.mjs add <world> <@handle> [--floor n] [--day d] [--text "comment as typed"] [--ts ISO]
+ *        (--floor reserves that floor number; --text is shown on the floor panel; --ts sets the comment order)
+ *   world-new also takes --props <builtin-props> (e.g. football, kitchen) to use a built-in prop set from src/tower.ts
  *   node scripts/tower.mjs day <n> | next-day
  *   node scripts/tower.mjs episode --day d --title "…" [--summary "…"] [--date YYYY-MM-DD]
  *                                  [--instagram url] [--tiktok url] [--youtube url] [--latest]
@@ -109,13 +111,15 @@ function buildState() {
   const hid = (h) => { if (!hIndex.has(h)) { hIndex.set(h, handles.length); handles.push(h); } return hIndex.get(h); };
   const floors = [];
   const labels = {};
-  const rotation = THEMES.map((t) => t.id).filter((id) => id !== BASE);
+  // Open-world floors: series.json "openWorld" (e.g. "plain") forces one world; otherwise rotate the classic worlds.
+  const rotation = S.openWorld && tIndex.has(S.openWorld) ? [S.openWorld] : THEMES.filter((t) => t.id !== BASE && !t.custom && !t.plain).map((t) => t.id);
   // Reserved floors ("--floor n"): the first pick for a number gets it; everything else fills free floors in order.
   const pinned = new Map();
   const free = [];
   for (const p of picks) { const f = Number(p.floor); if (f >= 2 && !pinned.has(f)) pinned.set(f, p); else free.push(p); }
   const queueAt = [];
-  const use = (p, f) => { if (p.label) labels[f] = { name: p.label, emoji: p.emoji || THEMES[tIndex.get(p.theme)].emoji }; };
+  const comments = {};
+  const use = (p, f) => { if (p.text && !opt.has(cleanHandle(p.handle))) comments[f] = String(p.text).slice(0, 140); if (p.label) labels[f] = { name: p.label, emoji: p.emoji || THEMES[tIndex.get(p.theme)].emoji }; };
   for (let f = 1; f <= floorsCount; f++) {
     if (f === 1) { floors.push([tIndex.get(BASE), -1, floorDay[0], 0]); continue; }
     const p = pinned.get(f) ?? free.shift();
@@ -153,8 +157,9 @@ function buildState() {
       likesToday: byDay.get(S.day) || 0,
     },
     rules: { base: BASE, floorsPerLike: 1 },
-    themes: THEMES.map(({ id, name, emoji, top, rim, rock, accent, base, kit }) => ({ id, name, emoji, top, rim, rock, accent, ...(base ? { base } : {}), ...(kit ? { kit } : {}) })),
+    themes: THEMES.map(({ id, name, emoji, top, rim, rock, accent, base, kit, plain, custom }) => ({ id, name, emoji, top, rim, rock, accent, ...(base ? { base } : {}), ...(kit ? { kit } : {}), ...(plain ? { plain } : {}), ...(custom ? { custom } : {}) })),
     labels,
+    comments,
     /** floors[i] = floor i+1 as [themeIndex, handleIndex (-1 = nobody), dayBuilt, dayPicked] */
     floors,
     handles,
@@ -264,7 +269,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
       const theme = parseWorld(worldArg); if (!theme) die(`unknown world "${worldArg}" — try: ${THEMES.map((t) => t.id).join(", ")}`);
       const L = ledger(); const day = Number(flag("day", series().day));
       const floor = flag("floor") ? Number(flag("floor")) : undefined;
-      L.picks.push({ id: `manual-${Date.now()}`, handle: cleanHandle(handleArg), theme, text: worldArg, day, ts: new Date().toISOString(), source: "manual", ...(floor ? { floor } : {}) });
+      L.picks.push({ id: `manual-${Date.now()}`, handle: cleanHandle(handleArg), theme, text: flag("text", worldArg), day, ts: flag("ts", new Date().toISOString()), source: flag("source", "manual"), ...(floor ? { floor } : {}) });
       writeJSON(P.ledger, L); buildState();
       console.log(`✔ @${cleanHandle(handleArg)} picked ${theme}${floor ? ` for floor ${floor}` : ""} (day ${day})`);
       break;
@@ -330,10 +335,10 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
         reqs.splice(n - 1, 1); writeJSON(P.requests, reqs);
       } else {
         [label, handle] = positional; if (!label || !handle) die('usage: custom "<Label>" <@handle> --like <world> [--emoji 🟡] [--floor n]');
-        text = label;
+        text = flag("text", label); ts = flag("ts", ts);
       }
       const floor = flag("floor") ? Number(flag("floor")) : undefined;
-      L.picks.push({ id, handle: cleanHandle(handle), theme, label: String(label).slice(0, 32), ...(flag("emoji") ? { emoji: flag("emoji") } : {}), text, day, ts, source: "custom", ...(floor ? { floor } : {}) });
+      L.picks.push({ id, handle: cleanHandle(handle), theme, label: String(label).slice(0, 32), ...(flag("emoji") ? { emoji: flag("emoji") } : {}), text, day, ts, source: flag("source", "custom"), ...(floor ? { floor } : {}) });
       writeJSON(P.ledger, L); buildState();
       console.log(`✔ @${cleanHandle(handle)} → "${label}" (looks like ${theme})${floor ? ` on floor ${floor}` : ""}`);
       break;
@@ -346,7 +351,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
       const b = THEMES.find((t) => t.id === base);
       const [top, rim, rock, accent] = (flag("colors", "") || "").split(",").map((c) => c.trim()).filter(Boolean);
       const aliases = [...new Set([id, fold(name), ...String(flag("aliases", "")).split(",").map((a) => fold(a.trim())).filter(Boolean)])];
-      const theme = { id, name, emoji: flag("emoji", b.emoji), top: top || b.top, rim: rim || b.rim, rock: rock || b.rock, accent: accent || b.accent, base: b.base ?? b.id, aliases };
+      const theme = { id, name, emoji: flag("emoji", b.emoji), top: top || b.top, rim: rim || b.rim, rock: rock || b.rock, accent: accent || b.accent, base: flag("props", b.base ?? b.id), custom: true, aliases };
       THEMES = [...THEMES, theme]; writeJSON(P.themes, THEMES);
       let moved = 0;
       if (flag("from-label")) {

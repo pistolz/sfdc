@@ -40,7 +40,25 @@ npm run build -w @whiskerworks/leveltower
 | `seed-demo` | replace the ledger with demo data (ships this way) |
 | `reset --yes` | empty the ledger before Day 1 goes live |
 
-**Before launch run `reset --yes`.** The repo ships with demo data (`source: "demo"` in the ledger).
+**Live data since 2026-10-30:** the ledger holds the real tower (67 floors from the Day 1 Instagram likes, 11 named floors).
+The old demo data was replaced; `seed-demo` would bring it back, so don't run it.
+
+### Add a real floor (example: floor 68)
+
+```bash
+T="npm run tower -w @whiskerworks/leveltower --"
+$T likes 12 --day 2                                  # Day 2 got 12 likes → 67 + 12 = 79 floors
+$T add lava @someone --floor 68 --day 2 --text "floor 68 lava pls"     # existing world, comment shown as typed
+$T custom "Pizza Party" @other --like candy --emoji 🍕 --day 2 --text "pizza floor!"   # quick label on an existing look
+$T world-new pizza "Pizza Party" --like candy --emoji 🍕 --colors "#ffd27a,#e0703a,#7a4a2c,#ff3a1a" --aliases "pizza"  # a real new world
+$T next-day && $T episode --day 3 --title "…" --summary "…" --instagram https://www.instagram.com/ads_noads/
+npm run build -w @whiskerworks/leveltower
+```
+
+`--text` is the comment exactly as typed (shown on the floor panel); `--ts` (ISO time) sets the comment order.
+Floors nobody picked are plain coloured floors (`"openWorld": "plain"` in `data/series.json`).
+Built-in prop sets ported from the Day 02 video: `blocks`, `obby`, `disco`, `battle`, `mystery`, `stage`, `bluetrees`,
+`kitchen`, `football` (use with `world-new … --props <set>`). `node scripts/named-from-ledger.mjs` prints the video's `NAMED` array from the ledger.
 
 ### Rules
 

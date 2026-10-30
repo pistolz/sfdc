@@ -42,6 +42,11 @@ const G = {
   sphere: new THREE.SphereGeometry(1, 12, 8),
   torus: new THREE.TorusGeometry(1, 0.22, 6, 18),
   ring: new THREE.TorusGeometry(1, 0.06, 6, 48),
+  knot: new THREE.TorusKnotGeometry(1, 0.29, 96, 12, 2, 3),
+  halfRing: new THREE.TorusGeometry(1, 0.04, 6, 32, Math.PI),
+  annulus: (() => { const g = new THREE.RingGeometry(0.8, 1, 48); g.rotateX(-Math.PI / 2); return g; })(),
+  flat: (() => { const g = new THREE.PlaneGeometry(1, 1); g.rotateX(-Math.PI / 2); return g; })(),
+  capsule: new THREE.CapsuleGeometry(1, 1, 3, 8),
   disc: new THREE.CylinderGeometry(1, 1, 0.08, 18),
 };
 const matCache = new Map<string, THREE.MeshStandardMaterial>();
@@ -102,6 +107,107 @@ function buildProps(theme: Theme, floor: number, add: Add, r: number) {
     add(G.disc, "#7fd6ff", Math.cos(a) * (r - 0.55), top - 0.02, Math.sin(a) * (r - 0.55), 0.55, 1, 0.55, 0, 0.1);
   };
 
+  if (theme.plain) return; // plain coloured floor, no props
+  // Video worlds (Level Tower Day 02 video, Remotion TowerDay2b.tsx), ported 1:1 in layout, scaled to the island.
+  // Video island radius ≈ 1.6 and its top is y = 0.11; S maps video units to site units.
+  const S = r / 1.6, Y = (y: number) => top + (y - 0.11) * S;
+  const V = (x: number, y: number, z: number, w: number, h: number, d: number, c: string, e = 0, ry = 0, geo: THREE.BufferGeometry = G.box) => add(geo, c, x * S, Y(y), z * S, w * S, h * S, d * S, ry, e);
+  const vPine = (x: number, z: number, sc: number, c: string) => { V(x, 0.11 + 0.12 * sc, z, 0.05 * sc, 0.25 * sc, 0.05 * sc, "#6b4423", 0, 0, G.cyl8); for (let i = 0; i < 3; i++) V(x, 0.11 + (0.32 + i * 0.2) * sc, z, (0.3 - i * 0.07) * sc, 0.38 * sc, (0.3 - i * 0.07) * sc, c, 0, i, G.cone6); };
+  const vTree = (x: number, z: number, sc: number, c: string) => { V(x, 0.11 + 0.15 * sc, z, 0.05 * sc, 0.3 * sc, 0.05 * sc, "#6b4423", 0, 0, G.cyl8); V(x, 0.11 + 0.45 * sc, z, 0.26 * sc, 0.26 * sc, 0.26 * sc, c, 0, 0, G.ico1); V(x + 0.12 * sc, 0.11 + 0.38 * sc, z + 0.08 * sc, 0.17 * sc, 0.17 * sc, 0.17 * sc, c, 0, 0, G.ico1); };
+  const ringPts = (n: number, rad: number) => Array.from({ length: n }, (_, i) => { const a = (i / n) * Math.PI * 2 + rnd() * 0.5; return [Math.cos(a) * rad, Math.sin(a) * rad, rnd()] as const; });
+  const ex = (m: THREE.Mesh, rx = 0, rz = 0) => { m.rotation.x = rx; m.rotation.z = rz; return m; };
+  switch (theme.base) {
+    case "blocks": { // generic voxel world: no textures, no characters
+      for (let x = -5; x <= 5; x++) for (let z = -5; z <= 5; z++) {
+        const d = Math.hypot(x, z) * 0.26; if (d > 1.35) continue;
+        const hh = Math.floor(hash(x * 31 + z * 7 + 500) * 2.2 + (d < 0.6 ? 1 : 0));
+        const water = Math.abs(x * 0.26 + 0.52) < 0.3 && Math.abs(z * 0.26 - 0.52) < 0.3 && hh === 0;
+        for (let j = 0; j <= hh; j++) V(x * 0.26, 0.24 + j * 0.25, z * 0.26, 0.25, 0.25, 0.25, j === hh ? (water ? "#3f8fe8" : "#5dbb3f") : "#8a5a32");
+      }
+      for (const [x, z] of [[0.78, -0.52], [-0.78, -0.26], [0.26, 0.9]]) { const b = 0.37 + 0.5; V(x, b, z, 0.2, 0.5, 0.2, "#7a4e2a"); V(x, b + 0.45, z, 0.6, 0.45, 0.6, "#2f9a3a"); V(x, b + 0.78, z, 0.32, 0.25, 0.32, "#3fb04a"); }
+      return;
+    }
+    case "obby": { // colourful jump blocks, lava ring, green checkpoint
+      const cs = ["#ff4d4d", "#ffb02e", "#ffe24d", "#4de06a", "#3fb8ff", "#8a6bff", "#ff5fc8"];
+      for (let i = 0; i < 10; i++) { const a = i * 0.68; V(Math.cos(a) * 1.05, 0.25 + i * 0.12, Math.sin(a) * 1.05, 0.36, 0.12, 0.36, cs[i % 7], 0.15); }
+      V(0, 0.14, 0, 0.75, 1, 0.75, "#ff3a1a", 1.6, 0, G.annulus);
+      V(Math.cos(6.8) * 1.05, 1.55, Math.sin(6.8) * 1.05, 0.42, 0.14, 0.42, "#4de06a", 0.9);
+      return;
+    }
+    case "disco": { // disco tiles + mirror ball
+      const cs = ["#ff3fb4", "#33e6ff", "#ffd23f", "#9b5bff"];
+      for (let i = 0; i < 36; i++) { const x = (i % 6) - 2.5, z = Math.floor(i / 6) - 2.5; if (x * x + z * z > 7.5) continue; const on = hash(i + 77) > 0.4; V(x * 0.42, 0.125, z * 0.42, 0.38, 1, 0.38, on ? cs[i % 4] : "#2a1d4a", on ? 1.2 : 0, 0, G.flat); }
+      // mirror ball moved off-centre: the site has a column where the video had none
+      add(G.ico1, "#e8ecff", 0.85 * S, Y(1.15), 0.35 * S, 0.3 * S, 0.3 * S, 0.3 * S, 0, 0.35, "metal");
+      V(0.85, 1.6, 0.35, 0.012, 0.6, 0.012, "#c9ccd6", 0, 0, G.cyl8);
+      return;
+    }
+    case "battle": { // generic building pieces: walls, ramps, stairs tower, glowing chest, storm ring (no logo)
+      V(-0.7, 0.35, 0.4, 0.6, 0.45, 0.06, "#c08a4a", 0, 0.3 * 4); V(0.6, 0.35, -0.5, 0.6, 0.45, 0.06, "#c08a4a", 0, 0.6 * 4);
+      ex(V(0.2, 0.3, 0.8, 0.5, 0.05, 0.6, "#b5793a", 0, 0), 0.55); ex(V(-0.5, 0.3, -0.7, 0.5, 0.05, 0.6, "#b5793a", 0, 2), 0.55);
+      for (let j = 0; j < 3; j++) V(0.75, 0.11 + 0.2 + j * 0.38, 0.35, 0.42, 0.04, 0.42, "#9a6a3a");
+      for (const [a, b] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) V(0.75 + a * 0.19, 0.11 + 0.5, 0.35 + b * 0.19, 0.04, 0.9, 0.04, "#7a4e2a");
+      V(-0.35, 0.22, -0.1, 0.3, 0.2, 0.2, "#ffcf4a", 0.9);
+      for (const [x, z, k] of ringPts(5, 1.2)) vTree(x, z, 0.6 + 0.3 * k, "#4fbf4a");
+      V(0, 0.15, 0, 1.5, 1, 1.5, "#9b5bff", 0.9, 0, G.annulus);
+      return;
+    }
+    case "mystery": { // iridescent knot + orbiting gems + glowing arc
+      add(G.knot, "#c9b8ff", 0.95 * S, Y(0.75), 0, 0.28 * S, 0.28 * S, 0.28 * S, 0.6, 0.45, "metal"); // off-centre (column)
+      const cs = ["#5ff2ff", "#ff6fd8", "#ffe066"];
+      for (let i = 0; i < 7; i++) { const a = (i / 7) * Math.PI * 2; V(Math.cos(a) * 1.15, 0.5 + 0.35 * Math.sin(a * 2 + i), Math.sin(a) * 1.15, 0.09, 0.09, 0.09, cs[i % 3], 1.4, 0, G.octa); }
+      V(0, 0.13, 0, 1.4, 1, 1.4, "#7a4dff", 1.2, 0, G.annulus);
+      return;
+    }
+    case "stage": { // generic pink-and-black stage: arches, speakers, edge light (no logo, no people)
+      const pk = "#ff4fb8";
+      // stage pushed to the island edge (the column stands where the video stage centre was)
+      V(0, 0.2, -1.0, 1.7, 0.18, 0.62, "#1a1220"); V(0, 0.3, -0.68, 1.7, 0.02, 0.02, pk, 1.6);
+      V(0, 0.29, -1.15, 0.7, 0.7, 0.7, pk, 1.6, 0, G.halfRing); V(0, 0.29, -1.15, 0.5, 0.5, 0.5, "#ffffff", 1.2, 0, G.halfRing);
+      for (const x of [-0.95, 0.95]) { V(x, 0.45, -0.85, 0.26, 0.5, 0.24, "#0c0a10"); V(x, 0.5, -0.72, 0.08, 0.02, 0.08, pk, 1.6, 0, G.cyl8).rotation.x = Math.PI / 2; }
+      V(0, 0.125, 0, 1.45, 1, 1.45, pk, 1.4, 0, G.annulus);
+      return;
+    }
+    case "bluetrees": {
+      for (const [i, [x, z, k]] of ringPts(6, 1.15).entries()) vPine(x, z, 0.8 + 0.5 * k, ["#2f6fd6", "#3f9cff", "#1f4fb0"][i % 3]);
+      for (const [i, [x, z, k]] of ringPts(4, 0.6).entries()) vTree(x, z, 0.9 + 0.4 * k, ["#5fb8ff", "#3f7fe8", "#8fd0ff", "#2f5fd0"][i]);
+      V(0.55, 0.115, 0.75, 0.28, 1, 0.28, "#47c6e8", 0.2, 0, G.disc);
+      return;
+    }
+    case "kitchen": { // checkered floor, counter, stove, pot, tiny generic chef with dreadlocks
+      for (let i = 0; i < 8; i++) for (let j = 0; j < 8; j++) { const x = (i - 3.5) * 0.375, z = (j - 3.5) * 0.375; if (Math.hypot(x, z) > 1.45) continue; V(x, 0.12, z, 0.375, 1, 0.375, (i + j) % 2 ? "#2b2b33" : "#f6f2ea", 0, 0, G.flat); }
+      V(-0.2, 0.34, -0.75, 1.6, 0.42, 0.42, "#f4f1ec"); V(-0.2, 0.57, -0.75, 1.66, 0.05, 0.46, "#9a6a3a");
+      V(0.85, 0.36, -0.2, 0.46, 0.46, 0.46, "#2b2b33");
+      for (const [a, b] of [[-0.09, -0.09], [0.09, 0.09]]) V(0.85 + a, 0.6, -0.2 + b, 0.07, 1, 0.07, "#ff4a1a", 1.6, 0, G.annulus);
+      V(0.85, 0.7, -0.2, 0.12, 0.16, 0.12, "#c9ccd6", 0, 0, G.cyl8);
+      [["#ff6a3a", -0.7], ["#ffd23f", -0.35], ["#6ad04a", 0.05]].forEach(([c, x]) => V(x as number, 0.63, -0.62, 0.07, 0.07, 0.07, c as string, 0, 0, G.sphere));
+      V(-0.7, 0.3, 0.35, 0.5, 0.04, 0.5, "#c0392b"); V(-0.7, 0.18, 0.35, 0.05, 0.24, 0.05, "#5a3a20");
+      // chef (video scale 1.5), standing at (0.4, 0.45)
+      const cx = 0.35, cz = 0.5, k = 1.5, C = (x: number, y: number, z: number, w: number, h: number, d: number, c: string, geo: THREE.BufferGeometry = G.box) => V(cx + x * k, 0.11 + y * k, cz + z * k, w * k, h * k, d * k, c, 0, 0, geo);
+      for (const x of [-0.06, 0.06]) C(x, 0.1, 0, 0.035, 0.06, 0.035, "#2b2b33", G.capsule);
+      C(0, 0.3, 0, 0.1, 0.08, 0.1, "#ffffff", G.capsule);
+      C(-0.15, 0.33, 0, 0.03, 0.06, 0.03, "#ffffff", G.capsule); C(0.15, 0.4, 0, 0.03, 0.06, 0.03, "#ffffff", G.capsule);
+      C(0, 0.53, 0, 0.1, 0.1, 0.1, "#7a4a2c", G.sphere);
+      for (const x of [-0.035, 0.035]) C(x, 0.545, 0.09, 0.013, 0.013, 0.013, "#111111", G.sphere);
+      C(0, 0.63, 0, 0.085, 0.08, 0.085, "#ffffff", G.cyl8); C(0, 0.7, 0, 0.11, 0.077, 0.11, "#ffffff", G.sphere);
+      for (let i = 0; i < 11; i++) { const a = Math.PI * 0.15 + (i / 10) * Math.PI * 1.7; ex(C(Math.sin(a) * 0.1, 0.5, Math.cos(a) * 0.1 - 0.01, 0.018, 0.085, 0.018, "#2a170c", G.capsule), Math.cos(a) * 0.25, -Math.sin(a) * 0.25); }
+      return;
+    }
+    case "football": { // striped pitch, goals, golden statue + ball (no logos, no jerseys)
+      for (let i = 0; i < 8; i++) { const x = (i - 3.5) * 0.375; const w = 2 * Math.sqrt(Math.max(0, 1.5 * 1.5 - x * x)); if (w < 0.2) continue; V(x, 0.12, 0, 0.375, 1, w, i % 2 ? "#3aa84a" : "#45b955", 0, 0, G.flat); }
+      V(0, 0.125, 0, 0.012, 1, 1.7, "#ffffff", 0.3, 0, G.flat); V(0, 0.125, 0, 0.36, 1, 0.36, "#ffffff", 0.3, 0, G.annulus);
+      for (const sd of [-1, 1]) { const gx = sd * 1.12; V(gx, 0.27, -0.25, 0.015, 0.3, 0.015, "#ffffff", 0, 0, G.cyl8); V(gx, 0.27, 0.25, 0.015, 0.3, 0.015, "#ffffff", 0, 0, G.cyl8); ex(V(gx, 0.42, 0, 0.015, 0.5, 0.015, "#ffffff", 0, 0, G.cyl8), Math.PI / 2); }
+      const a = 0.25 + 0.3 * 16.2, sx = Math.sin(a) * 0.8, sz = Math.cos(a) * 0.8, k = 1.35, gold = "#ffcf4a";
+      const Gd = (x: number, y: number, z: number, w: number, h: number, d: number, geo: THREE.BufferGeometry) => add(geo, gold, (sx + x * k) * S, Y(0.12 + y * k), (sz + z * k) * S, w * k * S, h * k * S, d * k * S, 0, 0.35, "metal");
+      Gd(0, 0.08, 0, 0.22, 0.16, 0.22, G.cyl8);
+      for (const x of [-0.05, 0.05]) Gd(x, 0.3, 0, 0.035, 0.09, 0.035, G.capsule);
+      Gd(0, 0.55, 0, 0.08, 0.08, 0.08, G.capsule);
+      for (const sd of [-1, 1]) Gd(sd * 0.12, 0.72, 0, 0.028, 0.08, 0.028, G.capsule).rotation.z = -sd * 0.5;
+      Gd(0, 0.78, 0, 0.07, 0.07, 0.07, G.sphere);
+      add(G.ico1, "#ffffff", sx * S, Y(0.12 + 0.98 * k), sz * S, 0.08 * k * S, 0.08 * k * S, 0.08 * k * S);
+      return;
+    }
+  }
   // Custom worlds: a JSON "kit" of generic props, or the props of an existing world ("base").
   if (theme.kit?.length) {
     for (const k of theme.kit) kitItem(k);
@@ -357,9 +463,10 @@ export class Tower {
       const th = state.themes[state.floors[i][0]];
       const r = ISLAND_R * (0.9 + hash(i + 7) * 0.2);
       this.radii.push(r);
+      const PLAIN = ["#f3d27a", "#9fd8c4", "#f2a6b8", "#a9c4f5", "#c9b6ef", "#f6b98a"];
       const y = yOf(i + 1);
       q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), hash(i * 3 + 1) * 6.283);
-      m.compose(p.set(0, y, 0), q, s.set(r, 0.7, r)); this.islandTop.setMatrixAt(i, m); this.islandTop.setColorAt(i, c.set(th.top));
+      m.compose(p.set(0, y, 0), q, s.set(r, 0.7, r)); this.islandTop.setMatrixAt(i, m); this.islandTop.setColorAt(i, c.set(th.plain ? PLAIN[i % PLAIN.length] : th.top));
       m.compose(p.set(0, y - 0.75, 0), q, s.set(r * 1.02, 0.85, r * 1.02)); this.islandRim.setMatrixAt(i, m); this.islandRim.setColorAt(i, c.set(th.rim));
       m.compose(p.set(0, y - 1.15, 0), q, s.set(r * 0.92, CONE_H * (0.85 + hash(i + 99) * 0.35), r * 0.92)); this.islandCone.setMatrixAt(i, m); this.islandCone.setColorAt(i, c.set(th.rock));
     }

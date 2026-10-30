@@ -213,6 +213,7 @@ img { display: block; }
 @keyframes founder-in { from { transform: scale(0.85); opacity: 0; } }
 .founder-tag { font-family: var(--ww-font-display); font-weight: 800; text-transform: uppercase; font-size: 0.92rem; }
 .founder-handle { font-family: var(--ww-font-mono); font-weight: 700; color: #8a5a00; font-size: 1.05rem; margin-top: 2px; }
+.founder-quote { display: block; font-size: 0.86rem; font-style: italic; color: #4a3d1c; margin-top: 4px; line-height: 1.35; overflow-wrap: anywhere; }
 .founder-sub { font-size: 0.78rem; color: #6b5a30; margin-top: 2px; }
 .p-h3 { margin: 18px 0 6px; font-family: var(--ww-font-display); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lt-muted); }
 .nav-row { display: flex; gap: 8px; margin-top: 12px; }

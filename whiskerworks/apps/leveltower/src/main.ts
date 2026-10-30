@@ -160,7 +160,7 @@ function renderStatic() {
       <span class="rank r${b.rank}">${b.rank}</span><span class="avatar sm" aria-hidden="true">${esc(b.handle[0]?.toUpperCase() ?? "@")}</span>
       <span class="name">@${esc(b.handle)}</span><span class="count">${fmt(b.floors)} <small>floor${b.floors === 1 ? "" : "s"}</small></span>
     </button></li>`).join("") || `<li class="empty">No worlds picked yet — the first comment builds floor 2.</li>`;
-  $("world-list").innerHTML = [...state.themes].sort((a, b) => (state.themeCounts[b.id] ?? 0) - (state.themeCounts[a.id] ?? 0)).map((t) => `
+  $("world-list").innerHTML = [...state.themes].filter((t) => !t.plain && (state.themeCounts[t.id] ?? 0) > 0).sort((a, b) => (state.themeCounts[b.id] ?? 0) - (state.themeCounts[a.id] ?? 0)).map((t) => `
     <button type="button" class="world" data-theme="${esc(t.id)}" style="--c:${esc(t.top)};--a:${esc(t.accent)}">
       <span class="w-emoji" aria-hidden="true">${t.emoji}</span><span class="w-name">${esc(t.name)}</span><span class="w-n">${fmt(state.themeCounts[t.id] ?? 0)}</span>
     </button>`).join("");
@@ -249,7 +249,7 @@ function placeLabels() {
     const isSel = f === sel && !tower.isFlying;
     const ghost = f === n + 1;
     const th = ghost ? null : themeOf(f);
-    const who = ghost ? "like to build it" : pickerOf(f) ? `@${pickerOf(f)}` : f === 1 ? "the base" : "open world";
+    const who = ghost ? "like to build it" : pickerOf(f) ? `@${pickerOf(f)}` : f === 1 ? "the base" : th?.plain ? "one like" : "open world";
     const next = ghost ? state.queue[0] : undefined;
     const nextTheme = next && state.themes.find((t) => t.id === next.theme);
     const html = ghost
@@ -382,9 +382,10 @@ function renderPanel() {
       </dl>
       ${who ? `<button type="button" class="founder" data-handle="${esc(who)}" ${who === "anonymous" ? "disabled" : ""}>
           <span class="founder-tag">Floor ${fmt(f)} · ${esc(th.name)}</span><span class="founder-handle">@${esc(who)}</span>
+          ${state.comments?.[String(f)] ? `<span class="founder-quote">“${esc(state.comments[String(f)])}”</span>` : ""}
           <span class="founder-sub">picked this world${dayPicked ? ` on day ${dayPicked}` : ""}${theirs.length > 1 ? ` · ${theirs.length} floors in total` : ""}</span>
         </button>`
-        : `<p class="p-empty">${f === 1 ? "The base of the tower. Every floor above it was added by a like." : "Nobody picked this floor's world, so the tower chose one. Comment a world on the next episode to put your name on a floor."}</p>`}
+        : `<p class="p-empty">${f === 1 ? "The base of the tower. Every floor above it was added by a like." : th.plain ? "A plain floor: one like, no world picked yet." + " Comment a world on the next episode to put your name on a floor." : "Nobody picked this floor's world, so the tower chose one. Comment a world on the next episode to put your name on a floor."}</p>`}
       <div class="nav-row">
         <button type="button" class="btn btn-ghost" data-floor="${Math.max(1, f - 1)}" ${f <= 1 ? "disabled" : ""}>↓ Floor ${fmt(Math.max(1, f - 1))}</button>
         <button type="button" class="btn btn-ghost" data-floor="${Math.min(n, f + 1)}" ${f >= n ? "disabled" : ""}>Floor ${fmt(Math.min(n, f + 1))} ↑</button>
