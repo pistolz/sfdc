@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+---
+<Base title="Page not found" noindex>
+  <section class="nf">
+    <div class="container">
+      <div class="cat" aria-hidden="true"><Logo size={140} withWordmark={false} /></div>
+      <p class="kicker">Error 404</p>
+      <h1 class="display">This page used up<br />all nine lives.</h1>
+      <p class="lede">It may have moved, or never existed. Try a search, or head back to the games.</p>
+      <div class="ctas">
+        <a class="btn" href="/games/">Browse games</a>
+        <button class="btn btn-secondary" type="button" data-search-open>Search</button>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .nf { padding: clamp(3rem, 10vw, 8rem) 0; text-align: center; }
+  .nf .lede { margin: 1.2rem auto 2rem; }
+  .display { margin-top: 1rem; }
+  .cat { display: inline-block; margin-bottom: 1.5rem; animation: tilt 3s ease-in-out infinite; }
+  @keyframes tilt { 50% { transform: rotate(-10deg); } }
+  .ctas { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; }
+</style>

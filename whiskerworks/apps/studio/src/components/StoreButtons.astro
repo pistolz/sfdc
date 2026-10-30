@@ -1,0 +1,65 @@
+---
+import type { Game } from '../lib/games';
+import { platformLine } from '../lib/games';
+interface Props { game: Game; compact?: boolean; campaign?: string }
+const { game, compact = false, campaign = 'web' } = Astro.props;
+const { links, status, platforms } = game.data;
+
+function track(url: string) {
+  if (!url) return '';
+  try {
+    const u = new URL(url);
+    if (u.hostname.includes('apps.apple.com')) u.searchParams.set('ct', campaign);
+    if (u.hostname.includes('play.google.com')) u.searchParams.set('referrer', `utm_source=whiskerworks&utm_medium=website&utm_campaign=${campaign}`);
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+const appStore = track(links.appStore);
+const googlePlay = track(links.googlePlay);
+const any = appStore || googlePlay || links.steam;
+---
+<div class:list={['stores', { compact }]}>
+  {appStore && (
+    <a class="store" href={appStore} rel="noopener" data-event="store_click" data-store="app_store">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.9-.9-3.1-.8-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.2.8 1.1 1.7 2.3 2.9 2.3 1.1 0 1.6-.7 3-.7s1.8.7 3 .7c1.2 0 2-1.1 2.8-2.2.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.4-.9-2.4-3.8ZM14.2 5.8c.6-.8 1.1-1.8 1-2.8-.9 0-2 .6-2.6 1.4-.6.7-1.1 1.7-1 2.7 1 .1 2-.5 2.6-1.3Z"/></svg>
+      <span><small>Download on the</small>App Store</span>
+    </a>
+  )}
+  {googlePlay && (
+    <a class="store" href={googlePlay} rel="noopener" data-event="store_click" data-store="google_play">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 2.8c-.2.2-.3.6-.3 1v16.4c0 .4.1.8.3 1l9.1-9.2L4 2.8Zm10.1 10.2 2.6 2.6-11 6.2 8.4-8.8Zm0-2 -8.4-8.8 11 6.2-2.6 2.6Zm4.2-1.5 2.6 1.5c.8.4.8 1.6 0 2l-2.6 1.5-2.9-2.5 2.9-2.5Z"/></svg>
+      <span><small>Get it on</small>Google Play</span>
+    </a>
+  )}
+  {links.steam && (
+    <a class="store" href={links.steam} rel="noopener" data-event="store_click" data-store="steam">
+      <span><small>Wishlist on</small>Steam</span>
+    </a>
+  )}
+  {!any && (
+    <p class="soon">
+      {status === 'live' ? 'Store links coming very soon' : status === 'beta' ? 'Beta' : 'Coming soon'} · {platformLine(platforms)}
+    </p>
+  )}
+</div>
+<style>
+  .stores { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+  .store {
+    display: inline-flex; align-items: center; gap: 0.6rem; min-height: 3rem; padding: 0.45rem 1.1rem 0.45rem 0.85rem;
+    border-radius: 0.8rem; background: #000; color: #fff; text-decoration: none; border: 1.5px solid #3d3d3d;
+    transition: transform var(--ww-dur-fast) var(--ww-ease-out);
+  }
+  .store:hover { transform: translateY(-2px); }
+  .store svg { width: 1.6rem; height: 1.6rem; }
+  .store span { display: flex; flex-direction: column; font-weight: 700; font-size: 1.05rem; line-height: 1.05; letter-spacing: -0.01em; }
+  .store small { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.02em; }
+  .compact .store { min-height: 2.6rem; }
+  .compact .store svg { width: 1.3rem; height: 1.3rem; }
+  .compact .store span { font-size: 0.92rem; }
+  .soon {
+    display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.55rem 1rem; border-radius: var(--ww-radius-pill);
+    border: 2px dashed currentColor; font-weight: 700; font-size: 0.92rem; opacity: 0.85;
+  }
+</style>

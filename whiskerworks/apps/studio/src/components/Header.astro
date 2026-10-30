@@ -1,0 +1,91 @@
+---
+import Logo from './Logo.astro';
+interface Props { gameCount: number }
+const { gameCount } = Astro.props;
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/games/', label: 'Games' },
+  { href: '/series/', label: 'Live series' },
+  { href: '/about/', label: 'Studio' },
+  { href: '/support/', label: 'Support' },
+];
+const isCurrent = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+---
+<header class="site-header" data-header>
+  <div class="container bar">
+    <a class="home" href="/" aria-label="WhiskerWorks home"><Logo /></a>
+    <nav class="nav" aria-label="Primary">
+      <ul>
+        {nav.map((n) => <li><a href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{n.label}</a></li>)}
+      </ul>
+    </nav>
+    <div class="actions">
+      <button class="search-btn" type="button" data-search-open aria-haspopup="dialog" aria-label="Search games">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        <span class="label">Search {gameCount} games</span>
+        <kbd aria-hidden="true">/</kbd>
+      </button>
+      <details class="menu" data-menu>
+        <summary aria-label="Menu"><span class="burger" aria-hidden="true"><i></i><i></i></span></summary>
+        <div class="sheet">
+          <ul>
+            {nav.map((n) => <li><a href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{n.label}<span aria-hidden="true">→</span></a></li>)}
+            <li><a href="/press/">Press kit<span aria-hidden="true">→</span></a></li>
+          </ul>
+          <p>Small games with nine lives. No ads, ever.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 200; height: var(--header-h);
+    background: color-mix(in oklab, var(--ww-paper) 86%, transparent);
+    backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    border-bottom: 1.5px solid transparent; transition: border-color var(--ww-dur);
+  }
+  :global(.scrolled) .site-header { border-bottom-color: var(--ww-rule); }
+  .bar { display: flex; align-items: center; gap: 1.5rem; height: 100%; }
+  .home { text-decoration: none; display: inline-flex; min-height: 44px; align-items: center; }
+  .nav { margin-left: auto; }
+  .nav ul { display: flex; gap: 0.25rem; list-style: none; padding: 0; margin: 0; }
+  .nav a {
+    display: inline-flex; align-items: center; min-height: 2.6rem; padding: 0 0.9rem; border-radius: var(--ww-radius-pill);
+    font-weight: 700; color: var(--ww-ink); text-decoration: none; transition: background var(--ww-dur-fast);
+  }
+  .nav a:hover { background: var(--ww-paper-2); }
+  .nav a[aria-current='page'] { background: var(--ww-ink); color: var(--ww-paper); }
+  .actions { display: flex; align-items: center; gap: 0.5rem; }
+  .search-btn {
+    display: inline-flex; align-items: center; gap: 0.55rem; min-height: 2.75rem; padding: 0 0.6rem 0 0.9rem;
+    border: 2px solid var(--ww-ink); border-radius: var(--ww-radius-pill); background: var(--ww-paper); cursor: pointer; font-weight: 600; font-size: 0.92rem;
+  }
+  .search-btn:hover { background: var(--ww-paper-2); }
+  .search-btn svg { width: 1.1rem; height: 1.1rem; }
+  kbd { font-family: var(--ww-font-mono); font-size: 0.75rem; padding: 0.05rem 0.45rem; border-radius: 0.35rem; border: 1.5px solid var(--ww-rule-2); color: var(--ww-ink-3); }
+  .menu { position: relative; display: none; }
+  .menu summary { list-style: none; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 50%; background: var(--ww-ink); cursor: pointer; }
+  .menu summary::-webkit-details-marker { display: none; }
+  .burger { display: grid; gap: 5px; }
+  .burger i { display: block; width: 18px; height: 2.5px; border-radius: 2px; background: var(--ww-paper); transition: transform var(--ww-dur) var(--ww-ease-out); }
+  .menu[open] .burger i:first-child { transform: translateY(3.75px) rotate(45deg); }
+  .menu[open] .burger i:last-child { transform: translateY(-3.75px) rotate(-45deg); }
+  .sheet {
+    position: fixed; left: 0; right: 0; top: var(--header-h); bottom: 0; padding: 1rem var(--gutter) 2rem;
+    background: var(--ww-paper); border-top: 1.5px solid var(--ww-rule); overflow-y: auto;
+    animation: sheet-in var(--ww-dur) var(--ww-ease-out);
+  }
+  @keyframes sheet-in { from { opacity: 0; transform: translateY(-8px); } }
+  .sheet ul { list-style: none; padding: 0; margin: 0; }
+  .sheet a { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1.5px solid var(--ww-rule); font-family: var(--ww-font-display); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.03em; color: var(--ww-ink); text-decoration: none; }
+  .sheet a[aria-current='page'] { color: var(--ww-marmalade-ink); }
+  .sheet p { margin-top: 1.5rem; color: var(--ww-ink-3); }
+  @media (max-width: 860px) {
+    .nav { display: none; }
+    .actions { margin-left: auto; }
+    .menu { display: block; }
+    .search-btn .label, .search-btn kbd { display: none; }
+    .search-btn { width: 2.75rem; padding: 0; justify-content: center; }
+  }
+</style>

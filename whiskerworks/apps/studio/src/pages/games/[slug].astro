@@ -1,0 +1,223 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import QRCode from 'qrcode';
+import Base from '../../layouts/Base.astro';
+import GameArt from '../../components/GameArt.astro';
+import GameCard from '../../components/GameCard.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import StoreButtons from '../../components/StoreButtons.astro';
+import { getGames, platformLine, gameUrl, type Game } from '../../lib/games';
+import { site } from '../../site.config';
+
+export async function getStaticPaths() {
+  const games = await getGames();
+  return games.map((game) => ({ params: { slug: game.id }, props: { game, games } }));
+}
+interface Props { game: Game; games: Game[] }
+const { game, games } = Astro.props;
+const d = game.data;
+const { Content } = await render(game);
+const url = new URL(gameUrl(game), site.url).href;
+
+const qrOpts = { type: 'svg' as const, margin: 1, color: { dark: '#1a1424', light: '#fff8ee' } };
+const qrs = (
+  await Promise.all(
+    [
+      ['iPhone', d.links.appStore],
+      ['Android', d.links.googlePlay],
+    ].map(async ([label, href]) => (href ? { label, svg: await QRCode.toString(href, qrOpts) } : null)),
+  )
+).filter(Boolean) as { label: string; svg: string }[];
+
+const related = [
+  ...games.filter((g) => g.id !== game.id && g.data.mood === d.mood),
+  ...games.filter((g) => g.id !== game.id && g.data.mood !== d.mood),
+].slice(0, 3);
+
+const osMap: Record<string, string> = { ios: 'iOS', android: 'Android', web: 'Web browser', steam: 'Windows, macOS', switch: 'Nintendo Switch' };
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': ['VideoGame', 'SoftwareApplication'],
+    name: d.title,
+    description: d.description,
+    url,
+    image: new URL(`/og/game-${game.id}.png`, site.url).href,
+    genre: d.genre,
+    applicationCategory: 'GameApplication',
+    operatingSystem: d.platforms.map((p) => osMap[p]).join(', '),
+    gamePlatform: d.platforms.map((p) => osMap[p]),
+    ...(d.releaseDate ? { datePublished: d.releaseDate.toISOString().slice(0, 10) } : {}),
+    publisher: { '@id': `${site.url}/#organization` },
+    author: { '@id': `${site.url}/#organization` },
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: d.status === 'live' ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Games', item: new URL('/games/', site.url).href },
+      { '@type': 'ListItem', position: 2, name: d.title, item: url },
+    ],
+  },
+  ...(d.faq.length
+    ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: d.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }]
+    : []),
+];
+---
+<Base title={`${d.title}: ${d.genre} game`} description={d.description} ogImage={`/og/game-${game.id}.png`} jsonLd={jsonLd}>
+  <div class="page" style={`--accent:${d.colors[0]}; --accent-2:${d.colors[1]}`}>
+    <nav class="container crumbs" aria-label="Breadcrumb">
+      <ol><li><a href="/games/">Games</a></li><li aria-current="page">{d.title}</li></ol>
+    </nav>
+
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="copy">
+          <div class="pre">
+            <StatusBadge status={d.status} />
+            <span class="kicker">{d.genre} · {platformLine(d.platforms)}</span>
+          </div>
+          <h1 class="display">{d.title}</h1>
+          <p class="tagline">{d.tagline}</p>
+          <p class="lede">{d.description}</p>
+          <div class="get">
+            <StoreButtons game={game} campaign={`web-${game.id}`} />
+            {d.links.web && <a class="btn btn-accent" href={d.links.web}>Play free in your browser <span aria-hidden="true">→</span></a>}
+          </div>
+          <p class="price">{d.price}</p>
+          {qrs.length > 0 && (
+            <div class="qr" aria-label={`Scan to install ${d.title}`}>
+              {qrs.map((q) => (
+                <figure><Fragment set:html={q.svg} /><figcaption>{q.label}</figcaption></figure>
+              ))}
+              <p>On a computer? Point your phone camera at the code to install {d.title}.</p>
+            </div>
+          )}
+        </div>
+        <div class="art">
+          <div class="art-bg" aria-hidden="true"></div>
+          <GameArt game={game} size={440} eager />
+        </div>
+      </div>
+    </section>
+
+    {d.loop.length > 0 && (
+      <section class="loop-section" aria-labelledby="loop-title">
+        <div class="container">
+          <p class="kicker">The loop</p>
+          <h2 id="loop-title" class="h2">How a run plays.</h2>
+          <ol class="loop">
+            {d.loop.map((step, i) => (
+              <li data-reveal style={`--reveal-delay:${i * 0.07}s`}><span class="n">{String(i + 1).padStart(2, '0')}</span><span>{step}</span></li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    )}
+
+    {d.screenshots.length > 0 && (
+      <section class="section-tight" aria-labelledby="shots-title">
+        <div class="container">
+          <h2 id="shots-title" class="h2">Real screens from {d.title}.</h2>
+          <div class="shots" tabindex="0" aria-label="Screenshots, scroll horizontally">
+            {d.screenshots.map((s) => <Image src={s.src} alt={s.alt} width={360} class="shot" />)}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {d.features.length > 0 && (
+      <section class="section" aria-labelledby="inside-title">
+        <div class="container">
+          <p class="kicker">What is inside</p>
+          <h2 id="inside-title" class="h2">Inside {d.title}.</h2>
+          <div class="features">
+            {d.features.map((f, i) => (
+              <article data-reveal style={`--reveal-delay:${i * 0.07}s`}>
+                <span class="n">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="h3">{f.title}</h3>
+                <p>{f.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <section class="section-tight rule-top" aria-labelledby="about-title">
+      <div class="container about">
+        <h2 id="about-title" class="h2">About this game</h2>
+        <div class="prose"><Content /></div>
+      </div>
+    </section>
+
+    {d.faq.length > 0 && (
+      <section class="section" aria-labelledby="faq-title">
+        <div class="container about">
+          <h2 id="faq-title" class="h2">{d.title} questions, answered.</h2>
+          <div class="faq">
+            {d.faq.map((f) => (
+              <details><summary>{f.q}</summary><div><p>{f.a}</p></div></details>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {related.length > 0 && (
+      <section class="section rule-top" aria-labelledby="more-title">
+        <div class="container">
+          <div class="section-head">
+            <h2 id="more-title" class="h2">If you like {d.title}…</h2>
+            <a class="text-link" href="/games/">All games <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+          <div class="game-grid">{related.map((g) => <GameCard game={g} />)}</div>
+        </div>
+      </section>
+    )}
+  </div>
+</Base>
+
+<style>
+  .crumbs ol { display: flex; gap: 0.5rem; list-style: none; padding: 1.2rem 0 0; margin: 0; font-size: 0.9rem; font-weight: 600; color: var(--ww-ink-3); }
+  .crumbs li + li::before { content: '/'; margin-right: 0.5rem; }
+  .crumbs a { color: var(--ww-ink); }
+  .hero { padding: clamp(1.5rem, 4vw, 3rem) 0 clamp(3rem, 6vw, 5rem); }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+  .pre { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+  .pre .kicker { color: color-mix(in oklab, var(--accent) 50%, var(--ww-ink)); }
+  .display { margin: 1rem 0 0.6rem; }
+  .tagline { font-family: var(--ww-font-display); font-weight: 600; font-size: clamp(1.2rem, 2.2vw, 1.6rem); letter-spacing: -0.02em; line-height: 1.25; color: var(--ww-ink); margin-bottom: 1rem; }
+  .get { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem; margin-top: 1.8rem; }
+  .price { margin-top: 1rem; font-size: 0.92rem; font-weight: 600; color: var(--ww-ink-3); }
+  .qr { display: none; align-items: center; gap: 1rem; margin-top: 1.8rem; padding: 1rem; border: 1.5px dashed var(--ww-rule-2); border-radius: var(--ww-radius); max-width: 34rem; }
+  @media (hover: hover) and (min-width: 900px) { .qr { display: flex; } }
+  .qr figure { width: 5.5rem; text-align: center; font-size: 0.75rem; font-weight: 700; }
+  .qr p { font-size: 0.88rem; color: var(--ww-ink-3); }
+  .art { position: relative; display: grid; place-items: center; padding: clamp(1rem, 4vw, 3rem); }
+  .art-bg { position: absolute; inset: 4%; border-radius: 50%; background: conic-gradient(from 200deg, var(--accent), var(--accent-2), var(--accent)); opacity: 0.35; filter: blur(30px); animation: spin 18s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .art :global(.game-art) { position: relative; width: min(100%, 24rem); animation: bob 6s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(-12px) rotate(2deg); } }
+
+  .loop-section { background: var(--ww-ink); color: var(--ww-night-muted); padding: clamp(3rem, 6vw, 5rem) 0; }
+  .loop-section .h2 { color: var(--ww-paper); margin: 0.6rem 0 2rem; }
+  .loop-section .kicker { color: var(--ww-moon); }
+  .loop { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 0.9rem; counter-reset: s; }
+  .loop li { display: flex; flex-direction: column; gap: 0.8rem; padding: 1.2rem; border: 1.5px solid var(--ww-night-rule); border-radius: var(--ww-radius); font-family: var(--ww-font-display); font-weight: 700; font-size: 1.05rem; color: var(--ww-paper); letter-spacing: -0.02em; line-height: 1.2; }
+  .loop .n, .features .n { font-family: var(--ww-font-mono); font-size: 0.85rem; color: var(--accent); }
+
+  .shots { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; padding: 1.5rem 0 1rem; }
+  .shots :global(.shot) { flex: none; width: min(70vw, 16rem); height: auto; border-radius: var(--ww-radius-lg); border: 2px solid var(--ww-ink); scroll-snap-align: start; }
+
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1.25rem; margin-top: 2rem; }
+  .features article { padding: 1.5rem; border: 2px solid var(--ww-ink); border-radius: var(--ww-radius-lg); background: color-mix(in oklab, var(--accent) 8%, var(--ww-paper)); display: grid; gap: 0.6rem; align-content: start; }
+  .features .n { color: color-mix(in oklab, var(--accent) 55%, var(--ww-ink)); }
+  .about { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 2rem 4rem; align-items: start; }
+  @media (max-width: 860px) {
+    .hero-grid, .about { grid-template-columns: 1fr; }
+    .art { order: -1; max-width: 18rem; margin-inline: auto; }
+  }
+</style>

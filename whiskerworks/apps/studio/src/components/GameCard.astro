@@ -1,0 +1,21 @@
+---
+import type { Game } from '../lib/games';
+import { gameUrl, platformLine } from '../lib/games';
+import GameArt from './GameArt.astro';
+import StatusBadge from './StatusBadge.astro';
+interface Props { game: Game; headingLevel?: 'h2' | 'h3'; delay?: number }
+const { game, headingLevel: H = 'h3', delay = 0 } = Astro.props;
+const { title, tagline, genre, platforms, status, colors } = game.data;
+---
+<article class="game-card" style={`--accent:${colors[0]}; --reveal-delay:${delay}s`} data-reveal data-game={game.id}>
+  <div class="art-wrap" aria-hidden="true">
+    <GameArt game={game} size={240} />
+    <StatusBadge status={status} class="status" />
+  </div>
+  <div class="body">
+    <p class="meta">{genre} · {platformLine(platforms)}</p>
+    <H><a href={gameUrl(game)}>{title}</a></H>
+    <p class="hook">{tagline}</p>
+    <span class="cta" aria-hidden="true">See the game <span class="arrow">→</span></span>
+  </div>
+</article>

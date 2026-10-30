@@ -1,0 +1,6 @@
+---
+import { statusLabels } from '../lib/games';
+interface Props { status: keyof typeof statusLabels; class?: string }
+const { status, class: className } = Astro.props;
+---
+<span class:list={['badge', `badge-${status}`, className]}><span class="dot" aria-hidden="true"></span>{statusLabels[status]}</span>

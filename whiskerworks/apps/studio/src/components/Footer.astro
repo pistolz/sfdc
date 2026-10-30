@@ -1,0 +1,72 @@
+---
+import Logo from './Logo.astro';
+import SocialLinks from './SocialLinks.astro';
+import { site } from '../site.config';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer night">
+  <div class="container">
+    <div class="top">
+      <div class="brand">
+        <a href="/" aria-label="WhiskerWorks home" class="home"><Logo tone="paper" size={44} /></a>
+        <p class="tag">{site.tagline}<br />Small games, made with care. No ads, ever.</p>
+        <SocialLinks />
+      </div>
+      <nav aria-label="Footer">
+        <div>
+          <h2>Play</h2>
+          <ul>
+            <li><a href="/games/">All games</a></li>
+            <li><a href="/games/?mood=relax">Relax</a></li>
+            <li><a href="/games/?mood=think">Think</a></li>
+            <li><a href="/games/?mood=action">Action</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Live series</h2>
+          <ul>
+            <li><a href="/series/">All series</a></li>
+            <li><a href={site.series.flagWars.url}>Flag Wars live map</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Studio</h2>
+          <ul>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/press/">Press kit</a></li>
+            <li><a href="/support/">Support</a></li>
+            <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="bottom">
+      <p>© {year} {site.legalName}. All rights reserved.</p>
+      <ul>
+        <li><a href="/privacy/">Privacy</a></li>
+        <li><a href="/terms/">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <svg class="whiskers" viewBox="0 0 400 80" aria-hidden="true"><path d="M0 70 C120 40 280 40 400 70M20 30C140 18 260 18 380 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</footer>
+<style>
+  .site-footer { position: relative; overflow: hidden; padding: clamp(3rem, 7vw, 5rem) 0 2rem; }
+  .top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 3rem; }
+  .home { display: inline-flex; text-decoration: none; }
+  .tag { margin: 1rem 0 1.4rem; color: var(--ww-night-muted); max-width: 22rem; }
+  nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
+  h2 { font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ww-moon); margin-bottom: 0.9rem; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  nav li + li { margin-top: 0.15rem; }
+  nav a, .bottom a { display: inline-flex; min-height: 2.25rem; align-items: center; color: var(--ww-night-text); text-decoration: none; overflow-wrap: anywhere; }
+  nav a:hover, .bottom a:hover { color: var(--ww-marmalade); text-decoration: underline; }
+  .bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--ww-night-rule); font-size: 0.9rem; }
+  .bottom ul { display: flex; gap: 1.25rem; }
+  .whiskers { position: absolute; right: -40px; bottom: -10px; width: 420px; color: var(--ww-night-rule); pointer-events: none; }
+  .socials { color: var(--ww-night-text); }
+  @media (max-width: 800px) {
+    .top { grid-template-columns: 1fr; }
+    nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

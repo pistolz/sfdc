@@ -1,0 +1,15 @@
+{
+  "name": "whiskerworks",
+  "private": true,
+  "description": "WhiskerWorks studio website and live-series microsites.",
+  "workspaces": ["apps/*", "packages/*"],
+  "engines": { "node": ">=20.10" },
+  "scripts": {
+    "dev": "npm run dev -w @whiskerworks/studio",
+    "dev:flagwars": "npm run dev -w @whiskerworks/flagwars",
+    "build": "npm run build -w @whiskerworks/flagwars && npm run build -w @whiskerworks/studio",
+    "check": "npm run check -w @whiskerworks/studio && npm run typecheck -w @whiskerworks/flagwars",
+    "new-game": "node apps/studio/scripts/new-game.mjs",
+    "fw": "node apps/flagwars/scripts/fw.mjs"
+  }
+}

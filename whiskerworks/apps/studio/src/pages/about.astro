@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+import { getGames } from '../lib/games';
+import { site } from '../site.config';
+const games = await getGames();
+const principles = [
+  ['The first minute matters', 'If a game needs a tour, a tutorial and a help page before it makes sense, we got it wrong.'],
+  ['Respect beats tricks', 'No ads, ever. No fake countdowns, no energy bars, nothing designed to annoy you into paying.'],
+  ['Nine lives, not one', 'We build games you come back to: dailies, short runs and ideas deep enough to keep surprising you.'],
+  ['Players write the story', 'Our live series turn comments into gameplay. The audience is not watching the game, it is playing it.'],
+];
+---
+<Base title="About the studio" description="WhiskerWorks is a small independent game studio. We make replayable games with no ads, and live video series you play from the comments." ogImage="/og/about.png">
+  <section class="head">
+    <div class="container two">
+      <div>
+        <p class="kicker">The studio</p>
+        <h1 class="display">A small studio with a big cat energy.</h1>
+      </div>
+      <p class="lede">WhiskerWorks makes small, replayable games for iPhone, Android and the web, and live video series where your comments change what happens next. No publisher and no ad network: just {games.length} games we wanted on our own phones, and more on the way.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container story">
+      <div class="mark-wrap" aria-hidden="true"><Logo size={220} withWordmark={false} /></div>
+      <div class="prose">
+        <h2>Why “WhiskerWorks”?</h2>
+        <p>Cats have whiskers to feel their way through the world, and nine lives to keep trying. That is how we think about games: sensitive to the player, and built to be played again and again.</p>
+        <p>Look closely at our logo: the cat’s mouth is a little <b>w</b>. That is the workshop part.</p>
+        <h2>How we work</h2>
+        <p>We ship small and often. Every game starts as a tiny prototype that has to be fun in the first minute. If it is not, it does not ship. If it is, we polish it until it feels great on a phone held in one hand.</p>
+        <p>Being small means we cannot outspend anyone, so we do not try to. Every unlock somebody buys funds the next game, and we do not take that lightly.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section night" aria-labelledby="p-title">
+    <div class="container">
+      <h2 id="p-title" class="h2">Four things every game has to get right.</h2>
+      <ol class="principles">
+        {principles.map(([t, b], i) => (
+          <li data-reveal style={`--reveal-delay:${i * 0.07}s`}><span class="n">0{i + 1}</span><h3 class="h3">{t}</h3><p>{b}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container two">
+      <h2 class="h2">Say hello.</h2>
+      <div class="stack">
+        <p class="lede">Bugs, ideas, a game you want us to make next, or a collaboration? We read everything.</p>
+        <p><a class="btn" href={`mailto:${site.email}`}>Email {site.email}</a></p>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .head { padding: clamp(2.5rem, 6vw, 5rem) 0 2rem; }
+  .head .display { margin-top: 0.9rem; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 4rem; align-items: end; }
+  .story { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); gap: 3rem; align-items: start; }
+  .mark-wrap { display: grid; place-items: center; padding: 2rem; border: 2px solid var(--ww-ink); border-radius: var(--ww-radius-lg); background: var(--ww-marmalade); box-shadow: 8px 8px 0 var(--ww-ink); position: sticky; top: calc(var(--header-h) + 2rem); }
+  .principles { list-style: none; padding: 0; margin: 2.5rem 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1rem; }
+  .principles li { padding: 1.5rem; border: 1.5px solid var(--ww-night-rule); border-radius: var(--ww-radius-lg); display: grid; gap: 0.6rem; align-content: start; }
+  .principles .n { font-family: var(--ww-font-mono); color: var(--ww-marmalade); }
+  @media (max-width: 860px) { .two, .story { grid-template-columns: 1fr; } .mark-wrap { position: static; max-width: 16rem; } }
+</style>

@@ -1,0 +1,112 @@
+---
+import Base from '../../layouts/Base.astro';
+import FlagWarsPromo from '../../components/FlagWarsPromo.astro';
+import SocialLinks from '../../components/SocialLinks.astro';
+import { flagWarsUrl, getFlagWarsSnapshot } from '../../lib/flagwars';
+import { site } from '../../site.config';
+
+const s = getFlagWarsSnapshot();
+const episodes = [...s.episodes].sort((a, b) => b.day - a.day).slice(0, 6);
+const faq = [
+  { q: 'Is it free to take part?', a: 'Yes. All you do is comment on an episode. There is nothing to buy, no app to install and no account to create on our side.' },
+  { q: 'How are comments counted?', a: 'One comment naming a country is one flag for that country. We read every comment on the latest episode, and the first person to name a country becomes its Founder. The live map updates once a day, right before the next episode.' },
+  { q: 'Which platforms count?', a: 'Comments on the official episode posts count, on every platform where we publish the series. Links to each platform are on the live map.' },
+  { q: 'Can I remove my name from the map?', a: `Of course. Email ${site.email} with your handle and we will replace it with “anonymous” at the next update.` },
+];
+const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+---
+<Base title="Live series" description="Flag Wars and other WhiskerWorks live series: daily videos on Instagram, TikTok and YouTube where your comments decide what happens next." ogImage="/og/series.png" jsonLd={[faqLd]}>
+  <section class="head">
+    <div class="container">
+      <p class="kicker">Live series</p>
+      <h1 class="display">Shows you play<br />from the comments.</h1>
+      <p class="lede">Our live series are short daily videos where the audience is the player. You comment, we count, and the next episode shows what you changed. The live map always shows exactly where things stand.</p>
+    </div>
+  </section>
+
+  <section class="steps-wrap" aria-labelledby="how-title">
+    <div class="container">
+      <h2 id="how-title" class="sr-only">How it works</h2>
+      <ol class="steps">
+        <li data-reveal><span class="n">1</span><h3>Watch</h3><p>A new episode drops every day on Instagram, TikTok and YouTube.</p></li>
+        <li data-reveal style="--reveal-delay:.07s"><span class="n">2</span><h3>Comment</h3><p>Name a country (or drop its flag emoji). One comment, one flag.</p></li>
+        <li data-reveal style="--reveal-delay:.14s"><span class="n">3</span><h3>Change the story</h3><p>Tomorrow’s episode and the live map show what everyone decided.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <FlagWarsPromo />
+
+  <section class="section" aria-labelledby="find-title">
+    <div class="container find">
+      <div>
+        <p class="kicker">Already commented?</p>
+        <h2 id="find-title" class="h2">Find your flag on the map.</h2>
+        <p class="lede">Type your handle or a country to jump straight to it on the live map.</p>
+      </div>
+      <form class="find-form" action={flagWarsUrl} method="get" data-find>
+        <label class="sr-only" for="find-q">Your handle or a country</label>
+        <input id="find-q" name="q" placeholder="@yourhandle or Canada" autocomplete="off" required />
+        <button class="btn" type="submit">Find it</button>
+      </form>
+    </div>
+  </section>
+
+  {episodes.length > 0 && (
+    <section class="section-tight rule-top" aria-labelledby="eps-title">
+      <div class="container">
+        <h2 id="eps-title" class="h2">Latest episodes</h2>
+        <ol class="eps" reversed>
+          {episodes.map((e) => (
+            <li><span class="day">Day {e.day}</span><b>{e.title}</b>{e.summary && <span class="muted">{e.summary}</span>}</li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
+
+  <section class="section rule-top" aria-labelledby="faq-title">
+    <div class="container two">
+      <div>
+        <h2 id="faq-title" class="h2">Questions about the series</h2>
+        <p class="muted" style="margin-top:1rem">Follow along so you never miss an episode.</p>
+        <div style="margin-top:1.2rem"><SocialLinks /></div>
+      </div>
+      <div class="faq">
+        {faq.map((f) => <details><summary>{f.q}</summary><div><p>{f.a}</p></div></details>)}
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .head { padding: clamp(2.5rem, 6vw, 5rem) 0 2rem; }
+  .head .display { margin: 0.9rem 0 1.2rem; }
+  .steps-wrap { padding-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .steps li { padding: 1.5rem; border: 2px solid var(--ww-ink); border-radius: var(--ww-radius-lg); background: var(--ww-paper-2); display: grid; gap: 0.5rem; align-content: start; }
+  .steps .n { display: grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--ww-marmalade); border: 2px solid var(--ww-ink); font-family: var(--ww-font-display); font-weight: 800; color: var(--ww-ink); }
+  .steps h3 { font-size: 1.4rem; }
+  .find { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: end; }
+  .find-form { display: flex; gap: 0.6rem; }
+  .find-form input { flex: 1; min-width: 0; min-height: 3rem; padding: 0 1.2rem; border: 2px solid var(--ww-ink); border-radius: var(--ww-radius-pill); background: var(--ww-paper); font-size: 1.05rem; }
+  .eps { list-style: none; padding: 0; margin: 1.5rem 0 0; }
+  .eps li { display: grid; grid-template-columns: 6rem 1fr; gap: 0.2rem 1rem; padding: 1rem 0; border-top: 1.5px solid var(--ww-rule); }
+  .eps .muted { grid-column: 2; }
+  .day { font-family: var(--ww-font-display); font-weight: 700; color: var(--ww-marmalade-ink); font-size: 0.9rem; }
+  .eps b { color: var(--ww-ink); }
+  .two { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 2rem 4rem; }
+  @media (max-width: 860px) { .steps, .find, .two { grid-template-columns: 1fr; } }
+</style>
+<script>
+  // Route the query to the right deep link on the live map: ?u=handle or ?q=country.
+  document.querySelector<HTMLFormElement>('[data-find]')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const form = e.currentTarget as HTMLFormElement;
+    const v = (new FormData(form).get('q') as string).trim();
+    if (!v) return;
+    const url = new URL(form.action);
+    if (v.startsWith('@')) url.searchParams.set('u', v.slice(1));
+    else url.searchParams.set('q', v);
+    location.href = url.toString();
+  });
+</script>

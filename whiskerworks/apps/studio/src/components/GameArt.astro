@@ -1,0 +1,112 @@
+---
+/**
+ * Generated game artwork. Used until a real icon is set in the game's frontmatter.
+ * Deterministic: same title + colours + motif = same art.
+ */
+import { Image } from 'astro:assets';
+import type { Game } from '../lib/games';
+
+interface Props {
+  game: Game;
+  size?: number;
+  class?: string;
+  eager?: boolean;
+}
+const { game, size = 320, class: className, eager = false } = Astro.props;
+const { title, colors, motif, icon } = game.data;
+const [a, b] = colors;
+const uid = `ga-${game.id}`;
+const letters = title.replace(/[^A-Za-z]/g, '').toUpperCase().slice(0, 3).padEnd(3, 'W').split('');
+const ink = '#1A1424';
+const paper = '#FFF8EE';
+---
+{icon ? (
+  <Image src={icon} alt={`${title} icon`} width={size} height={size} class:list={['game-art', className]} loading={eager ? 'eager' : 'lazy'} />
+) : (
+  <svg class:list={['game-art', className]} viewBox="0 0 100 100" width={size} height={size} role="img" aria-label={`${title} icon`}>
+    <defs>
+      <linearGradient id={`${uid}-g`} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color={a} />
+        <stop offset="1" stop-color={b} />
+      </linearGradient>
+      <radialGradient id={`${uid}-s`} cx="0.3" cy="0.2" r="0.9">
+        <stop offset="0" stop-color="#fff" stop-opacity="0.45" />
+        <stop offset="0.6" stop-color="#fff" stop-opacity="0" />
+      </radialGradient>
+      <clipPath id={`${uid}-c`}><rect width="100" height="100" rx="23" /></clipPath>
+    </defs>
+    <g clip-path={`url(#${uid}-c)`}>
+      <rect width="100" height="100" fill={`url(#${uid}-g)`} />
+      <circle cx="82" cy="86" r="34" fill={ink} opacity="0.12" />
+      {motif === 'stack' && (
+        <g stroke={ink} stroke-width="2.5">
+          <rect x="24" y="66" width="52" height="16" rx="8" fill={paper} />
+          <rect x="30" y="50" width="42" height="16" rx="8" fill={b} />
+          <rect x="26" y="34" width="40" height="16" rx="8" fill={paper} />
+          <path d="M33 34l3-9 6 6M59 34l-3-9-6 6" fill={paper} stroke-linejoin="round" />
+          <circle cx="41" cy="42" r="1.8" fill={ink} stroke="none" /><circle cx="51" cy="42" r="1.8" fill={ink} stroke="none" />
+        </g>
+      )}
+      {motif === 'orbit' && (
+        <g stroke={ink} stroke-width="2.5" fill="none">
+          <ellipse cx="50" cy="52" rx="34" ry="13" transform="rotate(-24 50 52)" />
+          <circle cx="50" cy="52" r="20" fill={paper} />
+          <path d="M33 45c10 6 24 6 34-2M32 58c11 5 25 5 36-3M44 33c-4 12-4 26 1 38" />
+          <circle cx="80" cy="35" r="5" fill={b} />
+        </g>
+      )}
+      {motif === 'hex' && (
+        <g stroke={ink} stroke-width="2.5" stroke-linejoin="round">
+          {[[50, 50, paper], [50, 30, b], [67, 40, paper], [67, 60, b], [50, 70, paper], [33, 60, b], [33, 40, paper]].map(([x, y, f]) => (
+            <path fill={f as string} d={`M${x as number} ${(y as number) - 10}l8.7 5v10L${x as number} ${(y as number) + 10}l-8.7-5v-10Z`} />
+          ))}
+        </g>
+      )}
+      {motif === 'word' && (
+        <g font-family="Unbounded, Arial Black, sans-serif" font-weight="800" font-size="17" text-anchor="middle">
+          {letters.map((l, i) => (
+            <g transform={`translate(${22 + i * 28} ${i === 1 ? 40 : 52}) rotate(${(i - 1) * 6})`}>
+              <rect x="-12" y="-12" width="24" height="26" rx="5" fill={i === 1 ? b : paper} stroke={ink} stroke-width="2.5" />
+              <text y="7" fill={ink}>{l}</text>
+            </g>
+          ))}
+          <path d="M18 78h64" stroke={ink} stroke-width="2.5" stroke-linecap="round" stroke-dasharray="4 6" />
+        </g>
+      )}
+      {motif === 'paw' && (
+        <g fill={paper} stroke={ink} stroke-width="2.5">
+          <path d="M50 50c11 0 22 11 22 20 0 7-6 10-11 9-5-1-7-3-11-3s-6 2-11 3c-5 1-11-2-11-9 0-9 11-20 22-20Z" />
+          <ellipse cx="29" cy="44" rx="7" ry="9" transform="rotate(-20 29 44)" />
+          <ellipse cx="42" cy="30" rx="7" ry="9.5" />
+          <ellipse cx="58" cy="30" rx="7" ry="9.5" />
+          <ellipse cx="71" cy="44" rx="7" ry="9" transform="rotate(20 71 44)" />
+        </g>
+      )}
+      {motif === 'wave' && (
+        <g stroke={ink} stroke-width="2.5" stroke-linecap="round">
+          <circle cx="66" cy="34" r="12" fill={paper} />
+          <path d="M8 60q10-9 21 0t21 0 21 0 21 0" fill="none" />
+          <path d="M8 72q10-9 21 0t21 0 21 0 21 0" fill="none" />
+          <path d="M22 54l6-14 8 6 6-10" fill="none" stroke-linejoin="round" />
+        </g>
+      )}
+      {motif === 'grid' && (
+        <g stroke={ink} stroke-width="2.5">
+          {[0, 1, 2].flatMap((r) => [0, 1, 2].map((c) => (
+            <rect x={22 + c * 19} y={22 + r * 19} width="16" height="16" rx="4" fill={(r + c) % 2 ? b : paper} />
+          )))}
+        </g>
+      )}
+      {motif === 'spark' && (
+        <g stroke={ink} stroke-width="2.5" stroke-linejoin="round">
+          <path fill={paper} d="M50 18c3 20 12 29 32 32-20 3-29 12-32 32-3-20-12-29-32-32 20-3 29-12 32-32Z" />
+          <circle cx="76" cy="24" r="5" fill={b} />
+        </g>
+      )}
+      <rect width="100" height="100" fill={`url(#${uid}-s)`} />
+    </g>
+  </svg>
+)}
+<style>
+  .game-art { width: 100%; height: auto; border-radius: 23%; filter: drop-shadow(0 10px 18px rgb(26 20 36 / 0.22)); }
+</style>

@@ -1,0 +1,151 @@
+---
+import Base from '../../layouts/Base.astro';
+import GameCard from '../../components/GameCard.astro';
+import { getGames, moods, platformLabels, statusLabels, type Mood, type Platform } from '../../lib/games';
+
+const games = await getGames();
+const count = <T extends string>(key: (g: (typeof games)[number]) => T | readonly T[], v: T) =>
+  games.filter((g) => { const k = key(g); return Array.isArray(k) ? k.includes(v) : k === v; }).length;
+const usedPlatforms = (Object.keys(platformLabels) as Platform[]).filter((p) => count((g) => g.data.platforms, p) > 0);
+const usedStatuses = (Object.keys(statusLabels) as (keyof typeof statusLabels)[]).filter((s) => count((g) => g.data.status, s) > 0);
+---
+<Base title="All games" description={`Browse all ${games.length} WhiskerWorks games: puzzle, word and arcade games for iPhone, Android and the web. Free to start, no ads.`} ogImage="/og/games.png">
+  <section class="head">
+    <div class="container">
+      <p class="kicker">The catalogue</p>
+      <h1 class="display">Every game.</h1>
+      <p class="lede">{games.length} games and counting. Filter by mood, platform or status, or just type what you feel like playing.</p>
+    </div>
+  </section>
+
+  <section class="section-tight" aria-label="Games" data-catalogue>
+    <div class="container">
+      <form class="filters" role="search" aria-label="Filter games" data-filters onsubmit="return false">
+        <label class="search">
+          <span class="sr-only">Search games</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          <input type="search" name="q" placeholder="Try “cozy”, “word”, “runner”…" autocomplete="off" data-q />
+        </label>
+        <div class="chips" role="group" aria-label="Mood">
+          <button type="button" class="chip" aria-pressed="true" data-mood="">All <span class="count">{games.length}</span></button>
+          {(Object.keys(moods) as Mood[]).map((m) => (
+            <button type="button" class="chip" aria-pressed="false" data-mood={m}>{moods[m].label} <span class="count">{count((g) => g.data.mood, m)}</span></button>
+          ))}
+        </div>
+        <div class="selects">
+          <label>
+            <span>Platform</span>
+            <select name="platform" data-platform>
+              <option value="">Any</option>
+              {usedPlatforms.map((p) => <option value={p}>{platformLabels[p]}</option>)}
+            </select>
+          </label>
+          <label>
+            <span>Status</span>
+            <select name="status" data-status>
+              <option value="">Any</option>
+              {usedStatuses.map((s) => <option value={s}>{statusLabels[s]}</option>)}
+            </select>
+          </label>
+        </div>
+      </form>
+
+      <p class="result-count" aria-live="polite" data-count>{games.length} games</p>
+
+      <div class="game-grid" data-grid>
+        {games.map((g) => (
+          <div
+            class="cell"
+            data-item
+            data-mood={g.data.mood}
+            data-platforms={g.data.platforms.join(' ')}
+            data-status={g.data.status}
+            data-text={[g.data.title, g.data.tagline, g.data.genre, ...g.data.keywords].join(' ').toLowerCase()}
+          >
+            <GameCard game={g} />
+          </div>
+        ))}
+      </div>
+      <div class="empty" hidden data-empty>
+        <p class="h3">No game matches that… yet.</p>
+        <p class="muted">Try another word, or <button type="button" class="linkish" data-reset>clear all filters</button>.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head { padding: clamp(2.5rem, 6vw, 5rem) 0 1rem; }
+  .head .display { margin: 0.9rem 0 1rem; }
+  .filters { display: grid; gap: 1rem; padding: 1.1rem; border: 2px solid var(--ww-ink); border-radius: var(--ww-radius-lg); background: var(--ww-paper-2); position: sticky; top: calc(var(--header-h) + 0.5rem); z-index: 10; }
+  .search { display: flex; align-items: center; gap: 0.6rem; padding: 0 1rem; border: 2px solid var(--ww-ink); border-radius: var(--ww-radius-pill); background: var(--ww-paper); }
+  .search svg { width: 1.2rem; height: 1.2rem; color: var(--ww-ink-3); flex: none; }
+  .search input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; min-height: 3rem; font-size: 1.05rem; }
+  .selects { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .selects label { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 0.9rem; }
+  select { min-height: 2.75rem; padding: 0 2.2rem 0 0.9rem; border: 2px solid var(--ww-ink); border-radius: var(--ww-radius-pill); background: var(--ww-paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231a1424' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 0.85rem center / 0.7rem; appearance: none; font-weight: 600; cursor: pointer; }
+  @media (min-width: 900px) {
+    .filters { grid-template-columns: minmax(14rem, 1fr) auto auto; align-items: center; }
+  }
+  @media (max-width: 899px) { .filters { position: static; } }
+  .result-count { margin: 1.5rem 0 1rem; font-weight: 700; color: var(--ww-ink-3); }
+  .cell { display: flex; }
+  .cell > :global(.game-card) { flex: 1; }
+  .empty { padding: 3rem 0; text-align: center; }
+  .linkish { border: 0; background: none; padding: 0; font-weight: 700; text-decoration: underline; cursor: pointer; color: var(--ww-ink); }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-catalogue]')!;
+  const q = root.querySelector<HTMLInputElement>('[data-q]')!;
+  const platform = root.querySelector<HTMLSelectElement>('[data-platform]')!;
+  const status = root.querySelector<HTMLSelectElement>('[data-status]')!;
+  const moodBtns = [...root.querySelectorAll<HTMLButtonElement>('[data-mood]')].filter((b) => b.tagName === 'BUTTON');
+  const items = [...root.querySelectorAll<HTMLElement>('[data-item]')];
+  const countEl = root.querySelector<HTMLElement>('[data-count]')!;
+  const empty = root.querySelector<HTMLElement>('[data-empty]')!;
+  let mood = '';
+
+  const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  function readUrl() {
+    const p = new URLSearchParams(location.search);
+    q.value = p.get('q') ?? '';
+    mood = p.get('mood') ?? '';
+    platform.value = p.get('platform') ?? '';
+    status.value = p.get('status') ?? '';
+  }
+  function writeUrl() {
+    const p = new URLSearchParams();
+    if (q.value.trim()) p.set('q', q.value.trim());
+    if (mood) p.set('mood', mood);
+    if (platform.value) p.set('platform', platform.value);
+    if (status.value) p.set('status', status.value);
+    const s = p.toString();
+    history.replaceState(null, '', s ? `?${s}` : location.pathname);
+  }
+  function apply() {
+    const terms = norm(q.value).split(/\s+/).filter(Boolean);
+    let n = 0;
+    for (const el of items) {
+      const text = norm(el.dataset.text ?? '');
+      const ok =
+        (!mood || el.dataset.mood === mood) &&
+        (!platform.value || (el.dataset.platforms ?? '').split(' ').includes(platform.value)) &&
+        (!status.value || el.dataset.status === status.value) &&
+        terms.every((t) => text.includes(t));
+      el.hidden = !ok;
+      if (ok) { n++; el.querySelector('[data-reveal]')?.classList.add('is-in'); }
+    }
+    moodBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mood === mood)));
+    countEl.textContent = `${n} game${n === 1 ? '' : 's'}`;
+    empty.hidden = n > 0;
+    writeUrl();
+  }
+  moodBtns.forEach((b) => b.addEventListener('click', () => { mood = b.dataset.mood ?? ''; apply(); }));
+  q.addEventListener('input', apply);
+  platform.addEventListener('change', apply);
+  status.addEventListener('change', apply);
+  root.querySelector('[data-reset]')!.addEventListener('click', () => { q.value = ''; mood = ''; platform.value = ''; status.value = ''; apply(); q.focus(); });
+  readUrl();
+  apply();
+</script>

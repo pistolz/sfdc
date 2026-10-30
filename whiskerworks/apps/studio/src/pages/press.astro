@@ -1,0 +1,87 @@
+---
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+import { getGames } from '../lib/games';
+import { site } from '../site.config';
+const games = await getGames();
+const colors = [
+  ['Ink', '#1A1424', 'paper'], ['Paper', '#FFF8EE', 'ink'], ['Marmalade', '#FF7A2F', 'ink'], ['Catnip', '#22B07A', 'ink'],
+  ['Yarn', '#FF4F7B', 'ink'], ['Moon', '#FFC93C', 'ink'], ['Dusk', '#6C5CE7', 'paper'],
+];
+const assets = [
+  ['Logo mark (SVG)', '/brand/whiskerworks-mark.svg'],
+  ['Logo mark, one colour (SVG)', '/brand/whiskerworks-mark-mono.svg'],
+  ['Logo mark 1024px (PNG)', '/brand/whiskerworks-mark-1024.png'],
+  ['Social card (PNG)', '/og/default.png'],
+];
+---
+<Base title="Press kit" description="WhiskerWorks press kit: studio facts, logos, colours and press contact.">
+  <section class="head">
+    <div class="container">
+      <p class="kicker">Press kit</p>
+      <h1 class="display">Press &amp; brand.</h1>
+      <p class="lede">Everything you need to write about WhiskerWorks. For interviews, review keys or footage, email <a href={`mailto:${site.pressEmail}`}>{site.pressEmail}</a>.</p>
+    </div>
+  </section>
+  <section class="section-tight">
+    <div class="container grid">
+      <div class="card">
+        <h2 class="h3">Fact sheet</h2>
+        <dl class="facts">
+          <div><dt>Studio</dt><dd>{site.legalName}</dd></div>
+          <div><dt>Tagline</dt><dd>{site.tagline}</dd></div>
+          <div><dt>Games</dt><dd>{games.length} ({games.filter((g) => g.data.status === 'live').length} out now)</dd></div>
+          <div><dt>Platforms</dt><dd>iPhone, Android, Web</dd></div>
+          <div><dt>Business model</dt><dd>Free to start, optional one-time unlocks, no ads</dd></div>
+          <div><dt>Live series</dt><dd>Flag Wars (Instagram, TikTok, YouTube)</dd></div>
+          <div><dt>Website</dt><dd>{site.url.replace('https://', '')}</dd></div>
+        </dl>
+      </div>
+      <div class="card">
+        <h2 class="h3">Logo</h2>
+        <div class="logos">
+          <div class="tile light"><Logo size={56} /></div>
+          <div class="tile dark"><Logo size={56} tone="paper" /></div>
+        </div>
+        <ul class="dl">{assets.map(([l, h]) => <li><a href={h} download>{l} <span aria-hidden="true">↓</span></a></li>)}</ul>
+        <p class="muted small">Please don’t stretch, recolour or add effects to the mark. Keep clear space equal to one ear around it.</p>
+      </div>
+    </div>
+  </section>
+  <section class="section-tight">
+    <div class="container">
+      <h2 class="h3">Colours</h2>
+      <ul class="swatches">
+        {colors.map(([n, hex, on]) => <li style={`background:${hex}; color:var(--ww-${on})`}><b>{n}</b><span>{hex}</span></li>)}
+      </ul>
+      <h2 class="h3" style="margin-top:2.5rem">Typography</h2>
+      <div class="type">
+        <p class="t1">Unbounded</p><p class="muted">Display: headlines, numbers, labels</p>
+        <p class="t2">Figtree</p><p class="muted">Body: everything you read</p>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .head { padding: clamp(2.5rem, 6vw, 5rem) 0 2rem; }
+  .head .display { margin: 0.9rem 0 1rem; }
+  .head a { color: var(--ww-marmalade-ink); font-weight: 700; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .card { padding: 1.5rem; border: 2px solid var(--ww-ink); border-radius: var(--ww-radius-lg); display: grid; gap: 1rem; align-content: start; }
+  .facts div { display: grid; grid-template-columns: 9rem 1fr; gap: 1rem; padding: 0.6rem 0; border-top: 1.5px solid var(--ww-rule); }
+  .facts dt { font-weight: 700; color: var(--ww-ink); }
+  .logos { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .tile { display: grid; place-items: center; padding: 2rem 1rem; border-radius: var(--ww-radius); }
+  .tile.light { background: var(--ww-paper-2); } .tile.dark { background: var(--ww-ink); }
+  .dl { list-style: none; padding: 0; margin: 0; }
+  .dl a { display: flex; justify-content: space-between; padding: 0.6rem 0; border-top: 1.5px solid var(--ww-rule); font-weight: 700; color: var(--ww-ink); text-decoration: none; }
+  .dl a:hover { color: var(--ww-marmalade-ink); }
+  .small { font-size: 0.88rem; }
+  .swatches { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); gap: 0.75rem; }
+  .swatches li { display: flex; flex-direction: column; justify-content: end; min-height: 7rem; padding: 0.9rem; border-radius: var(--ww-radius); border: 2px solid var(--ww-ink); }
+  .swatches span { font-family: var(--ww-font-mono); font-size: 0.85rem; }
+  .type { display: grid; grid-template-columns: auto 1fr; gap: 0.5rem 2rem; align-items: baseline; margin-top: 1rem; }
+  .t1 { font-family: var(--ww-font-display); font-weight: 800; font-size: 2.4rem; color: var(--ww-ink); letter-spacing: -0.04em; }
+  .t2 { font-family: var(--ww-font-body); font-weight: 700; font-size: 2.4rem; color: var(--ww-ink); }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } .type { grid-template-columns: 1fr; } }
+</style>

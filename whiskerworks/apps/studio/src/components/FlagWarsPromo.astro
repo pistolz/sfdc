@@ -1,0 +1,83 @@
+---
+import DotGlobe from './DotGlobe.astro';
+import { getFlagWarsSnapshot, flagWarsUrl, flagWarsStateUrl, flagEmoji } from '../lib/flagwars';
+import { site } from '../site.config';
+interface Props { headingLevel?: 'h1' | 'h2' }
+const { headingLevel: H = 'h2' } = Astro.props;
+const s = getFlagWarsSnapshot();
+const top = s.leaderboard.slice(0, 3);
+const highlights = Object.fromEntries(s.leaderboard.map((c) => [c.code, c.color ?? '#ff4f7b']));
+const latest = s.links.latestEpisode || s.links.instagram || site.socials.instagram;
+const nf = new Intl.NumberFormat('en');
+---
+<section class="fw night" aria-labelledby="fw-title">
+  <div class="container grid">
+    <div class="copy" data-reveal>
+      <p class="kicker"><span class="live-dot" aria-hidden="true"></span> Live series · Day <span data-fw="day">{s.day}</span></p>
+      <H id="fw-title" class="title">Flag Wars.<br /><span>1 comment = 1 flag.</span></H>
+      <p class="lede">A daily video series where you write the story. Comment a country on our latest episode, plant its flag, and watch it level up and take over the map in the next one.</p>
+      <dl class="stats">
+        <div><dt>Flags planted</dt><dd data-fw="totalFlags">{nf.format(s.totalFlags)}</dd></div>
+        <div><dt>Countries</dt><dd data-fw="totalCountries">{nf.format(s.totalCountries)}</dd></div>
+        <div><dt>Commanders</dt><dd data-fw="totalCommanders">{nf.format(s.totalCommanders)}</dd></div>
+      </dl>
+      {top.length > 0 && (
+        <ol class="top" aria-label="Top 3 countries" data-fw-top>
+          {top.map((c, i) => (
+            <li><span class="rank">{i + 1}</span><span class="flag" aria-hidden="true">{flagEmoji(c.code)}</span><span class="name">{c.name}</span><span class="lv">LV {c.level}</span></li>
+          ))}
+        </ol>
+      )}
+      <div class="ctas">
+        <a class="btn btn-accent" href={flagWarsUrl}>See the live map <span aria-hidden="true">→</span></a>
+        <a class="text-link" href={latest} rel="noopener">Comment on the latest episode <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <a class="globe" href={flagWarsUrl} aria-label="Open the Flag Wars live map">
+      <DotGlobe highlights={highlights} stateUrl={flagWarsStateUrl} />
+      <span class="globe-tag">Live map →</span>
+    </a>
+  </div>
+</section>
+<style>
+  .fw { padding-block: clamp(3.5rem, 8vw, 6.5rem); overflow: hidden; }
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(2rem, 5vw, 4rem); }
+  .title { font-size: clamp(2.4rem, 5.4vw, 4.4rem); font-weight: 800; letter-spacing: -0.045em; line-height: 0.98; margin: 0.8rem 0 1.2rem; }
+  .title span { color: var(--ww-moon); }
+  .live-dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: #ff4f7b; box-shadow: 0 0 0 0 rgb(255 79 123 / 0.6); animation: live 1.6s infinite; }
+  @keyframes live { 70% { box-shadow: 0 0 0 9px rgb(255 79 123 / 0); } 100% { box-shadow: 0 0 0 0 rgb(255 79 123 / 0); } }
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin: 1.8rem 0 1.2rem; }
+  .stats div { padding: 0.9rem 1rem; border: 1.5px solid var(--ww-night-rule); border-radius: var(--ww-radius); background: rgb(255 255 255 / 0.03); }
+  .stats dt { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  .stats dd { font-family: var(--ww-font-display); font-weight: 800; font-size: clamp(1.4rem, 2.6vw, 2rem); color: var(--ww-night-text); letter-spacing: -0.03em; }
+  .top { list-style: none; padding: 0.4rem 1rem; margin: 0 0 1.8rem; border: 2px solid var(--ww-moon); border-radius: var(--ww-radius); background: rgb(18 14 26 / 0.6); max-width: 26rem; }
+  .top li { display: flex; align-items: center; gap: 0.75rem; padding: 0.45rem 0; font-family: var(--ww-font-display); font-weight: 700; color: var(--ww-night-text); }
+  .top li + li { border-top: 1px solid var(--ww-night-rule); }
+  .rank { color: var(--ww-moon); width: 1.2rem; }
+  .flag { font-size: 1.3rem; line-height: 1; }
+  .name { flex: 1; letter-spacing: 0.02em; text-transform: uppercase; font-size: 0.95rem; }
+  .lv { color: #5fd0d3; font-size: 0.85rem; }
+  .ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; }
+  .globe { position: relative; display: block; text-decoration: none; }
+  .globe-tag {
+    position: absolute; right: 8%; bottom: 10%; padding: 0.45rem 0.9rem; border-radius: var(--ww-radius-pill);
+    background: var(--ww-moon); color: var(--ww-ink); font-weight: 800; font-size: 0.85rem; box-shadow: 0 3px 0 var(--ww-ink);
+    transition: transform var(--ww-dur) var(--ww-ease-spring);
+  }
+  .globe:hover .globe-tag { transform: translateY(-3px) rotate(-3deg); }
+  @media (max-width: 860px) {
+    .grid { grid-template-columns: 1fr; }
+    .globe { order: -1; max-width: 26rem; margin-inline: auto; width: 100%; }
+  }
+</style>
+<script>
+  // Hydrate numbers from the live state, if the subdomain answered.
+  document.addEventListener('flagwars:state', (e) => {
+    const s = (e as CustomEvent).detail as Record<string, unknown>;
+    const nf = new Intl.NumberFormat('en');
+    document.querySelectorAll<HTMLElement>('[data-fw]').forEach((el) => {
+      const v = s[el.dataset.fw!];
+      if (typeof v === 'number') el.textContent = el.dataset.fw === 'day' ? String(v) : nf.format(v);
+    });
+  });
+</script>

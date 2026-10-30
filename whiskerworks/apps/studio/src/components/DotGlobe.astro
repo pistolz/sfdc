@@ -1,0 +1,111 @@
+---
+/**
+ * Lightweight animated dot globe (Canvas 2D, ~2k dots). Conquered Flag Wars
+ * countries glow in their colour. Data is refreshed from the live subdomain.
+ */
+import dots from '../data/land-dots.json';
+interface Props { highlights: Record<string, string>; label?: string; stateUrl?: string }
+const { highlights, label = 'Animated globe showing the countries conquered so far in Flag Wars', stateUrl } = Astro.props;
+---
+<div class="dot-globe" data-dot-globe data-state-url={stateUrl}>
+  <canvas role="img" aria-label={label}></canvas>
+  <script type="application/json" set:html={JSON.stringify({ dots, highlights })}></script>
+</div>
+<style>
+  .dot-globe { position: relative; width: 100%; aspect-ratio: 1; touch-action: pan-y; cursor: grab; }
+  .dot-globe:active { cursor: grabbing; }
+  canvas { width: 100%; height: 100%; }
+</style>
+<script>
+  type Data = { dots: [number, number, string][]; highlights: Record<string, string> };
+  const RAD = Math.PI / 180;
+  for (const host of document.querySelectorAll<HTMLElement>('[data-dot-globe]')) {
+    const canvas = host.querySelector('canvas')!;
+    const ctx = canvas.getContext('2d')!;
+    const data = JSON.parse(host.querySelector('script')!.textContent!) as Data;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const pts = data.dots.map(([lon, lat, cc]) => {
+      const φ = lat * RAD, λ = lon * RAD;
+      return { x: Math.cos(φ) * Math.sin(λ), y: Math.sin(φ), z: Math.cos(φ) * Math.cos(λ), cc, seed: Math.random() * 6.28 };
+    });
+    let hl = data.highlights;
+    let rot = -85 * RAD; // start over the Americas (screen centre longitude = rot)
+    const tilt = -18 * RAD;
+    let vel = reduce ? 0 : 0.0022;
+    let dragging = false, lastX = 0, visible = true, raf = 0, W = 0, H = 0, dpr = 1;
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const r = canvas.getBoundingClientRect();
+      W = r.width; H = r.height;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    function draw(t: number) {
+      const R = Math.min(W, H) * 0.44, cx = W / 2, cy = H / 2;
+      ctx.clearRect(0, 0, W, H);
+      // atmosphere
+      const glow = ctx.createRadialGradient(cx, cy, R * 0.9, cx, cy, R * 1.22);
+      glow.addColorStop(0, 'rgba(79,195,201,0.35)'); glow.addColorStop(1, 'rgba(79,195,201,0)');
+      ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(cx, cy, R * 1.22, 0, 7); ctx.fill();
+      // ocean
+      const sea = ctx.createRadialGradient(cx - R * 0.35, cy - R * 0.4, R * 0.1, cx, cy, R);
+      sea.addColorStop(0, '#2b3f8f'); sea.addColorStop(1, '#0f1640');
+      ctx.fillStyle = sea; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.fill();
+      ctx.strokeStyle = 'rgba(122,214,220,0.55)'; ctx.lineWidth = 1.5; ctx.stroke();
+      const cr = Math.cos(rot), sr = Math.sin(rot), ct = Math.cos(tilt), st = Math.sin(tilt);
+      const base = Math.max(1.3, R / 105);
+      for (const p of pts) {
+        const x1 = p.x * cr - p.z * sr, z1 = p.x * sr + p.z * cr;
+        const y2 = p.y * ct - z1 * st, z2 = p.y * st + z1 * ct;
+        if (z2 <= 0.02) continue;
+        const sx = cx + x1 * R, sy = cy - y2 * R;
+        const c = hl[p.cc];
+        if (c) {
+          const pulse = reduce ? 1 : 1 + 0.25 * Math.sin(t / 420 + p.seed);
+          ctx.fillStyle = c; ctx.globalAlpha = 0.25 * z2;
+          ctx.beginPath(); ctx.arc(sx, sy, base * 2.6 * pulse, 0, 7); ctx.fill();
+          ctx.globalAlpha = 0.6 + 0.4 * z2;
+          ctx.beginPath(); ctx.arc(sx, sy, base * 1.35, 0, 7); ctx.fill();
+        } else {
+          ctx.fillStyle = '#5fd0d3'; ctx.globalAlpha = 0.25 + 0.7 * z2;
+          ctx.beginPath(); ctx.arc(sx, sy, base * (0.75 + 0.35 * z2), 0, 7); ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+      // specular
+      const spec = ctx.createRadialGradient(cx - R * 0.3, cy - R * 0.45, 0, cx - R * 0.3, cy - R * 0.45, R * 0.6);
+      spec.addColorStop(0, 'rgba(255,255,255,0.16)'); spec.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = spec; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.fill();
+    }
+    function loop(t: number) {
+      if (!dragging) { rot += vel; if (!reduce) vel += (0.0022 - vel) * 0.02; }
+      draw(t);
+      raf = visible && !document.hidden ? requestAnimationFrame(loop) : 0;
+    }
+    const start = () => { if (!raf) raf = requestAnimationFrame(loop); };
+    new ResizeObserver(() => { resize(); draw(performance.now()); }).observe(host);
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) start(); }).observe(host);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) start(); });
+    host.addEventListener('pointerdown', (e) => { dragging = true; lastX = e.clientX; host.setPointerCapture(e.pointerId); });
+    host.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const d = (e.clientX - lastX) / Math.max(W, 1) * 3.2; lastX = e.clientX; rot += d; vel = d * 0.5; start();
+    });
+    const up = () => { dragging = false; };
+    host.addEventListener('pointerup', up); host.addEventListener('pointercancel', up);
+    resize(); start();
+
+    // Live refresh from the subdomain (falls back silently to the build-time snapshot).
+    const url = host.dataset.stateUrl;
+    if (url) {
+      fetch(url, { cache: 'no-cache' })
+        .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+        .then((s: { leaderboard?: { code: string; color?: string }[] } & Record<string, unknown>) => {
+          if (s.leaderboard) hl = Object.fromEntries(s.leaderboard.map((c) => [c.code, c.color || '#ff4f7b']));
+          document.dispatchEvent(new CustomEvent('flagwars:state', { detail: s }));
+        })
+        .catch(() => {});
+    }
+  }
+</script>

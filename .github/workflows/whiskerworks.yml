@@ -1,0 +1,31 @@
+name: WhiskerWorks sites
+
+on:
+  push:
+    paths: ['whiskerworks/**', '.github/workflows/whiskerworks.yml']
+  pull_request:
+    paths: ['whiskerworks/**', '.github/workflows/whiskerworks.yml']
+
+defaults:
+  run:
+    working-directory: whiskerworks
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: whiskerworks/.nvmrc
+          cache: npm
+          cache-dependency-path: whiskerworks/package-lock.json
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sites
+          path: |
+            whiskerworks/apps/studio/dist
+            whiskerworks/apps/flagwars/dist

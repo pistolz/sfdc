@@ -1,0 +1,214 @@
+---
+import Base from '../layouts/Base.astro';
+import GameCard from '../components/GameCard.astro';
+import GameArt from '../components/GameArt.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import StoreButtons from '../components/StoreButtons.astro';
+import FlagWarsPromo from '../components/FlagWarsPromo.astro';
+import { getGames, getFeatured, moods, gameUrl, type Mood } from '../lib/games';
+import { site } from '../site.config';
+
+const games = await getGames();
+const featured = getFeatured(games);
+const live = games.filter((g) => g.data.status === 'live');
+const moodKeys = Object.keys(moods) as Mood[];
+const byMood = Object.fromEntries(moodKeys.map((m) => [m, games.filter((g) => g.data.mood === m).slice(0, 3)])) as Record<Mood, typeof games>;
+const intents = games.flatMap((g) => (g.data.keywords[0] ? [{ phrase: g.data.keywords[0], game: g }] : [])).slice(0, 9);
+
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: `${site.name} games`,
+  numberOfItems: games.length,
+  itemListElement: games.map((g, i) => ({ '@type': 'ListItem', position: i + 1, name: g.data.title, url: new URL(gameUrl(g), site.url).href })),
+};
+---
+<Base jsonLd={[itemList]}>
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="kicker">Independent game studio</p>
+        <h1 id="hero-title" class="display">Small games<br />with <span class="nine">nine lives</span>.</h1>
+        <p class="lede">We make replayable games for iPhone, Android and the web: quick to start, hard to put down, and never an ad. Not once.</p>
+        <div class="hero-actions">
+          <a class="btn" href="/games/">Browse all {games.length} games</a>
+          <a class="text-link" href="/series/">Play our live series <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      {featured && (
+        <article class="feature" style={`--accent:${featured.data.colors[0]}; --accent-2:${featured.data.colors[1]}`}>
+          <a class="feature-art" href={gameUrl(featured)} aria-label={`Explore ${featured.data.title}`}>
+            <GameArt game={featured} size={360} eager />
+          </a>
+          <div class="feature-meta">
+            <div class="feature-head">
+              <StatusBadge status={featured.data.status} />
+              <span class="feature-label">Featured</span>
+            </div>
+            <h2><a href={gameUrl(featured)}>{featured.data.title}</a></h2>
+            <p>{featured.data.tagline}</p>
+            <StoreButtons game={featured} compact campaign="web-home" />
+            {featured.data.links.web && <a class="text-link" href={featured.data.links.web}>Play free in your browser <span class="arrow" aria-hidden="true">→</span></a>}
+          </div>
+        </article>
+      )}
+    </div>
+    <svg class="hero-whiskers" viewBox="0 0 600 200" aria-hidden="true">
+      <path d="M10 60C200 20 400 30 590 90M0 110c200-20 400-10 600 30M20 160c190-10 380 10 560 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+    </svg>
+  </section>
+
+  <!-- MOOD PICKER -->
+  <section class="section rule-top" aria-labelledby="pick-title" data-picker>
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Find your next game</p>
+          <h2 id="pick-title" class="h2">What are you in the mood for?</h2>
+        </div>
+        <div class="chips" role="tablist" aria-label="Choose a mood">
+          {moodKeys.map((m, i) => (
+            <button class="chip" role="tab" type="button" id={`tab-${m}`} aria-controls={`pick-${m}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-tab={m}>
+              {moods[m].label}
+            </button>
+          ))}
+        </div>
+      </div>
+      {moodKeys.map((m) => (
+        <div class="panel" role="tabpanel" id={`pick-${m}`} aria-labelledby={`tab-${m}`} data-panel={m}>
+          <p class="panel-blurb"><b>{moods[m].label}.</b> {moods[m].blurb} <a class="text-link" href={`/games/?mood=${m}`}>All {moods[m].label.toLowerCase()} games <span class="arrow" aria-hidden="true">→</span></a></p>
+          <div class="game-grid">
+            {byMood[m].map((g, i) => <GameCard game={g} delay={i * 0.06} />)}
+          </div>
+        </div>
+      ))}
+
+      {intents.length > 0 && (
+        <div class="intents">
+          <h3 class="h3">Or search by what you want to play</h3>
+          <ul>
+            {intents.map(({ phrase, game }) => (
+              <li><a href={gameUrl(game)}><span>{phrase.charAt(0).toUpperCase() + phrase.slice(1)}</span><b>{game.data.title}</b></a></li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- PROMISE STRIP -->
+  <section class="promise" aria-label="Our promise">
+    <div class="container promise-row">
+      <p><strong>{games.length}</strong> games &amp; counting</p>
+      <p><strong>0</strong> ads, ever</p>
+      <p><strong>1</strong> live series you control</p>
+      <p><strong>No</strong> account needed</p>
+    </div>
+  </section>
+
+  <!-- LIVE SERIES -->
+  <FlagWarsPromo />
+
+  <!-- CATALOGUE PREVIEW -->
+  <section class="section" aria-labelledby="now-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Out now</p>
+          <h2 id="now-title" class="h2">Available to play today.</h2>
+        </div>
+        <p class="muted">Every game is free to start. Tap one to see how it plays, try it in your browser when there is a web version, and get it from there.</p>
+      </div>
+      <div class="game-grid">
+        {(live.length ? live : games).slice(0, 8).map((g, i) => <GameCard game={g} delay={(i % 4) * 0.06} />)}
+      </div>
+      <p class="more"><a class="btn btn-secondary" href="/games/">See all {games.length} games <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
+  <!-- STUDIO -->
+  <section class="section rule-top studio" aria-labelledby="studio-title">
+    <div class="container studio-grid">
+      <h2 id="studio-title" class="h2" data-reveal>Play first.<br />Pay only if it earns it.</h2>
+      <div class="stack" data-reveal style="--reveal-delay:.08s">
+        <p class="lede">Every WhiskerWorks game is free to start, with no ads, no fake timers and no energy bars. If a game earns a place on your phone, a single fair unlock gets you everything.</p>
+        <p><a class="text-link" href="/about/">How we make games <span class="arrow" aria-hidden="true">→</span></a></p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { position: relative; padding: clamp(2.5rem, 7vw, 6rem) 0 clamp(3rem, 7vw, 6rem); overflow: hidden; }
+  .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); align-items: center; gap: clamp(2rem, 5vw, 5rem); }
+  .hero-copy .display { margin: 1rem 0 1.4rem; }
+  .nine { position: relative; white-space: nowrap; color: var(--ww-ink); }
+  .nine::after {
+    content: ''; position: absolute; left: -0.08em; right: -0.08em; bottom: 0.04em; height: 0.32em; z-index: -1;
+    background: var(--ww-marmalade); border-radius: 0.2em; transform: rotate(-1.2deg);
+  }
+  .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.6rem; margin-top: 2rem; }
+  .hero-whiskers { position: absolute; left: -6rem; bottom: -3rem; width: 38rem; color: var(--ww-paper-3); pointer-events: none; }
+
+  .feature { border: 2px solid var(--ww-ink); border-radius: var(--ww-radius-lg); overflow: hidden; background: var(--ww-ink); box-shadow: 10px 10px 0 var(--accent); transform: rotate(1.2deg); transition: transform var(--ww-dur-slow) var(--ww-ease-spring); }
+  .feature:hover { transform: rotate(0deg) translateY(-4px); }
+  .feature-art { display: grid; place-items: center; padding: clamp(1.5rem, 4vw, 2.5rem); background: radial-gradient(circle at 50% 40%, color-mix(in oklab, var(--accent-2) 40%, var(--ww-paper)), var(--ww-paper-2) 70%); }
+  .feature-art :global(.game-art) { width: min(78%, 17rem); animation: float 6s ease-in-out infinite; }
+  @keyframes float { 50% { transform: translateY(-10px) rotate(-2deg); } }
+  .feature-meta { padding: 1.3rem 1.4rem 1.5rem; color: var(--ww-night-muted); display: grid; gap: 0.75rem; }
+  .feature-head { display: flex; align-items: center; justify-content: space-between; }
+  .feature-label { font-family: var(--ww-font-display); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ww-moon); }
+  .feature h2 { font-size: 2rem; color: var(--ww-paper); }
+  .feature h2 a { text-decoration: none; }
+  .feature :global(.text-link) { color: var(--ww-paper); }
+
+  .panel-blurb { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1rem; margin-bottom: 1.4rem; }
+  .panel-blurb b { color: var(--ww-ink); }
+  .js .panel[hidden] { display: none; }
+  .no-js .panel + .panel { margin-top: 3rem; }
+
+  .intents { margin-top: clamp(3rem, 6vw, 4.5rem); }
+  .intents ul { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); gap: 0 2rem; }
+  .intents a { display: flex; justify-content: space-between; gap: 1rem; padding: 0.8rem 0; border-top: 1.5px solid var(--ww-rule); text-decoration: none; }
+  .intents a:hover span { text-decoration: underline; text-decoration-color: var(--ww-marmalade); text-decoration-thickness: 2px; }
+  .intents b { color: var(--ww-ink-3); font-weight: 600; font-size: 0.92rem; white-space: nowrap; }
+
+  .promise { border-block: 2px solid var(--ww-ink); background: var(--ww-marmalade); color: var(--ww-ink); }
+  .promise-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem; padding-block: 1.1rem; font-weight: 600; }
+  @media (max-width: 600px) { .promise-row { display: grid; grid-template-columns: 1fr 1fr; } }
+  .promise strong { font-family: var(--ww-font-display); font-weight: 800; font-size: 1.3rem; margin-right: 0.3rem; }
+
+  .more { margin-top: 2.5rem; text-align: center; }
+  .studio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 4rem; align-items: start; }
+
+  @media (max-width: 860px) {
+    .hero-grid, .studio-grid { grid-template-columns: 1fr; }
+    .feature { transform: none; box-shadow: 6px 6px 0 var(--accent); max-width: 28rem; }
+  }
+</style>
+
+<script>
+  // Accessible tabs for the mood picker (all panels stay visible without JS).
+  const root = document.querySelector<HTMLElement>('[data-picker]');
+  if (root) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-tab]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-panel]')];
+    const select = (i: number, focus = false) => {
+      tabs.forEach((t, j) => { t.setAttribute('aria-selected', String(i === j)); t.tabIndex = i === j ? 0 : -1; });
+      panels.forEach((p, j) => {
+        p.hidden = i !== j;
+        if (i === j) p.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('is-in'));
+      });
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => select(i));
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') select((i + 1) % tabs.length, true);
+        if (e.key === 'ArrowLeft') select((i - 1 + tabs.length) % tabs.length, true);
+      });
+    });
+    select(0);
+  }
+</script>
