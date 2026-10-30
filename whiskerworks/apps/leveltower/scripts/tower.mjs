@@ -15,6 +15,16 @@
  *        comments: columns id,handle,text,timestamp — the world is read from the text
  *        likes:    one row per like (handle column), or JSON { "likes": 123 }
  *   node scripts/tower.mjs match "<comment text>"             test the world parser
+ *
+ *   Custom requests (comments that name no known world are kept in data/requests.json):
+ *   node scripts/tower.mjs requests                           list them, numbered
+ *   OPTION 1 · custom label on an existing look (instant):
+ *   node scripts/tower.mjs custom "<Label>" <@handle> --like <world> [--emoji 🟡] [--floor n] [--day d]
+ *   node scripts/tower.mjs custom --request <n> --like <world> [--label "…"] [--emoji 🟡] [--floor n]
+ *   OPTION 2 · a brand-new world (own colours, aliases, props; then add a "kit" in src/themes.json if wanted):
+ *   node scripts/tower.mjs world-new <id> "<Name>" --like <world> [--emoji 🟡] [--colors top,rim,rock,accent]
+ *                                    [--aliases "a,b,c"] [--from-label "<Label>"]   (--from-label upgrades option-1 floors)
+ *   node scripts/tower.mjs add <world> <@handle> [--floor n] [--day d]   (--floor reserves that floor number)
  *   node scripts/tower.mjs day <n> | next-day
  *   node scripts/tower.mjs episode --day d --title "…" [--summary "…"] [--date YYYY-MM-DD]
  *                                  [--instagram url] [--tiktok url] [--youtube url] [--latest]
@@ -33,13 +43,14 @@ const P = {
   series: join(root, "data/series.json"),
   optout: join(root, "data/optout.json"),
   themes: join(root, "src/themes.json"),
+  requests: join(root, "data/requests.json"),
   state: join(root, "public/data/state.json"),
 };
 const readJSON = (f, d) => (existsSync(f) ? JSON.parse(readFileSync(f, "utf8")) : d);
 const writeJSON = (f, v, pretty = true) => { mkdirSync(dirname(f), { recursive: true }); writeFileSync(f, JSON.stringify(v, null, pretty ? 2 : 0) + "\n"); };
 const die = (m) => { console.error(`✖ ${m}`); process.exit(1); };
 
-const THEMES = readJSON(P.themes, []);
+let THEMES = readJSON(P.themes, []);
 const BASE = "grassland";
 const DEFAULT_SERIES = {
   name: "Level Tower",
@@ -57,7 +68,8 @@ const fold = (s) => String(s).normalize("NFD").replace(/\p{M}/gu, "").toLowerCas
 
 /* ---------------------------------------------------------------- world parser */
 const aliasList = [];
-for (const t of THEMES) for (const a of new Set([t.id, t.name, ...t.aliases])) aliasList.push([fold(a), t.id]);
+const normAlias = (a) => fold(a).replace(/[^\p{L}\p{N}\p{Extended_Pictographic}‍️\s]/gu, " ").replace(/\s+/g, " ").trim();
+for (const t of THEMES) for (const a of new Set([t.id, t.name, ...t.aliases])) if (normAlias(a)) aliasList.push([normAlias(a), t.id]);
 aliasList.sort((a, b) => b[0].length - a[0].length); // longest alias first ("neon city" before "city")
 /** Returns the theme id named in a comment (emoji or word, en/fr/es/de), or null. Earliest mention wins. */
 export function parseWorld(text) {
@@ -96,14 +108,24 @@ function buildState() {
   const hIndex = new Map();
   const hid = (h) => { if (!hIndex.has(h)) { hIndex.set(h, handles.length); handles.push(h); } return hIndex.get(h); };
   const floors = [];
+  const labels = {};
   const rotation = THEMES.map((t) => t.id).filter((id) => id !== BASE);
+  // Reserved floors ("--floor n"): the first pick for a number gets it; everything else fills free floors in order.
+  const pinned = new Map();
+  const free = [];
+  for (const p of picks) { const f = Number(p.floor); if (f >= 2 && !pinned.has(f)) pinned.set(f, p); else free.push(p); }
+  const queueAt = [];
+  const use = (p, f) => { if (p.label) labels[f] = { name: p.label, emoji: p.emoji || THEMES[tIndex.get(p.theme)].emoji }; };
   for (let f = 1; f <= floorsCount; f++) {
     if (f === 1) { floors.push([tIndex.get(BASE), -1, floorDay[0], 0]); continue; }
-    const p = picks[f - 2];
-    if (p) floors.push([tIndex.get(p.theme), hid(showName(cleanHandle(p.handle))), floorDay[f - 1], p.day ?? floorDay[f - 1]]);
+    const p = pinned.get(f) ?? free.shift();
+    if (p) { floors.push([tIndex.get(p.theme), hid(showName(cleanHandle(p.handle))), floorDay[f - 1], p.day ?? floorDay[f - 1]]); use(p, f); }
     else floors.push([tIndex.get(rotation[(f * 7) % rotation.length]), -1, floorDay[f - 1], 0]);
   }
-  const queue = picks.slice(Math.max(0, floorsCount - 1)).map((p, i) => ({ handle: showName(cleanHandle(p.handle)), theme: p.theme, floor: floorsCount + 1 + i, day: p.day }));
+  // Queue: reserved floors above the top, then free picks on the next unclaimed floors.
+  for (const [f, p] of pinned) if (f > floorsCount) queueAt.push([f, p]);
+  for (let f = floorsCount + 1; free.length; f++) if (!pinned.has(f)) queueAt.push([f, free.shift()]);
+  const queue = queueAt.sort((a, b) => a[0] - b[0]).map(([f, p]) => ({ handle: showName(cleanHandle(p.handle)), theme: p.theme, ...(p.label ? { label: p.label } : {}), floor: f, day: p.day }));
 
   // per-handle floor counts → top builders
   const count = new Map();
@@ -131,7 +153,8 @@ function buildState() {
       likesToday: byDay.get(S.day) || 0,
     },
     rules: { base: BASE, floorsPerLike: 1 },
-    themes: THEMES.map(({ id, name, emoji, top, rim, rock, accent }) => ({ id, name, emoji, top, rim, rock, accent })),
+    themes: THEMES.map(({ id, name, emoji, top, rim, rock, accent, base, kit }) => ({ id, name, emoji, top, rim, rock, accent, ...(base ? { base } : {}), ...(kit ? { kit } : {}) })),
+    labels,
     /** floors[i] = floor i+1 as [themeIndex, handleIndex (-1 = nobody), dayBuilt, dayPicked] */
     floors,
     handles,
@@ -143,7 +166,7 @@ function buildState() {
       headline: "1 LIKE = 1 FLOOR",
       stat: floorsCount,
       statLabel: "floors",
-      top: latestPicked.map(([i, f]) => ({ label: `Floor ${i + 1} · ${THEMES[f[0]].name}`, sub: `@${handles[f[1]]}` })),
+      top: latestPicked.map(([i, f]) => ({ label: `Floor ${i + 1} · ${labels[i + 1]?.name ?? THEMES[f[0]].name}`, sub: `@${handles[f[1]]}` })),
     },
   };
   writeJSON(P.state, state, false);
@@ -240,9 +263,10 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
       if (!worldArg || !handleArg) die("usage: add <world> <@handle> [--day d]");
       const theme = parseWorld(worldArg); if (!theme) die(`unknown world "${worldArg}" — try: ${THEMES.map((t) => t.id).join(", ")}`);
       const L = ledger(); const day = Number(flag("day", series().day));
-      L.picks.push({ id: `manual-${Date.now()}`, handle: cleanHandle(handleArg), theme, text: worldArg, day, ts: new Date().toISOString(), source: "manual" });
+      const floor = flag("floor") ? Number(flag("floor")) : undefined;
+      L.picks.push({ id: `manual-${Date.now()}`, handle: cleanHandle(handleArg), theme, text: worldArg, day, ts: new Date().toISOString(), source: "manual", ...(floor ? { floor } : {}) });
       writeJSON(P.ledger, L); buildState();
-      console.log(`✔ @${cleanHandle(handleArg)} picked ${theme} (day ${day})`);
+      console.log(`✔ @${cleanHandle(handleArg)} picked ${theme}${floor ? ` for floor ${floor}` : ""} (day ${day})`);
       break;
     }
     case "import": {
@@ -266,14 +290,72 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
         if (seen.has(id)) { dup++; continue; }
         const text = r.text ?? r.comment ?? r.body ?? "";
         const theme = parseWorld(text);
-        if (!theme) { unmatched.push(text); continue; }
+        if (!theme) { unmatched.push({ id, handle: cleanHandle(r.handle || r.username || r.user), text: String(text).slice(0, 140), day, ts: r.timestamp || r.ts || new Date().toISOString() }); continue; }
         seen.add(id);
         L.picks.push({ id, handle: cleanHandle(r.handle || r.username || r.user), theme, text: String(text).slice(0, 140), day, ts: r.timestamp || r.ts || new Date().toISOString(), source: "import" });
         added++;
       }
-      if (!has("dry-run")) { writeJSON(P.ledger, L); buildState(); }
-      console.log(`✔ ${added} world pick(s) ${has("dry-run") ? "would be " : ""}added, ${dup} duplicate(s) skipped, ${unmatched.length} comment(s) without a world`);
-      if (unmatched.length) console.log("  unmatched sample:", unmatched.slice(0, 8).map((t) => JSON.stringify(String(t).slice(0, 60))).join(", "));
+      if (!has("dry-run")) {
+        writeJSON(P.ledger, L);
+        const reqs = readJSON(P.requests, []); const known = new Set(reqs.map((q) => q.id));
+        for (const u of unmatched) if (!known.has(u.id)) reqs.push(u);
+        writeJSON(P.requests, reqs); buildState();
+      }
+      console.log(`✔ ${added} world pick(s) ${has("dry-run") ? "would be " : ""}added, ${dup} duplicate(s) skipped, ${unmatched.length} comment(s) without a known world`);
+      if (unmatched.length) console.log(`  ${has("dry-run") ? "would be " : ""}kept in data/requests.json → review with: requests`, "\n  e.g.", unmatched.slice(0, 6).map((u) => JSON.stringify(u.text.slice(0, 50))).join(", "));
+      break;
+    }
+    case "requests": {
+      const reqs = readJSON(P.requests, []);
+      if (!reqs.length) { console.log("No pending requests."); break; }
+      reqs.forEach((q, i) => console.log(`${String(i + 1).padStart(3)}. day ${q.day} @${q.handle.padEnd(22)} ${JSON.stringify(q.text)}`));
+      console.log(`\nOption 1: custom --request <n> --like <world> [--label "…"] [--floor n]\nOption 2: world-new <id> "<Name>" --like <world> …  then  add <id> @handle\nIgnore:   dismiss <n>`);
+      break;
+    }
+    case "dismiss": {
+      const reqs = readJSON(P.requests, []); const n = Number(positional[0]);
+      if (!reqs[n - 1]) die("usage: dismiss <n> (see: requests)");
+      const [q] = reqs.splice(n - 1, 1); writeJSON(P.requests, reqs);
+      console.log(`✔ dismissed ${JSON.stringify(q.text)} by @${q.handle}`);
+      break;
+    }
+    case "custom": {
+      const like = flag("like"); const theme = like && parseWorld(like);
+      if (!theme) die(`--like <world> is required (one of: ${THEMES.map((t) => t.id).join(", ")})`);
+      const L = ledger(); const reqs = readJSON(P.requests, []);
+      let label, handle, day = Number(flag("day", series().day)), id = `custom-${Date.now()}`, ts = new Date().toISOString(), text;
+      if (flag("request")) {
+        const n = Number(flag("request")); const q = reqs[n - 1]; if (!q) die("unknown request number (see: requests)");
+        label = flag("label", q.text); handle = q.handle; day = q.day; id = q.id; ts = q.ts; text = q.text;
+        reqs.splice(n - 1, 1); writeJSON(P.requests, reqs);
+      } else {
+        [label, handle] = positional; if (!label || !handle) die('usage: custom "<Label>" <@handle> --like <world> [--emoji 🟡] [--floor n]');
+        text = label;
+      }
+      const floor = flag("floor") ? Number(flag("floor")) : undefined;
+      L.picks.push({ id, handle: cleanHandle(handle), theme, label: String(label).slice(0, 32), ...(flag("emoji") ? { emoji: flag("emoji") } : {}), text, day, ts, source: "custom", ...(floor ? { floor } : {}) });
+      writeJSON(P.ledger, L); buildState();
+      console.log(`✔ @${cleanHandle(handle)} → "${label}" (looks like ${theme})${floor ? ` on floor ${floor}` : ""}`);
+      break;
+    }
+    case "world-new": {
+      const [idArg, name] = positional; const like = flag("like"); const base = like && parseWorld(like);
+      const id = String(idArg || "").toLowerCase().replace(/[^a-z0-9-]/g, "");
+      if (!id || !name || !base) die('usage: world-new <id> "<Name>" --like <world> [--emoji 🟡] [--colors top,rim,rock,accent] [--aliases "a,b"] [--from-label "<Label>"]');
+      if (THEMES.some((t) => t.id === id)) die(`world "${id}" already exists`);
+      const b = THEMES.find((t) => t.id === base);
+      const [top, rim, rock, accent] = (flag("colors", "") || "").split(",").map((c) => c.trim()).filter(Boolean);
+      const aliases = [...new Set([id, fold(name), ...String(flag("aliases", "")).split(",").map((a) => fold(a.trim())).filter(Boolean)])];
+      const theme = { id, name, emoji: flag("emoji", b.emoji), top: top || b.top, rim: rim || b.rim, rock: rock || b.rock, accent: accent || b.accent, base: b.base ?? b.id, aliases };
+      THEMES = [...THEMES, theme]; writeJSON(P.themes, THEMES);
+      let moved = 0;
+      if (flag("from-label")) {
+        const want = fold(flag("from-label")); const L = ledger();
+        for (const p of L.picks) if (p.label && fold(p.label) === want) { p.theme = id; delete p.label; delete p.emoji; moved++; }
+        writeJSON(P.ledger, L);
+      }
+      console.log(`✔ new world "${name}" (${id}) based on ${theme.base}${moved ? `, ${moved} custom floor(s) upgraded` : ""}.`);
+      console.log(`  Run "build" (or any command) to publish. For unique props, add a "kit" to it in src/themes.json (see README).`);
       break;
     }
     case "match": {

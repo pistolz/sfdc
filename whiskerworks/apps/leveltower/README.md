@@ -50,6 +50,49 @@ npm run build -w @whiskerworks/leveltower
 - Floors nobody picked get a rotating world ("open world").
 - Worlds live in `src/themes.json` (id, colours, aliases, emoji). Add aliases there to teach the parser new words.
 
+## Custom requests: you choose the path each time
+
+Comments that name no known world ("pac-man theme please", "minecraft floor"…) are not lost. `import` keeps them in
+`data/requests.json`.
+
+```bash
+npm run tower -- requests        # list them, numbered
+```
+
+For each one, pick a path:
+
+| Path | Command | Result | Time |
+| --- | --- | --- | --- |
+| **Option 1 · custom label** | `npm run tower -- custom --request 1 --like neon --label "Arcade Maze" --emoji 🟡` | The floor sign, panel and search show "Arcade Maze" and the commenter's name; the island borrows the look of an existing world (`--like`). | instant |
+| **Option 2 · new world** | `npm run tower -- world-new arcade-maze "Arcade Maze" --like neon --emoji 🟡 --colors "#1b1b6b,#2a2aa0,#11113d,#ffd23f" --aliases "maze,arcade" --from-label "Arcade Maze"` | A real world with its own colours and aliases (future comments are recognised automatically). `--from-label` upgrades the option-1 floors that used that name. | 1 min |
+| Option 2+ · unique props | add a `"kit"` to the world in `src/themes.json` (below) | Its own 3D props instead of the borrowed ones. | 5–15 min |
+| Ignore | `npm run tower -- dismiss 1` | | |
+
+Add `--floor 5` to `custom` or `add` to **reserve a specific floor** ("make floor 5 …"). The first request for a number
+gets it, and the floor waits in the queue until the likes reach it. You can also type a label directly:
+`custom "Block World" @zed --like grassland --emoji 🧱`.
+
+### Kit: a world's 3D props in JSON (no code)
+
+```json
+{ "id": "arcade-maze", "name": "Arcade Maze", "emoji": "🟡", "top": "#1b1b6b", "rim": "#2a2aa0", "rock": "#11113d", "accent": "#ffd23f",
+  "base": "neon", "aliases": ["arcade maze", "maze", "arcade"],
+  "kit": [
+    { "shape": "pillar", "color": "#1b1b6b", "color2": "#3d5bff", "count": 5, "glow": 1.3 },
+    { "shape": "dots", "color": "#ffe9a8", "count": 2, "glow": 0.8 },
+    { "shape": "orb", "color": "#ffd23f", "size": 1.3 },
+    { "shape": "star", "color": "#fff3b0" }
+  ] }
+```
+
+- **Shapes:** `pine`, `tree`, `rock`, `house`, `crystal`, `pillar`, `orb`, `ring`, `pyramid`, `cone`, `cube`, `pool`,
+  `dots`, `arch`, `star`, `waterfall`.
+- **Options:** `color`, `color2` (roof / cap / top), `count` (max 12), `size`, `glow` (0–2).
+- **Ready-made example:** the `arcade-maze` world ships with a kit, and `@joey.arcade` has it on floor 5. `@zed` shows option 1 ("Block World").
+- **Exact match with a video:** if a video floor is modelled in 3D, export it as `.glb` and ask for it to be loaded for that world.
+  That is the only way to get a pixel-identical floor.
+- **Trademarks:** keep custom worlds generic ("Arcade Maze", "Block World"), not brand names (Pac-Man, Minecraft…).
+
 ## Data
 
 - `data/ledger.json`: the source of truth, `{ likes: [{day, count}], picks: [{id, handle, theme, text, day, ts, source}] }`. Not published.

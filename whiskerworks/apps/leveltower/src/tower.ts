@@ -4,7 +4,7 @@
  * and themed props are only built for the floors near the camera (LOD), so thousands of floors stay smooth.
  */
 import * as THREE from "three";
-import type { TowerState, Theme } from "./types";
+import type { TowerState, Theme, KitItem } from "./types";
 
 export const FLOOR_H = 5.2; // vertical distance between floors
 const ISLAND_R = 4;
@@ -102,7 +102,36 @@ function buildProps(theme: Theme, floor: number, add: Add, r: number) {
     add(G.disc, "#7fd6ff", Math.cos(a) * (r - 0.55), top - 0.02, Math.sin(a) * (r - 0.55), 0.55, 1, 0.55, 0, 0.1);
   };
 
-  switch (theme.id) {
+  // Custom worlds: a JSON "kit" of generic props, or the props of an existing world ("base").
+  if (theme.kit?.length) {
+    for (const k of theme.kit) kitItem(k);
+    return;
+  }
+  function kitItem(k: KitItem) {
+    const n = Math.max(1, Math.min(k.count ?? 1, 12)), sz = k.size ?? 1, glow = k.glow ?? 0, c2 = k.color2 ?? k.color;
+    for (let i = 0; i < n; i++) {
+      switch (k.shape) {
+        case "pine": pine(k.color); break;
+        case "tree": roundTree(k.color); break;
+        case "rock": rock(k.color, (0.35 + rnd() * 0.35) * sz); break;
+        case "house": house(k.color, c2); break;
+        case "crystal": crystal(k.color, glow || 0.35); break;
+        case "waterfall": waterfall(); break;
+        case "pillar": { const [x, z] = spot(1.7, r - 0.6, 0.85); const h = (0.8 + rnd() * 1.8) * sz; add(G.box, k.color, x, top + h / 2, z, 0.55 * sz, h, 0.55 * sz); if (c2 !== k.color || glow) add(G.box, c2, x, top + h + 0.04, z, 0.6 * sz, 0.08, 0.6 * sz, 0, glow || 1.2, "pulse"); break; }
+        case "orb": { const [x, z] = spot(); add(G.sphere, k.color, x, top + 0.35 * sz, z, 0.35 * sz, 0.35 * sz, 0.35 * sz, 0, glow, glow ? "pulse" : ""); break; }
+        case "ring": { const [x, z] = spot(1.8, r - 0.8, 1); add(G.torus, k.color, x, top + 0.6 * sz, z, 0.5 * sz, 0.5 * sz, 0.5 * sz, rnd() * 3, glow); break; }
+        case "pyramid": { const [x, z] = spot(2, r - 1, 1.5); add(G.cone4, k.color, x, top + 0.7 * sz, z, sz, 1.4 * sz, sz, Math.PI / 4); break; }
+        case "cone": { const [x, z] = spot(); add(G.cone6, k.color, x, top + 0.5 * sz, z, 0.4 * sz, sz, 0.4 * sz, rnd() * 3, glow); break; }
+        case "cube": { const [x, z] = spot(); const s2 = (0.3 + rnd() * 0.3) * sz; add(G.box, k.color, x, top + s2 / 2, z, s2, s2, s2, rnd() * 3, glow, glow ? "pulse" : ""); break; }
+        case "pool": { const [x, z] = spot(1.8, r - 1, 1.3); add(G.disc, k.color, x, top - 0.01, z, 0.9 * sz, 1, 0.9 * sz, 0, glow || 0.4, glow ? "pulse" : ""); break; }
+        case "dots": { const ring = 1.6 + rnd() * (r - 2.2); for (let d = 0; d < 10; d++) { const a = (d / 10) * Math.PI * 2; add(G.sphere, k.color, Math.cos(a) * ring, top + 0.15, Math.sin(a) * ring, 0.09 * sz, 0.09 * sz, 0.09 * sz, 0, glow || 0.6); } break; }
+        case "arch": { const [x, z] = spot(2.2, r - 1, 1.5); const ry = Math.atan2(x, z); add(G.box, k.color, x - Math.cos(ry) * 0.5 * sz, top + 0.6 * sz, z + Math.sin(ry) * 0.5 * sz, 0.12, 1.2 * sz, 0.12, ry); add(G.box, k.color, x + Math.cos(ry) * 0.5 * sz, top + 0.6 * sz, z - Math.sin(ry) * 0.5 * sz, 0.12, 1.2 * sz, 0.12, ry); add(G.box, c2, x, top + 1.25 * sz, z, 1.4 * sz, 0.12, 0.16, -ry + Math.PI / 2, glow); break; }
+        case "star": add(G.octa, k.color, (rnd() - 0.5) * 2, 2.8 + rnd(), (rnd() - 0.5) * 2, 0.3 * sz, 0.45 * sz, 0.3 * sz, 0, glow || 0.9, "pulse"); break;
+      }
+    }
+  }
+
+  switch (theme.base ?? theme.id) {
     case "grassland":
       for (let k = 0; k < 4; k++) pine(rnd() < 0.5 ? "#3fae5c" : "#56c26a");
       for (let k = 0; k < 2; k++) roundTree("#c8e06a");

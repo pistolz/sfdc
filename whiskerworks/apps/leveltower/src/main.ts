@@ -35,7 +35,11 @@ function webglAvailable() {
   try { const c = document.createElement("canvas"); return !!(c.getContext("webgl2") || c.getContext("webgl")); } catch { return false; }
 }
 
-const themeOf = (floor: number): Theme => state.themes[state.floors[floor - 1]?.[0] ?? 0];
+const themeOf = (floor: number): Theme => {
+  const t = state.themes[state.floors[floor - 1]?.[0] ?? 0];
+  const c = state.labels?.[String(floor)];
+  return c ? { ...t, name: c.name, emoji: c.emoji || t.emoji } : t;
+};
 const pickerOf = (floor: number): string | null => { const h = state.floors[floor - 1]?.[1] ?? -1; return h >= 0 ? state.handles[h] : null; };
 
 async function boot() {
@@ -125,6 +129,7 @@ function index() {
   for (const qd of state.queue) if (!byHandle.has(qd.handle)) byHandle.set(qd.handle, []);
   items = [
     ...state.themes.map((t) => ({ kind: "theme" as const, key: t.id, label: `${t.emoji} ${t.name}`, sub: `${fmt(byTheme.get(t.id)?.length ?? 0)} floors`, terms: [normalize(t.name), t.id] })),
+    ...Object.entries(state.labels ?? {}).map(([f, c]) => ({ kind: "floor" as const, key: f, label: `${c.emoji} ${c.name}`, sub: `Floor ${fmt(Number(f))}${pickerOf(Number(f)) ? ` · @${pickerOf(Number(f))}` : ""}`, terms: [normalize(c.name)] })),
     ...[...byHandle].filter(([h]) => h !== "anonymous").map(([h, fl]) => ({ kind: "handle" as const, key: h, label: `@${h}`, sub: fl.length ? `${fl.length} floor${fl.length === 1 ? "" : "s"} · top #${Math.max(...fl)}` : "In the queue", terms: [h] })),
   ];
 }
@@ -161,7 +166,7 @@ function renderStatic() {
     </button>`).join("");
 
   $("sr-list").innerHTML = state.floors.map((f, i) => ({ f, n: i + 1 })).filter(({ f }) => f[1] >= 0).slice(-30).reverse()
-    .map(({ f, n }) => `<li>Floor ${n}: ${esc(state.themes[f[0]].name)}, picked by @${esc(state.handles[f[1]])}</li>`).join("");
+    .map(({ f, n }) => `<li>Floor ${n}: ${esc(themeOf(n).name)}, picked by @${esc(state.handles[f[1]])}</li>`).join("");
 
   $("episode-list").innerHTML = state.episodes.map((e) => `
     <li class="episode">
@@ -248,7 +253,7 @@ function placeLabels() {
     const next = ghost ? state.queue[0] : undefined;
     const nextTheme = next && state.themes.find((t) => t.id === next.theme);
     const html = ghost
-      ? `<b>Floor ${fmt(f)} · ${nextTheme ? esc(nextTheme.name) : "Your pick?"}</b><span>${next ? `next up: @${esc(next.handle)}` : esc(who)}</span>`
+      ? `<b>Floor ${fmt(f)} · ${next?.label ? esc(next.label) : nextTheme ? esc(nextTheme.name) : "Your pick?"}</b><span>${next ? `next up: @${esc(next.handle)}` : esc(who)}</span>`
       : `<b>Floor ${fmt(f)} · ${esc(th!.name)}</b><span>${esc(who)}</span>`;
     if (el.dataset.html !== html) { el.innerHTML = html; el.dataset.html = html; }
     el.classList.toggle("is-selected", isSel);
@@ -384,7 +389,7 @@ function renderPanel() {
         <button type="button" class="btn btn-ghost" data-floor="${Math.max(1, f - 1)}" ${f <= 1 ? "disabled" : ""}>↓ Floor ${fmt(Math.max(1, f - 1))}</button>
         <button type="button" class="btn btn-ghost" data-floor="${Math.min(n, f + 1)}" ${f >= n ? "disabled" : ""}>Floor ${fmt(Math.min(n, f + 1))} ↑</button>
       </div>
-      ${commentBox(th)}`;
+      ${commentBox(state.themes[state.floors[f - 1][0]])}`;
   } else if (selected.kind === "handle") {
     const h = selected.key;
     const floors = byHandle.get(h);
@@ -410,9 +415,9 @@ function renderPanel() {
       ${top ? `<button type="button" class="founder" data-floor="${top}">
           <span class="founder-tag">Floor ${fmt(top)} · ${esc(themeOf(top).name)}</span><span class="founder-handle">@${esc(h)}</span><span class="founder-sub">your highest floor</span>
         </button>` : ""}
-      ${queued.length ? `<div class="queue">${queued.map((q) => `<p>⏳ <b>${esc(state.themes.find((t) => t.id === q.theme)?.name ?? q.theme)}</b> is in the queue for floor ${fmt(q.floor)} — ${fmt(q.floor - n)} more like${q.floor - n === 1 ? "" : "s"} to go.</p>`).join("")}</div>` : ""}
+      ${queued.length ? `<div class="queue">${queued.map((q) => `<p>⏳ <b>${esc(q.label ?? state.themes.find((t) => t.id === q.theme)?.name ?? q.theme)}</b> is in the queue for floor ${fmt(q.floor)} — ${fmt(q.floor - n)} more like${q.floor - n === 1 ? "" : "s"} to go.</p>`).join("")}</div>` : ""}
       ${floors.length ? `<h3 class="p-h3">Your floors</h3>${floorButtons(floors)}` : ""}
-      ${commentBox(themeOf(top || 1))}
+      ${commentBox(state.themes[state.floors[(top || 1) - 1][0]])}
       <p class="fine">Not you, or want your name off? <a href="mailto:bonjour@tazgo.ca?subject=Level%20Tower%20opt-out">Message us</a>.</p>`;
   } else {
     const th = state.themes.find((t) => t.id === selected!.key)!;
