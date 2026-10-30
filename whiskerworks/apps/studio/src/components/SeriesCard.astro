@@ -55,14 +55,16 @@ const [n1, ...w1] = left.split(' ');
   .rule a::after { content: ''; position: absolute; inset: 0; z-index: 0; }
   .rule em { font-style: normal; color: var(--acc); }
   .blurb { color: rgb(255 255 255 / 0.88); font-size: 0.98rem; }
-  .live { display: grid; gap: 0.5rem; padding: 0.8rem 1rem; border-radius: var(--ww-radius); background: rgb(0 0 0 / 0.32); border: 1.5px solid rgb(255 255 255 / 0.25); }
+  .live { min-width: 0; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.5rem; padding: 0.8rem 1rem; border-radius: var(--ww-radius); background: rgb(0 0 0 / 0.32); border: 1.5px solid rgb(255 255 255 / 0.25); }
   .stat b { font-family: var(--ww-font-display); font-size: 1.5rem; letter-spacing: -0.03em; color: var(--acc); }
+  .stat { overflow-wrap: anywhere; }
   .stat span { font-weight: 600; opacity: 0.9; }
   .podium { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.2rem; counter-reset: p; }
-  .podium li { display: flex; gap: 0.5rem; align-items: baseline; font-weight: 700; counter-increment: p; }
-  .podium li::before { content: counter(p); font-family: var(--ww-font-display); color: var(--acc); width: 1rem; }
-  .podium span { flex: 0 0 auto; max-width: 62%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .podium small { flex: 1 1 0; min-width: 0; text-align: right; opacity: 0.75; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .podium :global(li) { display: grid; grid-template-columns: 1.1rem minmax(0, 1fr); column-gap: 0.5rem; align-items: baseline; font-weight: 700; counter-increment: p; line-height: 1.25; }
+  .podium :global(li + li) { margin-top: 0.3rem; }
+  .podium :global(li)::before { content: counter(p); grid-row: span 2; font-family: var(--ww-font-display); color: var(--acc); }
+  .podium :global(span), .podium :global(small) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .podium :global(small) { grid-column: 2; opacity: 0.75; font-weight: 600; font-size: 0.8rem; }
   .find { position: relative; z-index: 1; display: flex; gap: 0.4rem; margin-top: auto; }
   .find input { flex: 1; min-width: 0; min-height: 2.75rem; padding: 0 1rem; border-radius: var(--ww-radius-pill); border: 2px solid rgb(255 255 255 / 0.6); background: rgb(0 0 0 / 0.35); color: #fff; font-weight: 600; }
   .find input::placeholder { color: rgb(255 255 255 / 0.65); }
@@ -92,11 +94,21 @@ const [n1, ...w1] = left.split(' ');
     if (!url) return;
     fetch(url, { cache: 'no-cache' })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((st: { day?: number; preview?: { stat?: number | string; statLabel?: string } }) => {
+      .then((st: { day?: number; preview?: { stat?: number | string; statLabel?: string; top?: { label: string; sub?: string }[] } }) => {
         const set = (k: string, v: unknown) => { const el = card.querySelector(`[data-k="${k}"]`); if (el && v !== undefined) el.textContent = typeof v === 'number' ? nf.format(v) : String(v); };
         set('day', st.day);
         set('stat', st.preview?.stat);
         set('statLabel', st.preview?.statLabel);
+        const ol = card.querySelector('[data-k="top"]');
+        const top = st.preview?.top;
+        if (ol && top?.length) {
+          ol.replaceChildren(...top.slice(0, 3).map((t) => {
+            const li = document.createElement('li');
+            const a = document.createElement('span'); a.textContent = t.label; li.append(a);
+            if (t.sub) { const b = document.createElement('small'); b.textContent = t.sub; li.append(b); }
+            return li;
+          }));
+        }
       })
       .catch(() => {});
   });
