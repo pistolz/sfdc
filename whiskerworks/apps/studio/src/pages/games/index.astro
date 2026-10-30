@@ -7,6 +7,7 @@ const games = await getGames();
 const count = <T extends string>(key: (g: (typeof games)[number]) => T | readonly T[], v: T) =>
   games.filter((g) => { const k = key(g); return Array.isArray(k) ? k.includes(v) : k === v; }).length;
 const usedPlatforms = (Object.keys(platformLabels) as Platform[]).filter((p) => count((g) => g.data.platforms, p) > 0);
+const genres = [...new Set(games.map((g) => g.data.genre))].sort();
 const usedStatuses = (Object.keys(statusLabels) as (keyof typeof statusLabels)[]).filter((s) => count((g) => g.data.status, s) > 0);
 ---
 <Base title="All games" description={`Browse all ${games.length} WhiskerWorks games: puzzle, word and arcade games for iPhone, Android and the web. Free to play.`} ogImage="/og/games.png">
@@ -41,6 +42,21 @@ const usedStatuses = (Object.keys(statusLabels) as (keyof typeof statusLabels)[]
             </select>
           </label>
           <label>
+            <span>Genre</span>
+            <select name="genre" data-genre>
+              <option value="">Any</option>
+              {genres.map((g) => <option value={g}>{g}</option>)}
+            </select>
+          </label>
+          <label>
+            <span>Sort</span>
+            <select name="sort" data-sort>
+              <option value="">Featured</option>
+              <option value="new">Newest</option>
+              <option value="az">A → Z</option>
+            </select>
+          </label>
+          <label>
             <span>Status</span>
             <select name="status" data-status>
               <option value="">Any</option>
@@ -60,6 +76,9 @@ const usedStatuses = (Object.keys(statusLabels) as (keyof typeof statusLabels)[]
             data-mood={g.data.mood}
             data-platforms={g.data.platforms.join(' ')}
             data-status={g.data.status}
+            data-genre={g.data.genre}
+            data-title={g.data.title}
+            data-date={g.data.releaseDate ? g.data.releaseDate.toISOString().slice(0, 10) : ''}
             data-text={[g.data.title, g.data.tagline, g.data.genre, ...g.data.keywords].join(' ').toLowerCase()}
           >
             <GameCard game={g} />
@@ -100,6 +119,9 @@ const usedStatuses = (Object.keys(statusLabels) as (keyof typeof statusLabels)[]
   const q = root.querySelector<HTMLInputElement>('[data-q]')!;
   const platform = root.querySelector<HTMLSelectElement>('[data-platform]')!;
   const status = root.querySelector<HTMLSelectElement>('[data-status]')!;
+  const genre = root.querySelector<HTMLSelectElement>('[data-genre]')!;
+  const sort = root.querySelector<HTMLSelectElement>('[data-sort]')!;
+  const grid = root.querySelector<HTMLElement>('[data-grid]')!;
   const moodBtns = [...root.querySelectorAll<HTMLButtonElement>('[data-mood]')].filter((b) => b.tagName === 'BUTTON');
   const items = [...root.querySelectorAll<HTMLElement>('[data-item]')];
   const countEl = root.querySelector<HTMLElement>('[data-count]')!;
@@ -113,6 +135,8 @@ const usedStatuses = (Object.keys(statusLabels) as (keyof typeof statusLabels)[]
     mood = p.get('mood') ?? '';
     platform.value = p.get('platform') ?? '';
     status.value = p.get('status') ?? '';
+    genre.value = p.get('genre') ?? '';
+    sort.value = p.get('sort') ?? '';
   }
   function writeUrl() {
     const p = new URLSearchParams();
@@ -120,6 +144,8 @@ const usedStatuses = (Object.keys(statusLabels) as (keyof typeof statusLabels)[]
     if (mood) p.set('mood', mood);
     if (platform.value) p.set('platform', platform.value);
     if (status.value) p.set('status', status.value);
+    if (genre.value) p.set('genre', genre.value);
+    if (sort.value) p.set('sort', sort.value);
     const s = p.toString();
     history.replaceState(null, '', s ? `?${s}` : location.pathname);
   }
@@ -132,10 +158,16 @@ const usedStatuses = (Object.keys(statusLabels) as (keyof typeof statusLabels)[]
         (!mood || el.dataset.mood === mood) &&
         (!platform.value || (el.dataset.platforms ?? '').split(' ').includes(platform.value)) &&
         (!status.value || el.dataset.status === status.value) &&
+        (!genre.value || el.dataset.genre === genre.value) &&
         terms.every((t) => text.includes(t));
       el.hidden = !ok;
       if (ok) { n++; el.querySelector('[data-reveal]')?.classList.add('is-in'); }
     }
+    const ordered = [...items].sort((a, b) =>
+      sort.value === 'az' ? (a.dataset.title ?? '').localeCompare(b.dataset.title ?? '')
+      : sort.value === 'new' ? (b.dataset.date ?? '').localeCompare(a.dataset.date ?? '')
+      : items.indexOf(a) - items.indexOf(b));
+    ordered.forEach((el) => grid.appendChild(el));
     moodBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mood === mood)));
     countEl.textContent = `${n} game${n === 1 ? '' : 's'}`;
     empty.hidden = n > 0;
@@ -145,7 +177,9 @@ const usedStatuses = (Object.keys(statusLabels) as (keyof typeof statusLabels)[]
   q.addEventListener('input', apply);
   platform.addEventListener('change', apply);
   status.addEventListener('change', apply);
-  root.querySelector('[data-reset]')!.addEventListener('click', () => { q.value = ''; mood = ''; platform.value = ''; status.value = ''; apply(); q.focus(); });
+  genre.addEventListener('change', apply);
+  sort.addEventListener('change', apply);
+  root.querySelector('[data-reset]')!.addEventListener('click', () => { q.value = ''; mood = ''; platform.value = ''; status.value = ''; genre.value = ''; sort.value = ''; apply(); q.focus(); });
   readUrl();
   apply();
 </script>

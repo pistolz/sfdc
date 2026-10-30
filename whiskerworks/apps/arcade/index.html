@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Insert Coin Club · 1 follower = 1 arcade machine · Find your machine</title>
+    <meta name="description" content="Every follower gets their own numbered arcade machine in the Insert Coin Club hall, and the hall grows every day. Search your @handle to find your machine." />
+    <meta name="theme-color" content="#0a0614" />
+    <link rel="canonical" href="https://arcade.whiskerworks.games/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Insert Coin Club by WhiskerWorks" />
+    <meta property="og:title" content="Insert Coin Club · Find your arcade machine" />
+    <meta property="og:description" content="1 follower = 1 arcade machine. Your @handle is on a glowing cabinet in the hall. Find it." />
+    <meta property="og:url" content="https://arcade.whiskerworks.games/" />
+    <meta property="og:image" content="https://arcade.whiskerworks.games/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Rows of neon arcade machines, each with a follower's name on the marquee" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Insert Coin Club · Find your arcade machine" />
+    <meta name="twitter:description" content="1 follower = 1 arcade machine. Find yours in the hall." />
+    <meta name="twitter:image" content="https://arcade.whiskerworks.games/og.png" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preload" href="/data/state.json" as="fetch" crossorigin />
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"WebPage","name":"Insert Coin Club · Find your machine","url":"https://arcade.whiskerworks.games/",
+       "isPartOf":{"@type":"CreativeWorkSeries","name":"Insert Coin Club","creator":{"@type":"Organization","name":"WhiskerWorks","url":"https://whiskerworks.games/"}}}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#search-input">Skip to search</a>
+    <div class="app" id="app" data-state="loading">
+      <canvas id="hall" aria-hidden="true"></canvas>
+      <div class="labels" id="labels" aria-hidden="true">
+        <div class="tag" id="tag-selected"><small id="tag-num"></small><b id="tag-handle"></b></div>
+        <div class="tag tag-ghost" id="tag-ghost"><small id="ghost-num"></small><b>Next follower</b></div>
+      </div>
+
+      <header class="hud-top">
+        <div class="topbar">
+          <a class="brand" href="https://whiskerworks.games/?utm_source=arcade&utm_medium=hall" aria-label="WhiskerWorks studio home">
+            <img src="/mark.svg" alt="" width="28" height="28" />
+            <span>by <b>WhiskerWorks</b></span>
+          </a>
+          <div class="top-actions">
+            <button class="chip" id="btn-episodes" type="button" aria-haspopup="dialog" aria-controls="drawer-episodes">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Episodes</span>
+            </button>
+            <button class="chip" id="btn-share" type="button" aria-label="Share the hall">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l4 4h-3v7h-2V7H8zM5 12h2v7h10v-7h2v9H5z"/></svg><span>Share</span>
+            </button>
+          </div>
+        </div>
+        <p class="kicker">Insert Coin Club</p>
+        <h1 class="headline"><span class="sr-only">Insert Coin Club: </span>1 <em>Follower</em> =<br />1 Arcade Machine</h1>
+        <div class="pills" id="hud-top-anchor" aria-label="Hall status">
+          <div class="pill pill-pink"><span>Day</span><b id="stat-day">–</b></div>
+          <div class="pill pill-gold"><span>Machines</span><b id="stat-machines">–</b></div>
+        </div>
+      </header>
+
+      <aside class="newest" id="newest" aria-labelledby="newest-title">
+        <h2 id="newest-title"><span class="blink" aria-hidden="true"></span> Just plugged in</h2>
+        <ol id="newest-list"></ol>
+        <button class="link-btn" id="btn-list" type="button" aria-haspopup="dialog" aria-controls="drawer-list">All machines <span aria-hidden="true">→</span></button>
+      </aside>
+
+      <nav class="ruler" id="ruler" aria-label="Jump through the hall">
+        <span class="ruler-end" id="ruler-top">#0001</span>
+        <div class="ruler-track" id="ruler-track" role="slider" tabindex="0" aria-label="Row in the hall" aria-valuemin="1" aria-valuenow="1" aria-valuemax="1">
+          <div class="ruler-you" id="ruler-you" hidden></div>
+          <div class="ruler-thumb" id="ruler-thumb"><span id="ruler-label">#0001</span></div>
+        </div>
+        <span class="ruler-end" id="ruler-bottom">–</span>
+      </nav>
+
+      <section class="dock" aria-label="Find your machine">
+        <form class="search" id="search-form" role="search" autocomplete="off">
+          <label for="search-input" class="sr-only">Find your machine: your @handle or a machine number</label>
+          <input id="search-input" type="search" placeholder="@your handle or #number" enterkeyhint="search"
+            role="combobox" aria-expanded="false" aria-controls="search-list" aria-autocomplete="list" spellcheck="false" autocapitalize="off" />
+          <button type="submit" class="btn btn-gold">Find my machine</button>
+          <ul id="search-list" class="suggest" role="listbox" hidden></ul>
+        </form>
+        <div class="cta-row">
+          <a class="btn btn-cta" id="cta-follow" href="#" target="_blank" rel="noopener">
+            <span class="coin" aria-hidden="true"></span><span id="cta-follow-text">Follow to get your machine</span> <span aria-hidden="true">↗</span>
+          </a>
+          <nav class="socials" id="socials" aria-label="Follow Insert Coin Club"></nav>
+        </div>
+        <p class="note"><span id="updated">Followed recently?</span> Your machine appears at the next update.</p>
+      </section>
+
+      <section class="panel" id="panel" role="dialog" aria-modal="false" aria-labelledby="panel-title" hidden>
+        <div class="panel-grip" aria-hidden="true"></div>
+        <button class="panel-close" id="panel-close" type="button" aria-label="Close">×</button>
+        <div id="panel-body"></div>
+      </section>
+
+      <div class="drawer" id="drawer-list" role="dialog" aria-modal="true" aria-labelledby="list-title" hidden>
+        <div class="drawer-inner">
+          <header><h2 id="list-title">All machines</h2><button class="panel-close" data-close type="button" aria-label="Close">×</button></header>
+          <label class="sr-only" for="list-filter">Filter machines</label>
+          <input id="list-filter" class="filter" type="search" placeholder="Filter by @handle or #number" />
+          <ol class="board" id="machine-list"></ol>
+          <p class="list-more" id="list-more" hidden></p>
+        </div>
+      </div>
+
+      <div class="drawer" id="drawer-episodes" role="dialog" aria-modal="true" aria-labelledby="ep-title" hidden>
+        <div class="drawer-inner">
+          <header><h2 id="ep-title">Episodes</h2><button class="panel-close" data-close type="button" aria-label="Close">×</button></header>
+          <p class="drawer-lede">The hall grows every day. Every new follower plugs in a new machine.</p>
+          <ol class="episodes" id="episode-list"></ol>
+          <div class="how">
+            <h3>How it works</h3>
+            <ol>
+              <li><b>Follow the account.</b> That's it: 1 follower = 1 arcade machine.</li>
+              <li>Your machine gets a <b>number</b> (in follow order), your <b>@handle</b> on the marquee and its own game.</li>
+              <li>The hall is updated daily, and new machines show up in the next episode.</li>
+            </ol>
+            <p class="fine">Want your name off your machine? <a href="mailto:hello@whiskerworks.games?subject=Insert%20Coin%20Club%20opt-out">Message us</a> and it will read PLAYER at the next update.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="loader" id="loader" role="status"><img src="/mark.svg" alt="" width="56" height="56" /><span>Powering up the hall…</span></div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      <div class="sr-only" aria-live="polite" id="sr-live"></div>
+      <section class="sr-only" aria-labelledby="sr-list-title"><h2 id="sr-list-title">Newest machines</h2><ol id="sr-list"></ol></section>
+    </div>
+    <noscript><p class="noscript">Insert Coin Club needs JavaScript to show the hall. Follow the series on <a href="https://www.instagram.com/ads_noads/">Instagram</a>.</p></noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

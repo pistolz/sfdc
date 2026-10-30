@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Level Tower · 1 like = 1 floor · Live tower</title>
+    <meta name="description" content="1 like = 1 floor, and your comments pick the world. The live tower of Level Tower, the WhiskerWorks series. Find your floor by @handle or by world." />
+    <meta name="theme-color" content="#4f9cf0" />
+    <link rel="canonical" href="https://tower.whiskerworks.games/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Level Tower by WhiskerWorks" />
+    <meta property="og:title" content="Level Tower · 1 like = 1 floor" />
+    <meta property="og:description" content="Every like adds a floor. Every comment picks a world. Find your floor in the live tower." />
+    <meta property="og:url" content="https://tower.whiskerworks.games/" />
+    <meta property="og:image" content="https://tower.whiskerworks.games/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Level Tower: floating island floors stacked into the sky" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Level Tower · 1 like = 1 floor" />
+    <meta name="twitter:description" content="Every like adds a floor. Find your floor in the live tower." />
+    <meta name="twitter:image" content="https://tower.whiskerworks.games/og.png" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preload" href="/data/state.json" as="fetch" crossorigin />
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"WebPage","name":"Level Tower · Live tower","url":"https://tower.whiskerworks.games/",
+       "isPartOf":{"@type":"CreativeWorkSeries","name":"Level Tower","creator":{"@type":"Organization","name":"WhiskerWorks","url":"https://whiskerworks.games/"}}}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#search-input">Skip to search</a>
+    <div class="app" id="app" data-state="loading">
+      <canvas id="scene" tabindex="0" aria-label="Level Tower. Use arrow keys to climb, Enter to open the floor in view."></canvas>
+      <div class="labels" id="labels" aria-hidden="true"></div>
+
+      <header class="hud-top">
+        <div class="topbar">
+          <a class="brand" href="https://whiskerworks.games/?utm_source=leveltower&utm_medium=tower" aria-label="WhiskerWorks studio home">
+            <img src="/mark.svg" alt="" width="28" height="28" />
+            <span>by <b>WhiskerWorks</b></span>
+          </a>
+          <div class="top-actions">
+            <button class="chip" id="btn-board" type="button" aria-haspopup="dialog" aria-controls="drawer-board">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10h4v10zm6 0V4h4v16zm6 0v-7h4v7z"/></svg><span>Builders</span>
+            </button>
+            <button class="chip" id="btn-episodes" type="button" aria-haspopup="dialog" aria-controls="drawer-episodes">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Episodes</span>
+            </button>
+            <button class="chip icon" id="btn-share" type="button" aria-label="Share the tower">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l4 4h-3v7h-2V7H8zM5 12h2v7h10v-7h2v9H5z"/></svg>
+            </button>
+          </div>
+        </div>
+        <p class="kicker">Level Tower</p>
+        <h1 class="headline"><span class="sr-only">Level Tower: </span>1 <em>Like</em> = 1 Floor</h1>
+        <div class="pills" id="hud-top-anchor" aria-label="Tower status">
+          <div class="pill"><span>Day</span><b id="stat-day">–</b></div>
+          <div class="pill pill-gold"><span>Floor</span><b id="stat-floors">–</b></div>
+        </div>
+        <p class="now" id="now" aria-live="off"><span id="now-text">Floor 1 · Grassland</span></p>
+      </header>
+
+      <nav class="ruler" id="ruler" aria-label="Altitude: jump to a floor">
+        <span class="ruler-top" id="ruler-top">–</span>
+        <div class="ruler-track" id="ruler-track" role="slider" tabindex="0" aria-label="Floor" aria-valuemin="1" aria-valuemax="1" aria-valuenow="1">
+          <div class="ruler-fill" id="ruler-fill"></div>
+          <div class="ruler-ticks" id="ruler-ticks"></div>
+          <div class="ruler-sel" id="ruler-sel" hidden></div>
+          <div class="ruler-thumb" id="ruler-thumb"><span id="ruler-val">1</span></div>
+        </div>
+        <span class="ruler-bottom">1</span>
+      </nav>
+
+      <section class="dock" aria-label="Find your floor">
+        <form class="search" id="search-form" role="search" autocomplete="off">
+          <label for="search-input" class="sr-only">Find your floor: @handle, a world or a floor number</label>
+          <input id="search-input" type="search" placeholder="@yourhandle, a world or a floor #" enterkeyhint="search"
+            role="combobox" aria-expanded="false" aria-controls="search-list" aria-autocomplete="list" spellcheck="false" autocapitalize="off" />
+          <button type="submit" class="btn btn-gold">Find my floor</button>
+          <ul id="search-list" class="suggest" role="listbox" hidden></ul>
+        </form>
+        <div class="cta-row">
+          <a class="btn btn-cta" id="cta-episode" href="#" target="_blank" rel="noopener">
+            <span class="heart" aria-hidden="true">♥</span><span id="cta-episode-text">Like to add a floor</span> <span aria-hidden="true">↗</span>
+          </a>
+          <nav class="socials" id="socials" aria-label="Follow Level Tower"></nav>
+        </div>
+        <p class="note"><span id="updated">Liked or commented recently?</span> The tower updates daily.</p>
+      </section>
+
+      <section class="panel" id="panel" role="dialog" aria-modal="false" aria-labelledby="panel-title" hidden>
+        <div class="panel-grip" aria-hidden="true"></div>
+        <button class="panel-close" id="panel-close" type="button" aria-label="Close">×</button>
+        <div id="panel-body"></div>
+      </section>
+
+      <div class="drawer" id="drawer-board" role="dialog" aria-modal="true" aria-labelledby="board-title" hidden>
+        <div class="drawer-inner">
+          <header><h2 id="board-title">Builders</h2><button class="panel-close" data-close type="button" aria-label="Close">×</button></header>
+          <p class="drawer-lede">The most floors picked. Comment a world on the latest episode to join.</p>
+          <ol class="board" id="board-list"></ol>
+          <h3 class="p-h3">Worlds in the tower</h3>
+          <div class="worlds" id="world-list"></div>
+        </div>
+      </div>
+
+      <div class="drawer" id="drawer-episodes" role="dialog" aria-modal="true" aria-labelledby="ep-title" hidden>
+        <div class="drawer-inner">
+          <header><h2 id="ep-title">Episodes</h2><button class="panel-close" data-close type="button" aria-label="Close">×</button></header>
+          <p class="drawer-lede">A new episode every day. Your likes build it, your comments pick the worlds.</p>
+          <ol class="episodes" id="episode-list"></ol>
+          <div class="how">
+            <h3>How it works</h3>
+            <ol>
+              <li><b>1 like = 1 floor.</b> Every like on an episode stacks one more floating island on the tower.</li>
+              <li><b>You pick the world.</b> Comment a world (<i>lava, ice, neon city, candy…</i> or its emoji) and the next free floor is built in it, with your name on its sign.</li>
+              <li>Floors are handed out in comment order. Extra picks wait in the queue until the likes catch up.</li>
+            </ol>
+            <p class="fine">Want your name off the tower? <a href="mailto:hello@whiskerworks.games?subject=Level%20Tower%20opt-out">Message us</a> and we'll hide it at the next update.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="loader" id="loader" role="status"><img src="/mark.svg" alt="" width="56" height="56" /><span>Building the tower…</span></div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      <div class="sr-only" aria-live="polite" id="sr-live"></div>
+      <section class="sr-only" aria-labelledby="sr-list-title"><h2 id="sr-list-title">Latest floors</h2><ol id="sr-list"></ol></section>
+    </div>
+    <noscript><p class="noscript">Level Tower needs JavaScript to show the live tower. Follow the series on <a href="https://www.instagram.com/ads_noads/">Instagram</a>.</p></noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

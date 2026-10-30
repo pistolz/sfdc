@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Noob Bee · 1 comment = 1 level up · Live</title>
+    <meta name="description" content="Noob Bee can't even jump a wall. Every comment teaches him one new thing: 1 comment = 1 level up. Climb the hive, see every skill he learned and find your @handle." />
+    <meta name="theme-color" content="#6bb6f0" />
+    <link rel="canonical" href="https://noobbee.whiskerworks.games/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Noob Bee by WhiskerWorks" />
+    <meta property="og:title" content="Noob Bee · 1 comment = 1 level up" />
+    <meta property="og:description" content="Every comment teaches the noob bee one new skill. Find the level you taught him." />
+    <meta property="og:url" content="https://noobbee.whiskerworks.games/" />
+    <meta property="og:image" content="https://noobbee.whiskerworks.games/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Noob Bee: a cute bee climbing a honeycomb tower, one level per comment" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Noob Bee · 1 comment = 1 level up" />
+    <meta name="twitter:description" content="Every comment teaches the noob bee one new skill. Find your level." />
+    <meta name="twitter:image" content="https://noobbee.whiskerworks.games/og.png" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preload" href="/data/state.json" as="fetch" crossorigin />
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"WebPage","name":"Noob Bee · Live","url":"https://noobbee.whiskerworks.games/",
+       "isPartOf":{"@type":"CreativeWorkSeries","name":"Noob Bee","creator":{"@type":"Organization","name":"WhiskerWorks","url":"https://whiskerworks.games/"}}}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#search-input">Skip to search</a>
+    <div class="app" id="app" data-state="loading">
+      <div class="sky" aria-hidden="true">
+        <div class="clouds c1"></div><div class="clouds c2"></div>
+        <svg class="hills" viewBox="0 0 400 160" preserveAspectRatio="none"><path d="M0 90 C60 40 120 50 170 80 S280 30 400 70 V160 H0Z" fill="#9fdc8f"/><path d="M0 120 C80 80 160 100 220 115 S340 90 400 110 V160 H0Z" fill="#7cc96d"/></svg>
+      </div>
+      <canvas id="stage" aria-hidden="true"></canvas>
+      <div class="labels" id="labels"></div>
+
+      <header class="hud-top">
+        <div class="topbar">
+          <a class="brand" href="https://whiskerworks.games/?utm_source=noobbee&utm_medium=live" aria-label="WhiskerWorks studio home">
+            <img src="/mark.svg" alt="" width="28" height="28" />
+            <span>by <b>WhiskerWorks</b></span>
+          </a>
+          <div class="top-actions">
+            <button class="chip" id="btn-book" type="button" aria-haspopup="dialog" aria-controls="drawer-book">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3Zm2 13a1 1 0 0 0 1 1h9v-2H8a1 1 0 0 0-1 1Z"/></svg><span>Skill book</span>
+            </button>
+            <button class="chip" id="btn-episodes" type="button" aria-haspopup="dialog" aria-controls="drawer-episodes" aria-label="Episodes">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span class="hide-sm">Episodes</span>
+            </button>
+            <button class="chip icon" id="btn-share" type="button" aria-label="Share">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l4 4h-3v7h-2V7H8zM5 12h2v7h10v-7h2v9H5z"/></svg>
+            </button>
+          </div>
+        </div>
+        <p class="kicker">Noob Bee</p>
+        <h1 class="headline"><span class="sr-only">Noob Bee: </span>1 <em>Comment</em> =<br class="br-sm" /> 1 Level Up</h1>
+        <div class="pills" id="hud-anchor" aria-label="Game status">
+          <div class="pill"><span>Day</span><b id="stat-day">–</b></div>
+          <div class="pill pill-gold"><span>Level</span><b id="stat-level">–</b></div>
+          <div class="pill pill-rank"><span>Rank</span><b id="stat-rank">–</b></div>
+        </div>
+      </header>
+
+      <nav class="ruler" id="ruler" aria-label="Jump to a level">
+        <span class="ruler-top" id="ruler-top">LV –</span>
+        <div class="ruler-track" id="ruler-track" role="slider" tabindex="0" aria-label="Level in view" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0">
+          <div class="ruler-fill" id="ruler-fill"></div>
+          <div class="ruler-marks" id="ruler-marks"></div>
+          <div class="ruler-thumb" id="ruler-thumb"><span id="ruler-thumb-label">0</span></div>
+        </div>
+        <span class="ruler-bottom">Noob</span>
+      </nav>
+
+      <section class="dock" aria-label="Find your level">
+        <form class="search" id="search-form" role="search" autocomplete="off">
+          <label for="search-input" class="sr-only">Find your @handle, a skill or a level number</label>
+          <input id="search-input" type="search" placeholder="Your @handle or a skill" enterkeyhint="search"
+            role="combobox" aria-expanded="false" aria-controls="search-list" aria-autocomplete="list" spellcheck="false" autocapitalize="off" />
+          <button type="submit" class="btn btn-gold">Find</button>
+          <ul id="search-list" class="suggest" role="listbox" hidden></ul>
+        </form>
+        <div class="cta-row">
+          <a class="btn btn-cta" id="cta-episode" href="#" target="_blank" rel="noopener">
+            <span class="dot" aria-hidden="true"></span><span id="cta-episode-text">Teach me something</span> <span aria-hidden="true">↗</span>
+          </a>
+          <button class="btn btn-ghost round" id="btn-home" type="button" aria-label="Back to the bee">🐝</button>
+          <nav class="socials" id="socials" aria-label="Follow Noob Bee"></nav>
+        </div>
+        <p class="note"><span id="updated">Commented recently?</span> New levels are added daily.</p>
+      </section>
+
+      <section class="panel" id="panel" role="dialog" aria-modal="false" aria-labelledby="panel-title" hidden>
+        <div class="panel-grip" aria-hidden="true"></div>
+        <button class="panel-close" id="panel-close" type="button" aria-label="Close">×</button>
+        <div id="panel-body"></div>
+      </section>
+
+      <div class="drawer" id="drawer-book" role="dialog" aria-modal="true" aria-labelledby="book-title" hidden>
+        <div class="drawer-inner">
+          <header><h2 id="book-title">Skill book</h2><button class="panel-close" data-close type="button" aria-label="Close">×</button></header>
+          <p class="drawer-lede" id="book-lede">Everything the bee learned, one comment at a time.</p>
+          <div class="teachers" id="teachers"></div>
+          <label class="sr-only" for="book-filter">Filter skills or handles</label>
+          <input id="book-filter" class="filter" type="search" placeholder="Filter skills or @handles" />
+          <ol class="book" id="book-list"></ol>
+        </div>
+      </div>
+
+      <div class="drawer" id="drawer-episodes" role="dialog" aria-modal="true" aria-labelledby="ep-title" hidden>
+        <div class="drawer-inner">
+          <header><h2 id="ep-title">Episodes</h2><button class="panel-close" data-close type="button" aria-label="Close">×</button></header>
+          <p class="drawer-lede">A new episode every day. Your comments decide what he learns next.</p>
+          <ol class="episodes" id="episode-list"></ol>
+          <div class="how">
+            <h3>How it works</h3>
+            <ol>
+              <li><b>Comment a skill</b> on the latest episode: “wall jump”, “moonwalk”, “speak French”…</li>
+              <li><b>1 comment = 1 level up.</b> Your comment becomes a level of the hive, with your name on it.</li>
+              <li>The bee climbs one ledge per level, from total noob to Queen Bee.</li>
+            </ol>
+            <p class="fine">Mean or unsafe comments are skipped. Want your name off? <a href="mailto:bonjour@tazgo.ca?subject=Noob%20Bee%20opt-out">Message us</a> and we'll hide it at the next update.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="loader" id="loader" role="status"><img src="/mark.svg" alt="" width="56" height="56" /><span>Waking up the bee…</span></div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      <div class="sr-only" aria-live="polite" id="sr-live"></div>
+      <section class="sr-only" aria-labelledby="sr-title"><h2 id="sr-title">Latest levels</h2><ol id="sr-levels"></ol></section>
+    </div>
+    <noscript><p class="noscript">Noob Bee needs JavaScript to show the hive. Follow the series on <a href="https://www.instagram.com/ads_noads/">Instagram</a>.</p></noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
