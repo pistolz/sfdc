@@ -7,6 +7,9 @@ import { search, normalize, type SearchItem } from "./search";
 import { Arcade, NEONS } from "./arcade";
 import { drawGame, GAMES } from "./games";
 import { pad, COLS } from "./layout";
+import { initAnalytics } from "../../../packages/brand/analytics";
+
+initAnalytics("Insert Coin Club");
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
@@ -343,7 +346,7 @@ function renderPanel() {
       <button type="button" class="btn btn-gold" data-share>Share my machine</button>
       ${follow ? `<a class="btn btn-ghost" href="${esc(follow)}" target="_blank" rel="noopener">Watch the series ↗</a>` : ""}
     </div>
-    <p class="fine">${handle && i !== 0 ? `Not you, or want your name off? <a href="mailto:hello@whiskerworks.games?subject=Insert%20Coin%20Club%20opt-out">Message us</a>.` : "Invite a friend: every follow plugs in a new machine."}</p>`;
+    <p class="fine">${handle && i !== 0 ? `Not you, or want your name off? <a href="mailto:bonjour@tazgo.ca?subject=Insert%20Coin%20Club%20opt-out">Message us</a>.` : "Invite a friend: every follow plugs in a new machine."}</p>`;
   startPreview(m[2]);
 }
 

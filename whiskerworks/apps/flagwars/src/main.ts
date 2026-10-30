@@ -6,6 +6,9 @@ import type { GameState, GeoData, CountryState } from "./types";
 import { decodeWorld, flagEmoji, type World } from "./geo";
 import { search, normalize, type SearchItem } from "./search";
 import { Globe } from "./globe";
+import { initAnalytics } from "../../../packages/brand/analytics";
+
+initAnalytics("Flag Wars");
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
@@ -328,7 +331,7 @@ function renderPanel() {
         ${state.links.latestEpisode ? `<a class="btn btn-cta" href="${esc(state.links.latestEpisode)}" target="_blank" rel="noopener">Plant another flag ↗</a>` : ""}
         <button type="button" class="btn btn-ghost" data-share>Share</button>
       </div>
-      <p class="fine">Not you, or want your name off? <a href="mailto:hello@whiskerworks.games?subject=Flag%20Wars%20opt-out">Message us</a>.</p>`;
+      <p class="fine">Not you, or want your name off? <a href="mailto:bonjour@tazgo.ca?subject=Flag%20Wars%20opt-out">Message us</a>.</p>`;
   }
 }
 

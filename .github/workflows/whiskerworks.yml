@@ -26,6 +26,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: sites
-          path: |
-            whiskerworks/apps/studio/dist
-            whiskerworks/apps/flagwars/dist
+          path: whiskerworks/apps/*/dist

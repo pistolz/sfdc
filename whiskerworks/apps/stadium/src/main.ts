@@ -5,6 +5,9 @@ import "./styles.css";
 import type { GameState, ClubState } from "./types";
 import { search, normalize, type SearchItem } from "./search";
 import { Stadium, type SeatRef } from "./stadium";
+import { initAnalytics } from "../../../packages/brand/analytics";
+
+initAnalytics("Stadium Builder");
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);

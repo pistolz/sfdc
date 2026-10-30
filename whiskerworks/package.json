@@ -2,14 +2,28 @@
   "name": "whiskerworks",
   "private": true,
   "description": "WhiskerWorks studio website and live-series microsites.",
-  "workspaces": ["apps/*", "packages/*"],
-  "engines": { "node": ">=20.10" },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=20.10"
+  },
   "scripts": {
     "dev": "npm run dev -w @whiskerworks/studio",
     "dev:flagwars": "npm run dev -w @whiskerworks/flagwars",
-    "build": "npm run build -w @whiskerworks/flagwars && npm run build -w @whiskerworks/studio",
-    "check": "npm run check -w @whiskerworks/studio && npm run typecheck -w @whiskerworks/flagwars",
+    "dev:stadium": "npm run dev -w @whiskerworks/stadium",
+    "dev:arcade": "npm run dev -w @whiskerworks/arcade",
+    "dev:noobbee": "npm run dev -w @whiskerworks/noobbee",
+    "dev:leveltower": "npm run dev -w @whiskerworks/leveltower",
+    "build:series": "npm run build -w @whiskerworks/flagwars && npm run build -w @whiskerworks/stadium && npm run build -w @whiskerworks/arcade && npm run build -w @whiskerworks/noobbee && npm run build -w @whiskerworks/leveltower",
+    "build": "npm run build:series && npm run build -w @whiskerworks/studio",
+    "check": "npm run check -w @whiskerworks/studio && npm run typecheck -w @whiskerworks/flagwars && npm run typecheck -w @whiskerworks/stadium && npm run typecheck -w @whiskerworks/arcade && npm run typecheck -w @whiskerworks/noobbee && npm run typecheck -w @whiskerworks/leveltower",
     "new-game": "node apps/studio/scripts/new-game.mjs",
-    "fw": "node apps/flagwars/scripts/fw.mjs"
+    "fw": "node apps/flagwars/scripts/fw.mjs",
+    "sb": "node apps/stadium/scripts/sb.mjs",
+    "arc": "node apps/arcade/scripts/arc.mjs",
+    "nb": "node apps/noobbee/scripts/nb.mjs",
+    "tower": "node apps/leveltower/scripts/tower.mjs"
   }
 }

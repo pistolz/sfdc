@@ -5,6 +5,9 @@ import "./styles.css";
 import type { TowerState, Theme } from "./types";
 import { search, normalize, type SearchItem, type Kind } from "./search";
 import { Tower } from "./tower";
+import { initAnalytics } from "../../../packages/brand/analytics";
+
+initAnalytics("Level Tower");
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
@@ -408,7 +411,7 @@ function renderPanel() {
       ${queued.length ? `<div class="queue">${queued.map((q) => `<p>⏳ <b>${esc(state.themes.find((t) => t.id === q.theme)?.name ?? q.theme)}</b> is in the queue for floor ${fmt(q.floor)} — ${fmt(q.floor - n)} more like${q.floor - n === 1 ? "" : "s"} to go.</p>`).join("")}</div>` : ""}
       ${floors.length ? `<h3 class="p-h3">Your floors</h3>${floorButtons(floors)}` : ""}
       ${commentBox(themeOf(top || 1))}
-      <p class="fine">Not you, or want your name off? <a href="mailto:hello@whiskerworks.games?subject=Level%20Tower%20opt-out">Message us</a>.</p>`;
+      <p class="fine">Not you, or want your name off? <a href="mailto:bonjour@tazgo.ca?subject=Level%20Tower%20opt-out">Message us</a>.</p>`;
   } else {
     const th = state.themes.find((t) => t.id === selected!.key)!;
     const floors = byTheme.get(th.id) ?? [];
