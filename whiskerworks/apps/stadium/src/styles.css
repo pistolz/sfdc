@@ -381,3 +381,5 @@ img { display: block; }
 @media (max-width: 400px) { .search .btn-gold { padding: 0 12px; font-size: 0.86rem; } }
 .loader { background: radial-gradient(circle at 50% 40%, #2a3470, #151a3a); }
 .toast { top: calc(var(--safe-t) + 70px); }
+.p-head h2 { overflow-wrap: anywhere; font-size: clamp(1.05rem, 5vw, 1.45rem); }
+.p-head > div { min-width: 0; }

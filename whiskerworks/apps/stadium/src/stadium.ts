@@ -542,7 +542,7 @@ export class Stadium {
 
   focusSeat(ref: SeatRef, opts: { instant?: boolean } = {}) {
     const target = ref.pos.clone().add(new THREE.Vector3(0, 0.6, 0));
-    const near = this.camera.aspect < 0.8 ? 1.35 : 1;
+    const near = this.camera.aspect < 0.8 ? 1.35 : 1.75;
     const camPos = ref.pos.clone().add(ref.inward.clone().multiplyScalar(17 * near)).add(new THREE.Vector3(0, 7 * near, 0));
     this.highlight.visible = false;
     this.fly(camPos, target, { instant: opts.instant, high: 110 }, () => this.showHighlight(ref));
