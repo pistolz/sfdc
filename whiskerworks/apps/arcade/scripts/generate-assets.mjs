@@ -46,7 +46,7 @@ const card = h("div", { style: { width: 1200, height: 630, display: "flex", back
   h("div", { style: { display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 0 0 70px", width: 600 } },
     h("div", { style: { fontFamily: "Unbounded", fontWeight: 600, fontSize: 24, letterSpacing: 10, color: "#3df5ff" } }, "INSERT COIN CLUB"),
     h("div", { style: { display: "flex", flexWrap: "wrap", fontFamily: "Unbounded", fontWeight: 800, fontSize: 60, lineHeight: 1.08, marginTop: 18 } },
-      h("span", { style: { marginRight: 20 } }, "1"), h("span", { style: { color: "#ffd23f", marginRight: 20 } }, "FOLLOWER"), h("span", {}, "="), h("span", {}, "1 ARCADE MACHINE")),
+      h("span", { style: { marginRight: 20 } }, "1"), h("span", { style: { color: "#ffd23f", marginRight: 20 } }, "FOLLOWER"), h("span", {}, "= 1 ARCADE MACHINE")),
     h("div", { style: { fontSize: 30, marginTop: 26, color: "#d9d2ff" } }, `Day ${state.day} · ${state.totals.machines.toLocaleString("en-US")} machines and counting`),
     h("div", { style: { fontSize: 26, marginTop: 12, color: "#b3a8d6" } }, "Search your @handle and find yours."),
     h("div", { style: { display: "flex", alignItems: "center", marginTop: 40, fontSize: 22, color: "#b3a8d6" } },

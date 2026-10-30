@@ -197,8 +197,9 @@ function onFrame() {
     if (!p || !p.visible) continue;
     let el = cardEls.get(n);
     if (!el) {
-      el = document.createElement("button");
-      el.type = "button";
+      const b = document.createElement("button");
+      b.type = "button";
+      el = b;
       el.className = "card";
       el.dataset.level = String(n);
       el.innerHTML = cardHTML(n);
