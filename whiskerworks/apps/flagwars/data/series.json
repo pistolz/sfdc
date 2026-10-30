@@ -1,0 +1,50 @@
+{
+  "name": "Flag Wars",
+  "tagline": "1 comment = 1 flag. Who conquers the world?",
+  "day": 3,
+  "rules": {
+    "levelSteps": [
+      10,
+      50,
+      100,
+      250,
+      500,
+      1000
+    ]
+  },
+  "links": {
+    "latestEpisode": "https://www.instagram.com/ads_noads/",
+    "instagram": "https://www.instagram.com/ads_noads/",
+    "tiktok": "",
+    "youtube": ""
+  },
+  "episodes": [
+    {
+      "day": 1,
+      "date": "2026-10-28",
+      "title": "Who conquers the world?",
+      "summary": "The globe is empty. One comment plants one flag — Canada is founded first.",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    },
+    {
+      "day": 2,
+      "date": "2026-10-29",
+      "title": "Canada levels up",
+      "summary": "Canada hits level 2 and builds its first towers. Brazil and Japan join the top 3.",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    },
+    {
+      "day": 3,
+      "date": "2026-10-30",
+      "title": "Brazil strikes back",
+      "summary": "Brazil closes the gap while Morocco storms into the top 5. Who takes the top spot?",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    }
+  ]
+}

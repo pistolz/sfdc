@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Flag Wars · Who conquers the world? · Live map</title>
+    <meta name="description" content="1 comment = 1 flag. The live map of Flag Wars, the WhiskerWorks series where your comments decide which country conquers the world. Find your country or your @handle." />
+    <meta name="theme-color" content="#0b1033" />
+    <link rel="canonical" href="https://flagwars.whiskerworks.games/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Flag Wars by WhiskerWorks" />
+    <meta property="og:title" content="Flag Wars · Who conquers the world?" />
+    <meta property="og:description" content="1 comment = 1 flag. See the live map, find your country and plant your flag in the next episode." />
+    <meta property="og:url" content="https://flagwars.whiskerworks.games/" />
+    <meta property="og:image" content="https://flagwars.whiskerworks.games/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Flag Wars: a globe of hexagons conquered by country flags" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Flag Wars · Who conquers the world?" />
+    <meta name="twitter:description" content="1 comment = 1 flag. Find your country on the live map." />
+    <meta name="twitter:image" content="https://flagwars.whiskerworks.games/og.png" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preload" href="/data/state.json" as="fetch" crossorigin />
+    <link rel="preload" href="/geo/world-hex.json" as="fetch" crossorigin />
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"WebPage","name":"Flag Wars · Live map","url":"https://flagwars.whiskerworks.games/",
+       "isPartOf":{"@type":"CreativeWorkSeries","name":"Flag Wars","creator":{"@type":"Organization","name":"WhiskerWorks","url":"https://whiskerworks.games/"}}}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#search-input">Skip to search</a>
+    <div class="app" id="app" data-state="loading">
+      <canvas id="globe" aria-hidden="true"></canvas>
+      <div class="labels" id="labels" aria-hidden="true"></div>
+
+      <header class="hud-top">
+        <div class="topbar">
+          <a class="brand" href="https://whiskerworks.games/?utm_source=flagwars&utm_medium=map" aria-label="WhiskerWorks studio home">
+            <img src="/mark.svg" alt="" width="28" height="28" />
+            <span>by <b>WhiskerWorks</b></span>
+          </a>
+          <div class="top-actions">
+            <button class="chip" id="btn-episodes" type="button" aria-haspopup="dialog" aria-controls="drawer-episodes">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Episodes</span>
+            </button>
+            <button class="chip" id="btn-share" type="button" aria-label="Share the map">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l4 4h-3v7h-2V7H8zM5 12h2v7h10v-7h2v9H5z"/></svg><span>Share</span>
+            </button>
+          </div>
+        </div>
+        <p class="kicker">Flag Wars</p>
+        <h1 class="headline"><span class="sr-only">Flag Wars: </span>1 <em>Comment</em> = 1 Flag</h1>
+        <div class="pills" id="hud-top-anchor" aria-label="Game status">
+          <div class="pill"><span>Day</span><b id="stat-day">–</b></div>
+          <div class="pill pill-gold"><span>Flags</span><b id="stat-flags">–</b></div>
+          <div class="pill"><span>Nations</span><b id="stat-countries">–</b></div>
+        </div>
+      </header>
+
+      <aside class="top3" id="top3" aria-labelledby="top3-title">
+        <h2 id="top3-title"><span aria-hidden="true">🏆</span> Top 3</h2>
+        <ol id="top3-list"></ol>
+        <button class="link-btn" id="btn-board" type="button" aria-haspopup="dialog" aria-controls="drawer-board">Full leaderboard <span aria-hidden="true">→</span></button>
+      </aside>
+
+      <section class="dock" aria-label="Find your country">
+        <form class="search" id="search-form" role="search" autocomplete="off">
+          <label for="search-input" class="sr-only">Find your country or @handle</label>
+          <input id="search-input" type="search" placeholder="Your country or @handle" enterkeyhint="search"
+            role="combobox" aria-expanded="false" aria-controls="search-list" aria-autocomplete="list" spellcheck="false" autocapitalize="off" />
+          <button type="submit" class="btn btn-gold">Find</button>
+          <ul id="search-list" class="suggest" role="listbox" hidden></ul>
+        </form>
+        <div class="cta-row">
+          <a class="btn btn-cta" id="cta-episode" href="#" target="_blank" rel="noopener">
+            <span class="dot" aria-hidden="true"></span><span id="cta-episode-text">Comment your country</span> <span aria-hidden="true">↗</span>
+          </a>
+          <nav class="socials" id="socials" aria-label="Follow Flag Wars"></nav>
+        </div>
+        <p class="note"><span id="updated">Commented recently?</span> The map updates daily.</p>
+      </section>
+
+      <section class="panel" id="panel" role="dialog" aria-modal="false" aria-labelledby="panel-title" hidden>
+        <div class="panel-grip" aria-hidden="true"></div>
+        <button class="panel-close" id="panel-close" type="button" aria-label="Close">×</button>
+        <div id="panel-body"></div>
+      </section>
+
+      <div class="drawer" id="drawer-board" role="dialog" aria-modal="true" aria-labelledby="board-title" hidden>
+        <div class="drawer-inner">
+          <header><h2 id="board-title">Leaderboard</h2><button class="panel-close" data-close type="button" aria-label="Close">×</button></header>
+          <label class="sr-only" for="board-filter">Filter countries</label>
+          <input id="board-filter" class="filter" type="search" placeholder="Filter countries" />
+          <ol class="board" id="board-list"></ol>
+        </div>
+      </div>
+
+      <div class="drawer" id="drawer-episodes" role="dialog" aria-modal="true" aria-labelledby="ep-title" hidden>
+        <div class="drawer-inner">
+          <header><h2 id="ep-title">Episodes</h2><button class="panel-close" data-close type="button" aria-label="Close">×</button></header>
+          <p class="drawer-lede">A new episode every day. Your comments decide what happens next.</p>
+          <ol class="episodes" id="episode-list"></ol>
+          <div class="how">
+            <h3>How it works</h3>
+            <ol>
+              <li><b>Comment a country</b> on the latest episode — a name or a flag emoji.</li>
+              <li><b>1 comment = 1 flag.</b> The first comment for a country makes you its <b>founder</b>.</li>
+              <li>Flags level the country up: its territory spreads and towers rise.</li>
+            </ol>
+            <p class="fine">Want your name off the map? <a href="mailto:hello@whiskerworks.games?subject=Flag%20Wars%20opt-out">Message us</a> and we'll hide it at the next update.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="loader" id="loader" role="status"><img src="/mark.svg" alt="" width="56" height="56" /><span>Loading the world…</span></div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      <div class="sr-only" aria-live="polite" id="sr-live"></div>
+      <section class="sr-only" aria-labelledby="sr-board-title"><h2 id="sr-board-title">Current standings</h2><ol id="sr-board"></ol></section>
+    </div>
+    <noscript><p class="noscript">Flag Wars needs JavaScript to show the live map. Follow the series on <a href="https://www.instagram.com/ads_noads/">Instagram</a>.</p></noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
