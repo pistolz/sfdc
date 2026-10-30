@@ -1,23 +1,32 @@
 ---
 import Legal from '../layouts/Legal.astro';
 import { site } from '../site.config';
+import { getGames, gameUrl } from '../lib/games';
+const games = (await getGames()).filter((g) => g.data.legal);
 ---
 <Legal title="Terms of use" description="Terms of use for WhiskerWorks games, website and live series." updated="October 30, 2026">
-  <p>By using this website, our games or taking part in our live series, you agree to these terms. If you do not agree, please do not use them.</p>
+  <p>WhiskerWorks is operated by {site.legalName}, {site.location}. By using this website, our games or taking part in our live series, you agree to these terms. Each game also has its own terms of use, listed below, which apply to that game.</p>
+  {games.length > 0 && (
+    <ul>
+      {games.map((g) => (
+        <li><a href={gameUrl(g)}>{g.data.title}</a>: <a href={`/${g.data.legal}/terms.html`}>Terms</a> · <a href={`/${g.data.legal}/terms-fr.html`} lang="fr">Conditions</a></li>
+      ))}
+    </ul>
+  )}
   <h2>Our games</h2>
-  <p>Games are licensed, not sold, for personal, non-commercial use. Purchases made through the App Store or Google Play are also governed by their terms. Paid unlocks are tied to the account you bought them with.</p>
+  <p>Games are licensed, not sold, for personal, non-commercial use. They are free to play, contain ads and offer optional in-app purchases, also governed by the App Store or Google Play terms. Purchases are tied to the store account you bought them with and can be restored from the game’s settings.</p>
   <h2>Live series</h2>
   <ul>
-    <li>Taking part is free and voluntary. One comment counts as one flag; we may ignore spam, automated, abusive or duplicate comments.</li>
-    <li>By commenting you allow us to show your public handle and the country you named on the live map and in future episodes.</li>
-    <li>The series is entertainment. Rankings have no monetary value, and we may change the rules, reset a season or end a series at any time.</li>
+    <li>Taking part is free and voluntary. Each series counts comments, likes or follows according to the rule in its title; we may ignore spam, automated, abusive or duplicate interactions.</li>
+    <li>By taking part you allow us to show your public handle and what you named on the live maps and in future episodes.</li>
+    <li>The series are entertainment. Rankings have no monetary value, and we may change the rules, reset a season or end a series at any time.</li>
   </ul>
   <h2>Acceptable use</h2>
-  <p>Don’t cheat, reverse-engineer, disrupt our services, or use them to harass anyone.</p>
+  <p>Don’t cheat, reverse-engineer, disrupt our services, or use them to harass anyone. Comments that are hateful or harmful are not counted and may be removed.</p>
   <h2>Intellectual property</h2>
   <p>The WhiskerWorks name, logo, games, characters and videos belong to {site.legalName}. Our press kit assets may be used to write about us.</p>
   <h2>Liability</h2>
-  <p>Our services are provided “as is”. To the extent allowed by law, we are not liable for indirect or consequential losses. Nothing here limits rights you have as a consumer under the law of your country.</p>
+  <p>Our services are provided “as is”. To the extent allowed by law, we are not liable for indirect or consequential losses. Nothing here limits rights you have as a consumer under the law of your country, including the Québec Consumer Protection Act.</p>
   <h2>Contact</h2>
   <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
 </Legal>

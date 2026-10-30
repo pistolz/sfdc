@@ -9,7 +9,7 @@ const year = new Date().getFullYear();
     <div class="top">
       <div class="brand">
         <a href="/" aria-label="WhiskerWorks home" class="home"><Logo tone="paper" size={44} /></a>
-        <p class="tag">{site.tagline}<br />Small games, made with care. No ads, ever.</p>
+        <p class="tag">{site.tagline}<br />Free, snackable games made with care in Québec.</p>
         <SocialLinks />
       </div>
       <nav aria-label="Footer">
@@ -26,7 +26,7 @@ const year = new Date().getFullYear();
           <h2>Live series</h2>
           <ul>
             <li><a href="/series/">All series</a></li>
-            <li><a href={site.series.flagWars.url}>Flag Wars live map</a></li>
+            {site.series.filter((s) => s.live).map((s) => <li><a href={s.url}>{s.name}</a></li>)}
           </ul>
         </div>
         <div>

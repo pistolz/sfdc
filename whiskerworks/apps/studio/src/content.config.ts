@@ -32,6 +32,11 @@ const games = defineCollection({
         })
         .default({}),
       price: z.string().default('Free to play'),
+      /** In-app purchases / ads, shown on the product page: "Contains ads · In-app purchases". */
+      monetization: z.string().default('Contains ads · In-app purchases'),
+      /** Folder of this game's legal pages in /public (privacy.html, terms.html, support.html + -fr). */
+      legal: z.string().optional(),
+      languages: z.array(z.string()).default([]),
       /** Brand colours of the game: [main, secondary]. */
       colors: z.tuple([z.string(), z.string()]),
       /** Generated artwork motif, used until a real icon is added. */
@@ -42,7 +47,7 @@ const games = defineCollection({
       loop: z.array(z.string()).default([]),
       features: z.array(z.object({ title: z.string(), body: z.string() })).default([]),
       faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
-      /** Search phrases people actually type: "word ladder game", "cat puzzle no ads"… */
+      /** Search phrases people actually type: "word ladder game", "cat puzzle game"… */
       keywords: z.array(z.string()).default([]),
       featured: z.boolean().default(false),
       /** Lower comes first. */

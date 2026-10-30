@@ -1,0 +1,193 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Honey Trails — Privacy Policy</title><style>body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;max-width:760px;margin:40px auto;padding:0 16px;color:#3b2a14;background:#fff8ec;line-height:1.55}a{color:#b8650a}table{border-collapse:collapse}td,th{border:1px solid #e6d3b3;padding:4px 8px}</style></head><body><!--
+EDITOR NOTES (remove this block before publishing)
+- Adapted from the verified Nutty Drop policy (nuttydrop-unity/docs/store/privacy-policy.md, Oct 2026), itself built on the Honey Pour /
+  Swarm Sort / Jar Packer policies. Same SDKs, checked in honeytrails-unity/Packages/manifest.json on 2026-10-12: Unity LevelPlay 9.5.1
+  (+ Unity Ads adapter), Unity IAP 5.4.4, Unity Mobile Notifications 2.5.0 (local only). UPDATED 2026-10-13: Firebase Unity SDK 13.17.0
+  (Google Analytics for Firebase, Remote Config, Authentication with Sign in with Apple / Google, Cloud Firestore cloud save) — sections
+  1, 3, 3b, 7, 10, 11, 12 rewritten. Firebase facts: https://firebase.google.com/support/privacy (data processed, retention, subprocessors),
+  https://support.google.com/analytics/answer/7667196 (Analytics data retention), https://firebase.google.com/docs/auth/ios/apple.
+  Firestore region: the Google Cloud region selected for the project (North America).
+- Game Center (section 6) is REQUIRED by the GDD (leaderboards + "top X %") but NOT yet in the code on 2026-10-12 (no GameKit / Social API
+  call found in Assets/_Game/Scripts, Plugins/iOS only has SSNative.mm). Keep section 6 only if it ships. The "top X %" is computed ON THE
+  DEVICE from Apple's leaderboard data (GKLeaderboard.loadEntries returns the player's rank and totalPlayerCount, iOS 14+ ✅
+  https://developer.apple.com/documentation/gamekit/gkleaderboard/loadentries(for:timescope:range:completionhandler:)). The GDD mentions a
+  possible Firebase backend for the percentile: docs/GDD.md decided "Pas de backend". If a backend is ever added, rewrite sections 3, 6, 7
+  AND the App Privacy label (app-store-metadata.md §4).
+- Game Center facts: Apple "Game Center & Privacy" (https://www.apple.com/legal/privacy/data/en/game-center/, used for Nutty Drop on
+  2026-10-12) and App Review Guidelines 4.5.3 / 4.5.5 (https://developer.apple.com/app-store/review/guidelines/).
+- Owner data filled in on 2026-10-13. The build points to https://pistolz.github.io/honeytrails/privacy.html (Resources/Data/config.json
+  "privacyUrl") — publish there and the FR version at https://pistolz.github.io/honeytrails/privacy-fr.html. Same URL in App Store Connect > App Privacy > Privacy Policy URL.
+  Guideline 5.1.1(i): https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage
+- Section 7: inherited OFF-by-default integration points (Scripts/Services/Analytics.cs, RemoteConfig.cs "rc.url", and Iap.cs ReceiptCheck
+  "iap.validateUrl" = "" in remote_config.json, which would POST product id, transaction id, receipt and an install playerId). If you turn any
+  of them on, update section 7 AND the App Privacy label.
+- [IN-APP CONTROL] items must exist in the build: privacy policy link, ad-consent / "Do Not Sell or Share" setting, "Report an ad",
+  Game Center on/off (or explanation) in Settings.
+- Not legal advice.
+-->
+
+<h1>Honey Trails — Privacy Policy</h1>
+<p><strong>Effective date:</strong> 2026-10-13</p>
+<p>This policy explains what information is processed when you play <strong>Honey Trails</strong> (the "Game"), an iOS puzzle game published by
+<strong>9506-6320 QUÉBEC INC.</strong>, operating the "WhiskerWorks" games ("we", "us"), Québec, Canada <!-- TODO: full postal address of 9506-6320 QUÉBEC INC. -->. Contact: <strong>bonjour@tazgo.ca</strong>.
+WhiskerWorks also publishes Honey Pour, Swarm Sort, Jar Packer, Nutty Drop and Honey Bar; each game has its own privacy policy and the games
+do not share data with each other.</p>
+<h2>1. Short version</h2>
+<ul>
+<li><strong>No chat, and an account is optional.</strong> We do not ask for your name, phone number or location. If you choose to sign in with Apple
+  or Google (Settings &gt; Account &amp; cloud save), your progress is also saved in the cloud so you can get it back on another device.</li>
+<li><strong>Your progress is saved on your device</strong>; it is sent to our cloud database only if you sign in.</li>
+<li><strong>Optional Game Center leaderboards:</strong> if you are signed in to Apple's Game Center, your highest level, best score and daily challenge
+  score can be posted to public leaderboards run by Apple, under your Game Center nickname. The "top X %" shown at the end of a game is
+  calculated on your device from Apple's leaderboard data. The Game works fully without Game Center.</li>
+<li>The Game is <strong>free and shows ads</strong>, provided by <strong>Unity LevelPlay</strong> (Unity Ads and ironSource Ads). These partners receive device and
+  ad-interaction data to show, measure and protect ads.</li>
+<li>The advertising identifier (<strong>IDFA</strong>) is used <strong>only if you allow tracking</strong> in Apple's App Tracking Transparency prompt.</li>
+<li><strong>Purchases are processed by Apple.</strong> We never see your card or payment details.</li>
+<li>We use <strong>Google Analytics for Firebase</strong> to understand how the Game is played (anonymous game events) and <strong>Firebase Remote Config</strong>
+  to adjust game balance and ad frequency without an update (see section 7).</li>
+</ul>
+<h2>2. Information stored on your device only</h2>
+<p>The Game stores <strong>locally on your device</strong>: your progress (highest level reached, best score, coins, unlocked board themes, album cards,
+daily challenge results, tutorial steps, purchases owned), <strong>the game in progress</strong> (positions and levels of the bees, the active trail,
+score, free undo used) so you can resume it, your settings (sound, music, haptics, language, Game Center posting) and your privacy choices.
+We do not receive this data. It is deleted when you delete the Game. Depending on your iOS settings it may be included in your own
+iCloud/device backup, which is governed by Apple.</p>
+<h2>3. Information we process</h2>
+<p>We do not operate our own game server. We receive personal data in three cases: (a) when you <strong>email support</strong> (your email address and
+message), used only to answer you and kept no longer than 24 months; (b) when you <strong>sign in</strong> (section 3b);
+(c) <strong>analytics</strong> events (section 7).</p>
+<h3>3b. Optional account and cloud save (Firebase Authentication + Cloud Firestore, provided by Google)</h3>
+<ul>
+<li><strong>What:</strong> if you choose <em>Sign in with Apple</em> or <em>Sign in with Google</em>, Firebase Authentication creates an account identifier (Firebase
+  user ID) linked to your Apple or Google sign-in, and may receive the <strong>email address</strong> that Apple/Google shares (with Apple you can hide
+  it with "Hide My Email") and your sign-in provider. Your <strong>game save</strong> (progress, coins, purchases owned, album, themes, daily challenge
+  results, settings) is stored in <strong>Cloud Firestore</strong> in a document only your account can read or write, with the date of the last update
+  and a summary (best level, best score, coins, games played).</li>
+<li><strong>Why:</strong> to back up your progress and restore it on another device (performance of a contract). Not used for advertising, not shared
+  with ad partners, not used to track you.</li>
+<li><strong>Where / who:</strong> Google LLC / Google Ireland (Firebase), in the Google Cloud region selected for the project (North America); https://firebase.google.com/support/privacy.</li>
+<li><strong>How long:</strong> until you delete your account. <strong>Settings &gt; Account &amp; cloud save &gt; Delete account</strong> deletes your cloud save and your
+  account immediately (Apple sign-in tokens are also revoked); your progress stays on your device. Signing out stops the sync without
+  deleting anything. Backups held by Google are purged on Google's schedule.</li>
+</ul>
+<h2>4. Advertising (Unity LevelPlay)</h2>
+<h3>4.1 What is collected and by whom</h3>
+<p>When an ad is requested or shown, the Unity LevelPlay SDK and the ad networks it mediates collect, directly from your device:
+- <strong>Device identifiers:</strong> the IDFA <strong>only if you allowed tracking</strong>; the identifier for vendors (<strong>IDFV</strong>) and SDK-generated identifiers.
+- <strong>Device and connection data:</strong> device model, OS version, language, screen size, connection type, IP address (used to infer <strong>country / coarse location</strong>).
+- <strong>Ad data:</strong> which ads were requested, shown, clicked or rewarded; ad performance and SDK performance data; <strong>impression-level data</strong>
+  (ad network, ad format, placement, country, estimated revenue). The Game may read impression data to manage ad frequency.
+- If you report an ad to a network, the content of your report.</p>
+<p><strong>No Game Center information (nickname, player identifiers, scores, rank) is passed to the ad partners.</strong>
+Unity's published disclosures: https://docs.unity.com/en-us/grow/levelplay/platform/legal-resources/apple-privacy-questionnaire
+and https://docs.unity.com/en-us/ads-ios/4.20.0/privacy/developer-consent/disclosures/apple-privacy-survey</p>
+<h3>4.2 Why</h3>
+<p>To display ads (including optional <strong>rewarded ads</strong> that you choose to watch, for example to continue once after a game over, to get an
+extra undo or a hint), cap how often ads appear (interstitial ads are shown only between two games, never during a game), measure ad
+delivery and earnings, prevent fraud, and — <strong>only with your consent where the law requires it</strong> — personalise ads.</p>
+<h3>4.3 Who receives it</h3>
+<ul>
+<li><strong>Unity Technologies</strong> (Unity Ads, ironSource Ads, LevelPlay mediation): https://unity.com/legal/game-player-and-app-user-privacy-policy — privacy contact DPO@unity3d.com.</li>
+<li>Other ad networks enabled in mediation (none other at launch): None.
+These partners act under their own privacy policies and may be located outside your country (e.g. in the United States), relying on
+safeguards such as the EU Standard Contractual Clauses as described in their policies.</li>
+</ul>
+<h3>4.4 Your choices [IN-APP CONTROL]</h3>
+<ul>
+<li><strong>Tracking (iOS):</strong> if you choose "Ask App Not to Track", the IDFA is not shared (it is all zeros). You can change this at any time in
+  iOS <strong>Settings &gt; Privacy &amp; Security &gt; Tracking</strong>. Refusing never blocks any part of the Game.</li>
+<li><strong>EEA / UK / Switzerland:</strong> we ask for your consent before personalised ads. Without consent you still see ads, but they are not personalised.</li>
+<li><strong>US state privacy laws (e.g. California):</strong> you can opt out of the "sale" or "sharing" of personal information for targeted advertising.</li>
+<li>You can change these choices at any time in <strong>Settings &gt; Privacy choices</strong> in the Game (withdrawing consent is as easy as giving it). You can also tap the privacy/info icon shown in many ads.</li>
+<li><strong>Report an ad:</strong> use <strong>Settings &gt; Report an ad</strong> or email bonjour@tazgo.ca with a description or screenshot of the ad.</li>
+<li><strong>Remove Ads:</strong> the "No Ads" purchase (also included in the Royal Queen Bundle) removes interstitial and banner ads; rewarded ads you
+  choose to watch remain available.</li>
+</ul>
+<h2>5. In-app purchases</h2>
+<p>Purchases are made through <strong>Apple's App Store</strong>; Apple processes the payment under its own privacy policy (https://www.apple.com/legal/privacy/).
+We never receive your name, Apple Account or payment card. The Game receives a transaction record (product, transaction identifier, receipt)
+to deliver and restore what you bought. The purchase plugin (<strong>Unity IAP</strong>) may process technical data such as an installation identifier,
+session identifier, device information and country to operate purchases — see https://docs.unity.com/en-us/iap/privacy-and-consent/overview.
+Refunds are handled by Apple: https://reportaproblem.apple.com.</p>
+<h2>6. Game Center leaderboards and "top X %" (optional, provided by Apple) [IN-APP CONTROL]</h2>
+<ul>
+<li><strong>What it is:</strong> Game Center is Apple's gaming service. If you are signed in to Game Center on your device, the Game can post your
+  <strong>highest level</strong>, your <strong>best score</strong> and your <strong>daily challenge score</strong> to three leaderboards ("Highest Level", "Best Score",
+  "Daily Challenge" — the daily one restarts every day) and show you these leaderboards. If you are not signed in, or you decline, the
+  Game works exactly the same; only the leaderboards and the "top X %" are unavailable.</li>
+<li><strong>"Top X %" and "world record":</strong> at the end of a game, the Game asks Game Center for your rank, the total number of ranked players
+  and the top entry, and calculates the percentage <strong>on your device</strong>. Nothing is sent to us. Without Game Center or offline, no
+  percentage is shown (we never display an invented figure).</li>
+<li><strong>What Apple shares with us:</strong> according to Apple, developers of the games you play can request your <strong>Game Center nickname, avatar and
+  Game Center identifiers</strong> (game-scoped / team-scoped player IDs), and, only if you allow it, the list of your friends who also play.
+  See Apple's notice: https://www.apple.com/legal/privacy/data/en/game-center/</li>
+<li><strong>What the Game does with it:</strong> it uses this information <strong>only on your device</strong>, to show the leaderboards, your rank and your own
+  nickname. The Game does <strong>not</strong> send your nickname, player identifiers, friends list, rank or scores to us or to our advertising
+  partners, and never displays your player ID. We never try to link Game Center information to any other data (App Review Guidelines
+  4.5.3 and 4.5.5).</li>
+<li><strong>What is public:</strong> for games with global leaderboards, Apple states that your <strong>Game Center nickname, avatar and scores are visible to
+  all Game Center users</strong>. Choose your nickname accordingly; you can change it, your profile and sharing options in iOS
+  <strong>Settings &gt; Game Center</strong>, or sign out of Game Center.</li>
+<li><strong>Who is responsible:</strong> leaderboard data is stored and processed by <strong>Apple</strong> under Apple's privacy policy (https://www.apple.com/legal/privacy/).</li>
+<li><strong>No in-game switch:</strong> to stop posting scores, sign out of Game Center in iOS <strong>Settings &gt; Game Center</strong>.</li>
+</ul>
+<h2>7. Analytics, attribution and game settings download</h2>
+<ul>
+<li><strong>Google Analytics for Firebase</strong> (Google): the Game sends <strong>game events</strong> (e.g. game started / over with level, score and duration,
+  merges, hints, undos, tutorial steps, ad and purchase events, settings and screens used), device and app information (model, OS,
+  language, country derived from IP, app version) and the <strong>Firebase app-instance ID</strong>. It does not receive your name, email or the IDFA
+  through the Game. Purpose: understand and improve the Game (legitimate interest / consent where required). Your ads choice is passed
+  to Firebase consent mode (ad storage / ad user data / ad personalisation denied if you declined personalised ads). Event data is kept
+  for up to 14 months (Google Analytics data-retention setting). https://firebase.google.com/support/privacy</li>
+<li><strong>Firebase Remote Config</strong> (Google): at launch the Game downloads game-balance and ad-frequency settings; this uses the Firebase
+  installation ID and basic device data. No game data is sent.</li>
+<li><strong>No crash-reporting or attribution (MMP) service</strong> is enabled in the current version. Apple's privacy-preserving <strong>SKAdNetwork</strong> may tell
+  an advertiser that an install came from an ad, without identifying you.</li>
+</ul>
+<p>Remote Config requests go to Google's Firebase servers; Google keeps its server logs according to its own retention rules
+(https://firebase.google.com/support/privacy and https://policies.google.com/privacy).</p>
+<blockquote>
+<p>Update this section if an analytics service is enabled (GDD §15 events such as game_start, game_over, merge, percentile_shown…) or if
+receipt validation is switched on: name the provider, data sent, purpose, legal basis, retention, and link to its policy.
+Current status: <strong>Google Analytics for Firebase + Remote Config enabled; no MMP.</strong></p>
+</blockquote>
+<h2>8. Notifications</h2>
+<p>If you allow notifications, the Game schedules <strong>local notifications on your device</strong> (for example "today's challenge is waiting"). They
+are created on the device; no notification token is sent to us. You can turn them off in iOS Settings at any time.</p>
+<h2>9. Children</h2>
+<p>The Game is a puzzle game for teens and adults. It is <strong>not directed to children under 13</strong> and is not in the App Store Kids category. We do
+not knowingly collect personal information from children under 13 (or under the age of digital consent in your country — 15 in France,
+13–16 elsewhere in the EU). Because the Game may also appeal to younger players:
+- we never ask for names, contact details, photos or location, and there is no chat or user-generated content;
+- Game Center features follow the restrictions that parents set with Apple's Screen Time (e.g. Game Center restrictions);
+- ads are requested with content restrictions intended to keep them suitable for the Game's age rating, and you can report any unsuitable ad;
+- if you are a parent and believe your child's personal data has been processed, contact bonjour@tazgo.ca and we will help have it deleted.</p>
+<h2>10. Legal bases (EEA/UK)</h2>
+<ul>
+<li><strong>Performance of a contract:</strong> running the Game, delivering and restoring purchases, showing the optional leaderboards you choose to use,
+  the optional account and cloud save.</li>
+<li><strong>Consent:</strong> personalised ads, tracking (ATT), access to device information for advertising where required, notifications.</li>
+<li><strong>Legitimate interests:</strong> non-personalised ads to fund a free game, ad frequency control, game analytics and remote game settings
+  (Firebase), fraud prevention and security, answering support requests.</li>
+</ul>
+<h2>11. Your rights</h2>
+<p>Depending on where you live (e.g. GDPR in the EEA/UK, CCPA/CPRA in California) you may have the right to access, correct, delete or port
+your personal data, to object or restrict processing, to withdraw consent at any time, to opt out of sale/sharing, and not to be
+discriminated against for using these rights. Game data on your device is deleted with the Game; your account and cloud save are deleted
+in the Game (Settings &gt; Account &amp; cloud save &gt; Delete account) or on request to bonjour@tazgo.ca. Game Center data
+is held by Apple: manage it in iOS Settings &gt; Game Center or via https://privacy.apple.com. For data held by ad partners, use the in-game
+privacy settings, the ad's privacy icon, or the partners' policies above; we will also help if you write to bonjour@tazgo.ca. You may
+complain to your data-protection authority (in Québec: Commission d'accès à l'information, https://www.cai.gouv.qc.ca; in France:
+CNIL, https://www.cnil.fr). Requests are handled by our person in charge of the protection of personal information (section 14).</p>
+<h2>12. Security and retention</h2>
+<p>Data stored by the Game stays on your device, except the cloud save of signed-in players (kept until account deletion, access restricted
+to the account owner by database security rules, encrypted in transit and at rest by Google). Analytics data is kept as stated in section 7.
+Data held by ad partners and by Apple (Game Center) is retained according to their policies.
+Support emails are kept as stated in section 3.</p>
+<h2>13. Changes</h2>
+<p>We will update this page when the Game's data practices change and change the effective date above. Significant changes will also be
+announced in the Game.</p>
+<h2>14. Contact</h2>
+<p>9506-6320 QUÉBEC INC. (WhiskerWorks) — Québec, Canada <!-- TODO: full postal address of 9506-6320 QUÉBEC INC. --> — bonjour@tazgo.ca</p>
+<p><strong>Person in charge of the protection of personal information</strong> (Québec, Law 25): Mohamed Touihri, bonjour@tazgo.ca.</p><hr><p><a href="support.html">Support</a> · <a href="privacy.html">Privacy</a> · <a href="privacy-fr.html">Confidentialité</a> · <a href="terms.html">Terms</a> · <a href="terms-fr.html">Conditions</a></p></body></html>

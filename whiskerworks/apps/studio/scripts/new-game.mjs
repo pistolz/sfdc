@@ -47,7 +47,7 @@ genre: ${q(genre)}
 mood: ${mood}              # relax | think | action  (home page picker)
 platforms: [ios, android]  # ios, android, web, steam, switch
 # releaseDate: 2026-12-01
-price: Free to play · no ads
+price: Free to play
 colors: ['${c1}', '${c2}']
 motif: spark               # stack | orbit | hex | word | paw | wave | grid | spark (generated art until you add an icon)
 # icon: ./images/${slug}/icon.png          # 1024×1024 PNG next to this file
@@ -70,8 +70,8 @@ features:
     body: Explain it in one or two sentences.
 faq:
   - q: ${q(`Is ${title} free?`)}
-    a: Yes. It is free to start with no ads.
-keywords: []               # what people type in Google: "word puzzle no ads", …
+    a: Yes. It is free to play.
+keywords: []               # what people type in Google: "word puzzle offline", …
 ---
 
 Long-form "About this game" text goes here (Markdown).

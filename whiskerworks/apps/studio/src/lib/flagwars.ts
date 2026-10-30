@@ -42,8 +42,9 @@ export function getFlagWarsSnapshot(): FlagWarsSnapshot {
   return EMPTY;
 }
 
-export const flagWarsUrl = site.series.flagWars.url;
-export const flagWarsStateUrl = `${site.series.flagWars.url}/data/state.json`;
+const fwDef = site.series.find((s) => s.id === 'flagwars')!;
+export const flagWarsUrl = fwDef.url;
+export const flagWarsStateUrl = `${fwDef.url}/data/state.json`;
 
 export function flagEmoji(code: string): string {
   if (!/^[A-Z]{2}$/.test(code)) return '🏳️';

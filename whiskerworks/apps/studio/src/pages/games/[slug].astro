@@ -86,7 +86,15 @@ const jsonLd = [
             <StoreButtons game={game} campaign={`web-${game.id}`} />
             {d.links.web && <a class="btn btn-accent" href={d.links.web}>Play free in your browser <span aria-hidden="true">→</span></a>}
           </div>
-          <p class="price">{d.price}</p>
+          <p class="price">{d.price} · {d.monetization}{d.languages.length > 0 && <> · {d.languages.join(', ')}</>}</p>
+          {d.legal && (
+            <p class="legal">
+              <a href={`/${d.legal}/support.html`}>Support</a>
+              <a href={`/${d.legal}/privacy.html`}>Privacy</a>
+              <a href={`/${d.legal}/terms.html`}>Terms</a>
+              <a href={`/${d.legal}/privacy-fr.html`} hreflang="fr" lang="fr">Confidentialité</a>
+            </p>
+          )}
           {qrs.length > 0 && (
             <div class="qr" aria-label={`Scan to install ${d.title}`}>
               {qrs.map((q) => (
@@ -192,6 +200,8 @@ const jsonLd = [
   .tagline { font-family: var(--ww-font-display); font-weight: 600; font-size: clamp(1.2rem, 2.2vw, 1.6rem); letter-spacing: -0.02em; line-height: 1.25; color: var(--ww-ink); margin-bottom: 1rem; }
   .get { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem; margin-top: 1.8rem; }
   .price { margin-top: 1rem; font-size: 0.92rem; font-weight: 600; color: var(--ww-ink-3); }
+  .legal { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; margin-top: 0.4rem; font-size: 0.88rem; }
+  .legal a { color: var(--ww-ink-3); font-weight: 600; }
   .qr { display: none; align-items: center; gap: 1rem; margin-top: 1.8rem; padding: 1rem; border: 1.5px dashed var(--ww-rule-2); border-radius: var(--ww-radius); max-width: 34rem; }
   @media (hover: hover) and (min-width: 900px) { .qr { display: flex; } }
   .qr figure { width: 5.5rem; text-align: center; font-size: 0.75rem; font-weight: 700; }

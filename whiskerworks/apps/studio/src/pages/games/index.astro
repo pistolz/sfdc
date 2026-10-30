@@ -9,7 +9,7 @@ const count = <T extends string>(key: (g: (typeof games)[number]) => T | readonl
 const usedPlatforms = (Object.keys(platformLabels) as Platform[]).filter((p) => count((g) => g.data.platforms, p) > 0);
 const usedStatuses = (Object.keys(statusLabels) as (keyof typeof statusLabels)[]).filter((s) => count((g) => g.data.status, s) > 0);
 ---
-<Base title="All games" description={`Browse all ${games.length} WhiskerWorks games: puzzle, word and arcade games for iPhone, Android and the web. Free to start, no ads.`} ogImage="/og/games.png">
+<Base title="All games" description={`Browse all ${games.length} WhiskerWorks games: puzzle, word and arcade games for iPhone, Android and the web. Free to play.`} ogImage="/og/games.png">
   <section class="head">
     <div class="container">
       <p class="kicker">The catalogue</p>

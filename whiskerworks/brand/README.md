@@ -2,7 +2,7 @@
 
 **Name:** WhiskerWorks  
 **Tagline:** *Games with nine lives.*  
-**Positioning:** an independent studio making small, replayable games (iPhone, Android, web), with no ads, plus live video series the audience plays from the comments.
+**Positioning:** an independent studio making small, replayable games (iPhone, Android), free to play, plus live video series the audience plays from the comments.
 
 ## Idea
 
@@ -49,7 +49,7 @@ Both are open-source (SIL OFL) and self-hosted through Fontsource: no Google Fon
 ## Voice
 
 Short sentences. Warm, a little cheeky, never cute for the sake of it. Concrete promises
-("No ads. Ever.") rather than adjectives. Talk to one player, not "users".
+("Ten seconds to learn.") rather than adjectives. Talk to one player, not "users".
 
 ## Graphic language
 

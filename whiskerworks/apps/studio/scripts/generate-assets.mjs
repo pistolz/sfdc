@@ -111,7 +111,7 @@ async function writeOg(name, opts) {
 }
 
 ensure(path.join(pub, 'og'));
-await writeOg('default', { kicker: 'Independent game studio', title: 'Small games with nine lives.', sub: 'Replayable games for iPhone, Android and the web. No ads, ever.' });
+await writeOg('default', { kicker: 'Independent game studio', title: 'Small games with nine lives.', sub: 'Free, snackable games for iPhone and Android.' });
 await writeOg('games', { kicker: 'The catalogue', title: 'Every WhiskerWorks game', sub: 'Find your next game: relax, think or go fast.' });
 await writeOg('series', { kicker: 'Live series', title: 'Shows you play from the comments.', sub: 'Comment on Instagram, TikTok or YouTube and change what happens next.', colors: ['#6C5CE7', '#4FC3C9'], dark: true });
 await writeOg('about', { kicker: 'The studio', title: 'Made by humans who love cats and good games.', colors: ['#22B07A', '#FFC93C'] });
