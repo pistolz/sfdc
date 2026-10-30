@@ -128,7 +128,6 @@ export class Arcade {
   private hall = new THREE.Group();
   private meshes: THREE.InstancedMesh[] = [];
   private body?: THREE.InstancedMesh;
-  private marquee?: THREE.InstancedMesh;
   private cellAttr?: THREE.InstancedBufferAttribute;
   private ghost: THREE.Group;
   private floor: THREE.Mesh;
@@ -158,7 +157,6 @@ export class Arcade {
   private inset = { r: 0, b: 0 };
   private down: { x: number; y: number } | null = null;
   private tmp = new THREE.Vector3();
-  private lastInteract = performance.now();
 
   constructor(private canvas: HTMLCanvasElement, private opts: Options) {
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
@@ -176,7 +174,7 @@ export class Arcade {
     });
     this.controls.mouseButtons = { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE };
     this.controls.touches = { ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_ROTATE };
-    this.controls.addEventListener("start", () => { this.lastInteract = performance.now(); this.pan = null; });
+    this.controls.addEventListener("start", () => { this.pan = null; });
 
     // lights: purple sky, deep floor bounce, a cool key light from the entrance
     this.scene.add(new THREE.HemisphereLight("#7b6bff", "#160a26", 1.5));
@@ -206,7 +204,7 @@ export class Arcade {
     this.composer.addPass(this.bloom);
     this.composer.addPass(new OutputPass());
 
-    canvas.addEventListener("pointerdown", (e) => { this.down = { x: e.clientX, y: e.clientY }; this.lastInteract = performance.now(); });
+    canvas.addEventListener("pointerdown", (e) => { this.down = { x: e.clientX, y: e.clientY }; });
     canvas.addEventListener("pointerup", (e) => {
       if (!this.down || Math.hypot(e.clientX - this.down.x, e.clientY - this.down.y) > 6) { this.down = null; return; }
       this.down = null;
@@ -315,7 +313,7 @@ export class Arcade {
     this.cellAttr = new THREE.InstancedBufferAttribute(new Float32Array(n).fill(-1), 1);
     this.cellAttr.setUsage(THREE.DynamicDrawUsage);
     mqGeo.setAttribute("aCell", this.cellAttr);
-    this.marquee = add(mqGeo, new THREE.ShaderMaterial({
+    add(mqGeo, new THREE.ShaderMaterial({
       uniforms: { ...this.uniforms, uAtlas: { value: this.atlasTex }, uGrid: { value: new THREE.Vector2(ATLAS / CELL_W, ATLAS / CELL_H) } },
       vertexShader: INST_VERT.replace("attribute float aIdx;", "attribute float aIdx; attribute float aCell; varying float vCell;").replace("vUv = uv;", "vUv = uv; vCell = aCell;"),
       fragmentShader: /* glsl */ `${FOG_GLSL}${POWER_GLSL} uniform sampler2D uAtlas; uniform vec2 uGrid; varying vec2 vUv; varying float vIdx; varying float vFog; varying vec3 vNeon; varying float vCell;

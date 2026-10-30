@@ -63,3 +63,10 @@ export function toSearchRecord(g: Game) {
   };
 }
 export type SearchRecord = ReturnType<typeof toSearchRecord>;
+
+export const slugify = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+/** Numeric App Store id from an apps.apple.com URL (for the iOS Smart App Banner). */
+export function appStoreId(url: string): string | null {
+  return url.match(/id(\d{6,})/)?.[1] ?? null;
+}

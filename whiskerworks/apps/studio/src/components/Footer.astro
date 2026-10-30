@@ -45,6 +45,7 @@ const year = new Date().getFullYear();
       <ul>
         <li><a href="/privacy/">Privacy</a></li>
         <li><a href="/terms/">Terms</a></li>
+        {site.analytics.ga4Id && <li><button type="button" class="linkbtn" data-consent-open>Cookie preferences</button></li>}
       </ul>
     </div>
   </div>
@@ -63,6 +64,8 @@ const year = new Date().getFullYear();
   nav a:hover, .bottom a:hover { color: var(--ww-marmalade); text-decoration: underline; }
   .bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--ww-night-rule); font-size: 0.9rem; }
   .bottom ul { display: flex; gap: 1.25rem; }
+  .linkbtn { border: 0; background: none; padding: 0; min-height: 2.25rem; color: var(--ww-night-text); cursor: pointer; font: inherit; }
+  .linkbtn:hover { color: var(--ww-marmalade); text-decoration: underline; }
   .whiskers { position: absolute; right: -40px; bottom: -10px; width: 420px; color: var(--ww-night-rule); pointer-events: none; }
   .socials { color: var(--ww-night-text); }
   @media (max-width: 800px) {

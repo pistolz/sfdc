@@ -7,7 +7,7 @@ import GameArt from '../../components/GameArt.astro';
 import GameCard from '../../components/GameCard.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
 import StoreButtons from '../../components/StoreButtons.astro';
-import { getGames, platformLine, gameUrl, type Game } from '../../lib/games';
+import { getGames, platformLine, gameUrl, appStoreId, slugify, type Game } from '../../lib/games';
 import { site } from '../../site.config';
 
 export async function getStaticPaths() {
@@ -19,6 +19,7 @@ const { game, games } = Astro.props;
 const d = game.data;
 const { Content } = await render(game);
 const url = new URL(gameUrl(game), site.url).href;
+const iosId = appStoreId(d.links.appStore);
 
 const qrOpts = { type: 'svg' as const, margin: 1, color: { dark: '#1a1424', light: '#fff8ee' } };
 const qrs = (
@@ -67,6 +68,7 @@ const jsonLd = [
 ];
 ---
 <Base title={`${d.title}: ${d.genre} game`} description={d.description} ogImage={`/og/game-${game.id}.png`} jsonLd={jsonLd}>
+  {iosId && <meta slot="head" name="apple-itunes-app" content={`app-id=${iosId}`} />}
   <div class="page" style={`--accent:${d.colors[0]}; --accent-2:${d.colors[1]}`}>
     <nav class="container crumbs" aria-label="Breadcrumb">
       <ol><li><a href="/games/">Games</a></li><li aria-current="page">{d.title}</li></ol>
@@ -77,7 +79,7 @@ const jsonLd = [
         <div class="copy">
           <div class="pre">
             <StatusBadge status={d.status} />
-            <span class="kicker">{d.genre} · {platformLine(d.platforms)}</span>
+            <a class="kicker" href={`/games/genre/${slugify(d.genre)}/`}>{d.genre}</a><span class="kicker">· {platformLine(d.platforms)}</span>
           </div>
           <h1 class="display">{d.title}</h1>
           <p class="tagline">{d.tagline}</p>
@@ -86,6 +88,10 @@ const jsonLd = [
             <StoreButtons game={game} campaign={`web-${game.id}`} />
             {d.links.web && <a class="btn btn-accent" href={d.links.web}>Play free in your browser <span aria-hidden="true">→</span></a>}
           </div>
+          <button type="button" class="share" data-share={url} data-title={d.title}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span data-share-label>Share {d.title}</span>
+          </button>
           <p class="price">{d.price} · {d.monetization}{d.languages.length > 0 && <> · {d.languages.join(', ')}</>}</p>
           {d.legal && (
             <p class="legal">
@@ -200,6 +206,11 @@ const jsonLd = [
   .tagline { font-family: var(--ww-font-display); font-weight: 600; font-size: clamp(1.2rem, 2.2vw, 1.6rem); letter-spacing: -0.02em; line-height: 1.25; color: var(--ww-ink); margin-bottom: 1rem; }
   .get { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem; margin-top: 1.8rem; }
   .price { margin-top: 1rem; font-size: 0.92rem; font-weight: 600; color: var(--ww-ink-3); }
+  .share { display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 1rem; min-height: 2.5rem; padding: 0 0.9rem; border: 1.5px solid var(--ww-rule-2); border-radius: var(--ww-radius-pill); background: none; cursor: pointer; font-weight: 700; color: var(--ww-ink); }
+  .share:hover { border-color: var(--ww-ink); }
+  .share svg { width: 1.1rem; height: 1.1rem; }
+  .pre a.kicker { text-decoration: none; }
+  .pre a.kicker:hover { text-decoration: underline; }
   .legal { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; margin-top: 0.4rem; font-size: 0.88rem; }
   .legal a { color: var(--ww-ink-3); font-weight: 600; }
   .qr { display: none; align-items: center; gap: 1rem; margin-top: 1.8rem; padding: 1rem; border: 1.5px dashed var(--ww-rule-2); border-radius: var(--ww-radius); max-width: 34rem; }
@@ -231,3 +242,23 @@ const jsonLd = [
     .art { order: -1; max-width: 18rem; margin-inline: auto; }
   }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-share]').forEach((b) =>
+    b.addEventListener('click', async () => {
+      const url = b.dataset.share!;
+      const title = b.dataset.title!;
+      (window as unknown as { track?: (n: string, p: object) => void }).track?.('share', { content_type: 'game', item_id: title });
+      try {
+        if (navigator.share) await navigator.share({ title, url });
+        else {
+          await navigator.clipboard.writeText(url);
+          const l = b.querySelector('[data-share-label]')!;
+          const old = l.textContent;
+          l.textContent = 'Link copied!';
+          setTimeout(() => (l.textContent = old), 1800);
+        }
+      } catch { /* cancelled */ }
+    }),
+  );
+</script>

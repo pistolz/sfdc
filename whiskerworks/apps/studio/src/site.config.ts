@@ -41,6 +41,8 @@ export const site = {
   ],
   /** Optional, privacy-friendly analytics. Leave empty to ship no analytics at all. */
   analytics: {
+    /** Google Analytics 4 measurement ID (G-XXXXXXX). Set PUBLIC_GA4_ID in your host; empty = no GA at all. */
+    ga4Id: (import.meta.env.PUBLIC_GA4_ID as string | undefined) ?? '',
     plausibleDomain: (import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN as string | undefined) ?? '',
   },
 } as const;

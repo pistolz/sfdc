@@ -172,7 +172,10 @@ const usedStatuses = (Object.keys(statusLabels) as (keyof typeof statusLabels)[]
     countEl.textContent = `${n} game${n === 1 ? '' : 's'}`;
     empty.hidden = n > 0;
     writeUrl();
+    clearTimeout(tt);
+    tt = window.setTimeout(() => (window as unknown as { track?: (n: string, p: object) => void }).track?.('filter_games', { search_term: q.value.trim(), mood, platform: platform.value, genre: genre.value, status: status.value, results: String(n) }), 1200);
   }
+  let tt = 0;
   moodBtns.forEach((b) => b.addEventListener('click', () => { mood = b.dataset.mood ?? ''; apply(); }));
   q.addEventListener('input', apply);
   platform.addEventListener('change', apply);

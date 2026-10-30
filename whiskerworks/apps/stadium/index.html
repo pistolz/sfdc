@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Stadium Builder · 1 club = 1 stand · Live stadium</title>
+    <meta name="description" content="1 club = 1 stand. The live stadium of Stadium Builder, the WhiskerWorks series where your comments build the biggest stadium in the world. Find your club or your seat by @handle." />
+    <meta name="theme-color" content="#151a3a" />
+    <link rel="canonical" href="https://stadium.whiskerworks.games/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Stadium Builder by WhiskerWorks" />
+    <meta property="og:title" content="Stadium Builder · 1 club = 1 stand" />
+    <meta property="og:description" content="Comment your club, get your stand, find your seat. All the way to 100,000 seats." />
+    <meta property="og:url" content="https://stadium.whiskerworks.games/" />
+    <meta property="og:image" content="https://stadium.whiskerworks.games/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Stadium Builder: a colourful football stadium built from viewers' comments" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Stadium Builder · 1 club = 1 stand" />
+    <meta name="twitter:description" content="Comment your club, get your stand, find your seat." />
+    <meta name="twitter:image" content="https://stadium.whiskerworks.games/og.png" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preload" href="/data/state.json" as="fetch" crossorigin />
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"WebPage","name":"Stadium Builder · Live stadium","url":"https://stadium.whiskerworks.games/",
+       "isPartOf":{"@type":"CreativeWorkSeries","name":"Stadium Builder","creator":{"@type":"Organization","name":"WhiskerWorks","url":"https://whiskerworks.games/"}}}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#search-input">Skip to search</a>
+    <div class="app" id="app" data-state="loading">
+      <canvas id="scene" aria-hidden="true"></canvas>
+      <div class="labels" id="labels" aria-hidden="true"></div>
+      <div class="seat-tag" id="seat-tag" aria-hidden="true" hidden></div>
+
+      <header class="hud-top">
+        <div class="topbar">
+          <a class="brand" href="https://whiskerworks.games/?utm_source=stadium&utm_medium=map" aria-label="WhiskerWorks studio home">
+            <img src="/mark.svg" alt="" width="28" height="28" />
+            <span>by <b>WhiskerWorks</b></span>
+          </a>
+          <div class="top-actions">
+            <button class="chip" id="btn-episodes" type="button" aria-haspopup="dialog" aria-controls="drawer-episodes">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Episodes</span>
+            </button>
+            <button class="chip" id="btn-share" type="button" aria-label="Share the stadium">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l4 4h-3v7h-2V7H8zM5 12h2v7h10v-7h2v9H5z"/></svg><span>Share</span>
+            </button>
+          </div>
+        </div>
+        <p class="kicker">Stadium Builder</p>
+        <h1 class="headline"><span class="sr-only">Stadium Builder: </span>1 <em>Club</em> = 1 Stand</h1>
+        <div class="pills" aria-label="Game status">
+          <div class="pill"><span>Day</span><b id="stat-day">–</b></div>
+          <div class="pill pill-gold"><span>Clubs</span><b id="stat-clubs">–</b></div>
+        </div>
+        <div class="goal" id="hud-top-anchor">
+          <p class="goal-title">Goal: the biggest stadium in the world</p>
+          <div class="goal-row">
+            <span class="lv-badge" id="goal-lv">LV1</span>
+            <div class="goal-bar" id="goal-bar" role="progressbar" aria-label="Seats built" aria-valuemin="0" aria-valuemax="100000" aria-valuenow="0"><i></i></div>
+            <span class="goal-num"><b id="goal-seats">0</b>/<span id="goal-max">100,000</span></span>
+          </div>
+          <p class="goal-sub"><span id="goal-name">Local ground</span><span>Seats</span></p>
+        </div>
+      </header>
+
+      <aside class="top3" id="top3" aria-labelledby="top3-title">
+        <h2 id="top3-title"><span aria-hidden="true">🏆</span> Top 3 stands</h2>
+        <ol id="top3-list"></ol>
+        <button class="link-btn" id="btn-board" type="button" aria-haspopup="dialog" aria-controls="drawer-board">All clubs <span aria-hidden="true">→</span></button>
+      </aside>
+
+      <section class="dock" aria-label="Find your seat">
+        <form class="search" id="search-form" role="search" autocomplete="off">
+          <label for="search-input" class="sr-only">Find your club or your seat by @handle</label>
+          <input id="search-input" type="search" placeholder="@yourhandle or your club" enterkeyhint="search"
+            role="combobox" aria-expanded="false" aria-controls="search-list" aria-autocomplete="list" spellcheck="false" autocapitalize="off" />
+          <button type="submit" class="btn btn-gold">Find my seat</button>
+          <ul id="search-list" class="suggest" role="listbox" hidden></ul>
+        </form>
+        <div class="cta-row">
+          <a class="btn btn-cta" id="cta-episode" href="#" target="_blank" rel="noopener">
+            <span class="dot" aria-hidden="true"></span><span id="cta-episode-text">Comment your club</span> <span aria-hidden="true">↗</span>
+          </a>
+          <button class="btn btn-ghost icon-btn" id="btn-overview" type="button" aria-label="Back to the whole stadium">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5c-5 0-9 2.2-9 5v4c0 2.8 4 5 9 5s9-2.2 9-5v-4c0-2.8-4-5-9-5Zm0 2c4.1 0 7 1.6 7 3s-2.9 3-7 3-7-1.6-7-3 2.9-3 7-3Z"/></svg>
+          </button>
+          <nav class="socials" id="socials" aria-label="Follow Stadium Builder"></nav>
+        </div>
+        <p class="note"><span id="updated">Commented recently?</span> The stadium updates daily.</p>
+      </section>
+
+      <section class="panel" id="panel" role="dialog" aria-modal="false" aria-labelledby="panel-title" hidden>
+        <div class="panel-grip" aria-hidden="true"></div>
+        <button class="panel-close" id="panel-close" type="button" aria-label="Close">×</button>
+        <div id="panel-body"></div>
+      </section>
+
+      <div class="drawer" id="drawer-board" role="dialog" aria-modal="true" aria-labelledby="board-title" hidden>
+        <div class="drawer-inner">
+          <header><h2 id="board-title">All clubs</h2><button class="panel-close" data-close type="button" aria-label="Close">×</button></header>
+          <label class="sr-only" for="board-filter">Filter clubs</label>
+          <input id="board-filter" class="filter" type="search" placeholder="Filter clubs" />
+          <ol class="board" id="board-list"></ol>
+        </div>
+      </div>
+
+      <div class="drawer" id="drawer-episodes" role="dialog" aria-modal="true" aria-labelledby="ep-title" hidden>
+        <div class="drawer-inner">
+          <header><h2 id="ep-title">Episodes</h2><button class="panel-close" data-close type="button" aria-label="Close">×</button></header>
+          <p class="drawer-lede">A new episode every day. Your comments build the stadium.</p>
+          <ol class="episodes" id="episode-list"></ol>
+          <div class="how">
+            <h3>How it works</h3>
+            <ol>
+              <li><b>Comment your football club</b> on the latest episode.</li>
+              <li><b>1 club = 1 stand.</b> The first comment for a club founds its stand (500 seats) and makes you its <b>founder</b>.</li>
+              <li>Every comment after that adds <b>100 seats</b> to the stand, and you get your own seat with your name on it.</li>
+              <li>More seats level the stadium up: new tiers, a roof… all the way to <b>100,000 seats</b>.</li>
+            </ol>
+            <p class="fine">Want your name off the stadium? <a href="mailto:bonjour@tazgo.ca?subject=Stadium%20Builder%20opt-out">Message us</a> and we'll hide it at the next update.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="loader" id="loader" role="status"><img src="/mark.svg" alt="" width="56" height="56" /><span>Opening the gates…</span></div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      <div class="sr-only" aria-live="polite" id="sr-live"></div>
+      <section class="sr-only" aria-labelledby="sr-board-title"><h2 id="sr-board-title">Current stands</h2><ol id="sr-board"></ol></section>
+    </div>
+    <noscript><p class="noscript">Stadium Builder needs JavaScript to show the live stadium. Follow the series on <a href="https://www.instagram.com/ads_noads/">Instagram</a>.</p></noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

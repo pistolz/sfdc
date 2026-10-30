@@ -1,0 +1,69 @@
+---
+/**
+ * Google Analytics 4 with Consent Mode v2 + consent banner (Québec Law 25 / GDPR friendly).
+ * Nothing is stored until the visitor accepts. Rendered only when PUBLIC_GA4_ID is set.
+ * Events sent: store_click, search, filter_games, series_find, share, outbound_click (+ GA4 page_view).
+ * Anywhere in the site: window.wwTrack('event_name', { ...params }).
+ */
+import { site } from '../site.config';
+const id = site.analytics.ga4Id;
+---
+{id && (
+  <>
+    <script is:inline define:vars={{ id }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      window.gtag = gtag;
+      var stored = null;
+      try { stored = localStorage.getItem('ww-consent'); } catch (e) {}
+      var granted = stored === 'granted';
+      gtag('consent', 'default', {
+        ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+        analytics_storage: granted ? 'granted' : 'denied',
+        wait_for_update: 500,
+      });
+      gtag('js', new Date());
+      gtag('config', id, { anonymize_ip: true });
+      window.wwTrack = function (name, params) { gtag('event', name, params || {}); };
+      var s = document.createElement('script');
+      s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+      document.head.appendChild(s);
+    </script>
+    <div class="consent" role="dialog" aria-live="polite" aria-label="Cookie preferences" hidden data-consent>
+      <p><b>Cookies?</b> We’d like to measure visits with Google Analytics to make the site better. Nothing is stored unless you say yes. <a href="/privacy/">Privacy</a></p>
+      <div class="btns">
+        <button type="button" class="btn btn-sm btn-secondary" data-consent-choice="denied">No thanks</button>
+        <button type="button" class="btn btn-sm btn-accent" data-consent-choice="granted">Accept</button>
+      </div>
+    </div>
+    <script is:inline>
+      (function () {
+        var box = document.querySelector('[data-consent]');
+        var v = null;
+        try { v = localStorage.getItem('ww-consent'); } catch (e) {}
+        if (!v && box) box.hidden = false;
+        document.querySelectorAll('[data-consent-choice]').forEach(function (b) {
+          b.addEventListener('click', function () {
+            var c = b.getAttribute('data-consent-choice');
+            try { localStorage.setItem('ww-consent', c); } catch (e) {}
+            window.gtag('consent', 'update', { analytics_storage: c });
+            box.hidden = true;
+          });
+        });
+        document.querySelectorAll('[data-consent-open]').forEach(function (b) {
+          b.addEventListener('click', function () { box.hidden = false; });
+        });
+      })();
+    </script>
+    <style>
+      .consent {
+        position: fixed; z-index: 900; left: 1rem; right: 1rem; bottom: max(1rem, env(safe-area-inset-bottom));
+        max-width: 34rem; margin-left: auto; padding: 1rem 1.1rem; display: grid; gap: 0.8rem;
+        background: var(--ww-paper); color: var(--ww-ink); border: 2px solid var(--ww-ink); border-radius: var(--ww-radius-lg);
+        box-shadow: 6px 6px 0 var(--ww-ink); font-size: 0.95rem;
+      }
+      .consent a { color: var(--ww-marmalade-ink); font-weight: 700; }
+      .consent .btns { display: flex; gap: 0.6rem; justify-content: flex-end; flex-wrap: wrap; }
+    </style>
+  </>
+)}

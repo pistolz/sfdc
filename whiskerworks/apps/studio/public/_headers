@@ -5,7 +5,7 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
   X-Frame-Options: SAMEORIGIN
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://*.whiskerworks.games https://plausible.io; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://*.whiskerworks.games
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.whiskerworks.games https://plausible.io https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://*.whiskerworks.games
 
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
