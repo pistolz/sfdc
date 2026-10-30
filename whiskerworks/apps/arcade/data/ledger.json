@@ -1,0 +1,1874 @@
+[
+  {
+    "handle": "ads_noads",
+    "day": 1,
+    "ts": "2026-10-26T15:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "j0rdy",
+    "day": 2,
+    "ts": "2026-10-27T15:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "leo.taps",
+    "day": 2,
+    "ts": "2026-10-27T15:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "mia_runs",
+    "day": 2,
+    "ts": "2026-10-27T15:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "tapqueen",
+    "day": 2,
+    "ts": "2026-10-27T15:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "kai_88",
+    "day": 2,
+    "ts": "2026-10-27T15:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ollie.gg",
+    "day": 2,
+    "ts": "2026-10-27T15:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sam.combo",
+    "day": 2,
+    "ts": "2026-10-27T16:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ruby.lvl9",
+    "day": 2,
+    "ts": "2026-10-27T16:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zed_jr",
+    "day": 2,
+    "ts": "2026-10-27T16:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "nova.k",
+    "day": 2,
+    "ts": "2026-10-27T16:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "bytebee",
+    "day": 2,
+    "ts": "2026-10-27T16:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lumi.play",
+    "day": 2,
+    "ts": "2026-10-27T16:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "rex.1up",
+    "day": 2,
+    "ts": "2026-10-27T17:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lea.gg",
+    "day": 2,
+    "ts": "2026-10-27T17:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "nina.pad",
+    "day": 2,
+    "ts": "2026-10-27T17:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "kai.glitch",
+    "day": 2,
+    "ts": "2026-10-27T17:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "theo_fr",
+    "day": 2,
+    "ts": "2026-10-27T17:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "leo.k",
+    "day": 2,
+    "ts": "2026-10-27T17:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "omar.coins94",
+    "day": 2,
+    "ts": "2026-10-27T18:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "rex.k",
+    "day": 2,
+    "ts": "2026-10-27T18:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "pixel_bit40",
+    "day": 2,
+    "ts": "2026-10-27T18:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "remy_92",
+    "day": 2,
+    "ts": "2026-10-27T18:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ava_pad",
+    "day": 2,
+    "ts": "2026-10-27T18:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ava_bit",
+    "day": 2,
+    "ts": "2026-10-27T18:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "remy_x57",
+    "day": 2,
+    "ts": "2026-10-27T19:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "remy.glitch",
+    "day": 2,
+    "ts": "2026-10-27T19:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "rex.exe",
+    "day": 2,
+    "ts": "2026-10-27T19:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ivy.gg",
+    "day": 2,
+    "ts": "2026-10-27T19:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ruby_plays",
+    "day": 2,
+    "ts": "2026-10-27T19:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "rex_x",
+    "day": 2,
+    "ts": "2026-10-27T19:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "max_runs",
+    "day": 2,
+    "ts": "2026-10-27T20:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "luna_coins",
+    "day": 2,
+    "ts": "2026-10-27T20:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lina.88",
+    "day": 2,
+    "ts": "2026-10-27T20:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "noah_play",
+    "day": 2,
+    "ts": "2026-10-27T20:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "neo.1up",
+    "day": 2,
+    "ts": "2026-10-27T20:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sara.mtl",
+    "day": 2,
+    "ts": "2026-10-27T20:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "mia.glitch",
+    "day": 2,
+    "ts": "2026-10-27T21:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "pixel_1up",
+    "day": 2,
+    "ts": "2026-10-27T21:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "finn_runs",
+    "day": 3,
+    "ts": "2026-10-28T15:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ruby.x",
+    "day": 3,
+    "ts": "2026-10-28T15:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lumi_boss",
+    "day": 3,
+    "ts": "2026-10-28T15:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zed_pad85",
+    "day": 3,
+    "ts": "2026-10-28T15:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "neo_speed",
+    "day": 3,
+    "ts": "2026-10-28T15:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "yuki_fr",
+    "day": 3,
+    "ts": "2026-10-28T15:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ines.glitch",
+    "day": 3,
+    "ts": "2026-10-28T16:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ash_bit",
+    "day": 3,
+    "ts": "2026-10-28T16:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jay_x",
+    "day": 3,
+    "ts": "2026-10-28T16:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sam_qc61",
+    "day": 3,
+    "ts": "2026-10-28T16:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ruby_jr",
+    "day": 3,
+    "ts": "2026-10-28T16:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "noah.8836",
+    "day": 3,
+    "ts": "2026-10-28T16:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ollie_92",
+    "day": 3,
+    "ts": "2026-10-28T17:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "remy.combo34",
+    "day": 3,
+    "ts": "2026-10-28T17:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "aria.exe",
+    "day": 3,
+    "ts": "2026-10-28T17:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sara_runs34",
+    "day": 3,
+    "ts": "2026-10-28T17:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "rex_k70",
+    "day": 3,
+    "ts": "2026-10-28T17:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "remy_8865",
+    "day": 3,
+    "ts": "2026-10-28T17:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "rex.combo",
+    "day": 3,
+    "ts": "2026-10-28T18:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "pixel.exe",
+    "day": 3,
+    "ts": "2026-10-28T18:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "hugo.rush28",
+    "day": 3,
+    "ts": "2026-10-28T18:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "rex_jr",
+    "day": 3,
+    "ts": "2026-10-28T18:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ivy.ninja44",
+    "day": 3,
+    "ts": "2026-10-28T18:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ruby.plays",
+    "day": 3,
+    "ts": "2026-10-28T18:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sam_jr",
+    "day": 3,
+    "ts": "2026-10-28T19:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "kai_qc83",
+    "day": 3,
+    "ts": "2026-10-28T19:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "theo.quest84",
+    "day": 3,
+    "ts": "2026-10-28T19:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "omar.coins",
+    "day": 3,
+    "ts": "2026-10-28T19:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zed_play",
+    "day": 3,
+    "ts": "2026-10-28T19:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "neo.plays",
+    "day": 3,
+    "ts": "2026-10-28T19:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "yuki_1up",
+    "day": 3,
+    "ts": "2026-10-28T20:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jo.boss66",
+    "day": 3,
+    "ts": "2026-10-28T20:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "byte_88",
+    "day": 3,
+    "ts": "2026-10-28T20:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "retro.coins",
+    "day": 3,
+    "ts": "2026-10-28T20:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "byte_qc",
+    "day": 3,
+    "ts": "2026-10-28T20:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ash_ninja76",
+    "day": 3,
+    "ts": "2026-10-28T20:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "theo_pad",
+    "day": 3,
+    "ts": "2026-10-28T21:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "retro.exe38",
+    "day": 3,
+    "ts": "2026-10-28T21:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lumi.pad71",
+    "day": 3,
+    "ts": "2026-10-28T21:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "noah_jr",
+    "day": 3,
+    "ts": "2026-10-28T21:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sam_lvl9",
+    "day": 3,
+    "ts": "2026-10-28T21:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "yuki_coins",
+    "day": 3,
+    "ts": "2026-10-28T21:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sara.arcade",
+    "day": 3,
+    "ts": "2026-10-28T22:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zed_pad",
+    "day": 3,
+    "ts": "2026-10-28T22:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ollie.exe",
+    "day": 3,
+    "ts": "2026-10-28T22:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "noah_quest",
+    "day": 3,
+    "ts": "2026-10-28T22:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lumi.exe",
+    "day": 3,
+    "ts": "2026-10-28T22:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "luna.pro",
+    "day": 3,
+    "ts": "2026-10-28T22:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "cleo_lvl9",
+    "day": 3,
+    "ts": "2026-10-28T23:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "axel_fr",
+    "day": 3,
+    "ts": "2026-10-28T23:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ollie.highscore",
+    "day": 3,
+    "ts": "2026-10-28T23:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "nina_x",
+    "day": 3,
+    "ts": "2026-10-28T23:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "yuki.exe",
+    "day": 3,
+    "ts": "2026-10-28T23:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "milo_lvl9",
+    "day": 3,
+    "ts": "2026-10-28T23:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "leo.speed27",
+    "day": 3,
+    "ts": "2026-10-29T00:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ava.taps30",
+    "day": 3,
+    "ts": "2026-10-29T00:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "remy.lvl9",
+    "day": 3,
+    "ts": "2026-10-29T00:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ava_rush",
+    "day": 3,
+    "ts": "2026-10-29T00:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ava_coins51",
+    "day": 3,
+    "ts": "2026-10-29T00:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "eli.runs",
+    "day": 3,
+    "ts": "2026-10-29T00:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ollie_qc",
+    "day": 3,
+    "ts": "2026-10-29T01:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "retro_coins",
+    "day": 3,
+    "ts": "2026-10-29T01:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "nina.rush",
+    "day": 3,
+    "ts": "2026-10-29T01:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jo_glitch",
+    "day": 3,
+    "ts": "2026-10-29T01:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zed_plays",
+    "day": 3,
+    "ts": "2026-10-29T01:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "finn_combo",
+    "day": 3,
+    "ts": "2026-10-29T01:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "nova_boss",
+    "day": 3,
+    "ts": "2026-10-29T02:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "yuki_boss",
+    "day": 3,
+    "ts": "2026-10-29T02:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "milo_quest",
+    "day": 3,
+    "ts": "2026-10-29T02:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lumi_plays65",
+    "day": 3,
+    "ts": "2026-10-29T02:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "yuki_qc",
+    "day": 3,
+    "ts": "2026-10-29T02:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "finn_92",
+    "day": 4,
+    "ts": "2026-10-29T15:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "rex_x80",
+    "day": 4,
+    "ts": "2026-10-29T15:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ava.8848",
+    "day": 4,
+    "ts": "2026-10-29T15:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sara_runs",
+    "day": 4,
+    "ts": "2026-10-29T15:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "pixel_pad",
+    "day": 4,
+    "ts": "2026-10-29T15:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jo_x",
+    "day": 4,
+    "ts": "2026-10-29T15:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "luna.pad",
+    "day": 4,
+    "ts": "2026-10-29T16:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "finn.plays",
+    "day": 4,
+    "ts": "2026-10-29T16:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "pixel_92",
+    "day": 4,
+    "ts": "2026-10-29T16:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lumi.mtl",
+    "day": 4,
+    "ts": "2026-10-29T16:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "mia_pad89",
+    "day": 4,
+    "ts": "2026-10-29T16:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "retro.gg42",
+    "day": 4,
+    "ts": "2026-10-29T16:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "eli.highscore",
+    "day": 4,
+    "ts": "2026-10-29T17:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ivy.taps",
+    "day": 4,
+    "ts": "2026-10-29T17:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "kai.quest",
+    "day": 4,
+    "ts": "2026-10-29T17:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "aria.rush",
+    "day": 4,
+    "ts": "2026-10-29T17:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zoe_runs21",
+    "day": 4,
+    "ts": "2026-10-29T17:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "pixel.glitch",
+    "day": 4,
+    "ts": "2026-10-29T17:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jo.quest",
+    "day": 4,
+    "ts": "2026-10-29T18:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "remy_rush",
+    "day": 4,
+    "ts": "2026-10-29T18:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ava.mtl",
+    "day": 4,
+    "ts": "2026-10-29T18:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jay_lvl9",
+    "day": 4,
+    "ts": "2026-10-29T18:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jay.glitch",
+    "day": 4,
+    "ts": "2026-10-29T18:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "aria_combo",
+    "day": 4,
+    "ts": "2026-10-29T18:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jo_1up77",
+    "day": 4,
+    "ts": "2026-10-29T19:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ines.lvl9",
+    "day": 4,
+    "ts": "2026-10-29T19:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "joy_fr40",
+    "day": 4,
+    "ts": "2026-10-29T19:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ruby_runs",
+    "day": 4,
+    "ts": "2026-10-29T19:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "nova.gg",
+    "day": 4,
+    "ts": "2026-10-29T19:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "eli_neon34",
+    "day": 4,
+    "ts": "2026-10-29T19:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "eli.mtl60",
+    "day": 4,
+    "ts": "2026-10-29T20:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "finn.pad",
+    "day": 4,
+    "ts": "2026-10-29T20:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zed_pro",
+    "day": 4,
+    "ts": "2026-10-29T20:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sara_1up",
+    "day": 4,
+    "ts": "2026-10-29T20:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "eli_1up18",
+    "day": 4,
+    "ts": "2026-10-29T20:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "omar.ninja",
+    "day": 4,
+    "ts": "2026-10-29T20:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sam_quest",
+    "day": 4,
+    "ts": "2026-10-29T21:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "byte.gg",
+    "day": 4,
+    "ts": "2026-10-29T21:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ines.speed46",
+    "day": 4,
+    "ts": "2026-10-29T21:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lina.neon",
+    "day": 4,
+    "ts": "2026-10-29T21:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "kai_1up",
+    "day": 4,
+    "ts": "2026-10-29T21:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lina_pad",
+    "day": 4,
+    "ts": "2026-10-29T21:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lea_k89",
+    "day": 4,
+    "ts": "2026-10-29T22:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "noah_runs75",
+    "day": 4,
+    "ts": "2026-10-29T22:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "retro.ninja",
+    "day": 4,
+    "ts": "2026-10-29T22:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "aria_quest",
+    "day": 4,
+    "ts": "2026-10-29T22:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zoe_highscore",
+    "day": 4,
+    "ts": "2026-10-29T22:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "joy.mtl",
+    "day": 4,
+    "ts": "2026-10-29T22:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "milo.plays",
+    "day": 4,
+    "ts": "2026-10-29T23:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "pixel.pad",
+    "day": 4,
+    "ts": "2026-10-29T23:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ines.speed",
+    "day": 4,
+    "ts": "2026-10-29T23:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "nova_neon",
+    "day": 4,
+    "ts": "2026-10-29T23:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "finn.mtl",
+    "day": 4,
+    "ts": "2026-10-29T23:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "yuki.glitch20",
+    "day": 4,
+    "ts": "2026-10-29T23:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "neo_92",
+    "day": 4,
+    "ts": "2026-10-30T00:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "eli_ninja65",
+    "day": 4,
+    "ts": "2026-10-30T00:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "rex_pro71",
+    "day": 4,
+    "ts": "2026-10-30T00:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "finn.bit",
+    "day": 4,
+    "ts": "2026-10-30T00:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "milo_combo22",
+    "day": 4,
+    "ts": "2026-10-30T00:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ollie.coins87",
+    "day": 4,
+    "ts": "2026-10-30T00:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "axel.rush42",
+    "day": 4,
+    "ts": "2026-10-30T01:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ollie_neon",
+    "day": 4,
+    "ts": "2026-10-30T01:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "nina.taps",
+    "day": 4,
+    "ts": "2026-10-30T01:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "noah.mtl",
+    "day": 4,
+    "ts": "2026-10-30T01:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zed_gg",
+    "day": 4,
+    "ts": "2026-10-30T01:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "yuki.runs",
+    "day": 4,
+    "ts": "2026-10-30T01:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ollie_fr",
+    "day": 4,
+    "ts": "2026-10-30T02:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ava_ninja",
+    "day": 4,
+    "ts": "2026-10-30T02:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lea.taps",
+    "day": 4,
+    "ts": "2026-10-30T02:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "aria.plays66",
+    "day": 4,
+    "ts": "2026-10-30T02:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ivy_qc19",
+    "day": 4,
+    "ts": "2026-10-30T02:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sara_highscore",
+    "day": 4,
+    "ts": "2026-10-30T02:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "leo_92",
+    "day": 4,
+    "ts": "2026-10-30T03:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lumi.neon",
+    "day": 4,
+    "ts": "2026-10-30T03:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "theo.combo75",
+    "day": 4,
+    "ts": "2026-10-30T03:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ivy_92",
+    "day": 4,
+    "ts": "2026-10-30T03:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "retro.x",
+    "day": 4,
+    "ts": "2026-10-30T03:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "aria_jr50",
+    "day": 4,
+    "ts": "2026-10-30T03:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "theo_9273",
+    "day": 4,
+    "ts": "2026-10-30T04:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "theo_9214",
+    "day": 4,
+    "ts": "2026-10-30T04:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "eli_jr",
+    "day": 4,
+    "ts": "2026-10-30T04:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ivy_combo",
+    "day": 4,
+    "ts": "2026-10-30T04:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "rex_glitch",
+    "day": 4,
+    "ts": "2026-10-30T04:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zoe.quest",
+    "day": 4,
+    "ts": "2026-10-30T04:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ines_gg",
+    "day": 4,
+    "ts": "2026-10-30T05:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lumi.boss",
+    "day": 4,
+    "ts": "2026-10-30T05:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "yuki_bit",
+    "day": 4,
+    "ts": "2026-10-30T05:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "nina.plays",
+    "day": 4,
+    "ts": "2026-10-30T05:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jo_jr95",
+    "day": 4,
+    "ts": "2026-10-30T05:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "cleo_pro",
+    "day": 4,
+    "ts": "2026-10-30T05:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "kai.plays55",
+    "day": 4,
+    "ts": "2026-10-30T06:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "axel_9248",
+    "day": 4,
+    "ts": "2026-10-30T06:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "leo_play",
+    "day": 5,
+    "ts": "2026-10-30T15:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ollie.taps",
+    "day": 5,
+    "ts": "2026-10-30T15:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "milo.bit",
+    "day": 5,
+    "ts": "2026-10-30T15:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ava_pro",
+    "day": 5,
+    "ts": "2026-10-30T15:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "eli_fr",
+    "day": 5,
+    "ts": "2026-10-30T15:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "rex.mtl",
+    "day": 5,
+    "ts": "2026-10-30T15:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "omar_lvl9",
+    "day": 5,
+    "ts": "2026-10-30T16:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "neo.mtl",
+    "day": 5,
+    "ts": "2026-10-30T16:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "omar.gg",
+    "day": 5,
+    "ts": "2026-10-30T16:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "yuki_x",
+    "day": 5,
+    "ts": "2026-10-30T16:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "neo.k59",
+    "day": 5,
+    "ts": "2026-10-30T16:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sam.play98",
+    "day": 5,
+    "ts": "2026-10-30T16:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "pixel.neon8",
+    "day": 5,
+    "ts": "2026-10-30T17:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ivy_coins",
+    "day": 5,
+    "ts": "2026-10-30T17:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "remy.88",
+    "day": 5,
+    "ts": "2026-10-30T17:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "leo_bit81",
+    "day": 5,
+    "ts": "2026-10-30T17:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "aria_rush",
+    "day": 5,
+    "ts": "2026-10-30T17:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ines_jr",
+    "day": 5,
+    "ts": "2026-10-30T17:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "leo_x",
+    "day": 5,
+    "ts": "2026-10-30T18:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "rex_1up",
+    "day": 5,
+    "ts": "2026-10-30T18:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ines_qc",
+    "day": 5,
+    "ts": "2026-10-30T18:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sara.pad58",
+    "day": 5,
+    "ts": "2026-10-30T18:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "remy_fr",
+    "day": 5,
+    "ts": "2026-10-30T18:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "mia.gg",
+    "day": 5,
+    "ts": "2026-10-30T18:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "theo_play90",
+    "day": 5,
+    "ts": "2026-10-30T19:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "max.x97",
+    "day": 5,
+    "ts": "2026-10-30T19:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "kai.exe",
+    "day": 5,
+    "ts": "2026-10-30T19:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ines_speed",
+    "day": 5,
+    "ts": "2026-10-30T19:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "joy_quest",
+    "day": 5,
+    "ts": "2026-10-30T19:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sara_x85",
+    "day": 5,
+    "ts": "2026-10-30T19:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ava.plays",
+    "day": 5,
+    "ts": "2026-10-30T20:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "noah.pro",
+    "day": 5,
+    "ts": "2026-10-30T20:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "neo.speed95",
+    "day": 5,
+    "ts": "2026-10-30T20:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "yuki.arcade81",
+    "day": 5,
+    "ts": "2026-10-30T20:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zed.combo",
+    "day": 5,
+    "ts": "2026-10-30T20:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "remy_runs",
+    "day": 5,
+    "ts": "2026-10-30T20:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lumi.x65",
+    "day": 5,
+    "ts": "2026-10-30T21:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "luna.neon",
+    "day": 5,
+    "ts": "2026-10-30T21:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "rex_lvl9",
+    "day": 5,
+    "ts": "2026-10-30T21:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "kai.quest62",
+    "day": 5,
+    "ts": "2026-10-30T21:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "hugo_gg45",
+    "day": 5,
+    "ts": "2026-10-30T21:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sam_neon51",
+    "day": 5,
+    "ts": "2026-10-30T21:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lea_92",
+    "day": 5,
+    "ts": "2026-10-30T22:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zed.mtl71",
+    "day": 5,
+    "ts": "2026-10-30T22:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sara.boss",
+    "day": 5,
+    "ts": "2026-10-30T22:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "byte.speed92",
+    "day": 5,
+    "ts": "2026-10-30T22:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "joy.neon",
+    "day": 5,
+    "ts": "2026-10-30T22:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ines_lvl9",
+    "day": 5,
+    "ts": "2026-10-30T22:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "finn.lvl9",
+    "day": 5,
+    "ts": "2026-10-30T23:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lea.88",
+    "day": 5,
+    "ts": "2026-10-30T23:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ava.exe72",
+    "day": 5,
+    "ts": "2026-10-30T23:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jo.x",
+    "day": 5,
+    "ts": "2026-10-30T23:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "max_plays",
+    "day": 5,
+    "ts": "2026-10-30T23:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "luna.neon91",
+    "day": 5,
+    "ts": "2026-10-30T23:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "rex_bit95",
+    "day": 5,
+    "ts": "2026-10-31T00:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "leo.gg",
+    "day": 5,
+    "ts": "2026-10-31T00:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jay.k",
+    "day": 5,
+    "ts": "2026-10-31T00:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "hugo.plays55",
+    "day": 5,
+    "ts": "2026-10-31T00:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "max_fr",
+    "day": 5,
+    "ts": "2026-10-31T00:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "pixel_quest",
+    "day": 5,
+    "ts": "2026-10-31T00:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "rex_qc",
+    "day": 5,
+    "ts": "2026-10-31T01:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jo.highscore",
+    "day": 5,
+    "ts": "2026-10-31T01:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zoe.taps",
+    "day": 5,
+    "ts": "2026-10-31T01:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "cleo.rush",
+    "day": 5,
+    "ts": "2026-10-31T01:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zoe.ninja",
+    "day": 5,
+    "ts": "2026-10-31T01:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "eli_rush",
+    "day": 5,
+    "ts": "2026-10-31T01:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "luna.speed",
+    "day": 5,
+    "ts": "2026-10-31T02:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "axel.1up",
+    "day": 5,
+    "ts": "2026-10-31T02:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "mia.highscore",
+    "day": 5,
+    "ts": "2026-10-31T02:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "max.highscore",
+    "day": 5,
+    "ts": "2026-10-31T02:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "noah_qc",
+    "day": 5,
+    "ts": "2026-10-31T02:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "neo_jr",
+    "day": 5,
+    "ts": "2026-10-31T02:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ash_jr",
+    "day": 5,
+    "ts": "2026-10-31T03:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ollie.mtl",
+    "day": 5,
+    "ts": "2026-10-31T03:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "omar.plays",
+    "day": 5,
+    "ts": "2026-10-31T03:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jay_coins",
+    "day": 5,
+    "ts": "2026-10-31T03:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ruby_pad",
+    "day": 5,
+    "ts": "2026-10-31T03:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jay.x",
+    "day": 5,
+    "ts": "2026-10-31T03:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "milo.combo",
+    "day": 5,
+    "ts": "2026-10-31T04:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "joy.play",
+    "day": 5,
+    "ts": "2026-10-31T04:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "nova.mtl",
+    "day": 5,
+    "ts": "2026-10-31T04:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "omar_lvl971",
+    "day": 5,
+    "ts": "2026-10-31T04:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jo_rush",
+    "day": 5,
+    "ts": "2026-10-31T04:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sara_combo50",
+    "day": 5,
+    "ts": "2026-10-31T04:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "milo_fr41",
+    "day": 5,
+    "ts": "2026-10-31T05:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "sam.exe",
+    "day": 5,
+    "ts": "2026-10-31T05:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zed_rush56",
+    "day": 5,
+    "ts": "2026-10-31T05:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ines.boss61",
+    "day": 5,
+    "ts": "2026-10-31T05:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "aria_fr",
+    "day": 5,
+    "ts": "2026-10-31T05:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lumi_arcade",
+    "day": 5,
+    "ts": "2026-10-31T05:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zoe_neon",
+    "day": 5,
+    "ts": "2026-10-31T06:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ollie_boss",
+    "day": 5,
+    "ts": "2026-10-31T06:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "remy.exe",
+    "day": 5,
+    "ts": "2026-10-31T06:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "jay_play",
+    "day": 5,
+    "ts": "2026-10-31T06:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "pixel_qc",
+    "day": 5,
+    "ts": "2026-10-31T06:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ruby.combo",
+    "day": 5,
+    "ts": "2026-10-31T06:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ollie_speed45",
+    "day": 5,
+    "ts": "2026-10-31T07:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "yuki_taps",
+    "day": 5,
+    "ts": "2026-10-31T07:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "kai.speed",
+    "day": 5,
+    "ts": "2026-10-31T07:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "nina_play",
+    "day": 5,
+    "ts": "2026-10-31T07:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "zoe_plays",
+    "day": 5,
+    "ts": "2026-10-31T07:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "leo_taps74",
+    "day": 5,
+    "ts": "2026-10-31T07:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "remy_glitch",
+    "day": 5,
+    "ts": "2026-10-31T08:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ash.plays",
+    "day": 5,
+    "ts": "2026-10-31T08:10:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "lumi_92",
+    "day": 5,
+    "ts": "2026-10-31T08:20:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "kai_runs",
+    "day": 5,
+    "ts": "2026-10-31T08:30:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ines.pad",
+    "day": 5,
+    "ts": "2026-10-31T08:40:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "ollie.plays15",
+    "day": 5,
+    "ts": "2026-10-31T08:50:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "milo.play",
+    "day": 5,
+    "ts": "2026-10-31T09:00:00.000Z",
+    "source": "demo"
+  },
+  {
+    "handle": "hugo.pad",
+    "day": 5,
+    "ts": "2026-10-31T09:10:00.000Z",
+    "source": "demo"
+  }
+]

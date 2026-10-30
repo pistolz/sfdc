@@ -1,0 +1,73 @@
+{
+  "name": "Stadium Builder",
+  "tagline": "1 club = 1 stand. Build the biggest stadium in the world.",
+  "rule": "1 club = 1 stand",
+  "day": 3,
+  "rules": {
+    "foundingSeats": 500,
+    "seatsPerComment": 100,
+    "goal": 100000,
+    "levels": [
+      {
+        "level": 1,
+        "seats": 0,
+        "name": "Local ground"
+      },
+      {
+        "level": 2,
+        "seats": 5000,
+        "name": "Town stadium"
+      },
+      {
+        "level": 3,
+        "seats": 20000,
+        "name": "City arena"
+      },
+      {
+        "level": 4,
+        "seats": 60000,
+        "name": "Big stadium"
+      },
+      {
+        "level": 5,
+        "seats": 100000,
+        "name": "The biggest stadium in the world"
+      }
+    ]
+  },
+  "links": {
+    "latestEpisode": "https://www.instagram.com/ads_noads/",
+    "instagram": "https://www.instagram.com/ads_noads/",
+    "tiktok": "",
+    "youtube": ""
+  },
+  "episodes": [
+    {
+      "day": 1,
+      "date": "2026-10-28",
+      "title": "This is Stadium Builder",
+      "summary": "An empty pitch and one rule: 1 club = 1 stand. Example FC builds the first 500 seats.",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    },
+    {
+      "day": 2,
+      "date": "2026-10-29",
+      "title": "Real Madrid vs Barça",
+      "summary": "The two giants take the biggest stands. PSG and OM start a rivalry in the corners.",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    },
+    {
+      "day": 3,
+      "date": "2026-10-30",
+      "title": "City arena unlocked",
+      "summary": "Over 20,000 seats: a third tier rises. Wydad and Al Nassr storm into the top 10. Next stop: 60,000.",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    }
+  ]
+}

@@ -4,6 +4,8 @@
  * be added with `sb add "<Club name>" @handle` — they get generated colours.
  */
 export const CLUBS = [
+  // The club from the Day 1 video
+  ["example-fc", "Example FC", "EXAMPLE FC", "#1d2b6b", "#ff9d1c", "example fc"],
   // Spain
   ["real-madrid", "Real Madrid", "REAL MADRID", "#f4f4f4", "#febe10", "madrid", "real madrid cf", "rmcf", "los blancos", "hala madrid"],
   ["barcelona", "FC Barcelona", "BARÇA", "#a50044", "#004d98", "barca", "barça", "barcelona", "fcb", "fc barcelona", "visca barca", "blaugrana"],

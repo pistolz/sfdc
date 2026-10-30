@@ -58,7 +58,8 @@ function buildState() {
   const machines = ledger.map((e, i) => {
     const h = optout.has(e.handle) ? "" : e.handle;
     const k = hash(e.handle || String(i));
-    return i === 0 ? [h, e.day, 0, 0] : [h, e.day, k % GAMES.length, (k >>> 8) % NEONS.length];
+    // neighbours get different neons (numbers are seated next to each other); the game is per-handle
+    return i === 0 ? [h, e.day, 0, 0] : [h, e.day, k % GAMES.length, (i + ((k >>> 9) % 2) * 3) % NEONS.length];
   });
   const day = Math.max(s.day, ...ledger.map((e) => e.day), 1);
   const newToday = ledger.filter((e) => e.day === day).length;
@@ -129,7 +130,7 @@ function seedDemo() {
     const sep = b.startsWith("_") || b.startsWith(".") ? "" : rnd() < 0.5 ? "." : "_";
     handles.add(`${a}${sep}${b}${rnd() < 0.25 ? Math.floor(rnd() * 99) : ""}`);
   }
-  const perDay = [1, 38, 71, 92, 110]; // cumulative split across 5 days
+  const perDay = [1, 38, 71, 92, 110]; // new machines per day (sums to 312)
   const start = Date.parse("2026-10-26T15:00:00Z");
   const list = [...handles];
   let day = 1, cum = 0;

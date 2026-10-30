@@ -1,0 +1,60 @@
+{
+  "name": "Insert Coin Club",
+  "tagline": "1 follower = 1 arcade machine. The hall grows every day.",
+  "rule": "1 follower = 1 arcade machine",
+  "account": "ads_noads",
+  "day": 5,
+  "links": {
+    "latestEpisode": "https://www.instagram.com/ads_noads/",
+    "instagram": "https://www.instagram.com/ads_noads/",
+    "tiktok": "",
+    "youtube": ""
+  },
+  "episodes": [
+    {
+      "day": 1,
+      "date": "2026-10-26",
+      "title": "Day one",
+      "summary": "One follower, one machine. The founder's cabinet powers on alone in an empty hall.",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    },
+    {
+      "day": 2,
+      "date": "2026-10-27",
+      "title": "The first row",
+      "summary": "38 new followers, 38 new cabinets. @leo.taps and @mia_runs flank the founder.",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    },
+    {
+      "day": 3,
+      "date": "2026-10-28",
+      "title": "Lights on",
+      "summary": "The hall passes 100 machines and opens a second aisle.",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    },
+    {
+      "day": 4,
+      "date": "2026-10-29",
+      "title": "Grows every day",
+      "summary": "92 new machines. The neon is visible from the street now.",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    },
+    {
+      "day": 5,
+      "date": "2026-10-30",
+      "title": "Three hundred",
+      "summary": "Machine #0300 switches on. Can we fill a second hall?",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    }
+  ]
+}

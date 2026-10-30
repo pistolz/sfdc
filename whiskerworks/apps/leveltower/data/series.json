@@ -1,0 +1,41 @@
+{
+  "name": "Level Tower",
+  "tagline": "1 like = 1 floor. You pick the world.",
+  "rule": "1 like = 1 floor",
+  "day": 3,
+  "links": {
+    "latestEpisode": "https://www.instagram.com/ads_noads/",
+    "instagram": "https://www.instagram.com/ads_noads/",
+    "tiktok": "",
+    "youtube": ""
+  },
+  "episodes": [
+    {
+      "day": 1,
+      "date": "2026-10-28",
+      "title": "One like. One floor.",
+      "summary": "Floor 1 is a quiet grassland. Every like adds a floor, and your comments pick the world.",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    },
+    {
+      "day": 2,
+      "date": "2026-10-29",
+      "title": "You pick the world",
+      "summary": "Lava, ice and neon city stack up fast. The tower passes 180 floors.",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    },
+    {
+      "day": 3,
+      "date": "2026-10-30",
+      "title": "Above the clouds",
+      "summary": "338 floors. The tower breaks through the cloud layer and the first space floors appear.",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    }
+  ]
+}
