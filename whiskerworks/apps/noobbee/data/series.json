@@ -1,0 +1,45 @@
+{
+  "name": "Noob Bee",
+  "tagline": "1 comment = 1 level up. Teach the noob bee anything.",
+  "rule": "1 comment = 1 level up",
+  "day": 3,
+  "rules": {
+    "maxSkillLength": 40,
+    "dedupeSkills": false
+  },
+  "links": {
+    "latestEpisode": "https://www.instagram.com/ads_noads/",
+    "instagram": "https://www.instagram.com/ads_noads/",
+    "tiktok": "",
+    "youtube": ""
+  },
+  "episodes": [
+    {
+      "day": 1,
+      "date": "2026-10-28",
+      "title": "Meet the noob",
+      "summary": "He can't even jump a wall. Every comment teaches him one thing: first lesson, walking.",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    },
+    {
+      "day": 2,
+      "date": "2026-10-29",
+      "title": "Wall jump unlocked",
+      "summary": "Wall jumps, a skateboard and a very questionable moonwalk. The noob is now a Rookie.",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    },
+    {
+      "day": 3,
+      "date": "2026-10-30",
+      "title": "Is he still a noob?",
+      "summary": "Over 250 levels: breakdance, karate, time travel. Tomorrow he goes Expert — what should he learn next?",
+      "links": {
+        "instagram": "https://www.instagram.com/ads_noads/"
+      }
+    }
+  ]
+}

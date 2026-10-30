@@ -1,0 +1,14 @@
+{
+  "name": "Insert Coin Club · Find your machine",
+  "short_name": "Insert Coin",
+  "description": "1 follower = 1 arcade machine. Find yours in the hall.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07040f",
+  "theme_color": "#0a0614",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
