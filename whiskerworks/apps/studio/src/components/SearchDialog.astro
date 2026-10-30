@@ -1,6 +1,6 @@
 ---
 import type { SearchRecord } from '../lib/games';
-interface Props { records: SearchRecord[] }
+interface Props { records: (SearchRecord & { i?: string })[] }
 const { records } = Astro.props;
 const pages = [
   { t: 'Flag Wars live map', d: 'The live world map of our comment-powered series.', u: '/series/', k: ['flag wars', 'live series', 'map', 'comment', 'instagram', 'tiktok'] },
@@ -34,7 +34,7 @@ const pages = [
 <script type="application/json" id="search-data" set:html={JSON.stringify({ games: records, pages })}></script>
 
 <script>
-  type Rec = { t: string; d: string; u: string; g?: string; k?: string[]; s?: string; c?: string[]; m?: string };
+  type Rec = { t: string; d: string; u: string; g?: string; k?: string[]; s?: string; c?: string[]; m?: string; i?: string };
   const dialog = document.querySelector<HTMLDialogElement>('[data-search]')!;
   const input = dialog.querySelector<HTMLInputElement>('[data-search-input]')!;
   const list = dialog.querySelector<HTMLUListElement>('[data-search-results]')!;
@@ -101,7 +101,7 @@ const pages = [
       .map((r, i) => {
         const swatch = r.c ? `background:linear-gradient(135deg,${r.c[0]},${r.c[1]})` : 'background:var(--ww-ink)';
         const meta = 'g' in r && r.g ? `${esc(r.g)}${r.s === 'live' ? '' : r.s === 'beta' ? ' · Beta' : r.s === 'soon' ? ' · Launching soon' : ' · In the workshop'}` : 'Page';
-        return `<li role="option" id="sr-${i}" aria-selected="${i === 0}"><a href="${r.u}"><span class="sw" style="${swatch}"></span><span class="tx"><b>${esc(r.t)}</b><small>${esc(r.d)}</small></span><span class="mt">${meta}</span></a></li>`;
+        return `<li role="option" id="sr-${i}" aria-selected="${i === 0}"><a href="${r.u}">${r.i ? `<img class="sw" src="${r.i}" alt="" width="42" height="42" loading="lazy" decoding="async">` : `<span class="sw" style="${swatch}"></span>`}<span class="tx"><b>${esc(r.t)}</b><small>${esc(r.d)}</small></span><span class="mt">${meta}</span></a></li>`;
       })
       .join('');
     input.setAttribute('aria-activedescendant', current.length ? 'sr-0' : '');
@@ -164,7 +164,7 @@ const pages = [
   .results { list-style: none; margin: 0; padding: 0.5rem; overflow-y: auto; }
   .results :global(a) { display: flex; align-items: center; gap: 0.85rem; padding: 0.65rem 0.75rem; border-radius: var(--ww-radius); text-decoration: none; }
   .results :global([aria-selected='true'] a), .results :global(a:hover) { background: var(--ww-paper-2); }
-  .results :global(.sw) { width: 2.6rem; height: 2.6rem; border-radius: 0.7rem; flex: none; border: 2px solid var(--ww-ink); }
+  .results :global(.sw) { width: 2.6rem; height: 2.6rem; border-radius: 0.7rem; flex: none; border: 2px solid var(--ww-ink); object-fit: cover; background: var(--ww-paper-2); }
   .results :global(.tx) { display: flex; flex-direction: column; min-width: 0; flex: 1; }
   .results :global(.tx small) { color: var(--ww-ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .results :global(.mt) { font-size: 0.75rem; font-weight: 700; color: var(--ww-ink-3); white-space: nowrap; }

@@ -93,7 +93,12 @@ const itemList = {
           <h3 class="h3">Or search by what you want to play</h3>
           <ul>
             {intents.map(({ phrase, game }) => (
-              <li><a href={gameUrl(game)}><span>{phrase.charAt(0).toUpperCase() + phrase.slice(1)}</span><b>{game.data.title}</b></a></li>
+              <li>
+                <a href={gameUrl(game)}>
+                  <GameArt game={game} size={56} class="intent-icon" />
+                  <span class="intent-txt"><span class="intent-phrase">{phrase.charAt(0).toUpperCase() + phrase.slice(1)}</span><small>{game.data.title.split(':')[0]}</small></span>
+                </a>
+              </li>
             ))}
           </ul>
         </div>
@@ -184,10 +189,18 @@ const itemList = {
   .no-js .panel + .panel { margin-top: 3rem; }
 
   .intents { margin-top: clamp(3rem, 6vw, 4.5rem); }
-  .intents ul { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); gap: 0 2rem; }
-  .intents a { display: flex; justify-content: space-between; gap: 1rem; padding: 0.8rem 0; border-top: 1.5px solid var(--ww-rule); text-decoration: none; }
-  .intents a:hover span { text-decoration: underline; text-decoration-color: var(--ww-marmalade); text-decoration-thickness: 2px; }
-  .intents b { color: var(--ww-ink-3); font-weight: 600; font-size: 0.92rem; white-space: nowrap; }
+  .intents ul { list-style: none; padding: 0; margin: 1.2rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: 0.75rem; }
+  .intents a { display: flex; align-items: center; gap: 0.85rem; padding: 0.6rem 0.8rem 0.6rem 0.6rem; border: 2px solid var(--ww-ink); border-radius: var(--ww-radius); background: var(--ww-paper); text-decoration: none; transition: transform var(--ww-dur) var(--ww-ease-out), box-shadow var(--ww-dur) var(--ww-ease-out); }
+  .intents a:hover, .intents a:focus-visible { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ww-ink); }
+  .intents a :global(.intent-icon) { width: 3.25rem; height: 3.25rem; flex: none; border-radius: 0.8rem; filter: none; }
+  .intent-txt { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+  .intent-phrase { font-weight: 700; color: var(--ww-ink); }
+  @media (max-width: 600px) {
+    .intents ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
+    .intents a { flex-direction: column; align-items: flex-start; gap: 0.55rem; padding: 0.7rem; height: 100%; }
+    .intent-phrase { font-size: 0.92rem; }
+  }
+  .intent-txt small { color: var(--ww-ink-3); font-weight: 600; font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
   .promise { border-block: 2px solid var(--ww-ink); background: var(--ww-marmalade); color: var(--ww-ink); }
   .promise-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem; padding-block: 1.1rem; font-weight: 600; }
