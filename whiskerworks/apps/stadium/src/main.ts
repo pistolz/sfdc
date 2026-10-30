@@ -6,7 +6,9 @@ import type { GameState, ClubState } from "./types";
 import { search, normalize, type SearchItem } from "./search";
 import { Stadium, type SeatRef } from "./stadium";
 import { initAnalytics } from "../../../packages/brand/analytics";
+import { initNetwork } from "../../../packages/brand/network";
 
+initNetwork("stadium");
 initAnalytics("Stadium Builder");
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;

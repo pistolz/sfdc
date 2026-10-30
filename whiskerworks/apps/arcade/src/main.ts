@@ -8,7 +8,9 @@ import { Arcade, NEONS } from "./arcade";
 import { drawGame, GAMES } from "./games";
 import { pad, COLS } from "./layout";
 import { initAnalytics } from "../../../packages/brand/analytics";
+import { initNetwork } from "../../../packages/brand/network";
 
+initNetwork("arcade");
 initAnalytics("Insert Coin Club");
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;

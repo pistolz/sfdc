@@ -6,7 +6,9 @@ import type { TowerState, Theme } from "./types";
 import { search, normalize, type SearchItem, type Kind } from "./search";
 import { Tower } from "./tower";
 import { initAnalytics } from "../../../packages/brand/analytics";
+import { initNetwork } from "../../../packages/brand/network";
 
+initNetwork("leveltower");
 initAnalytics("Level Tower");
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;

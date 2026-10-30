@@ -7,7 +7,9 @@ import { decodeWorld, flagEmoji, type World } from "./geo";
 import { search, normalize, type SearchItem } from "./search";
 import { Globe } from "./globe";
 import { initAnalytics } from "../../../packages/brand/analytics";
+import { initNetwork } from "../../../packages/brand/network";
 
+initNetwork("flagwars");
 initAnalytics("Flag Wars");
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;

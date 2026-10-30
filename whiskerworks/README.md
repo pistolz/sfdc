@@ -10,7 +10,7 @@ Studio website and live-series microsites for **WhiskerWorks** (9506-6320 Québe
 | `apps/arcade` | `arcade.whiskerworks.games` | **Insert Coin Club**: 1 follower = 1 arcade machine (neon hall) |
 | `apps/noobbee` | `noobbee.whiskerworks.games` | **Noob Bee**: 1 comment = 1 level up (3D bee in a hive shaft) |
 | `apps/leveltower` | `tower.whiskerworks.games` | **Level Tower**: 1 like = 1 floor (tower of floating islands) |
-| `packages/brand` | (none) | Shared tokens, logo, GA4 module |
+| `packages/brand` | (none) | Shared tokens, logo, GA4 module, cross-series network sheet |
 | `brand/` | (none) | Brand guidelines |
 
 Every site is fully static (no server, no database), so it can be hosted for free on Cloudflare Pages, Netlify or Vercel.
@@ -79,6 +79,15 @@ npm run new-game -- "Game Title" --mood think --genre "Logic puzzle" --status so
 
 Every game automatically gets its page, a share image, schema.org data (`VideoGame`, `FAQPage`, breadcrumbs), a genre
 landing page, a place in search, the sitemap and the home page picker.
+
+## Everything is connected
+
+- **Studio → series:** header "Live series", home page (Flag Wars globe + 4 series cards with live stats and a "Find me"
+  box), the `/series/` hub, and the footer on every page.
+- **Series → everything:** the "by WhiskerWorks ▾" button on every series opens a sheet with the 4 other series, the
+  games and the studio (`packages/brand/network.ts`).
+- Every cross-link carries `utm_source=<series>&utm_medium=network`, so GA4 shows the traffic between sites. Opening
+  the sheet sends an `open_network` event.
 
 ## Google Analytics 4
 

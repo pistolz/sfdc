@@ -6,7 +6,9 @@ import type { GameState, Level } from "./types";
 import { search, normalize, type SearchItem } from "./search";
 import { Shaft } from "./scene";
 import { initAnalytics } from "../../../packages/brand/analytics";
+import { initNetwork } from "../../../packages/brand/network";
 
+initNetwork("noobbee");
 initAnalytics("Noob Bee");
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
