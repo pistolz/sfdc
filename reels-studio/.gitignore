@@ -1,4 +1,4 @@
 node_modules
 out
-public/audio/*.wav
+public/audio/**/*.wav
 *.log
