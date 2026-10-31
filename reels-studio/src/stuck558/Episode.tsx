@@ -7,6 +7,7 @@ import words from '../../public/audio/ep1/words.json';
 import {Captions, buildCaptions, Chunk, renderMarked} from '../lib/Caption';
 import {SevenSeg} from '../lib/SevenSeg';
 import {COLORS, FONT, FONT_UI, outline, sec} from '../lib/style';
+import {Alert, Bg, Char, GlassFill} from '../lib/Layers';
 
 // ---------------------------------------------------------------- timeline (seconds, from voice word timings)
 const T = {
@@ -324,9 +325,9 @@ const FollowCta: React.FC = () => {
 				<div style={{fontFamily: FONT, fontSize: 52, color: 'white', textShadow: outline(3, false)}}>1 FOLLOW = 1 SLEEPER SAVED</div>
 				<div style={{fontFamily: FONT_UI, fontWeight: 700, fontSize: 26, color: '#0b3d1a', letterSpacing: 1}}>YOUR NAME WRITTEN ON THEIR WRIST · DAY 2</div>
 			</div>
-			<NameTag x={285} y={720} delay={14} />
-			<NameTag x={470} y={790} delay={20} />
-			<NameTag x={640} y={700} delay={26} />
+			<NameTag x={570} y={830} delay={14} />
+			<NameTag x={722} y={770} delay={20} />
+			<NameTag x={870} y={850} delay={26} />
 		</AbsoluteFill>
 	);
 };
@@ -416,6 +417,41 @@ const Sound: React.FC = () => {
 	);
 };
 
+
+const r = (t: number, base: number) => sec(t) - sec(base);
+
+const Shelter: React.FC<{base: number; dim?: boolean; settled?: boolean}> = ({base, dim, settled}) => {
+	const inside = 'sepia(0.55) saturate(1.4) brightness(0.92)';
+	return (
+		<AbsoluteFill>
+			<Bg src="b4.jpg" grade={dim ? 'brightness(0.72)' : undefined} />
+			<GlassFill rect={[500, 372, 425, 986]} from={r(26.0, base)} to={r(28.0, base)} />
+			<Char src="c5.png" x={[[0, 610]]} y={[[0, 1352]]} h={[[0, 470]]} popAt={r(T.safe[0], base)} grade={inside} opacity={0.88} shadow={false} />
+			<Char src="c4.png" x={[[0, 722]]} y={[[0, 1352]]} h={[[0, 450]]} popAt={r(T.safe[1], base)} grade={inside} opacity={0.88} shadow={false} />
+			<Char src="c5.png" x={[[0, 835]]} y={[[0, 1352]]} h={[[0, 430]]} popAt={r(T.safe[2], base)} grade={inside} opacity={0.88} shadow={false} flip />
+			<Char src="c2.png" x={settled ? [[0, 280]] : [[0, -200], [40, 280]]} y={[[0, 1720]]} h={[[0, 620]]} walk={settled ? [] : [[0, 40]]} hops={settled ? [] : T.safe.map((s) => r(s, base))} />
+			<FrozenRain seed="s6" />
+		</AbsoluteFill>
+	);
+};
+
+const Woman: React.FC<{base: number; dim?: boolean}> = ({base, dim}) => {
+	const a = r(34.16, base);
+	const b = r(34.34, base);
+	const c = r(34.55, base);
+	// three snapping steps closer: she never "walks", she is just nearer each time you look
+	const h: [number, number][] = [[0, 640], [a, 640], [a + 1, 780], [b, 780], [b + 1, 920], [c, 920], [c + 1, 1080]];
+	return (
+		<div style={{position: 'absolute', left: 145, top: 128, width: 815, height: 1442, overflow: 'hidden'}}>
+			<div style={{position: 'absolute', left: -145, top: -128, width: 1080, height: 1920}}>
+				<Char src="c6.png" x={[[0, 540]]} y={[[0, 1600]]} h={h} breathe={false} shadow={false} grade={dim ? 'brightness(0.35)' : 'brightness(0.72) sepia(0.25)'} />
+			</div>
+			<AbsoluteFill style={{background: 'rgba(255,120,40,0.16)', mixBlendMode: 'screen'}} />
+			<FrozenRain seed="s8" />
+		</div>
+	);
+};
+
 // ---------------------------------------------------------------- episode
 const Shot: React.FC<{from: number; to: number; children: React.ReactNode}> = ({from, to, children}) => (
 	<Sequence from={sec(from)} durationInFrames={sec(to) - sec(from)}>{children}</Sequence>
@@ -427,29 +463,63 @@ export const Episode: React.FC = () => {
 	const d = (a: number, b: number) => sec(b) - sec(a);
 	return (
 		<AbsoluteFill style={{backgroundColor: '#000'}}>
-			<Shot from={0} to={T.shot2}><Plate src="p1.jpg" dur={d(0, T.shot2)} move={{from: [1.18, 50, 30], to: [1.05, 50, 40]}} /></Shot>
-			<Shot from={T.shot2} to={T.phone}><Plate src="p2.jpg" dur={d(T.shot2, T.phone)} move={{from: [1.0, 50, 50], to: [1.14, 45, 45]}} /></Shot>
+			{/* S1 hook: frozen square, the hero is the only thing moving */}
+			<Shot from={0} to={T.shot2}>
+				<Bg src="b1.jpg" />
+				<Char src="c7.png" x={[[0, 800]]} y={[[0, 820]]} h={[[0, 230]]} breathe={false} shadow={false} shake={[0, 999]} />
+				<Char src="c5.png" x={[[0, 230]]} y={[[0, 1720]]} h={[[0, 600]]} breathe={false} />
+				<Char src="c4.png" x={[[0, 870]]} y={[[0, 1660]]} h={[[0, 560]]} breathe={false} flip />
+				<Char src="c1.png" x={[[0, 540]]} y={[[0, 2150], [75, 1790]]} h={[[0, 720], [75, 600]]} walk={[[0, 75]]} />
+				<FrozenRain seed="s1" />
+			</Shot>
+			{/* S2 sleepwalkers: they breathe but never step; the hero walks past them */}
+			<Shot from={T.shot2} to={T.phone}>
+				<Bg src="b2.jpg" />
+				<Char src="c4.png" x={[[0, 430]]} y={[[0, 1190]]} h={[[0, 300]]} grade="brightness(0.6)" flip />
+				<Char src="c5.png" x={[[0, 640]]} y={[[0, 1260]]} h={[[0, 380]]} grade="brightness(0.68)" />
+				<Char src="c4.png" x={[[0, 280]]} y={[[0, 1700]]} h={[[0, 760]]} />
+				<Char src="c5.png" x={[[0, 820]]} y={[[0, 1640]]} h={[[0, 720]]} flip />
+				<Char src="c1.png" x={[[0, 560], [120, 600]]} y={[[0, 2050], [120, 1420]]} h={[[0, 640], [120, 300]]} walk={[[0, 120]]} />
+				<FrozenRain seed="s2" />
+			</Shot>
 			<Shot from={T.phone} to={T.shot1b}><Phone /></Shot>
-			<Shot from={T.shot1b} to={T.shot3}><Plate src="p1.jpg" dur={d(T.shot1b, T.shot3)} move={{from: [1.05, 47, 35], to: [1.7, 47, 36]}} grade="saturate(0.9)" /></Shot>
-			<Shot from={T.shot3} to={T.shot4}><Plate src="p3.jpg" dur={d(T.shot3, T.shot4)} move={{from: [1.0, 50, 60], to: [1.3, 52, 30]}} /></Shot>
+			{/* S4 the rules of time: hero listens, panics on "survive" */}
+			<Shot from={T.shot1b} to={T.shot3}>
+				<Bg src="b1.jpg" />
+				<Char src="c7.png" x={[[0, 800]]} y={[[0, 820]]} h={[[0, 230]]} breathe={false} shadow={false} shake={[0, 999]} />
+				<Char src="c2.png" x={[[0, 540]]} y={[[0, 1700]]} h={[[0, 640]]} show={[0, r(13.84, T.shot1b) - 1]} />
+				<Char src="c3.png" x={[[0, 540]]} y={[[0, 1700]]} h={[[0, 640]]} show={[r(13.84, T.shot1b), 999]} hops={[r(13.84, T.shot1b)]} shake={[r(13.84, T.shot1b), 999]} />
+				<FrozenRain seed="s4" />
+			</Shot>
+			{/* S5 the tunnel: hero walks in, startles at "But" */}
+			<Shot from={T.shot3} to={T.shot4}>
+				<Bg src="b3.jpg" />
+				<Char src="c1.png" x={[[0, -160], [50, 360]]} y={[[0, 1790]]} h={[[0, 600]]} walk={[[0, 50]]} hops={[r(T.tunnelHit, T.shot3)]} shake={[r(T.tunnelHit, T.shot3), r(T.tunnelHit, T.shot3) + 60]} />
+				<Alert x={360} y={1150} at={r(T.tunnelHit, T.shot3)} />
+				<FrozenRain seed="s5" />
+			</Shot>
+			{/* S6 build: glass packs up, sleepers carried in one by one */}
 			<Shot from={T.shot4} to={T.tick}>
-				<Plate src="p4.jpg" dur={d(T.shot4, T.tick)} move={{from: [1.25, 40, 40], to: [1.0, 50, 50]}} />
+				<Shelter base={T.shot4} />
 				<Sequence from={sec(T.sleep - T.shot4)}><Eyelids dur={d(T.sleep, T.tick)} /></Sequence>
 			</Shot>
 			<Shot from={T.tick} to={T.shot5}>
-				<Plate src="p1.jpg" dur={d(T.tick, T.shot5)} move={{from: [1.9, 52, 4], to: [2.05, 52, 4]}} />
+				<Bg src="b1.jpg" zoom={[1.9, 2.05, 52, 4]} />
 				<Flash />
 			</Shot>
+			{/* S8 the woman: three jerky steps toward the glass */}
 			<Shot from={T.shot5} to={T.cta}>
-				<Plate src="p5.jpg" dur={d(T.shot5, T.cta)} move={{from: [1.0, 50, 35], to: [1.16, 50, 30]}} />
+				<Bg src="b5.jpg" />
+				<Woman base={T.shot5} />
 				<HeartbeatVignette />
 			</Shot>
 			<Shot from={T.cta} to={T.choice}>
-				<Plate src="p4.jpg" dur={d(T.cta, T.choice)} move={{from: [1.0, 50, 50], to: [1.05, 50, 45]}} grade="brightness(0.75)" />
+				<Shelter base={T.cta} dim settled />
 				<FollowCta />
 			</Shot>
 			<Shot from={T.choice} to={T.total}>
-				<Plate src="p5.jpg" dur={d(T.choice, T.total)} move={{from: [1.1, 50, 35], to: [1.2, 50, 35]}} grade="brightness(0.6) blur(2px)" />
+				<Bg src="b5.jpg" grade="brightness(0.55) blur(2px)" />
+				<Woman base={T.choice - 10} dim />
 			</Shot>
 			<Shot from={T.choice} to={T.end}><Choice /></Shot>
 			<Shot from={T.end} to={T.total}><EndCard /></Shot>
