@@ -2,3 +2,4 @@ node_modules
 out
 public/audio/**/*.wav
 *.log
+!public/audio/ep1/voice.wav

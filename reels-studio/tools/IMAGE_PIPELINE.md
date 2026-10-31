@@ -21,7 +21,7 @@ Validated 2026-10-31 in this environment with the Canva connector (MCP tools `mc
    (`delete_element` with its locator_id) so pages can be reused.
 5. Export: `export-design` `{type: "png", pages: [n], width, height, export_quality: "pro", lossless: true,
    transparent_background: true-for-props}` → signed URL (valid a few hours) → `curl -o file.png URL`.
-6. Verify with Pillow: size, mode (RGBA for props), alpha coverage. Save under `public/plates/` or `public/props/`.
+6. Verify with Pillow: size, mode (RGBA for props), alpha coverage. Save backgrounds under `public/layers/bX.jpg`; cut characters out with `tools/cutout.py` into `public/layers/cX.png`.
 
 ## Style consistency rules
 - One master style sentence reused verbatim in every prompt (e.g. "stylized painterly 3D game-art, soft tilt-shift,

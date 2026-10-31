@@ -52,25 +52,6 @@ const CHUNKS: Chunk[] = [
 const clampOpts = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 
 // ---------------------------------------------------------------- shots
-type Move = {from: [number, number, number]; to: [number, number, number]}; // [scale, x%, y%] transform-origin focus
-const Plate: React.FC<{src: string; dur: number; move: Move; grade?: string}> = ({src, dur, move, grade}) => {
-	const f = useCurrentFrame();
-	const p = interpolate(f, [0, dur], [0, 1], {...clampOpts, easing: Easing.inOut(Easing.sin)});
-	const s = move.from[0] + (move.to[0] - move.from[0]) * p;
-	const ox = move.from[1] + (move.to[1] - move.from[1]) * p;
-	const oy = move.from[2] + (move.to[2] - move.from[2]) * p;
-	return (
-		<AbsoluteFill style={{overflow: 'hidden', backgroundColor: '#05070c'}}>
-			<Img
-				src={staticFile(`plates/${src}`)}
-				style={{width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${s})`, transformOrigin: `${ox}% ${oy}%`, filter: grade}}
-			/>
-			<FrozenRain seed={src} />
-			<AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%)'}} />
-		</AbsoluteFill>
-	);
-};
-
 // Rain that does NOT fall (time is frozen): beads hang in place and only glint.
 const FrozenRain: React.FC<{seed: string}> = ({seed}) => {
 	const f = useCurrentFrame();
@@ -104,7 +85,7 @@ const Phone: React.FC = () => {
 	const notif = spring({frame: f - sec(1.0), fps, config: {damping: 12}});
 	return (
 		<AbsoluteFill>
-			<Img src={staticFile('plates/p2.jpg')} style={{width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(14px) brightness(0.45)'}} />
+			<Img src={staticFile('layers/b2.jpg')} style={{width: '100%', height: '100%', objectFit: 'cover', filter: 'blur(14px) brightness(0.45)'}} />
 			<div
 				style={{
 					position: 'absolute', left: 250, top: 330, width: 580, height: 900, borderRadius: 70,
