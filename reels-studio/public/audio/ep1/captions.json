@@ -1,0 +1,814 @@
+[
+{
+"text": "Time",
+"startMs": 60,
+"endMs": 326,
+"timestampMs": 193,
+"confidence": null
+},
+{
+"text": " stopped",
+"startMs": 347,
+"endMs": 654,
+"timestampMs": 500,
+"confidence": null
+},
+{
+"text": " at",
+"startMs": 675,
+"endMs": 746,
+"timestampMs": 710,
+"confidence": null
+},
+{
+"text": " five",
+"startMs": 767,
+"endMs": 1012,
+"timestampMs": 889,
+"confidence": null
+},
+{
+"text": " fifty-eight.",
+"startMs": 1033,
+"endMs": 1576,
+"timestampMs": 1304,
+"confidence": null
+},
+{
+"text": " Something",
+"startMs": 1816,
+"endMs": 2267,
+"timestampMs": 2041,
+"confidence": null
+},
+{
+"text": " didn't.",
+"startMs": 2277,
+"endMs": 2656,
+"timestampMs": 2466,
+"confidence": null
+},
+{
+"text": " Day",
+"startMs": 3206,
+"endMs": 3441,
+"timestampMs": 3323,
+"confidence": null
+},
+{
+"text": " one.",
+"startMs": 3452,
+"endMs": 3851,
+"timestampMs": 3651,
+"confidence": null
+},
+{
+"text": " Four",
+"startMs": 4091,
+"endMs": 4276,
+"timestampMs": 4183,
+"confidence": null
+},
+{
+"text": " thousand",
+"startMs": 4296,
+"endMs": 4634,
+"timestampMs": 4465,
+"confidence": null
+},
+{
+"text": " people,",
+"startMs": 4655,
+"endMs": 4962,
+"timestampMs": 4808,
+"confidence": null
+},
+{
+"text": " frozen",
+"startMs": 5126,
+"endMs": 5444,
+"timestampMs": 5285,
+"confidence": null
+},
+{
+"text": " mid-stride.",
+"startMs": 5454,
+"endMs": 6007,
+"timestampMs": 5730,
+"confidence": null
+},
+{
+"text": " Eyes",
+"startMs": 6247,
+"endMs": 6545,
+"timestampMs": 6396,
+"confidence": null
+},
+{
+"text": " closed.",
+"startMs": 6565,
+"endMs": 7006,
+"timestampMs": 6785,
+"confidence": null
+},
+{
+"text": " Every",
+"startMs": 7246,
+"endMs": 7502,
+"timestampMs": 7374,
+"confidence": null
+},
+{
+"text": " phone,",
+"startMs": 7522,
+"endMs": 7809,
+"timestampMs": 7665,
+"confidence": null
+},
+{
+"text": " the",
+"startMs": 7983,
+"endMs": 8074,
+"timestampMs": 8029,
+"confidence": null
+},
+{
+"text": " same",
+"startMs": 8096,
+"endMs": 8280,
+"timestampMs": 8187,
+"confidence": null
+},
+{
+"text": " alarm.",
+"startMs": 8301,
+"endMs": 8690,
+"timestampMs": 8495,
+"confidence": null
+},
+{
+"text": " Six",
+"startMs": 8930,
+"endMs": 9247,
+"timestampMs": 9088,
+"confidence": null
+},
+{
+"text": " A.M.",
+"startMs": 9268,
+"endMs": 9667,
+"timestampMs": 9467,
+"confidence": null
+},
+{
+"text": " And",
+"startMs": 9907,
+"endMs": 10070,
+"timestampMs": 9988,
+"confidence": null
+},
+{
+"text": " every",
+"startMs": 10091,
+"endMs": 10275,
+"timestampMs": 10183,
+"confidence": null
+},
+{
+"text": " time",
+"startMs": 10296,
+"endMs": 10480,
+"timestampMs": 10388,
+"confidence": null
+},
+{
+"text": " you",
+"startMs": 10501,
+"endMs": 10583,
+"timestampMs": 10542,
+"confidence": null
+},
+{
+"text": " sleep,",
+"startMs": 10603,
+"endMs": 10870,
+"timestampMs": 10736,
+"confidence": null
+},
+{
+"text": " the",
+"startMs": 11023,
+"endMs": 11116,
+"timestampMs": 11069,
+"confidence": null
+},
+{
+"text": " world",
+"startMs": 11136,
+"endMs": 11361,
+"timestampMs": 11248,
+"confidence": null
+},
+{
+"text": " moves",
+"startMs": 11382,
+"endMs": 11597,
+"timestampMs": 11489,
+"confidence": null
+},
+{
+"text": " one",
+"startMs": 11618,
+"endMs": 11792,
+"timestampMs": 11705,
+"confidence": null
+},
+{
+"text": " second.",
+"startMs": 11812,
+"endMs": 12191,
+"timestampMs": 12001,
+"confidence": null
+},
+{
+"text": " That's",
+"startMs": 12431,
+"endMs": 12687,
+"timestampMs": 12559,
+"confidence": null
+},
+{
+"text": " one",
+"startMs": 12697,
+"endMs": 12912,
+"timestampMs": 12804,
+"confidence": null
+},
+{
+"text": " hundred",
+"startMs": 12933,
+"endMs": 13230,
+"timestampMs": 13081,
+"confidence": null
+},
+{
+"text": " nights.",
+"startMs": 13240,
+"endMs": 13599,
+"timestampMs": 13419,
+"confidence": null
+},
+{
+"text": " Survive",
+"startMs": 13839,
+"endMs": 14310,
+"timestampMs": 14074,
+"confidence": null
+},
+{
+"text": " until",
+"startMs": 14320,
+"endMs": 14566,
+"timestampMs": 14443,
+"confidence": null
+},
+{
+"text": " it",
+"startMs": 14587,
+"endMs": 14669,
+"timestampMs": 14628,
+"confidence": null
+},
+{
+"text": " rings.",
+"startMs": 14679,
+"endMs": 15068,
+"timestampMs": 14873,
+"confidence": null
+},
+{
+"text": " Push",
+"startMs": 15308,
+"endMs": 15533,
+"timestampMs": 15420,
+"confidence": null
+},
+{
+"text": " the",
+"startMs": 15554,
+"endMs": 15646,
+"timestampMs": 15600,
+"confidence": null
+},
+{
+"text": " rain,",
+"startMs": 15656,
+"endMs": 15923,
+"timestampMs": 15789,
+"confidence": null
+},
+{
+"text": " it",
+"startMs": 16056,
+"endMs": 16126,
+"timestampMs": 16091,
+"confidence": null
+},
+{
+"text": " stays",
+"startMs": 16148,
+"endMs": 16414,
+"timestampMs": 16280,
+"confidence": null
+},
+{
+"text": " pushed.",
+"startMs": 16435,
+"endMs": 16814,
+"timestampMs": 16624,
+"confidence": null
+},
+{
+"text": " Every",
+"startMs": 17054,
+"endMs": 17321,
+"timestampMs": 17187,
+"confidence": null
+},
+{
+"text": " path",
+"startMs": 17341,
+"endMs": 17618,
+"timestampMs": 17479,
+"confidence": null
+},
+{
+"text": " leaves",
+"startMs": 17628,
+"endMs": 17895,
+"timestampMs": 17761,
+"confidence": null
+},
+{
+"text": " a",
+"startMs": 17915,
+"endMs": 17966,
+"timestampMs": 17940,
+"confidence": null
+},
+{
+"text": " tunnel.",
+"startMs": 17987,
+"endMs": 18345,
+"timestampMs": 18165,
+"confidence": null
+},
+{
+"text": " But",
+"startMs": 18585,
+"endMs": 18738,
+"timestampMs": 18661,
+"confidence": null
+},
+{
+"text": " this",
+"startMs": 18759,
+"endMs": 18923,
+"timestampMs": 18841,
+"confidence": null
+},
+{
+"text": " one",
+"startMs": 18933,
+"endMs": 19076,
+"timestampMs": 19004,
+"confidence": null
+},
+{
+"text": " isn't",
+"startMs": 19097,
+"endMs": 19333,
+"timestampMs": 19215,
+"confidence": null
+},
+{
+"text": " yours.",
+"startMs": 19353,
+"endMs": 19763,
+"timestampMs": 19558,
+"confidence": null
+},
+{
+"text": " Two",
+"startMs": 20003,
+"endMs": 20167,
+"timestampMs": 20085,
+"confidence": null
+},
+{
+"text": " metres",
+"startMs": 20177,
+"endMs": 20495,
+"timestampMs": 20336,
+"confidence": null
+},
+{
+"text": " tall.",
+"startMs": 20515,
+"endMs": 20884,
+"timestampMs": 20699,
+"confidence": null
+},
+{
+"text": " And",
+"startMs": 21124,
+"endMs": 21288,
+"timestampMs": 21206,
+"confidence": null
+},
+{
+"text": " it",
+"startMs": 21309,
+"endMs": 21401,
+"timestampMs": 21355,
+"confidence": null
+},
+{
+"text": " ends",
+"startMs": 21422,
+"endMs": 21668,
+"timestampMs": 21545,
+"confidence": null
+},
+{
+"text": " at",
+"startMs": 21688,
+"endMs": 21760,
+"timestampMs": 21724,
+"confidence": null
+},
+{
+"text": " your",
+"startMs": 21780,
+"endMs": 21913,
+"timestampMs": 21846,
+"confidence": null
+},
+{
+"text": " door.",
+"startMs": 21934,
+"endMs": 22272,
+"timestampMs": 22103,
+"confidence": null
+},
+{
+"text": " Rule",
+"startMs": 22512,
+"endMs": 22799,
+"timestampMs": 22655,
+"confidence": null
+},
+{
+"text": " one.",
+"startMs": 22810,
+"endMs": 23158,
+"timestampMs": 22984,
+"confidence": null
+},
+{
+"text": " Never",
+"startMs": 23398,
+"endMs": 23726,
+"timestampMs": 23561,
+"confidence": null
+},
+{
+"text": " walk",
+"startMs": 23746,
+"endMs": 23972,
+"timestampMs": 23859,
+"confidence": null
+},
+{
+"text": " inside",
+"startMs": 23982,
+"endMs": 24300,
+"timestampMs": 24141,
+"confidence": null
+},
+{
+"text": " its",
+"startMs": 24310,
+"endMs": 24433,
+"timestampMs": 24371,
+"confidence": null
+},
+{
+"text": " tunnel.",
+"startMs": 24443,
+"endMs": 24791,
+"timestampMs": 24617,
+"confidence": null
+},
+{
+"text": " So",
+"startMs": 25031,
+"endMs": 25256,
+"timestampMs": 25143,
+"confidence": null
+},
+{
+"text": " you",
+"startMs": 25277,
+"endMs": 25389,
+"timestampMs": 25333,
+"confidence": null
+},
+{
+"text": " build.",
+"startMs": 25399,
+"endMs": 25758,
+"timestampMs": 25578,
+"confidence": null
+},
+{
+"text": " Rain",
+"startMs": 25998,
+"endMs": 26285,
+"timestampMs": 26141,
+"confidence": null
+},
+{
+"text": " packs",
+"startMs": 26306,
+"endMs": 26593,
+"timestampMs": 26449,
+"confidence": null
+},
+{
+"text": " into",
+"startMs": 26603,
+"endMs": 26777,
+"timestampMs": 26690,
+"confidence": null
+},
+{
+"text": " glass.",
+"startMs": 26797,
+"endMs": 27238,
+"timestampMs": 27017,
+"confidence": null
+},
+{
+"text": " A",
+"startMs": 27478,
+"endMs": 27591,
+"timestampMs": 27534,
+"confidence": null
+},
+{
+"text": " wall",
+"startMs": 27601,
+"endMs": 27837,
+"timestampMs": 27719,
+"confidence": null
+},
+{
+"text": " by",
+"startMs": 27857,
+"endMs": 27980,
+"timestampMs": 27918,
+"confidence": null
+},
+{
+"text": " midnight.",
+"startMs": 27990,
+"endMs": 28482,
+"timestampMs": 28235,
+"confidence": null
+},
+{
+"text": " Three",
+"startMs": 28722,
+"endMs": 28978,
+"timestampMs": 28850,
+"confidence": null
+},
+{
+"text": " sleepers",
+"startMs": 28999,
+"endMs": 29419,
+"timestampMs": 29209,
+"confidence": null
+},
+{
+"text": " inside.",
+"startMs": 29439,
+"endMs": 29911,
+"timestampMs": 29675,
+"confidence": null
+},
+{
+"text": " You",
+"startMs": 30151,
+"endMs": 30356,
+"timestampMs": 30253,
+"confidence": null
+},
+{
+"text": " sleep.",
+"startMs": 30366,
+"endMs": 30776,
+"timestampMs": 30570,
+"confidence": null
+},
+{
+"text": " Five",
+"startMs": 31016,
+"endMs": 31292,
+"timestampMs": 31154,
+"confidence": null
+},
+{
+"text": " fifty-eight,",
+"startMs": 31313,
+"endMs": 31784,
+"timestampMs": 31548,
+"confidence": null
+},
+{
+"text": " and",
+"startMs": 31928,
+"endMs": 32009,
+"timestampMs": 31969,
+"confidence": null
+},
+{
+"text": " twenty-one.",
+"startMs": 32020,
+"endMs": 32531,
+"timestampMs": 32275,
+"confidence": null
+},
+{
+"text": " The",
+"startMs": 33232,
+"endMs": 33344,
+"timestampMs": 33288,
+"confidence": null
+},
+{
+"text": " woman",
+"startMs": 33365,
+"endMs": 33600,
+"timestampMs": 33482,
+"confidence": null
+},
+{
+"text": " at",
+"startMs": 33621,
+"endMs": 33693,
+"timestampMs": 33657,
+"confidence": null
+},
+{
+"text": " your",
+"startMs": 33713,
+"endMs": 33826,
+"timestampMs": 33769,
+"confidence": null
+},
+{
+"text": " glass",
+"startMs": 33836,
+"endMs": 34144,
+"timestampMs": 33989,
+"confidence": null
+},
+{
+"text": " took",
+"startMs": 34164,
+"endMs": 34318,
+"timestampMs": 34241,
+"confidence": null
+},
+{
+"text": " three",
+"startMs": 34338,
+"endMs": 34533,
+"timestampMs": 34435,
+"confidence": null
+},
+{
+"text": " steps.",
+"startMs": 34553,
+"endMs": 34973,
+"timestampMs": 34763,
+"confidence": null
+},
+{
+"text": " She's",
+"startMs": 35213,
+"endMs": 35500,
+"timestampMs": 35356,
+"confidence": null
+},
+{
+"text": " facing",
+"startMs": 35510,
+"endMs": 35828,
+"timestampMs": 35669,
+"confidence": null
+},
+{
+"text": " you.",
+"startMs": 35848,
+"endMs": 36043,
+"timestampMs": 35945,
+"confidence": null
+},
+{
+"text": " Follow,",
+"startMs": 36543,
+"endMs": 36922,
+"timestampMs": 36732,
+"confidence": null
+},
+{
+"text": " and",
+"startMs": 37076,
+"endMs": 37178,
+"timestampMs": 37126,
+"confidence": null
+},
+{
+"text": " tomorrow",
+"startMs": 37199,
+"endMs": 37537,
+"timestampMs": 37367,
+"confidence": null
+},
+{
+"text": " a",
+"startMs": 37557,
+"endMs": 37609,
+"timestampMs": 37583,
+"confidence": null
+},
+{
+"text": " sleeper",
+"startMs": 37629,
+"endMs": 37988,
+"timestampMs": 37808,
+"confidence": null
+},
+{
+"text": " gets",
+"startMs": 38008,
+"endMs": 38172,
+"timestampMs": 38090,
+"confidence": null
+},
+{
+"text": " your",
+"startMs": 38182,
+"endMs": 38275,
+"timestampMs": 38228,
+"confidence": null
+},
+{
+"text": " name.",
+"startMs": 38285,
+"endMs": 38582,
+"timestampMs": 38433,
+"confidence": null
+},
+{
+"text": " Day",
+"startMs": 38822,
+"endMs": 39007,
+"timestampMs": 38914,
+"confidence": null
+},
+{
+"text": " two",
+"startMs": 39027,
+"endMs": 39253,
+"timestampMs": 39140,
+"confidence": null
+},
+{
+"text": " starts",
+"startMs": 39273,
+"endMs": 39601,
+"timestampMs": 39437,
+"confidence": null
+},
+{
+"text": " now.",
+"startMs": 39611,
+"endMs": 39919,
+"timestampMs": 39765,
+"confidence": null
+}
+]
