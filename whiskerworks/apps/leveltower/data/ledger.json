@@ -4,6 +4,11 @@
       "day": 1,
       "count": 67,
       "source": "instagram"
+    },
+    {
+      "day": 3,
+      "count": 30,
+      "source": "manual"
     }
   ],
   "picks": [
@@ -116,6 +121,138 @@
       "ts": "2026-10-28T12:67:00Z",
       "source": "instagram",
       "floor": 67
+    },
+    {
+      "id": "custom-1793540257566",
+      "handle": "joby7334",
+      "theme": "arcade-maze",
+      "label": "Gaming world",
+      "text": "Floor 68 Will be gamin world",
+      "day": 3,
+      "ts": "2026-10-30T16:27:23Z",
+      "source": "instagram",
+      "floor": 68
+    },
+    {
+      "id": "custom-1793540257774",
+      "handle": "gelia_kliana",
+      "theme": "candy",
+      "label": "Soft floor",
+      "text": "Floor 69, soft floor, full of soft thingss❤️",
+      "day": 3,
+      "ts": "2026-10-30T04:51:40Z",
+      "source": "instagram",
+      "floor": 69
+    },
+    {
+      "id": "custom-1793540257988",
+      "handle": "ngemillo.wonoayu",
+      "theme": "neon",
+      "label": "Neon",
+      "text": "Neon",
+      "day": 3,
+      "ts": "2026-11-01T01:37:24Z",
+      "source": "instagram",
+      "floor": 72
+    },
+    {
+      "id": "custom-1793540258197",
+      "handle": "bmtd16bmtd",
+      "theme": "gold",
+      "label": "Triple T",
+      "text": "Triple T floor",
+      "day": 3,
+      "ts": "2026-10-30T09:41:19Z",
+      "source": "instagram",
+      "floor": 74
+    },
+    {
+      "id": "custom-1793540258496",
+      "handle": "ckfootages_nvbfound",
+      "theme": "ocean",
+      "label": "Aquarium",
+      "text": "Make me a floor that is a aquarium pls make me on the videoo pls this is day 2🙌",
+      "day": 3,
+      "ts": "2026-10-30T05:27:22Z",
+      "source": "instagram",
+      "floor": 77
+    },
+    {
+      "id": "custom-1793540258794",
+      "handle": "proivan2026new",
+      "theme": "sakura",
+      "label": "China",
+      "text": "China",
+      "day": 3,
+      "ts": "2026-10-30T10:32:30Z",
+      "source": "instagram",
+      "floor": 81
+    },
+    {
+      "id": "custom-1793540258999",
+      "handle": "ebrahem_omran98",
+      "theme": "desert",
+      "label": "Desert",
+      "text": "Desert 🏜",
+      "day": 3,
+      "ts": "2026-10-30T11:43:40Z",
+      "source": "instagram",
+      "floor": 85
+    },
+    {
+      "id": "custom-1793540259393",
+      "handle": "4tx.ali9",
+      "theme": "cyber",
+      "label": "Shooting",
+      "text": "Shooting one",
+      "day": 3,
+      "ts": "2026-10-30T09:09:32Z",
+      "source": "instagram",
+      "floor": 87
+    },
+    {
+      "id": "custom-1793540259615",
+      "handle": "duckyizz",
+      "theme": "haunted",
+      "label": "Horror",
+      "text": "floor 88 is horror themed",
+      "day": 3,
+      "ts": "2026-10-30T09:26:19Z",
+      "source": "instagram",
+      "floor": 88
+    },
+    {
+      "id": "custom-1793540259829",
+      "handle": "lalaleii.ii",
+      "theme": "ice",
+      "label": "Cozy snow bedroom",
+      "text": "Make me a floor with a cozy bed where I’m playing Roblox in the bed on my iPad, drinking hot chocolate, it’s snowing outside + I’m watching my show in the background on my iPhone",
+      "day": 3,
+      "ts": "2026-10-30T08:43:57Z",
+      "source": "instagram",
+      "floor": 89
+    },
+    {
+      "id": "custom-1793540260263",
+      "handle": "e.ziv69",
+      "theme": "grassland",
+      "label": "Duck floor",
+      "text": "duck floor",
+      "day": 3,
+      "ts": "2026-10-30T11:15:36Z",
+      "source": "instagram",
+      "floor": 90
+    },
+    {
+      "id": "custom-1793540260592",
+      "handle": "koa8630",
+      "theme": "castle",
+      "label": "Dark Souls",
+      "text": "Dark souls floor",
+      "day": 3,
+      "ts": "2026-10-30T14:42:17Z",
+      "source": "instagram",
+      "floor": 96
     }
   ]
 }

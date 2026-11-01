@@ -2,9 +2,9 @@
   "name": "Level Tower",
   "tagline": "1 like = 1 floor. You pick the world.",
   "rule": "1 like = 1 floor",
-  "day": 2,
+  "day": 3,
   "links": {
-    "latestEpisode": "https://www.instagram.com/ads_noads/",
+    "latestEpisode": "https://www.instagram.com/reel/DfGrGe4x8qv/",
     "instagram": "https://www.instagram.com/ads_noads/",
     "tiktok": "",
     "youtube": ""
@@ -25,8 +25,15 @@
       "title": "67 likes = 67 floors",
       "summary": "Day 1 got 67 likes, so the tower has 67 floors. 11 floors are named after your comments. What should floor 68 be?",
       "links": {
-        "instagram": "https://www.instagram.com/ads_noads/"
+        "instagram": "https://www.instagram.com/reel/DfGrGe4x8qv/"
       }
+    },
+    {
+      "day": 3,
+      "date": "2026-11-01",
+      "title": "Twelve new worlds",
+      "summary": "97 floors from 97 real Instagram likes. 12 new worlds named by real comments.",
+      "links": {}
     }
   ],
   "openWorld": "plain"
