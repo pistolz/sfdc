@@ -89,6 +89,27 @@ export async function initPromo(series: string): Promise<void> {
   // The 3D scenes size themselves from their canvas: tell them the viewport changed.
   requestAnimationFrame(() => dispatchEvent(new Event("resize")));
 
+  /* ---------- card inside the player's panel (the moment they find their name) ---------- */
+  const panelBody = document.getElementById("panel-body");
+  if (panelBody) {
+    const addCard = () => {
+      if (!new URLSearchParams(location.search).get("u") || panelBody.querySelector(".ww-pc") || !panelBody.childElementCount) return;
+      const l = link(featured, "promo_panel");
+      const card = document.createElement("a");
+      card.className = "ww-pc";
+      card.href = l.href;
+      card.rel = "noopener";
+      card.dataset.store = l.store;
+      card.innerHTML = `${featured.icon ? `<img src="${esc(featured.icon)}" alt="" width="52" height="52">` : ""}
+        <span class="ww-pc-txt"><small>🎮 From the same team</small><b>${esc(featured.short)}</b><span>${esc(featured.tagline)}</span></span>
+        <span class="ww-pc-go">${d === "ios" && !featured.appStore ? "See it" : "Play free"}</span>`;
+      card.addEventListener("click", () => track(featured, "promo_panel", l.store));
+      panelBody.appendChild(card);
+    };
+    new MutationObserver(addCard).observe(panelBody, { childList: true });
+    addCard();
+  }
+
   /* ---------- popup ---------- */
   let shown = false;
   let last = 0;
@@ -168,6 +189,14 @@ function injectStyle(): void {
   .ww-pb-name{display:flex;flex-direction:column;font:800 13px/1.1 "Unbounded Variable",Unbounded,system-ui,sans-serif;letter-spacing:-.02em;white-space:nowrap}
   .ww-pb-name em{font:800 9px/1 "Figtree Variable",Figtree,system-ui,sans-serif;font-style:normal;letter-spacing:.12em;color:#1a1424;background:#ffc93c;border:1.5px solid #1a1424;border-radius:999px;padding:2px 5px;margin-bottom:3px;align-self:flex-start}
   @media (max-width:380px){.ww-pb-label b{font-size:12px}.ww-pb-name{font-size:12px}}
+  .ww-pc{display:flex;align-items:center;gap:12px;margin:14px 0 4px;padding:10px 12px 10px 10px;border-radius:18px;border:2px solid #1a1424;background:#fff8ee;color:#1a1424;text-decoration:none;box-shadow:0 3px 0 #1a1424;font-family:"Figtree Variable",Figtree,system-ui,sans-serif;text-align:left}
+  .ww-pc:active{transform:translateY(2px);box-shadow:none}
+  .ww-pc img{width:52px;height:52px;border-radius:13px;flex:none}
+  .ww-pc-txt{display:flex;flex-direction:column;min-width:0;flex:1;line-height:1.2}
+  .ww-pc-txt small{font-weight:800;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#a43d00}
+  .ww-pc-txt b{font:800 16px/1.15 "Unbounded Variable",Unbounded,system-ui,sans-serif;letter-spacing:-.02em;margin:2px 0}
+  .ww-pc-txt span{font-size:12.5px;color:#3b3346;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ww-pc-go{flex:none;padding:9px 13px;border-radius:999px;border:2px solid #1a1424;background:#ff7a2f;font-weight:800;font-size:14px;white-space:nowrap}
   .ww-pp{position:fixed;inset:0;z-index:9500;display:grid;place-items:center;padding:16px;background:rgb(10 8 16/.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);animation:wwppf .25s ease-out}
   @keyframes wwppf{from{opacity:0}}
   .ww-pp-card{position:relative;width:min(380px,100%);padding:22px 18px 14px;border-radius:24px;background:#fff8ee;color:#1a1424;border:2px solid #1a1424;box-shadow:7px 7px 0 #1a1424;

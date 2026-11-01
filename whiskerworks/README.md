@@ -95,6 +95,7 @@ landing page, a place in search, the sitemap and the home page picker.
   featured game first (`packages/brand/promo.ts`).
 - **Popup:** a "Try our games, free" popup features the featured game. It shows once a day per visitor, 5 s after they
   find their name or after 40 s on the page, never on arrival.
+- **Player panel card:** when someone opens their own panel (after a name search, `?u=`), a "From the same team · Pollen Path · Play free" card is added under their buttons.
 - **Smart links:**
   - Android → Google Play.
   - iPhone → App Store.
