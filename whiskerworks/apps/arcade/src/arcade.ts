@@ -415,7 +415,7 @@ export class Arcade {
     x.globalAlpha = 0.8;
     x.fillText(pad(i + 1), ox + CELL_W / 2, oy + 26);
     x.globalAlpha = 1;
-    const label = i === 0 ? "FOUNDER" : h ? `@${h}` : "PLAYER";
+    const label = i === 0 ? "FOUNDER" : h ? `@${h}` : "FOLLOWER";
     let size = 44;
     do { x.font = `800 ${size}px ${display}`; size -= 2; } while (x.measureText(label).width > CELL_W - 22 && size > 16);
     x.fillText(label, ox + CELL_W / 2, oy + 78);

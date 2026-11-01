@@ -104,7 +104,7 @@ async function refresh() {
 }
 
 /* ------------------------------------------------------------------ static UI */
-const labelFor = (i: number) => (i === 0 ? `@${state.series.account} · Founder` : state.machines[i][0] ? `@${state.machines[i][0]}` : "PLAYER");
+const labelFor = (i: number) => (i === 0 ? `@${state.series.account} · Founder` : state.machines[i][0] ? `@${state.machines[i][0]}` : "FOLLOWER");
 function buildIndex() {
   byHandle = new Map();
   items = state.machines.map((m, i) => {
@@ -174,7 +174,7 @@ function renderList(filter: string) {
     const m = state.machines[i];
     return `<li><button type="button" data-machine="${i}">
       <span class="num" style="--n:${NEONS[m[3]]}">${pad(i + 1)}</span>
-      <span class="b-main"><span class="name">${i === 0 ? "FOUNDER" : m[0] ? `@${esc(m[0])}` : "PLAYER"}</span><span class="b-sub">${esc(GAMES[m[2]])}</span></span>
+      <span class="b-main"><span class="name">${i === 0 ? "FOUNDER" : m[0] ? `@${esc(m[0])}` : "FOLLOWER"}</span><span class="b-sub">${esc(GAMES[m[2]])}</span></span>
       <span class="b-side">Day ${m[1]}</span></button></li>`;
   }).join("") || `<li class="empty">${f ? "No machine matches. Followed recently? It appears at the next update." : "The hall is empty."}</li>`;
   const total = f ? null : state.machines.length;
@@ -330,7 +330,7 @@ function renderPanel() {
       <div class="p-num"><small>Machine</small><b>${pad(i + 1)}</b></div>
       <div>
         <p class="p-kicker">${i === 0 ? "Founder · " : ""}Plugged in on day ${m[1]}</p>
-        <h2 id="panel-title">${i === 0 ? `@${esc(state.series.account)}` : handle ? `@${esc(handle)}` : "PLAYER"}</h2>
+        <h2 id="panel-title">${i === 0 ? `@${esc(state.series.account)}` : handle ? `@${esc(handle)}` : "FOLLOWER"}</h2>
       </div>
     </div>
     <div class="p-game" style="--n:${neon}">

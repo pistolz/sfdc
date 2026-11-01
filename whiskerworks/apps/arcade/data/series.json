@@ -3,9 +3,9 @@
   "tagline": "1 follower = 1 arcade machine. The hall grows every day.",
   "rule": "1 follower = 1 arcade machine",
   "account": "ads_noads",
-  "day": 5,
+  "day": 3,
   "links": {
-    "latestEpisode": "https://www.instagram.com/ads_noads/",
+    "latestEpisode": "https://www.instagram.com/reel/DfKUFCPxrt1/",
     "instagram": "https://www.instagram.com/ads_noads/",
     "tiktok": "",
     "youtube": ""
@@ -13,48 +13,28 @@
   "episodes": [
     {
       "day": 1,
-      "date": "2026-10-26",
-      "title": "Day one",
-      "summary": "One follower, one machine. The founder's cabinet powers on alone in an empty hall.",
+      "date": "2026-10-28",
+      "title": "Day 1: one machine",
+      "summary": "1 follower = 1 arcade machine. One machine today, the FOUNDER cabinet, and a whole arcade to fill. What game belongs here?",
       "links": {
-        "instagram": "https://www.instagram.com/ads_noads/"
+        "instagram": "https://www.instagram.com/reel/DfEAh-1xY0O/"
       }
     },
     {
       "day": 2,
-      "date": "2026-10-27",
-      "title": "The first row",
-      "summary": "38 new followers, 38 new cabinets. @leo.taps and @mia_runs flank the founder.",
+      "date": "2026-10-31",
+      "title": "Day 2: 65 machines",
+      "summary": "Yesterday it was one machine. Today 64 new followers lit up 64 new machines, so the hall has 65. Your names are on the machines. Find yours.",
       "links": {
-        "instagram": "https://www.instagram.com/ads_noads/"
+        "instagram": "https://www.instagram.com/reel/DfKUFCPxrt1/"
       }
     },
     {
       "day": 3,
-      "date": "2026-10-28",
-      "title": "Lights on",
-      "summary": "The hall passes 100 machines and opens a second aisle.",
-      "links": {
-        "instagram": "https://www.instagram.com/ads_noads/"
-      }
-    },
-    {
-      "day": 4,
-      "date": "2026-10-29",
-      "title": "Grows every day",
-      "summary": "92 new machines. The neon is visible from the street now.",
-      "links": {
-        "instagram": "https://www.instagram.com/ads_noads/"
-      }
-    },
-    {
-      "day": 5,
-      "date": "2026-10-30",
-      "title": "Three hundred",
-      "summary": "Machine #0300 switches on. Can we fill a second hall?",
-      "links": {
-        "instagram": "https://www.instagram.com/ads_noads/"
-      }
+      "date": "2026-11-01",
+      "title": "Day 3: 237 machines",
+      "summary": "Yesterday the hall had 65 machines. Today it has 237: 172 new machines, one for each new follower. Everyone who commented got a named cabinet. What game belongs here next?",
+      "links": {}
     }
   ]
 }
