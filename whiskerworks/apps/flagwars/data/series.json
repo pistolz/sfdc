@@ -1,10 +1,10 @@
 {
   "name": "Flag Wars",
   "tagline": "1 comment = 1 flag. Who conquers the world?",
-  "day": 3,
+  "day": 2,
   "rules": {
     "levelSteps": [
-      10,
+      9,
       50,
       100,
       250,
@@ -13,7 +13,7 @@
     ]
   },
   "links": {
-    "latestEpisode": "https://www.instagram.com/ads_noads/",
+    "latestEpisode": "https://www.instagram.com/reel/DfFEx6xxAzg/",
     "instagram": "https://www.instagram.com/ads_noads/",
     "tiktok": "",
     "youtube": ""
@@ -21,30 +21,19 @@
   "episodes": [
     {
       "day": 1,
-      "date": "2026-10-28",
+      "date": "2026-10-29",
       "title": "Who conquers the world?",
-      "summary": "The globe is empty. One comment plants one flag — Canada is founded first.",
+      "summary": "The globe is empty. One comment plants one flag.",
       "links": {
-        "instagram": "https://www.instagram.com/ads_noads/"
+        "instagram": "https://www.instagram.com/reel/DfFEx6xxAzg/"
       }
     },
     {
       "day": 2,
-      "date": "2026-10-29",
-      "title": "Canada levels up",
-      "summary": "Canada hits level 2 and builds its first towers. Brazil and Japan join the top 3.",
-      "links": {
-        "instagram": "https://www.instagram.com/ads_noads/"
-      }
-    },
-    {
-      "day": 3,
       "date": "2026-10-30",
-      "title": "Brazil strikes back",
-      "summary": "Brazil closes the gap while Morocco storms into the top 5. Who takes the top spot?",
-      "links": {
-        "instagram": "https://www.instagram.com/ads_noads/"
-      }
+      "title": "Day 2: 305 flags, 94 countries in one night. Who leads?",
+      "summary": "Yesterday 1 flag, today 305 flags across 94 countries. India leads with 20 flags and reaches LV2. Top 3: India 20, Czechia 17, United States 14. Italy, Romania, Germany and Poland also reach LV2. Canada at 7/10. 101 countries still unclaimed. Which country next?",
+      "links": {}
     }
   ]
 }
