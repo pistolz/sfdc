@@ -1,2906 +1,320 @@
 [
   {
-    "id": "demo-1",
-    "handle": "hala.nora",
-    "club": "real-madrid",
-    "day": 1,
-    "ts": "2026-10-28T06:29:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-2",
-    "handle": "madridista.milo",
+    "id": "18019523279950407",
+    "handle": "mossedbymj_",
     "club": "real-madrid",
     "day": 2,
-    "ts": "2026-10-29T09:05:00Z",
-    "source": "demo"
+    "ts": "2026-10-29T22:14:04+0000",
+    "source": "import"
   },
   {
-    "id": "demo-3",
-    "handle": "hala.eli8",
-    "club": "real-madrid",
-    "day": 1,
-    "ts": "2026-10-28T10:19:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-4",
-    "handle": "hala_xmilo",
+    "id": "17931615186421904",
+    "handle": "deison_15_16",
     "club": "real-madrid",
     "day": 2,
-    "ts": "2026-10-29T16:16:00Z",
-    "source": "demo"
+    "ts": "2026-10-29T22:16:49+0000",
+    "source": "import"
   },
   {
-    "id": "demo-5",
-    "handle": "hala_xlea",
-    "club": "real-madrid",
+    "id": "18079772963723733",
+    "handle": "kingnille",
+    "club": "x-nils-fc",
+    "clubName": "Nils FC",
     "day": 2,
-    "ts": "2026-10-29T13:05:00Z",
-    "source": "demo"
+    "ts": "2026-10-29T22:29:02+0000",
+    "source": "import"
   },
   {
-    "id": "demo-6",
-    "handle": "hala_eli",
-    "club": "real-madrid",
-    "day": 1,
-    "ts": "2026-10-28T18:42:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-7",
-    "handle": "madridista_hugo",
-    "club": "real-madrid",
-    "day": 3,
-    "ts": "2026-10-30T12:01:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-8",
-    "handle": "blanco.adam11",
-    "club": "real-madrid",
-    "day": 3,
-    "ts": "2026-10-30T12:26:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-9",
-    "handle": "blanco.omar10",
-    "club": "real-madrid",
-    "day": 3,
-    "ts": "2026-10-30T13:54:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-10",
-    "handle": "blanco.ana",
-    "club": "real-madrid",
-    "day": 2,
-    "ts": "2026-10-29T20:38:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-11",
-    "handle": "hala_salma",
-    "club": "real-madrid",
-    "day": 1,
-    "ts": "2026-10-28T11:42:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-12",
-    "handle": "halaines",
-    "club": "real-madrid",
-    "day": 1,
-    "ts": "2026-10-28T21:17:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-13",
-    "handle": "madridista.theo",
-    "club": "real-madrid",
-    "day": 3,
-    "ts": "2026-10-30T16:20:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-14",
-    "handle": "blanco_xyanis",
-    "club": "real-madrid",
-    "day": 3,
-    "ts": "2026-10-30T09:03:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-15",
-    "handle": "blanco_xravi",
-    "club": "real-madrid",
-    "day": 1,
-    "ts": "2026-10-28T18:15:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-16",
-    "handle": "madridistasami",
-    "club": "real-madrid",
-    "day": 3,
-    "ts": "2026-10-30T20:45:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-17",
-    "handle": "madridistanoah",
-    "club": "real-madrid",
-    "day": 3,
-    "ts": "2026-10-30T18:00:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-18",
-    "handle": "blanco.nora",
-    "club": "real-madrid",
-    "day": 3,
-    "ts": "2026-10-30T09:09:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-19",
-    "handle": "blanco.yanis",
-    "club": "real-madrid",
-    "day": 2,
-    "ts": "2026-10-29T11:19:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-20",
-    "handle": "hala_xmira68",
-    "club": "real-madrid",
-    "day": 3,
-    "ts": "2026-10-30T11:12:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-21",
-    "handle": "blanco.lina",
-    "club": "real-madrid",
-    "day": 2,
-    "ts": "2026-10-29T17:13:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-22",
-    "handle": "madridista_hugo",
-    "club": "real-madrid",
-    "day": 3,
-    "ts": "2026-10-30T19:18:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-23",
-    "handle": "madridista_hugo",
-    "club": "real-madrid",
-    "day": 3,
-    "ts": "2026-10-30T12:16:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-24",
-    "handle": "blanco.yanis",
-    "club": "real-madrid",
-    "day": 3,
-    "ts": "2026-10-30T08:07:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-25",
-    "handle": "madridista.milo",
-    "club": "real-madrid",
-    "day": 1,
-    "ts": "2026-10-28T09:53:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-26",
-    "handle": "madridista.theo",
-    "club": "real-madrid",
-    "day": 3,
-    "ts": "2026-10-30T21:00:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-27",
-    "handle": "blanco.nora",
-    "club": "real-madrid",
-    "day": 2,
-    "ts": "2026-10-29T11:52:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-28",
-    "handle": "hala.eli8",
-    "club": "real-madrid",
-    "day": 2,
-    "ts": "2026-10-29T10:16:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-29",
-    "handle": "hala.nora",
-    "club": "real-madrid",
-    "day": 1,
-    "ts": "2026-10-28T11:37:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-30",
-    "handle": "madridistanoah",
-    "club": "real-madrid",
-    "day": 2,
-    "ts": "2026-10-29T21:29:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-31",
-    "handle": "blanco_xyanis",
-    "club": "real-madrid",
-    "day": 1,
-    "ts": "2026-10-28T08:45:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-32",
-    "handle": "blanco.adam11",
-    "club": "real-madrid",
-    "day": 2,
-    "ts": "2026-10-29T14:10:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-33",
-    "handle": "blanco_xravi",
-    "club": "real-madrid",
-    "day": 3,
-    "ts": "2026-10-30T13:27:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-34",
-    "handle": "halaines",
-    "club": "real-madrid",
-    "day": 1,
-    "ts": "2026-10-28T16:03:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-35",
-    "handle": "culer.leo",
-    "club": "barcelona",
-    "day": 1,
-    "ts": "2026-10-28T06:56:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-36",
-    "handle": "viscanina17",
-    "club": "barcelona",
-    "day": 1,
-    "ts": "2026-10-28T12:11:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-37",
-    "handle": "culer.mira",
+    "id": "18119148308319246",
+    "handle": "absxlute.sgtbam",
     "club": "barcelona",
     "day": 2,
-    "ts": "2026-10-29T18:06:00Z",
-    "source": "demo"
+    "ts": "2026-10-29T23:40:00+0000",
+    "source": "import"
   },
   {
-    "id": "demo-38",
-    "handle": "blaugrana.ines",
+    "id": "18133150729813202",
+    "handle": "sahl2356",
     "club": "barcelona",
     "day": 2,
-    "ts": "2026-10-29T13:06:00Z",
-    "source": "demo"
+    "ts": "2026-10-30T03:00:09+0000",
+    "source": "import"
   },
   {
-    "id": "demo-39",
-    "handle": "culer_xravi90",
-    "club": "barcelona",
-    "day": 3,
-    "ts": "2026-10-30T21:59:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-40",
-    "handle": "culer_xana",
-    "club": "barcelona",
-    "day": 3,
-    "ts": "2026-10-30T20:00:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-41",
-    "handle": "blaugrana_nina",
-    "club": "barcelona",
-    "day": 1,
-    "ts": "2026-10-28T21:40:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-42",
-    "handle": "blaugrana_xana",
-    "club": "barcelona",
-    "day": 1,
-    "ts": "2026-10-28T17:37:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-43",
-    "handle": "blaugrana.noah7",
-    "club": "barcelona",
-    "day": 3,
-    "ts": "2026-10-30T09:41:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-44",
-    "handle": "blaugrana.milo",
-    "club": "barcelona",
-    "day": 2,
-    "ts": "2026-10-29T19:45:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-45",
-    "handle": "visca.ali",
-    "club": "barcelona",
-    "day": 3,
-    "ts": "2026-10-30T14:18:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-46",
-    "handle": "culer.rosa78",
-    "club": "barcelona",
-    "day": 2,
-    "ts": "2026-10-29T17:36:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-47",
-    "handle": "culerines",
-    "club": "barcelona",
-    "day": 3,
-    "ts": "2026-10-30T18:14:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-48",
-    "handle": "culeradam",
-    "club": "barcelona",
-    "day": 3,
-    "ts": "2026-10-30T10:00:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-49",
-    "handle": "culer_xivan",
-    "club": "barcelona",
-    "day": 1,
-    "ts": "2026-10-28T17:42:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-50",
-    "handle": "culer.sami",
-    "club": "barcelona",
-    "day": 2,
-    "ts": "2026-10-29T16:00:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-51",
-    "handle": "culer.ana",
-    "club": "barcelona",
-    "day": 2,
-    "ts": "2026-10-29T20:30:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-52",
-    "handle": "blaugrana_sami32",
-    "club": "barcelona",
-    "day": 2,
-    "ts": "2026-10-29T15:50:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-53",
-    "handle": "blaugrana_leo",
-    "club": "barcelona",
-    "day": 3,
-    "ts": "2026-10-30T11:49:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-54",
-    "handle": "culer.leo",
-    "club": "barcelona",
-    "day": 3,
-    "ts": "2026-10-30T18:46:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-55",
-    "handle": "culer.sami",
-    "club": "barcelona",
-    "day": 1,
-    "ts": "2026-10-28T10:24:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-56",
-    "handle": "viscanina17",
-    "club": "barcelona",
-    "day": 1,
-    "ts": "2026-10-28T18:57:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-57",
-    "handle": "culer.sami",
-    "club": "barcelona",
-    "day": 2,
-    "ts": "2026-10-29T14:08:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-58",
-    "handle": "blaugrana_leo",
-    "club": "barcelona",
-    "day": 1,
-    "ts": "2026-10-28T17:22:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-59",
-    "handle": "visca.ali",
-    "club": "barcelona",
-    "day": 3,
-    "ts": "2026-10-30T15:09:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-60",
-    "handle": "blaugrana_nina",
-    "club": "barcelona",
-    "day": 2,
-    "ts": "2026-10-29T17:43:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-61",
-    "handle": "culer.mira",
-    "club": "barcelona",
-    "day": 2,
-    "ts": "2026-10-29T15:39:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-62",
-    "handle": "culer.sami",
-    "club": "barcelona",
-    "day": 3,
-    "ts": "2026-10-30T18:06:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-63",
-    "handle": "culer_xravi90",
-    "club": "barcelona",
-    "day": 3,
-    "ts": "2026-10-30T21:35:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-64",
-    "handle": "blaugrana_xana",
-    "club": "barcelona",
-    "day": 2,
-    "ts": "2026-10-29T08:47:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-65",
-    "handle": "culeradam",
-    "club": "barcelona",
-    "day": 1,
-    "ts": "2026-10-28T17:47:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-66",
-    "handle": "paris_mira",
-    "club": "psg",
-    "day": 1,
-    "ts": "2026-10-28T06:32:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-67",
-    "handle": "parisien.mira",
-    "club": "psg",
-    "day": 3,
-    "ts": "2026-10-30T19:32:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-68",
-    "handle": "paris_xmilo",
-    "club": "psg",
-    "day": 3,
-    "ts": "2026-10-30T19:51:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-69",
-    "handle": "parisien_xzara",
-    "club": "psg",
-    "day": 2,
-    "ts": "2026-10-29T19:38:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-70",
-    "handle": "paris_xaya6",
-    "club": "psg",
-    "day": 2,
-    "ts": "2026-10-29T16:57:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-71",
-    "handle": "paris.nora",
-    "club": "psg",
-    "day": 2,
-    "ts": "2026-10-29T15:33:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-72",
-    "handle": "parisien_xivan",
-    "club": "psg",
-    "day": 2,
-    "ts": "2026-10-29T10:44:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-73",
-    "handle": "paris_xzara",
-    "club": "psg",
-    "day": 3,
-    "ts": "2026-10-30T11:15:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-74",
-    "handle": "titi_rayan22",
-    "club": "psg",
-    "day": 3,
-    "ts": "2026-10-30T11:08:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-75",
-    "handle": "titi_aya25",
-    "club": "psg",
-    "day": 1,
-    "ts": "2026-10-28T09:18:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-76",
-    "handle": "paris_xomar",
-    "club": "psg",
-    "day": 3,
-    "ts": "2026-10-30T09:23:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-77",
-    "handle": "paris.nina",
-    "club": "psg",
-    "day": 3,
-    "ts": "2026-10-30T17:53:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-78",
-    "handle": "titi.rosa",
-    "club": "psg",
-    "day": 2,
-    "ts": "2026-10-29T21:49:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-79",
-    "handle": "parisien_xeli",
-    "club": "psg",
-    "day": 3,
-    "ts": "2026-10-30T15:52:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-80",
-    "handle": "paris_xnoah62",
-    "club": "psg",
-    "day": 2,
-    "ts": "2026-10-29T19:13:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-81",
-    "handle": "parisien_ali",
-    "club": "psg",
-    "day": 2,
-    "ts": "2026-10-29T19:57:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-82",
-    "handle": "parisien.zara31",
-    "club": "psg",
-    "day": 2,
-    "ts": "2026-10-29T12:06:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-83",
-    "handle": "titi_aya25",
-    "club": "psg",
-    "day": 3,
-    "ts": "2026-10-30T08:51:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-84",
-    "handle": "paris_mira",
-    "club": "psg",
-    "day": 3,
-    "ts": "2026-10-30T13:58:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-85",
-    "handle": "paris_mira",
-    "club": "psg",
-    "day": 2,
-    "ts": "2026-10-29T10:51:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-86",
-    "handle": "paris_xmilo",
-    "club": "psg",
-    "day": 3,
-    "ts": "2026-10-30T08:58:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-87",
-    "handle": "paris_xnoah62",
-    "club": "psg",
-    "day": 1,
-    "ts": "2026-10-28T13:32:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-88",
-    "handle": "titi_rayan22",
-    "club": "psg",
-    "day": 3,
-    "ts": "2026-10-30T20:44:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-89",
-    "handle": "parisien_ali",
-    "club": "psg",
-    "day": 1,
-    "ts": "2026-10-28T19:27:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-90",
-    "handle": "paris.nina",
-    "club": "psg",
-    "day": 2,
-    "ts": "2026-10-29T12:30:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-91",
-    "handle": "parisien_xeli",
-    "club": "psg",
-    "day": 3,
-    "ts": "2026-10-30T18:08:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-92",
-    "handle": "titi_rayan22",
-    "club": "psg",
-    "day": 2,
-    "ts": "2026-10-29T18:53:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-93",
-    "handle": "massilia_sami",
-    "club": "om",
-    "day": 1,
-    "ts": "2026-10-28T06:09:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-94",
-    "handle": "minotmax48",
-    "club": "om",
-    "day": 3,
-    "ts": "2026-10-30T12:11:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-95",
-    "handle": "olympiensalma",
-    "club": "om",
-    "day": 3,
-    "ts": "2026-10-30T15:39:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-96",
-    "handle": "massilia.ali",
-    "club": "om",
-    "day": 3,
-    "ts": "2026-10-30T20:15:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-97",
-    "handle": "minot_xnora",
-    "club": "om",
-    "day": 2,
-    "ts": "2026-10-29T18:08:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-98",
-    "handle": "minot.nora",
-    "club": "om",
-    "day": 2,
-    "ts": "2026-10-29T12:22:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-99",
-    "handle": "massilia_max",
-    "club": "om",
-    "day": 2,
-    "ts": "2026-10-29T21:24:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-100",
-    "handle": "massiliamilo",
-    "club": "om",
-    "day": 1,
-    "ts": "2026-10-28T09:46:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-101",
-    "handle": "olympien_milo67",
-    "club": "om",
-    "day": 2,
-    "ts": "2026-10-29T19:23:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-102",
-    "handle": "minot_jade",
-    "club": "om",
-    "day": 2,
-    "ts": "2026-10-29T14:46:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-103",
-    "handle": "minot.milo68",
-    "club": "om",
-    "day": 3,
-    "ts": "2026-10-30T10:17:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-104",
-    "handle": "olympien_noah",
-    "club": "om",
-    "day": 3,
-    "ts": "2026-10-30T09:47:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-105",
-    "handle": "minot_xsami",
-    "club": "om",
-    "day": 3,
-    "ts": "2026-10-30T15:22:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-106",
-    "handle": "massilia.omar",
-    "club": "om",
-    "day": 1,
-    "ts": "2026-10-28T20:56:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-107",
-    "handle": "massilia.ali",
-    "club": "om",
-    "day": 3,
-    "ts": "2026-10-30T09:49:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-108",
-    "handle": "minot.milo68",
-    "club": "om",
-    "day": 3,
-    "ts": "2026-10-30T12:05:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-109",
-    "handle": "massilia_max",
-    "club": "om",
-    "day": 2,
-    "ts": "2026-10-29T20:30:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-110",
-    "handle": "massilia.ali",
-    "club": "om",
-    "day": 3,
-    "ts": "2026-10-30T13:28:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-111",
-    "handle": "olympien_milo67",
-    "club": "om",
-    "day": 2,
-    "ts": "2026-10-29T21:27:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-112",
-    "handle": "massilia.omar",
-    "club": "om",
-    "day": 3,
-    "ts": "2026-10-30T13:49:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-113",
-    "handle": "minotmax48",
-    "club": "om",
-    "day": 3,
-    "ts": "2026-10-30T13:38:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-114",
-    "handle": "olympien_milo67",
-    "club": "om",
-    "day": 2,
-    "ts": "2026-10-29T14:25:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-115",
-    "handle": "mufc.rosa91",
-    "club": "man-utd",
-    "day": 2,
-    "ts": "2026-10-29T06:49:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-116",
-    "handle": "ggmu_xzara",
-    "club": "man-utd",
-    "day": 3,
-    "ts": "2026-10-30T19:02:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-117",
-    "handle": "reddevil.adam72",
-    "club": "man-utd",
-    "day": 2,
-    "ts": "2026-10-29T18:03:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-118",
-    "handle": "mufc.rayan51",
-    "club": "man-utd",
-    "day": 2,
-    "ts": "2026-10-29T10:08:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-119",
-    "handle": "reddevil_xeli67",
-    "club": "man-utd",
-    "day": 3,
-    "ts": "2026-10-30T08:28:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-120",
-    "handle": "mufc_xhugo21",
-    "club": "man-utd",
-    "day": 2,
-    "ts": "2026-10-29T13:21:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-121",
-    "handle": "reddevillou",
-    "club": "man-utd",
-    "day": 3,
-    "ts": "2026-10-30T12:16:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-122",
-    "handle": "ggmu_xrayan",
-    "club": "man-utd",
-    "day": 3,
-    "ts": "2026-10-30T18:35:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-123",
-    "handle": "reddevil_ali",
-    "club": "man-utd",
-    "day": 3,
-    "ts": "2026-10-30T14:34:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-124",
-    "handle": "reddevil_yuna",
-    "club": "man-utd",
-    "day": 2,
-    "ts": "2026-10-29T19:10:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-125",
-    "handle": "reddevil.max",
-    "club": "man-utd",
-    "day": 2,
-    "ts": "2026-10-29T14:32:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-126",
-    "handle": "reddevil.nina",
-    "club": "man-utd",
-    "day": 2,
-    "ts": "2026-10-29T12:51:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-127",
-    "handle": "reddevil.adam72",
-    "club": "man-utd",
-    "day": 3,
-    "ts": "2026-10-30T15:00:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-128",
-    "handle": "mufc.rosa91",
-    "club": "man-utd",
-    "day": 3,
-    "ts": "2026-10-30T08:09:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-129",
-    "handle": "reddevillou",
-    "club": "man-utd",
-    "day": 3,
-    "ts": "2026-10-30T13:48:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-130",
-    "handle": "reddevil_xeli67",
-    "club": "man-utd",
-    "day": 2,
-    "ts": "2026-10-29T11:56:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-131",
-    "handle": "reddevil.adam72",
-    "club": "man-utd",
-    "day": 3,
-    "ts": "2026-10-30T20:24:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-132",
-    "handle": "reddevil_yuna",
-    "club": "man-utd",
-    "day": 3,
-    "ts": "2026-10-30T11:14:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-133",
-    "handle": "mufc.rosa91",
-    "club": "man-utd",
-    "day": 3,
-    "ts": "2026-10-30T17:59:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-134",
-    "handle": "ynwa.theo",
+    "id": "18014267760002383",
+    "handle": "jasper_sykes10",
     "club": "liverpool",
     "day": 2,
-    "ts": "2026-10-29T06:37:00Z",
-    "source": "demo"
+    "ts": "2026-10-30T04:39:22+0000",
+    "source": "import"
   },
   {
-    "id": "demo-135",
-    "handle": "anfield_xjade",
-    "club": "liverpool",
-    "day": 3,
-    "ts": "2026-10-30T21:18:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-136",
-    "handle": "ynwa_xlou72",
-    "club": "liverpool",
-    "day": 3,
-    "ts": "2026-10-30T15:45:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-137",
-    "handle": "koplea",
-    "club": "liverpool",
-    "day": 2,
-    "ts": "2026-10-29T21:09:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-138",
-    "handle": "kop_xivan",
-    "club": "liverpool",
-    "day": 3,
-    "ts": "2026-10-30T14:54:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-139",
-    "handle": "anfield_xmilo",
-    "club": "liverpool",
-    "day": 2,
-    "ts": "2026-10-29T11:21:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-140",
-    "handle": "kop.lina1",
-    "club": "liverpool",
-    "day": 3,
-    "ts": "2026-10-30T12:55:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-141",
-    "handle": "kop_lou",
-    "club": "liverpool",
-    "day": 3,
-    "ts": "2026-10-30T09:30:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-142",
-    "handle": "anfield_ivan",
-    "club": "liverpool",
-    "day": 2,
-    "ts": "2026-10-29T10:59:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-143",
-    "handle": "ynwa.omar",
-    "club": "liverpool",
-    "day": 2,
-    "ts": "2026-10-29T10:09:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-144",
-    "handle": "ynwa_xmilo",
-    "club": "liverpool",
-    "day": 3,
-    "ts": "2026-10-30T11:52:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-145",
-    "handle": "ynwa_xlou72",
-    "club": "liverpool",
-    "day": 3,
-    "ts": "2026-10-30T10:31:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-146",
-    "handle": "ynwa_xmilo",
-    "club": "liverpool",
-    "day": 2,
-    "ts": "2026-10-29T08:20:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-147",
-    "handle": "anfield_xmilo",
-    "club": "liverpool",
-    "day": 2,
-    "ts": "2026-10-29T21:09:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-148",
-    "handle": "kop_lou",
-    "club": "liverpool",
-    "day": 2,
-    "ts": "2026-10-29T18:41:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-149",
-    "handle": "anfield_xmilo",
-    "club": "liverpool",
-    "day": 2,
-    "ts": "2026-10-29T20:02:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-150",
-    "handle": "ynwa.theo",
-    "club": "liverpool",
-    "day": 3,
-    "ts": "2026-10-30T19:10:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-151",
-    "handle": "ynwa.omar",
-    "club": "liverpool",
-    "day": 3,
-    "ts": "2026-10-30T21:26:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-152",
-    "handle": "dima.wydad.aya",
-    "club": "wydad",
-    "day": 1,
-    "ts": "2026-10-28T06:36:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-153",
-    "handle": "dima.wydad_salma",
-    "club": "wydad",
-    "day": 3,
-    "ts": "2026-10-30T20:34:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-154",
-    "handle": "casa.ines95",
-    "club": "wydad",
-    "day": 3,
-    "ts": "2026-10-30T14:51:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-155",
-    "handle": "casa_xkai",
-    "club": "wydad",
-    "day": 2,
-    "ts": "2026-10-29T18:00:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-156",
-    "handle": "dima.wydad_xnora77",
-    "club": "wydad",
-    "day": 2,
-    "ts": "2026-10-29T08:29:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-157",
-    "handle": "casatheo",
-    "club": "wydad",
-    "day": 3,
-    "ts": "2026-10-30T20:31:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-158",
-    "handle": "casa_yanis43",
-    "club": "wydad",
-    "day": 3,
-    "ts": "2026-10-30T17:58:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-159",
-    "handle": "dima.wydad_ivan",
-    "club": "wydad",
-    "day": 3,
-    "ts": "2026-10-30T17:50:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-160",
-    "handle": "wac.leo",
-    "club": "wydad",
-    "day": 3,
-    "ts": "2026-10-30T08:14:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-161",
-    "handle": "dima.wydad_xrosa",
-    "club": "wydad",
-    "day": 3,
-    "ts": "2026-10-30T16:18:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-162",
-    "handle": "dima.wydad_salma",
-    "club": "wydad",
-    "day": 3,
-    "ts": "2026-10-30T10:33:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-163",
-    "handle": "casa.ines95",
-    "club": "wydad",
-    "day": 2,
-    "ts": "2026-10-29T14:21:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-164",
-    "handle": "casatheo",
-    "club": "wydad",
-    "day": 3,
-    "ts": "2026-10-30T21:13:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-165",
-    "handle": "dima.wydad_salma",
-    "club": "wydad",
-    "day": 3,
-    "ts": "2026-10-30T13:05:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-166",
-    "handle": "dima.wydad_xnora77",
-    "club": "wydad",
-    "day": 3,
-    "ts": "2026-10-30T16:28:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-167",
-    "handle": "dima.wydad_ivan",
-    "club": "wydad",
-    "day": 3,
-    "ts": "2026-10-30T16:33:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-168",
-    "handle": "nassrzara",
-    "club": "al-nassr",
-    "day": 2,
-    "ts": "2026-10-29T06:18:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-169",
-    "handle": "riyadh.ana",
-    "club": "al-nassr",
-    "day": 2,
-    "ts": "2026-10-29T15:19:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-170",
-    "handle": "riyadh_xjade0",
-    "club": "al-nassr",
-    "day": 3,
-    "ts": "2026-10-30T12:11:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-171",
-    "handle": "nassrmax68",
-    "club": "al-nassr",
-    "day": 2,
-    "ts": "2026-10-29T08:09:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-172",
-    "handle": "cr7.ines",
-    "club": "al-nassr",
-    "day": 2,
-    "ts": "2026-10-29T14:39:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-173",
-    "handle": "riyadh_salma",
-    "club": "al-nassr",
-    "day": 2,
-    "ts": "2026-10-29T16:39:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-174",
-    "handle": "cr7_yuna20",
-    "club": "al-nassr",
-    "day": 2,
-    "ts": "2026-10-29T10:13:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-175",
-    "handle": "nassr.ravi",
-    "club": "al-nassr",
-    "day": 2,
-    "ts": "2026-10-29T11:24:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-176",
-    "handle": "cr7.rayan",
-    "club": "al-nassr",
-    "day": 2,
-    "ts": "2026-10-29T08:32:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-177",
-    "handle": "cr7_yuna20",
-    "club": "al-nassr",
-    "day": 2,
-    "ts": "2026-10-29T13:23:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-178",
-    "handle": "nassrzara",
-    "club": "al-nassr",
-    "day": 3,
-    "ts": "2026-10-30T08:24:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-179",
-    "handle": "cr7.ines",
-    "club": "al-nassr",
-    "day": 3,
-    "ts": "2026-10-30T14:12:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-180",
-    "handle": "nassrzara",
-    "club": "al-nassr",
-    "day": 3,
-    "ts": "2026-10-30T19:24:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-181",
-    "handle": "riyadh_xjade0",
-    "club": "al-nassr",
-    "day": 2,
-    "ts": "2026-10-29T09:22:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-182",
-    "handle": "nassr.ravi",
-    "club": "al-nassr",
-    "day": 2,
-    "ts": "2026-10-29T11:43:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-183",
-    "handle": "fla_xmira3",
-    "club": "flamengo",
-    "day": 2,
-    "ts": "2026-10-29T06:01:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-184",
-    "handle": "mengaotheo48",
-    "club": "flamengo",
-    "day": 2,
-    "ts": "2026-10-29T12:02:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-185",
-    "handle": "mengao.leo",
-    "club": "flamengo",
-    "day": 2,
-    "ts": "2026-10-29T10:10:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-186",
-    "handle": "mengao_xyuna83",
-    "club": "flamengo",
-    "day": 2,
-    "ts": "2026-10-29T15:59:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-187",
-    "handle": "fla_xleo41",
-    "club": "flamengo",
-    "day": 2,
-    "ts": "2026-10-29T13:17:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-188",
-    "handle": "fla.kai",
-    "club": "flamengo",
-    "day": 3,
-    "ts": "2026-10-30T08:23:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-189",
-    "handle": "mengaoali",
-    "club": "flamengo",
-    "day": 2,
-    "ts": "2026-10-29T11:36:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-190",
-    "handle": "mengao.lina",
-    "club": "flamengo",
-    "day": 2,
-    "ts": "2026-10-29T09:45:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-191",
-    "handle": "mengao_xyuna83",
-    "club": "flamengo",
-    "day": 3,
-    "ts": "2026-10-30T17:54:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-192",
-    "handle": "fla.kai",
-    "club": "flamengo",
-    "day": 3,
-    "ts": "2026-10-30T10:25:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-193",
-    "handle": "fla.kai",
-    "club": "flamengo",
-    "day": 2,
-    "ts": "2026-10-29T10:36:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-194",
-    "handle": "mengao_xyuna83",
-    "club": "flamengo",
-    "day": 2,
-    "ts": "2026-10-29T14:36:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-195",
-    "handle": "mengaotheo48",
-    "club": "flamengo",
-    "day": 3,
-    "ts": "2026-10-30T12:19:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-196",
-    "handle": "miasanmia.eli",
-    "club": "bayern",
-    "day": 1,
-    "ts": "2026-10-28T06:58:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-197",
-    "handle": "miasanmia.sami92",
-    "club": "bayern",
-    "day": 3,
-    "ts": "2026-10-30T14:49:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-198",
-    "handle": "munchen_mira",
-    "club": "bayern",
-    "day": 3,
-    "ts": "2026-10-30T13:48:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-199",
-    "handle": "miasanmia.ivan",
-    "club": "bayern",
-    "day": 1,
-    "ts": "2026-10-28T20:20:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-200",
-    "handle": "munchen.sami",
-    "club": "bayern",
-    "day": 3,
-    "ts": "2026-10-30T09:07:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-201",
-    "handle": "munchen_xadam",
-    "club": "bayern",
-    "day": 3,
-    "ts": "2026-10-30T19:04:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-202",
-    "handle": "munchen.yanis",
-    "club": "bayern",
-    "day": 3,
-    "ts": "2026-10-30T08:30:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-203",
-    "handle": "miasanmia.max",
-    "club": "bayern",
-    "day": 2,
-    "ts": "2026-10-29T19:59:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-204",
-    "handle": "miasanmia.eli",
-    "club": "bayern",
-    "day": 3,
-    "ts": "2026-10-30T15:39:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-205",
-    "handle": "miasanmia.ivan",
-    "club": "bayern",
-    "day": 1,
-    "ts": "2026-10-28T20:28:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-206",
-    "handle": "munchen.yanis",
-    "club": "bayern",
-    "day": 1,
-    "ts": "2026-10-28T13:14:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-207",
-    "handle": "miasanmia.max",
-    "club": "bayern",
-    "day": 2,
-    "ts": "2026-10-29T21:18:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-208",
-    "handle": "miami_xleo",
-    "club": "inter-miami",
-    "day": 1,
-    "ts": "2026-10-28T06:28:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-209",
-    "handle": "miami.rosa",
-    "club": "inter-miami",
-    "day": 2,
-    "ts": "2026-10-29T09:53:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-210",
-    "handle": "goat10.noah",
-    "club": "inter-miami",
-    "day": 3,
-    "ts": "2026-10-30T11:08:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-211",
-    "handle": "miami.yuna",
-    "club": "inter-miami",
-    "day": 2,
-    "ts": "2026-10-29T12:11:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-212",
-    "handle": "miami_lea",
-    "club": "inter-miami",
-    "day": 3,
-    "ts": "2026-10-30T11:12:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-213",
-    "handle": "miami_xines14",
-    "club": "inter-miami",
-    "day": 3,
-    "ts": "2026-10-30T15:57:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-214",
-    "handle": "goat10.lea",
-    "club": "inter-miami",
-    "day": 3,
-    "ts": "2026-10-30T17:36:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-215",
-    "handle": "miami_xleo",
-    "club": "inter-miami",
-    "day": 3,
-    "ts": "2026-10-30T17:25:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-216",
-    "handle": "miami_lea",
-    "club": "inter-miami",
-    "day": 2,
-    "ts": "2026-10-29T16:25:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-217",
-    "handle": "miami_lea",
-    "club": "inter-miami",
-    "day": 2,
-    "ts": "2026-10-29T18:26:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-218",
-    "handle": "miami_xleo",
-    "club": "inter-miami",
-    "day": 3,
-    "ts": "2026-10-30T19:35:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-219",
-    "handle": "juveyuna",
-    "club": "juventus",
-    "day": 2,
-    "ts": "2026-10-29T06:29:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-220",
-    "handle": "bianconero.nora",
-    "club": "juventus",
-    "day": 3,
-    "ts": "2026-10-30T19:54:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-221",
-    "handle": "juve.rayan61",
-    "club": "juventus",
-    "day": 3,
-    "ts": "2026-10-30T19:03:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-222",
-    "handle": "bianconero_mira",
-    "club": "juventus",
-    "day": 3,
-    "ts": "2026-10-30T08:14:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-223",
-    "handle": "bianconero_zara",
-    "club": "juventus",
-    "day": 3,
-    "ts": "2026-10-30T19:03:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-224",
-    "handle": "bianconero_xrosa",
-    "club": "juventus",
-    "day": 3,
-    "ts": "2026-10-30T15:18:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-225",
-    "handle": "bianconero_xrosa",
-    "club": "juventus",
-    "day": 3,
-    "ts": "2026-10-30T11:18:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-226",
-    "handle": "bianconero_mira",
-    "club": "juventus",
-    "day": 2,
-    "ts": "2026-10-29T18:25:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-227",
-    "handle": "bianconero_zara",
-    "club": "juventus",
-    "day": 2,
-    "ts": "2026-10-29T19:21:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-228",
-    "handle": "juve.rayan61",
-    "club": "juventus",
-    "day": 2,
-    "ts": "2026-10-29T19:29:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-229",
-    "handle": "xeneize_eli",
-    "club": "boca",
-    "day": 1,
-    "ts": "2026-10-28T06:57:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-230",
-    "handle": "bombonerajade62",
-    "club": "boca",
-    "day": 2,
-    "ts": "2026-10-29T14:53:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-231",
-    "handle": "bomboneranoah38",
-    "club": "boca",
-    "day": 2,
-    "ts": "2026-10-29T20:37:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-232",
-    "handle": "bombonera_xleo",
-    "club": "boca",
-    "day": 2,
-    "ts": "2026-10-29T15:07:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-233",
-    "handle": "bombonera.zara",
-    "club": "boca",
-    "day": 3,
-    "ts": "2026-10-30T21:12:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-234",
-    "handle": "bombonera.theo",
-    "club": "boca",
-    "day": 3,
-    "ts": "2026-10-30T17:44:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-235",
-    "handle": "bombonera.theo",
-    "club": "boca",
-    "day": 2,
-    "ts": "2026-10-29T18:45:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-236",
-    "handle": "bomboneranoah38",
-    "club": "boca",
-    "day": 2,
-    "ts": "2026-10-29T10:26:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-237",
-    "handle": "bombonera_xleo",
-    "club": "boca",
-    "day": 3,
-    "ts": "2026-10-30T09:31:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-238",
-    "handle": "bleublanc.eli",
-    "club": "cf-montreal",
-    "day": 1,
-    "ts": "2026-10-28T06:06:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-239",
-    "handle": "impact.nora39",
-    "club": "cf-montreal",
-    "day": 3,
-    "ts": "2026-10-30T09:47:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-240",
-    "handle": "bleublancsalma27",
-    "club": "cf-montreal",
-    "day": 2,
-    "ts": "2026-10-29T16:56:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-241",
-    "handle": "impact.kai",
-    "club": "cf-montreal",
-    "day": 2,
-    "ts": "2026-10-29T14:30:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-242",
-    "handle": "bleublanc.ravi",
-    "club": "cf-montreal",
-    "day": 2,
-    "ts": "2026-10-29T21:35:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-243",
-    "handle": "mtl_xleo",
-    "club": "cf-montreal",
-    "day": 2,
-    "ts": "2026-10-29T17:51:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-244",
-    "handle": "bleublanc.eli",
-    "club": "cf-montreal",
-    "day": 3,
-    "ts": "2026-10-30T13:16:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-245",
-    "handle": "impact.nora39",
-    "club": "cf-montreal",
-    "day": 2,
-    "ts": "2026-10-29T08:25:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-246",
-    "handle": "bleublancsalma27",
-    "club": "cf-montreal",
-    "day": 3,
-    "ts": "2026-10-30T17:53:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-247",
-    "handle": "greenines96",
-    "club": "raja",
-    "day": 1,
-    "ts": "2026-10-28T06:56:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-248",
-    "handle": "green_salma56",
-    "club": "raja",
-    "day": 3,
-    "ts": "2026-10-30T09:16:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-249",
-    "handle": "dima.raja_xnina",
-    "club": "raja",
-    "day": 3,
-    "ts": "2026-10-30T15:44:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-250",
-    "handle": "dima.rajanora90",
-    "club": "raja",
-    "day": 1,
-    "ts": "2026-10-28T13:43:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-251",
-    "handle": "dima.raja_xlea",
-    "club": "raja",
-    "day": 2,
-    "ts": "2026-10-29T13:41:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-252",
-    "handle": "green_salma56",
-    "club": "raja",
-    "day": 3,
-    "ts": "2026-10-30T21:39:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-253",
-    "handle": "dima.raja_xnina",
-    "club": "raja",
-    "day": 3,
-    "ts": "2026-10-30T19:00:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-254",
-    "handle": "green_salma56",
-    "club": "raja",
-    "day": 2,
-    "ts": "2026-10-29T20:20:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-255",
-    "handle": "cairo_xmilo",
-    "club": "al-ahly",
-    "day": 2,
-    "ts": "2026-10-29T06:03:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-256",
-    "handle": "cairo_xali",
-    "club": "al-ahly",
-    "day": 2,
-    "ts": "2026-10-29T08:06:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-257",
-    "handle": "cairo.nina",
-    "club": "al-ahly",
-    "day": 3,
-    "ts": "2026-10-30T18:12:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-258",
-    "handle": "ahlawynora",
-    "club": "al-ahly",
-    "day": 2,
-    "ts": "2026-10-29T14:37:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-259",
-    "handle": "cairohugo",
-    "club": "al-ahly",
-    "day": 2,
-    "ts": "2026-10-29T20:14:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-260",
-    "handle": "ahlawynora",
-    "club": "al-ahly",
-    "day": 3,
-    "ts": "2026-10-30T08:51:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-261",
-    "handle": "cairo_xali",
-    "club": "al-ahly",
-    "day": 3,
-    "ts": "2026-10-30T19:00:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-262",
-    "handle": "cairohugo",
-    "club": "al-ahly",
-    "day": 2,
-    "ts": "2026-10-29T09:22:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-263",
-    "handle": "fanzara3",
-    "club": "arsenal",
-    "day": 1,
-    "ts": "2026-10-28T06:45:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-264",
-    "handle": "fan.max65",
-    "club": "arsenal",
-    "day": 3,
-    "ts": "2026-10-30T15:48:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-265",
-    "handle": "fan_yuna85",
-    "club": "arsenal",
-    "day": 1,
-    "ts": "2026-10-28T20:15:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-266",
-    "handle": "ultraines",
-    "club": "arsenal",
-    "day": 3,
-    "ts": "2026-10-30T10:03:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-267",
-    "handle": "fan_lea",
-    "club": "arsenal",
-    "day": 2,
-    "ts": "2026-10-29T12:13:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-268",
-    "handle": "fan.max65",
-    "club": "arsenal",
-    "day": 2,
-    "ts": "2026-10-29T18:00:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-269",
-    "handle": "fan_lea",
-    "club": "arsenal",
-    "day": 1,
-    "ts": "2026-10-28T14:34:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-270",
-    "handle": "fan_lea",
-    "club": "arsenal",
-    "day": 2,
-    "ts": "2026-10-29T14:26:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-271",
-    "handle": "fanzara",
-    "club": "man-city",
-    "day": 1,
-    "ts": "2026-10-28T06:52:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-272",
-    "handle": "ultrahugo58",
-    "club": "man-city",
-    "day": 3,
-    "ts": "2026-10-30T10:34:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-273",
-    "handle": "man_nina",
-    "club": "man-city",
-    "day": 3,
-    "ts": "2026-10-30T15:14:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-274",
-    "handle": "fan.ivan",
-    "club": "man-city",
-    "day": 3,
-    "ts": "2026-10-30T09:03:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-275",
-    "handle": "ultrahugo58",
-    "club": "man-city",
-    "day": 3,
-    "ts": "2026-10-30T17:06:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-276",
-    "handle": "fanzara",
-    "club": "man-city",
-    "day": 3,
-    "ts": "2026-10-30T18:06:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-277",
-    "handle": "fanzara",
-    "club": "man-city",
-    "day": 3,
-    "ts": "2026-10-30T14:27:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-278",
-    "handle": "ultraali",
-    "club": "ac-milan",
-    "day": 1,
-    "ts": "2026-10-28T06:46:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-279",
-    "handle": "ac.leo69",
-    "club": "ac-milan",
-    "day": 3,
-    "ts": "2026-10-30T10:35:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-280",
-    "handle": "fan.zara",
-    "club": "ac-milan",
-    "day": 2,
-    "ts": "2026-10-29T10:20:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-281",
-    "handle": "fan_rayan",
-    "club": "ac-milan",
-    "day": 2,
-    "ts": "2026-10-29T14:39:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-282",
-    "handle": "ac.leo69",
-    "club": "ac-milan",
-    "day": 3,
-    "ts": "2026-10-30T09:42:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-283",
-    "handle": "ac.leo69",
-    "club": "ac-milan",
-    "day": 1,
-    "ts": "2026-10-28T15:37:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-284",
-    "handle": "ultraali",
-    "club": "ac-milan",
-    "day": 3,
-    "ts": "2026-10-30T12:12:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-285",
-    "handle": "esperance.ines38",
-    "club": "esperance",
-    "day": 2,
-    "ts": "2026-10-29T06:36:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-286",
-    "handle": "esperance_lea",
-    "club": "esperance",
-    "day": 3,
-    "ts": "2026-10-30T18:12:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-287",
-    "handle": "ultra_rayan",
-    "club": "esperance",
-    "day": 3,
-    "ts": "2026-10-30T17:23:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-288",
-    "handle": "fan_xjade",
-    "club": "esperance",
-    "day": 3,
-    "ts": "2026-10-30T14:35:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-289",
-    "handle": "esperance.ines38",
-    "club": "esperance",
-    "day": 2,
-    "ts": "2026-10-29T15:31:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-290",
-    "handle": "esperance_lea",
-    "club": "esperance",
-    "day": 3,
-    "ts": "2026-10-30T21:48:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-291",
-    "handle": "fan.noah",
-    "club": "chelsea",
-    "day": 3,
-    "ts": "2026-10-30T06:50:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-292",
-    "handle": "chelsea.max",
-    "club": "chelsea",
-    "day": 3,
-    "ts": "2026-10-30T16:20:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-293",
-    "handle": "ultrajade",
-    "club": "chelsea",
-    "day": 3,
-    "ts": "2026-10-30T16:17:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-294",
-    "handle": "chelseaaya1",
-    "club": "chelsea",
-    "day": 3,
-    "ts": "2026-10-30T15:27:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-295",
-    "handle": "fan.noah",
-    "club": "chelsea",
-    "day": 3,
-    "ts": "2026-10-30T13:29:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-296",
-    "handle": "fan.noah",
-    "club": "chelsea",
-    "day": 3,
-    "ts": "2026-10-30T09:28:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-297",
-    "handle": "ultra_xmira",
-    "club": "napoli",
-    "day": 3,
-    "ts": "2026-10-30T06:38:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-298",
-    "handle": "ultrarosa75",
-    "club": "napoli",
-    "day": 3,
-    "ts": "2026-10-30T08:13:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-299",
-    "handle": "napoli.yanis20",
-    "club": "napoli",
-    "day": 3,
-    "ts": "2026-10-30T18:00:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-300",
-    "handle": "napoli.yanis20",
-    "club": "napoli",
-    "day": 3,
-    "ts": "2026-10-30T13:16:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-301",
-    "handle": "napoli.yanis20",
-    "club": "napoli",
-    "day": 3,
-    "ts": "2026-10-30T14:48:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-302",
-    "handle": "dortmund_lina",
+    "id": "17976841734149623",
+    "handle": "aarush_r.__",
     "club": "dortmund",
-    "day": 3,
-    "ts": "2026-10-30T06:02:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-303",
-    "handle": "fan.rayan",
-    "club": "dortmund",
-    "day": 3,
-    "ts": "2026-10-30T15:42:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-304",
-    "handle": "fan.eli68",
-    "club": "dortmund",
-    "day": 3,
-    "ts": "2026-10-30T11:23:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-305",
-    "handle": "dortmund_lina",
-    "club": "dortmund",
-    "day": 3,
-    "ts": "2026-10-30T12:33:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-306",
-    "handle": "fan.rayan",
-    "club": "dortmund",
-    "day": 3,
-    "ts": "2026-10-30T10:06:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-307",
-    "handle": "fan.noah9",
-    "club": "galatasaray",
-    "day": 1,
-    "ts": "2026-10-28T06:16:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-308",
-    "handle": "fan_ivan",
-    "club": "galatasaray",
-    "day": 3,
-    "ts": "2026-10-30T13:33:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-309",
-    "handle": "galatasaray.yanis",
-    "club": "galatasaray",
-    "day": 3,
-    "ts": "2026-10-30T13:57:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-310",
-    "handle": "galatasaray.yanis",
-    "club": "galatasaray",
-    "day": 1,
-    "ts": "2026-10-28T11:03:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-311",
-    "handle": "galatasaray.yanis",
-    "club": "galatasaray",
-    "day": 3,
-    "ts": "2026-10-30T18:36:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-312",
-    "handle": "benficaeli",
-    "club": "benfica",
-    "day": 3,
-    "ts": "2026-10-30T06:35:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-313",
-    "handle": "ultrakai",
-    "club": "benfica",
-    "day": 3,
-    "ts": "2026-10-30T08:14:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-314",
-    "handle": "fan.omar",
-    "club": "benfica",
-    "day": 3,
-    "ts": "2026-10-30T12:44:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-315",
-    "handle": "fan.omar",
-    "club": "benfica",
-    "day": 3,
-    "ts": "2026-10-30T16:20:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-316",
-    "handle": "mc.ali",
-    "club": "mc-alger",
     "day": 2,
-    "ts": "2026-10-29T06:07:00Z",
-    "source": "demo"
+    "ts": "2026-10-30T05:33:40+0000",
+    "source": "import"
   },
   {
-    "id": "demo-317",
-    "handle": "mceli",
-    "club": "mc-alger",
-    "day": 3,
-    "ts": "2026-10-30T19:01:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-318",
-    "handle": "fan_yuna0",
-    "club": "mc-alger",
+    "id": "18188193814412555",
+    "handle": "danrubotha",
+    "club": "man-city",
     "day": 2,
-    "ts": "2026-10-29T17:56:00Z",
-    "source": "demo"
+    "ts": "2026-10-30T06:21:20+0000",
+    "source": "import"
   },
   {
-    "id": "demo-319",
-    "handle": "fan_yuna0",
-    "club": "mc-alger",
-    "day": 3,
-    "ts": "2026-10-30T13:33:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-320",
-    "handle": "ultra.lea48",
-    "club": "ajax",
-    "day": 3,
-    "ts": "2026-10-30T06:52:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-321",
-    "handle": "fan.mira",
-    "club": "ajax",
-    "day": 3,
-    "ts": "2026-10-30T14:48:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-322",
-    "handle": "ajax_xzara",
-    "club": "ajax",
-    "day": 3,
-    "ts": "2026-10-30T10:03:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-323",
-    "handle": "ultra.lea48",
-    "club": "ajax",
-    "day": 3,
-    "ts": "2026-10-30T09:55:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-324",
-    "handle": "ultra.nora",
-    "club": "river",
-    "day": 1,
-    "ts": "2026-10-28T06:08:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-325",
-    "handle": "fan.salma",
-    "club": "river",
-    "day": 3,
-    "ts": "2026-10-30T12:01:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-326",
-    "handle": "river_nora65",
-    "club": "river",
-    "day": 3,
-    "ts": "2026-10-30T20:21:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-327",
-    "handle": "fan.salma",
-    "club": "river",
+    "id": "18384202207238682",
+    "handle": "connornorval",
+    "club": "rangers",
     "day": 2,
-    "ts": "2026-10-29T13:38:00Z",
-    "source": "demo"
+    "ts": "2026-10-30T06:33:42+0000",
+    "source": "import"
   },
   {
-    "id": "demo-328",
-    "handle": "fan_xsalma72",
-    "club": "club-america",
-    "day": 1,
-    "ts": "2026-10-28T06:12:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-329",
-    "handle": "ultra_rayan64",
-    "club": "club-america",
-    "day": 3,
-    "ts": "2026-10-30T17:54:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-330",
-    "handle": "fan_xsalma72",
-    "club": "club-america",
-    "day": 3,
-    "ts": "2026-10-30T19:49:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-331",
-    "handle": "fan.ivan84",
-    "club": "palmeiras",
-    "day": 1,
-    "ts": "2026-10-28T06:14:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-332",
-    "handle": "ultra_xlea",
-    "club": "palmeiras",
-    "day": 3,
-    "ts": "2026-10-30T13:34:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-333",
-    "handle": "fan.ivan84",
-    "club": "palmeiras",
+    "id": "18132309274808856",
+    "handle": "maty_benc",
+    "club": "slavia",
     "day": 2,
-    "ts": "2026-10-29T21:24:00Z",
-    "source": "demo"
+    "ts": "2026-10-30T07:14:21+0000",
+    "source": "import"
   },
   {
-    "id": "demo-334",
-    "handle": "fan.hugo",
-    "club": "rc-lens",
+    "id": "17870248668659431",
+    "handle": "thomasrwilson10",
+    "club": "newcastle",
     "day": 2,
-    "ts": "2026-10-29T06:13:00Z",
-    "source": "demo"
+    "ts": "2026-10-30T08:02:20+0000",
+    "source": "import"
   },
   {
-    "id": "demo-335",
-    "handle": "fan.theo60",
-    "club": "rc-lens",
+    "id": "18069779780665461",
+    "handle": "chocolatehotdogflavouredwater",
+    "club": "ac-milan",
     "day": 2,
-    "ts": "2026-10-29T20:12:00Z",
-    "source": "demo"
+    "ts": "2026-10-30T08:02:41+0000",
+    "source": "import"
   },
   {
-    "id": "demo-336",
-    "handle": "fan.hugo",
-    "club": "rc-lens",
+    "id": "18468744265189413",
+    "handle": "flavio_fonte19",
+    "club": "lazio",
     "day": 2,
-    "ts": "2026-10-29T15:24:00Z",
-    "source": "demo"
+    "ts": "2026-10-30T08:03:36+0000",
+    "source": "import"
   },
   {
-    "id": "demo-337",
-    "handle": "fan.eli",
+    "id": "18115202408034337",
+    "handle": "ashraffouad63",
+    "club": "zamalek",
+    "day": 2,
+    "ts": "2026-10-30T08:11:01+0000",
+    "source": "import"
+  },
+  {
+    "id": "17978501444930962",
+    "handle": "r.thomson.67",
     "club": "celtic",
-    "day": 3,
-    "ts": "2026-10-30T06:29:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-338",
-    "handle": "celtic.ana",
-    "club": "celtic",
-    "day": 3,
-    "ts": "2026-10-30T18:00:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-339",
-    "handle": "fan.eli",
-    "club": "celtic",
-    "day": 3,
-    "ts": "2026-10-30T14:31:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-340",
-    "handle": "ultra.rosa80",
-    "club": "kaizer-chiefs",
-    "day": 1,
-    "ts": "2026-10-28T06:11:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-341",
-    "handle": "ultra.rosa80",
-    "club": "kaizer-chiefs",
     "day": 2,
-    "ts": "2026-10-29T08:00:00Z",
-    "source": "demo"
+    "ts": "2026-10-30T08:26:53+0000",
+    "source": "import"
   },
   {
-    "id": "demo-342",
-    "handle": "al_xomar",
-    "club": "al-hilal",
-    "day": 3,
-    "ts": "2026-10-30T06:21:00Z",
-    "source": "demo"
+    "id": "18015862661975506",
+    "handle": "fan_masked_1",
+    "club": "mohun-bagan",
+    "day": 2,
+    "ts": "2026-10-30T08:52:51+0000",
+    "source": "import"
   },
   {
-    "id": "demo-343",
-    "handle": "al_xomar",
-    "club": "al-hilal",
-    "day": 3,
-    "ts": "2026-10-30T09:03:00Z",
-    "source": "demo"
+    "id": "18115748351600834",
+    "handle": "lajos9882",
+    "club": "barcelona",
+    "day": 2,
+    "ts": "2026-10-30T09:04:26+0000",
+    "source": "import"
   },
   {
-    "id": "demo-344",
-    "handle": "torontolea",
-    "club": "toronto-fc",
-    "day": 3,
-    "ts": "2026-10-30T06:45:00Z",
-    "source": "demo"
+    "id": "18093054704239028",
+    "handle": "rid1tt",
+    "club": "east-bengal",
+    "day": 2,
+    "ts": "2026-10-30T09:16:18+0000",
+    "source": "import"
   },
   {
-    "id": "demo-345",
-    "handle": "torontolea",
-    "club": "toronto-fc",
-    "day": 3,
-    "ts": "2026-10-30T20:13:00Z",
-    "source": "demo"
+    "id": "17916208440497004",
+    "handle": "huzithegoat",
+    "club": "real-madrid",
+    "day": 2,
+    "ts": "2026-10-30T09:22:43+0000",
+    "source": "import"
   },
   {
-    "id": "demo-346",
-    "handle": "porto.yanis30",
-    "club": "porto",
-    "day": 3,
-    "ts": "2026-10-30T06:29:00Z",
-    "source": "demo"
+    "id": "17894913417618105",
+    "handle": "lalmawipuia76",
+    "club": "man-utd",
+    "day": 2,
+    "ts": "2026-10-30T09:25:39+0000",
+    "source": "import"
   },
   {
-    "id": "demo-347",
-    "handle": "porto.yanis30",
-    "club": "porto",
-    "day": 3,
-    "ts": "2026-10-30T20:21:00Z",
-    "source": "demo"
+    "id": "18022686437954292",
+    "handle": "anupk_hanal",
+    "club": "man-utd",
+    "day": 2,
+    "ts": "2026-10-30T09:56:00+0000",
+    "source": "import"
   },
   {
-    "id": "demo-348",
-    "handle": "fan.hugo82",
-    "club": "ol",
-    "day": 3,
-    "ts": "2026-10-30T06:35:00Z",
-    "source": "demo"
+    "id": "17987069247095622",
+    "handle": "texas_tiger1224",
+    "club": "ajax",
+    "day": 2,
+    "ts": "2026-10-30T10:55:48+0000",
+    "source": "import"
   },
   {
-    "id": "demo-349",
-    "handle": "fan.hugo82",
-    "club": "ol",
-    "day": 3,
-    "ts": "2026-10-30T16:18:00Z",
-    "source": "demo"
+    "id": "18085869776395604",
+    "handle": "_javeria_zakir",
+    "club": "shakhtar",
+    "day": 2,
+    "ts": "2026-10-30T11:18:30+0000",
+    "source": "import"
   },
   {
-    "id": "demo-350",
-    "handle": "sporting.leo",
+    "id": "17986017945086203",
+    "handle": "gk1_kaisan",
+    "club": "x-cray-wanderers",
+    "clubName": "Cray Wanderers",
+    "day": 2,
+    "ts": "2026-10-30T11:44:15+0000",
+    "source": "import"
+  },
+  {
+    "id": "18155003113579674",
+    "handle": "diamantakiss_07",
+    "club": "panathinaikos",
+    "day": 2,
+    "ts": "2026-10-30T11:49:26+0000",
+    "source": "import"
+  },
+  {
+    "id": "18061655750555163",
+    "handle": "maks.imthegoat",
     "club": "sporting",
-    "day": 1,
-    "ts": "2026-10-28T06:06:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-351",
-    "handle": "sporting.leo",
-    "club": "sporting",
-    "day": 3,
-    "ts": "2026-10-30T13:23:00Z",
-    "source": "demo"
-  },
-  {
-    "id": "demo-352",
-    "handle": "ultra_hugo",
-    "club": "atletico",
     "day": 2,
-    "ts": "2026-10-29T06:31:00Z",
-    "source": "demo"
+    "ts": "2026-10-30T11:54:04+0000",
+    "source": "import"
   },
   {
-    "id": "demo-353",
-    "handle": "ultra_hugo",
-    "club": "atletico",
+    "id": "manual-1793540373537-0",
+    "handle": "evilmonkey23456",
+    "club": "x-mansfield-town",
+    "clubName": "Mansfield Town",
     "day": 2,
-    "ts": "2026-10-29T12:02:00Z",
-    "source": "demo"
+    "ts": "2026-11-01T13:39:33.537Z",
+    "source": "manual"
   },
   {
-    "id": "demo-354",
-    "handle": "ultra_xnora",
-    "club": "js-kabylie",
-    "day": 1,
-    "ts": "2026-10-28T06:39:00Z",
-    "source": "demo"
+    "id": "manual-1793540373647-0",
+    "handle": "sprotte99",
+    "club": "x-msv-duisburg",
+    "clubName": "MSV Duisburg",
+    "day": 2,
+    "ts": "2026-11-01T13:39:33.647Z",
+    "source": "manual"
   },
   {
-    "id": "demo-355",
-    "handle": "wrexham.nora38",
-    "club": "wrexham",
-    "day": 1,
-    "ts": "2026-10-28T06:06:00Z",
-    "source": "demo"
+    "id": "manual-1793540373757-0",
+    "handle": "pepi_naidobroto",
+    "club": "x-levski",
+    "clubName": "Levski",
+    "day": 2,
+    "ts": "2026-11-01T13:39:33.757Z",
+    "source": "manual"
   },
   {
-    "id": "demo-356",
-    "handle": "ultra.mira",
-    "club": "st-pauli",
-    "day": 1,
-    "ts": "2026-10-28T06:41:00Z",
-    "source": "demo"
+    "id": "manual-1793540373863-0",
+    "handle": "fan_masked_2",
+    "club": "x-nac-breda",
+    "clubName": "NAC Breda",
+    "day": 2,
+    "ts": "2026-11-01T13:39:33.863Z",
+    "source": "manual"
   },
   {
-    "id": "demo-357",
-    "handle": "example",
-    "club": "example-fc",
-    "day": 1,
-    "ts": "2026-10-28T06:10:00Z",
-    "source": "demo"
+    "id": "manual-1793540373973-0",
+    "handle": "toubi.was.here",
+    "club": "x-fc-hradec-kralove",
+    "clubName": "FC Hradec Králové",
+    "day": 2,
+    "ts": "2026-11-01T13:39:33.973Z",
+    "source": "manual"
   },
   {
-    "id": "demo-358",
-    "handle": "example_xrosa",
-    "club": "example-fc",
-    "day": 3,
-    "ts": "2026-10-30T14:08:00Z",
-    "source": "demo"
+    "id": "manual-1793540374082-0",
+    "handle": "zagoruichenkoigor",
+    "club": "x-cska-moscow",
+    "clubName": "CSKA Moscow",
+    "day": 2,
+    "ts": "2026-11-01T13:39:34.082Z",
+    "source": "manual"
   },
   {
-    "id": "demo-359",
-    "handle": "example",
-    "club": "example-fc",
-    "day": 1,
-    "ts": "2026-10-28T17:29:00Z",
-    "source": "demo"
+    "id": "manual-1793540374187-0",
+    "handle": "m.alraees222",
+    "club": "x-al-arabi",
+    "clubName": "Al-Arabi",
+    "day": 2,
+    "ts": "2026-11-01T13:39:34.187Z",
+    "source": "manual"
   },
   {
-    "id": "demo-360",
-    "handle": "stadium_fan",
-    "club": "om",
-    "day": 3,
-    "ts": "2026-10-30T21:00:00Z",
-    "source": "demo"
+    "id": "manual-1793540374295-0",
+    "handle": "oscar.punshon",
+    "club": "x-plymouth-argyle",
+    "clubName": "Plymouth Argyle",
+    "day": 2,
+    "ts": "2026-11-01T13:39:34.295Z",
+    "source": "manual"
   },
   {
-    "id": "demo-361",
-    "handle": "stadium_fan",
-    "club": "wydad",
-    "day": 3,
-    "ts": "2026-10-30T21:00:00Z",
-    "source": "demo"
+    "id": "manual-1793540374412-0",
+    "handle": "ultrasveverice",
+    "club": "x-nsk-bratislava",
+    "clubName": "NŠK Bratislava",
+    "day": 2,
+    "ts": "2026-11-01T13:39:34.412Z",
+    "source": "manual"
   },
   {
-    "id": "demo-362",
-    "handle": "stadium_fan",
-    "club": "cf-montreal",
-    "day": 3,
-    "ts": "2026-10-30T21:00:00Z",
-    "source": "demo"
+    "id": "manual-1793540374542-0",
+    "handle": "zmeus17",
+    "club": "x-fcsb",
+    "clubName": "FCSB",
+    "day": 2,
+    "ts": "2026-11-01T13:39:34.542Z",
+    "source": "manual"
   },
   {
-    "id": "demo-363",
-    "handle": "stadium_fan",
-    "club": "flamengo",
-    "day": 3,
-    "ts": "2026-10-30T21:00:00Z",
-    "source": "demo"
+    "id": "manual-1793540374659-0",
+    "handle": "sahl2356",
+    "club": "x-kerala-blasters",
+    "clubName": "Kerala Blasters",
+    "day": 2,
+    "ts": "2026-11-01T13:39:34.659Z",
+    "source": "manual"
+  },
+  {
+    "id": "manual-1793540374771-0",
+    "handle": "elizabethroy.george1",
+    "club": "x-kerala-blasters",
+    "clubName": "Kerala Blasters",
+    "day": 2,
+    "ts": "2026-11-01T13:39:34.771Z",
+    "source": "manual"
   }
 ]
