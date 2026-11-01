@@ -2,13 +2,13 @@
   "name": "Noob Bee",
   "tagline": "1 comment = 1 level up. Teach the noob bee anything.",
   "rule": "1 comment = 1 level up",
-  "day": 2,
+  "day": 3,
   "rules": {
     "maxSkillLength": 40,
     "dedupeSkills": false
   },
   "links": {
-    "latestEpisode": "https://www.instagram.com/reel/DfEEURwRUbF/",
+    "latestEpisode": "https://www.instagram.com/reel/DfJLpb7RHLe/",
     "instagram": "https://www.instagram.com/ads_noads/",
     "tiktok": "",
     "youtube": ""
@@ -28,6 +28,15 @@
       "date": "2026-10-30",
       "title": "Day 2: You sent 9 skills, now she is level 10 🐝",
       "summary": "Day 2 of Noob Bee. Yesterday she was level 1. 1 comment = 1 level up, and you sent real comments, so she learned 9 skills today. Level 1 to level 10. What should she learn next?",
+      "links": {
+        "instagram": "https://www.instagram.com/reel/DfJLpb7RHLe/"
+      }
+    },
+    {
+      "day": 3,
+      "date": "2026-11-01",
+      "title": "Day 3: 36 comments = 36 skills, she is level 46 🐝",
+      "summary": "Day 3 of Noob Bee. Yesterday she was level 10. You sent 36 real skills, so she climbed 36 floors: rocket, light speed, invisibility, portals, laser eyes, hooray on every jump, triple backflip, quantum tunneling, wall jump... She is now a level 46 Apprentice. What should she learn next?",
       "links": {}
     }
   ]
