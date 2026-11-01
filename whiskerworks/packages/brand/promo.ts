@@ -71,12 +71,12 @@ export async function initPromo(series: string): Promise<void> {
   bar.className = "ww-promo-bar";
   bar.setAttribute("aria-label", "Play WhiskerWorks games");
   bar.innerHTML = `
-    <span class="ww-pb-label"><b>🎮 Play our games</b><small>free</small></span>
+    <span class="ww-pb-label" aria-hidden="true"><span class="ww-pb-emoji">🎮</span><span><b>Our games</b><small>Play free</small></span></span>
     <ul class="ww-pb-list">${games
       .map((g) => {
         const l = link(g, "promo_bar");
         return `<li><a href="${esc(l.href)}" data-id="${esc(g.id)}" data-store="${l.store}" rel="noopener" title="${esc(g.title)}: ${esc(l.cta)}"${g.featured ? ' class="is-featured"' : ""}>
-          ${g.icon ? `<img src="${esc(g.icon)}" alt="" width="34" height="34" loading="eager" decoding="async">` : ""}<span>${esc(g.short)}</span></a></li>`;
+          ${g.icon ? `<img src="${esc(g.icon)}" alt="" width="40" height="40" loading="eager" decoding="async">` : ""}<span class="ww-pb-name">${g.featured ? '<em>NEW</em>' : ""}${esc(g.short)}</span></a></li>`;
       })
       .join("")}</ul>`;
   bar.addEventListener("click", (e) => {
@@ -149,19 +149,25 @@ export async function initPromo(series: string): Promise<void> {
 function injectStyle(): void {
   const s = document.createElement("style");
   s.textContent = `
-  :root{--ww-promo-h:46px}
+  :root{--ww-promo-h:60px}
   .ww-has-promo #app.app{top:var(--ww-promo-h)!important}
-  .ww-promo-bar{position:fixed;z-index:8000;top:0;left:0;right:0;height:var(--ww-promo-h);display:flex;align-items:center;gap:10px;padding:0 max(10px,env(safe-area-inset-left));
-    background:#fff8ee;color:#1a1424;border-bottom:2px solid #1a1424;font-family:"Figtree Variable",Figtree,system-ui,sans-serif}
-  .ww-pb-label{display:flex;flex-direction:column;line-height:1.05;white-space:nowrap}
-  .ww-pb-label b{font:800 12px/1.1 "Unbounded Variable",Unbounded,system-ui,sans-serif;letter-spacing:-.01em}
-  .ww-pb-label small{font-weight:800;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#a43d00}
-  .ww-pb-list{display:flex;gap:6px;list-style:none;margin:0;padding:0;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+  .ww-promo-bar{position:fixed;z-index:8000;top:0;left:0;right:0;height:var(--ww-promo-h);display:flex;align-items:center;gap:10px;padding:0 0 0 max(10px,env(safe-area-inset-left));
+    background:#fff8ee;color:#1a1424;border-bottom:2.5px solid #1a1424;box-shadow:0 3px 0 rgb(26 20 36/.18);font-family:"Figtree Variable",Figtree,system-ui,sans-serif}
+  .ww-pb-label{display:flex;align-items:center;gap:6px;flex:none;line-height:1.05;white-space:nowrap}
+  .ww-pb-emoji{font-size:22px}
+  .ww-pb-label b{display:block;font:800 14px/1.05 "Unbounded Variable",Unbounded,system-ui,sans-serif;letter-spacing:-.02em;color:#1a1424}
+  .ww-pb-label small{display:inline-block;margin-top:3px;padding:1px 7px;border-radius:999px;background:#22b07a;color:#fff;font-weight:800;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+  .ww-pb-list{display:flex;align-items:center;gap:8px;list-style:none;margin:0;padding:0 28px 0 2px;height:100%;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;
+    -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
   .ww-pb-list::-webkit-scrollbar{display:none}
-  .ww-pb-list a{display:flex;align-items:center;gap:6px;height:36px;padding:0 10px 0 2px;border-radius:999px;border:1.5px solid #1a1424;background:#fff;color:#1a1424;text-decoration:none;font-weight:800;font-size:13px;white-space:nowrap}
-  .ww-pb-list a.is-featured{background:#ff7a2f;box-shadow:0 2px 0 #1a1424}
-  .ww-pb-list img{width:30px;height:30px;border-radius:8px}
-  @media (max-width:420px){.ww-pb-list a span{display:none}.ww-pb-list a{padding:0 2px}.ww-pb-list a.is-featured span{display:inline}.ww-pb-list a.is-featured{padding-right:10px}}
+  .ww-pb-list li{flex:none}
+  .ww-pb-list a{display:flex;align-items:center;gap:8px;height:46px;padding:0 12px 0 3px;border-radius:14px;border:2px solid #1a1424;background:#fff;color:#1a1424;text-decoration:none;box-shadow:0 2px 0 #1a1424}
+  .ww-pb-list a:active{transform:translateY(2px);box-shadow:none}
+  .ww-pb-list a.is-featured{background:#ff7a2f}
+  .ww-pb-list img{width:38px;height:38px;border-radius:10px;border:1.5px solid rgb(26 20 36/.25)}
+  .ww-pb-name{display:flex;flex-direction:column;font:800 13px/1.1 "Unbounded Variable",Unbounded,system-ui,sans-serif;letter-spacing:-.02em;white-space:nowrap}
+  .ww-pb-name em{font:800 9px/1 "Figtree Variable",Figtree,system-ui,sans-serif;font-style:normal;letter-spacing:.12em;color:#1a1424;background:#ffc93c;border:1.5px solid #1a1424;border-radius:999px;padding:2px 5px;margin-bottom:3px;align-self:flex-start}
+  @media (max-width:380px){.ww-pb-label b{font-size:12px}.ww-pb-name{font-size:12px}}
   .ww-pp{position:fixed;inset:0;z-index:9500;display:grid;place-items:center;padding:16px;background:rgb(10 8 16/.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);animation:wwppf .25s ease-out}
   @keyframes wwppf{from{opacity:0}}
   .ww-pp-card{position:relative;width:min(380px,100%);padding:22px 18px 14px;border-radius:24px;background:#fff8ee;color:#1a1424;border:2px solid #1a1424;box-shadow:7px 7px 0 #1a1424;
