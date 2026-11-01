@@ -89,6 +89,23 @@ landing page, a place in search, the sitemap and the home page picker.
 - Every cross-link carries `utm_source=<series>&utm_medium=network`, so GA4 shows the traffic between sites. Opening
   the sheet sends an `open_network` event.
 
+## Promoting the games on every series
+
+- **Pinned bar:** every series site shows a "🎮 Play our games · free" bar with the icons of the games that are out,
+  featured game first (`packages/brand/promo.ts`).
+- **Popup:** a "Try our games, free" popup features the featured game. It shows once a day per visitor, 5 s after they
+  find their name or after 40 s on the page, never on arrival.
+- **Smart links:**
+  - Android → Google Play.
+  - iPhone → App Store.
+  - Otherwise (an Android-only game on an iPhone, or a desktop) → the game page on the studio, which has every store
+    button and a QR code.
+- **Data source:** everything comes from the studio feed `https://whiskerworks.games/api/games.json`, built from the
+  game Markdown files. To promote a new game, add its store link (and `featured: true` to put it first) and deploy the
+  studio; the 5 series update by themselves.
+- **Studio banner:** the studio site shows a top banner for the featured game that is out (`AnnounceBar.astro`).
+- **GA4 events:** `promo_click` (game, placement `promo_bar` / `promo_popup`, store, device) and `promo_popup_view`.
+
 ## Google Analytics 4
 
 GA4 is ready on all 6 sites but **off until you set an ID**:

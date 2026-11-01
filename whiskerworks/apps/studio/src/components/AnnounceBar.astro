@@ -1,0 +1,33 @@
+---
+/** Slim top banner promoting the featured game that is out. Smart link: Android → Google Play, iPhone → App Store, else the game page. */
+import { Image } from 'astro:assets';
+import { getGames, getFeatured, gameUrl } from '../lib/games';
+const games = await getGames();
+const g = getFeatured(games.filter((x) => x.data.links.googlePlay || x.data.links.appStore));
+const where = g ? [g.data.links.googlePlay && 'Android', g.data.links.appStore && 'iPhone'].filter(Boolean).join(' & ') : '';
+---
+{g && (
+  <a class="announce" href={gameUrl(g)} data-gp={g.data.links.googlePlay} data-as={g.data.links.appStore} data-event="store_click" data-store="announce" data-game={g.id}>
+    {g.data.icon && <Image src={g.data.icon} alt="" width={28} height={28} class="ic" loading="eager" />}
+    <span><b>New:</b>{" "}{g.data.title.split(':')[0]} is out on {where}.</span>
+    <span class="go">Play free →</span>
+  </a>
+)}
+<style>
+  .announce { display: flex; align-items: center; justify-content: center; gap: 0.6rem; min-height: 2.6rem; padding: 0.3rem var(--gutter); background: var(--ww-ink); color: var(--ww-paper); text-decoration: none; font-weight: 600; font-size: 0.92rem; }
+  .announce b { color: var(--ww-moon); }
+  .announce .ic { width: 1.75rem; height: 1.75rem; border-radius: 0.45rem; }
+  .announce .go { padding: 0.2rem 0.7rem; border-radius: var(--ww-radius-pill); background: var(--ww-marmalade); color: var(--ww-ink); font-weight: 800; white-space: nowrap; }
+  .announce:hover .go { background: var(--ww-moon); }
+  @media (max-width: 520px) { .announce { font-size: 0.82rem; gap: 0.45rem; } }
+</style>
+<script>
+  const a = document.querySelector<HTMLAnchorElement>('a.announce');
+  if (a) {
+    const ua = navigator.userAgent;
+    const android = /android/i.test(ua);
+    const ios = /iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && navigator.maxTouchPoints > 1);
+    const url = (android && a.dataset.gp) || (ios && a.dataset.as) || '';
+    if (url) { a.href = url; a.rel = 'noopener'; a.dataset.store = android ? 'google_play_announce' : 'app_store_announce'; }
+  }
+</script>

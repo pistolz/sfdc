@@ -8,8 +8,10 @@ import { search, normalize, type SearchItem } from "./search";
 import { Globe } from "./globe";
 import { initAnalytics } from "../../../packages/brand/analytics";
 import { initNetwork } from "../../../packages/brand/network";
+import { initPromo } from "../../../packages/brand/promo";
 
 initNetwork("flagwars");
+void initPromo("flagwars");
 initAnalytics("Flag Wars");
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;

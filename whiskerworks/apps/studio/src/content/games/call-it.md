@@ -1,10 +1,9 @@
 ---
 # When the App Store listing is live, set links.appStore to: https://apps.apple.com/app/id6823719735
-# Google Play (when live): https://play.google.com/store/apps/details?id=com.whiskerworks.callit
 title: 'Ball Drop: Call It'
 tagline: Where will the ball land? Call it. Drop it. So close!
 description: Slide your marker, tap Drop it! and watch the ball roll, bounce and land. Off by 3 cm? So close! 60 handmade challenges, 5 new courses every day, no timer.
-status: soon
+status: live
 genre: Physics puzzle
 mood: think
 platforms:
@@ -20,10 +19,10 @@ colors:
 - '#f07539'
 motif: orbit
 featured: false
-order: 2
+order: 3
 links:
   appStore: ''
-  googlePlay: ''
+  googlePlay: https://play.google.com/store/apps/details?id=com.whiskerworks.callit
   web: ''
   steam: ''
   trailer: ''
@@ -42,8 +41,8 @@ features:
 faq:
 - q: Is Call It free?
   a: Yes. Call It is free to download and free to play. Optional purchases are restored for free with “Restore purchases”.
-- q: When does Call It come out?
-  a: Call It launches very soon on iPhone, with Android right behind. Follow WhiskerWorks on Instagram to hear first.
+- q: Where can I play Call It?
+  a: Call It is out now on Android, free on Google Play. The iPhone version is coming soon to the App Store; follow WhiskerWorks on Instagram to hear first.
 - q: Will my progress be saved?
   a: Your progress is saved on your phone. You can also sign in with Apple or Google to back it up and play on another device.
 - q: Which languages are supported?

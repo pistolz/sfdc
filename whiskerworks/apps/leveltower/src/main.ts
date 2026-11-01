@@ -7,8 +7,10 @@ import { search, normalize, type SearchItem, type Kind } from "./search";
 import { Tower } from "./tower";
 import { initAnalytics } from "../../../packages/brand/analytics";
 import { initNetwork } from "../../../packages/brand/network";
+import { initPromo } from "../../../packages/brand/promo";
 
 initNetwork("leveltower");
+void initPromo("leveltower");
 initAnalytics("Level Tower");
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;

@@ -1,10 +1,9 @@
 ---
 # When the App Store listing is live, set links.appStore to: https://apps.apple.com/app/id6823309251
-# Google Play (when live): https://play.google.com/store/apps/details?id=com.whiskerworks.pollenpath
 title: Pollen Path
 tagline: One line. Every flower. Zero crossings.
 description: Trace one honey path from flower 1 to the last, in order, through every cell. Each step blooms. Hedges, wind, bridges, a hive. Calm, no timer.
-status: soon
+status: live
 genre: Logic puzzle
 mood: think
 platforms:
@@ -19,11 +18,11 @@ colors:
 - '#ddb67b'
 - '#c0dd9c'
 motif: spark
-featured: false
-order: 3
+featured: true
+order: 1
 links:
   appStore: ''
-  googlePlay: ''
+  googlePlay: https://play.google.com/store/apps/details?id=com.whiskerworks.pollenpath
   web: ''
   steam: ''
   trailer: ''
@@ -42,8 +41,8 @@ features:
 faq:
 - q: Is Pollen Path free?
   a: Yes. Pollen Path is free to download and free to play. Optional purchases are restored for free with “Restore purchases”.
-- q: When does Pollen Path come out?
-  a: Pollen Path launches very soon on iPhone, with Android right behind. Follow WhiskerWorks on Instagram to hear first.
+- q: Where can I play Pollen Path?
+  a: Pollen Path is out now on Android, free on Google Play. The iPhone version is coming soon to the App Store; follow WhiskerWorks on Instagram to hear first.
 - q: Will my progress be saved?
   a: Your progress is saved on your phone. You can also sign in with Apple or Google to back it up and play on another device.
 - q: Which languages are supported?

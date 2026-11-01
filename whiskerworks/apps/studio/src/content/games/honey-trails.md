@@ -1,10 +1,9 @@
 ---
 # When the App Store listing is live, set links.appStore to: https://apps.apple.com/app/id6822352813
-# Google Play (when live): https://play.google.com/store/apps/details?id=com.whiskerworks.honeytrails
 title: 'Honey Trails: Bee Merge'
 tagline: Draw a honey trail, merge the bees, chase the golden Queen.
 description: 'Draw a honey trail through identical bees: the longer your chain, the more levels it jumps. Trails can''t cross. How far can you go? Can you reach the Queen?'
-status: soon
+status: live
 genre: Merge puzzle
 mood: relax
 platforms:
@@ -19,11 +18,11 @@ colors:
 - '#6fbdf1'
 - '#3c83dd'
 motif: hex
-featured: true
-order: 1
+featured: false
+order: 2
 links:
   appStore: ''
-  googlePlay: ''
+  googlePlay: https://play.google.com/store/apps/details?id=com.whiskerworks.honeytrails
   web: ''
   steam: ''
   trailer: ''
@@ -44,8 +43,8 @@ features:
 faq:
 - q: Is Honey Trails free?
   a: Yes. Honey Trails is free to download and free to play. Optional purchases are restored for free with “Restore purchases”.
-- q: When does Honey Trails come out?
-  a: Honey Trails launches very soon on iPhone, with Android right behind. Follow WhiskerWorks on Instagram to hear first.
+- q: Where can I play Honey Trails?
+  a: Honey Trails is out now on Android, free on Google Play. The iPhone version is coming soon to the App Store; follow WhiskerWorks on Instagram to hear first.
 - q: Will my progress be saved?
   a: Your progress is saved on your phone. You can also sign in with Apple or Google to back it up and play on another device.
 - q: Which languages are supported?

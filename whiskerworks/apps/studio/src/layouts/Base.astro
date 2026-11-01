@@ -6,6 +6,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SearchDialog from '../components/SearchDialog.astro';
 import Analytics from '../components/Analytics.astro';
+import AnnounceBar from '../components/AnnounceBar.astro';
 import { site } from '../site.config';
 import { getImage } from 'astro:assets';
 import { getGames, toSearchRecord } from '../lib/games';
@@ -89,6 +90,7 @@ const orgLd = {
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
+    <AnnounceBar />
     <Header gameCount={games.length} />
     <main id="main" tabindex="-1">
       <slot />

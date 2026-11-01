@@ -7,8 +7,10 @@ import { search, normalize, type SearchItem } from "./search";
 import { Stadium, type SeatRef } from "./stadium";
 import { initAnalytics } from "../../../packages/brand/analytics";
 import { initNetwork } from "../../../packages/brand/network";
+import { initPromo } from "../../../packages/brand/promo";
 
 initNetwork("stadium");
+void initPromo("stadium");
 initAnalytics("Stadium Builder");
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
