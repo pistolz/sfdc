@@ -7,7 +7,7 @@ import StoreButtons from '../components/StoreButtons.astro';
 import FlagWarsPromo from '../components/FlagWarsPromo.astro';
 import SeriesCard from '../components/SeriesCard.astro';
 import { getSeries } from '../lib/series';
-import { getGames, getFeatured, moods, gameUrl, type Mood } from '../lib/games';
+import { getGames, getFeatured, moods, gameUrl, playUrl, type Mood } from '../lib/games';
 import { site } from '../site.config';
 
 const games = await getGames();
@@ -54,6 +54,7 @@ const itemList = {
             <p>{featured.data.tagline}</p>
             <StoreButtons game={featured} compact campaign="web-home" />
             {featured.data.links.web && <a class="text-link" href={featured.data.links.web}>Play free in your browser <span class="arrow" aria-hidden="true">→</span></a>}
+            {playUrl(featured) && <a class="text-link" href={playUrl(featured)} data-event="playable_open" data-game={featured.id}>▶ Try it now in your browser <span class="arrow" aria-hidden="true">→</span></a>}
           </div>
         </article>
       )}

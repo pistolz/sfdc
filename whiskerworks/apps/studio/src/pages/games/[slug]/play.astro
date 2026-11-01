@@ -1,0 +1,138 @@
+---
+import Base from '../../../layouts/Base.astro';
+import GameArt from '../../../components/GameArt.astro';
+import StoreButtons from '../../../components/StoreButtons.astro';
+import { getGames, gameUrl, type Game } from '../../../lib/games';
+import { site } from '../../../site.config';
+
+export async function getStaticPaths() {
+  const games = await getGames();
+  return games.filter((g) => g.data.playable.length).map((game) => ({ params: { slug: game.id }, props: { game } }));
+}
+interface Props { game: Game }
+const { game } = Astro.props;
+const d = game.data;
+const short = d.title.split(':')[0];
+const langs = d.playable;
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: `Play ${short} free in your browser`,
+  url: new URL(`/games/${game.id}/play/`, site.url).href,
+  about: { '@type': 'VideoGame', name: d.title, url: new URL(gameUrl(game), site.url).href },
+};
+---
+<Base title={`Play ${short} free in your browser`} description={`Try ${d.title} right now in your browser, no download. ${d.tagline} Then keep playing free on your phone.`} ogImage={`/og/game-${game.id}.png`} jsonLd={[ld]}>
+  <section class="play" style={`--accent:${d.colors[0]}; --accent-2:${d.colors[1]}`} data-play data-slug={game.id} data-gp={d.links.googlePlay} data-as={d.links.appStore} data-page={gameUrl(game)} data-langs={langs.join(',')}>
+    <div class="container grid">
+      <div class="copy">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="/games/">Games</a> / <a href={gameUrl(game)}>{short}</a> / Play</nav>
+        <p class="kicker">Free demo · no download</p>
+        <h1 class="display">Play {short}<br />right here.</h1>
+        <p class="lede">{d.tagline} Give it 30 seconds: if you like it, the full game is free on your phone.</p>
+        <div class="get">
+          <StoreButtons game={game} campaign={`web-play-${game.id}`} />
+        </div>
+        <a class="text-link" href={gameUrl(game)}>All about {short} <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="stage">
+        <div class="phone">
+          <div class="poster" data-poster>
+            <GameArt game={game} size={160} eager />
+            <button type="button" class="btn btn-accent start" data-start>▶ Tap to play</button>
+            <p class="hint">Sound on for the full experience</p>
+          </div>
+          <iframe title={`${d.title} playable demo`} data-frame loading="lazy" allow="autoplay; fullscreen" hidden></iframe>
+        </div>
+        <div class="under">
+          {langs.length > 1 && (
+            <div class="langs" role="group" aria-label="Demo language">
+              {langs.map((l) => <button type="button" class="chip" data-lang={l} aria-pressed="false">{l === 'fr' ? 'Français' : 'English'}</button>)}
+            </div>
+          )}
+          <button type="button" class="chip" data-fullscreen hidden>⛶ Full screen</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" role="status" aria-live="polite" hidden data-toast></div>
+  </section>
+</Base>
+
+<style>
+  .play { padding: clamp(1.5rem, 4vw, 3rem) 0 clamp(3rem, 6vw, 5rem); }
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .crumbs { font-weight: 600; color: var(--ww-ink-3); margin-bottom: 1rem; font-size: 0.9rem; }
+  .crumbs a { color: var(--ww-ink); }
+  .display { margin: 0.8rem 0 1rem; font-size: clamp(2.4rem, 5.4vw, 4.4rem); }
+  .get { margin: 1.6rem 0 1rem; }
+  .stage { display: grid; justify-items: center; gap: 0.8rem; }
+  .phone {
+    position: relative; width: min(100%, 24rem); aspect-ratio: 9 / 16; max-height: 78vh; border-radius: 2.2rem; overflow: hidden;
+    border: 10px solid var(--ww-ink); background: radial-gradient(circle at 50% 35%, color-mix(in oklab, var(--accent-2) 45%, var(--ww-paper)), var(--ww-paper-2) 70%);
+    box-shadow: 10px 10px 0 var(--accent);
+  }
+  .phone iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
+  .poster { position: absolute; inset: 0; display: grid; place-items: center; align-content: center; gap: 1.3rem; padding: 1.5rem; text-align: center; }
+  .poster :global(.game-art) { width: 46%; animation: bob 4s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(-8px) rotate(-3deg); } }
+  .start { font-size: 1.15rem; min-height: 3.4rem; padding-inline: 1.8rem; }
+  .hint { font-size: 0.85rem; color: var(--ww-ink-3); }
+  .under { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+  .toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%); z-index: 600; max-width: calc(100vw - 2rem); padding: 0.8rem 1.1rem; border-radius: var(--ww-radius); background: var(--ww-ink); color: var(--ww-paper); font-weight: 600; box-shadow: 4px 4px 0 var(--ww-marmalade); }
+  @media (max-width: 860px) {
+    .grid { grid-template-columns: 1fr; }
+    .stage { order: -1; }
+    .copy .display { font-size: clamp(2rem, 8vw, 2.8rem); }
+    .phone { width: min(100%, 22rem); border-width: 8px; }
+  }
+</style>
+
+<script>
+  type W = { track?: (n: string, p?: Record<string, string>) => void };
+  const root = document.querySelector<HTMLElement>('[data-play]')!;
+  const frame = root.querySelector<HTMLIFrameElement>('[data-frame]')!;
+  const poster = root.querySelector<HTMLElement>('[data-poster]')!;
+  const fsBtn = root.querySelector<HTMLButtonElement>('[data-fullscreen]')!;
+  const toast = root.querySelector<HTMLElement>('[data-toast]')!;
+  const slug = root.dataset.slug!;
+  const langs = (root.dataset.langs ?? 'en').split(',');
+  const track = (n: string, p: Record<string, string> = {}) => (window as unknown as W).track?.(n, { game: slug, ...p });
+  let lang = langs.includes('fr') && navigator.language.toLowerCase().startsWith('fr') ? 'fr' : langs[0];
+
+  const ua = navigator.userAgent;
+  const android = /android/i.test(ua);
+  const ios = /iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && navigator.maxTouchPoints > 1);
+
+  function load() {
+    frame.src = `/playables/${slug}/${lang}.html`;
+    frame.hidden = false;
+    poster.hidden = true;
+    fsBtn.hidden = !frame.requestFullscreen;
+    root.querySelectorAll<HTMLButtonElement>('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+    track('playable_start', { lang });
+  }
+  root.querySelector('[data-start]')!.addEventListener('click', load);
+  root.querySelectorAll<HTMLButtonElement>('[data-lang]').forEach((b) => {
+    b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
+    b.addEventListener('click', () => { lang = b.dataset.lang!; if (!frame.hidden) load(); else b.setAttribute('aria-pressed', 'true'); });
+  });
+  fsBtn.addEventListener('click', () => frame.requestFullscreen?.().catch(() => {}));
+
+  function say(text: string) {
+    toast.textContent = text;
+    toast.hidden = false;
+    setTimeout(() => (toast.hidden = true), 4000);
+  }
+  // The demo's PLAY / INSTALL button → the visitor's own store (smart link).
+  addEventListener('message', (e) => {
+    if (e.source !== frame.contentWindow || (e.data as { type?: string })?.type !== 'ww-install') return;
+    const gp = root.dataset.gp, as = root.dataset.as;
+    const url = (android && gp) || (ios && as) || (!android && !ios && (gp || as)) || '';
+    track('playable_install_click', { store: url ? (url.includes('apple') ? 'app_store' : 'google_play') : 'none' });
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    if (url) window.open(url, '_blank', 'noopener');
+    else say(ios ? 'Coming soon to iPhone! It is already free on Android.' : 'Coming soon to your store!');
+  });
+</script>

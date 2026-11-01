@@ -18,6 +18,7 @@ colors:
 - '#ddb67b'
 - '#c0dd9c'
 motif: spark
+playable: [en, fr]
 featured: true
 order: 1
 links:

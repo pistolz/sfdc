@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getImage } from 'astro:assets';
-import { getGames, gameUrl } from '../../lib/games';
+import { getGames, gameUrl, playUrl } from '../../lib/games';
 import { site } from '../../site.config';
 
 /**
@@ -22,6 +22,7 @@ export const GET: APIRoute = async () => {
         featured: g.data.featured,
         icon: g.data.icon ? abs((await getImage({ src: g.data.icon, width: 128, height: 128, format: 'webp' })).src) : null,
         page: abs(gameUrl(g)),
+        play: playUrl(g) ? abs(playUrl(g)!) : null,
         appStore: g.data.links.appStore || null,
         googlePlay: g.data.links.googlePlay || null,
       })),

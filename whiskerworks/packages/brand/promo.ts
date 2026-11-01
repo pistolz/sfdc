@@ -3,7 +3,7 @@
  *
  *  - A slim pinned bar at the very top with the icons of the games that are out (featured game first).
  *  - A one-a-day popup featuring the featured game, shown at the best moment: right after the visitor finds
- *    their name (the URL gains ?u=…), or after 40 s on the page. Never on arrival.
+ *    their name (the URL gains ?u=…), or after 20 s on the page. Never on arrival.
  *  - Smart store links: Android → Google Play, iPhone → App Store. When the visitor's store has no version yet
  *    (e.g. an Android-only game on an iPhone) or on desktop, the link opens the game's page on the studio site,
  *    which shows every store button and a QR code. Sending an iPhone to Google Play would be a dead end.
@@ -17,7 +17,7 @@ const DAY = 24 * 3600 * 1000;
 
 interface PromoGame {
   id: string; title: string; short: string; tagline: string; genre: string; featured: boolean;
-  icon: string | null; page: string; appStore: string | null; googlePlay: string | null;
+  icon: string | null; page: string; play?: string | null; appStore: string | null; googlePlay: string | null;
 }
 
 type Device = "ios" | "android" | "desktop";
@@ -136,6 +136,7 @@ export async function initPromo(series: string): Promise<void> {
           <span><b>${esc(featured.title)}</b><small>${esc(featured.tagline)}</small></span>
         </a>
         <a class="ww-pp-cta" href="${esc(l.href)}" data-id="${esc(featured.id)}" data-store="${l.store}" rel="noopener">${esc(l.cta)}</a>
+        ${featured.play ? `<a class="ww-pp-try" href="${esc(withUtm(featured.play, series, "promo_popup", featured.id))}" data-id="${esc(featured.id)}" data-store="web_demo">▶ Or try it right now in your browser</a>` : ""}
         ${others.length ? `<ul class="ww-pp-more">${others.map((g) => { const o = link(g, "promo_popup"); return `<li><a href="${esc(o.href)}" data-id="${esc(g.id)}" data-store="${o.store}" rel="noopener">${g.icon ? `<img src="${esc(g.icon)}" alt="" width="44" height="44">` : ""}<span>${esc(g.short)}</span></a></li>`; }).join("")}</ul>` : ""}
         <button type="button" class="ww-pp-later">Maybe later</button>
       </div>`;
@@ -164,7 +165,7 @@ export async function initPromo(series: string): Promise<void> {
     history[m] = (...args: Parameters<History["pushState"]>) => { orig(...args); watch(); };
   }
   watch();
-  window.setTimeout(() => open("time"), 40000);
+  window.setTimeout(() => open("time"), 20000);
 }
 
 function injectStyle(): void {
@@ -210,6 +211,7 @@ function injectStyle(): void {
   .ww-pp-hero b{display:block;font:800 17px/1.15 "Unbounded Variable",Unbounded,system-ui,sans-serif;letter-spacing:-.02em}
   .ww-pp-hero small{display:block;margin-top:4px;font-size:13px;line-height:1.35;color:#3b3346}
   .ww-pp-cta{display:flex;align-items:center;justify-content:center;min-height:50px;margin-top:12px;border-radius:999px;border:2px solid #1a1424;background:#ff7a2f;color:#1a1424;font-weight:800;font-size:16px;text-decoration:none;box-shadow:0 4px 0 #1a1424}
+  .ww-pp-try{display:flex;align-items:center;justify-content:center;min-height:44px;margin-top:8px;border-radius:999px;border:2px solid #1a1424;background:#fff;color:#1a1424;font-weight:800;font-size:14px;text-decoration:none}
   .ww-pp-more{display:flex;justify-content:center;gap:10px;list-style:none;margin:16px 0 4px;padding:0}
   .ww-pp-more a{display:flex;flex-direction:column;align-items:center;gap:4px;width:64px;color:#1a1424;text-decoration:none;font-size:11px;font-weight:700}
   .ww-pp-more img{width:44px;height:44px;border-radius:12px;border:1.5px solid #1a1424}

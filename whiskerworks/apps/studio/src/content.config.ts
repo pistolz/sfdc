@@ -37,6 +37,8 @@ const games = defineCollection({
       /** Folder of this game's legal pages in /public (privacy.html, terms.html, support.html + -fr). */
       legal: z.string().optional(),
       languages: z.array(z.string()).default([]),
+      /** Browser demo languages available in public/playables/<slug>/<lang>.html (import with scripts/import-playables.mjs). */
+      playable: z.array(z.enum(['en', 'fr'])).default([]),
       /** Brand colours of the game: [main, secondary]. */
       colors: z.tuple([z.string(), z.string()]),
       /** Generated artwork motif, used until a real icon is added. */

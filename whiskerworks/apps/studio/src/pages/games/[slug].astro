@@ -7,7 +7,7 @@ import GameArt from '../../components/GameArt.astro';
 import GameCard from '../../components/GameCard.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
 import StoreButtons from '../../components/StoreButtons.astro';
-import { getGames, platformLine, gameUrl, appStoreId, slugify, type Game } from '../../lib/games';
+import { getGames, platformLine, gameUrl, appStoreId, slugify, playUrl, type Game } from '../../lib/games';
 import { site } from '../../site.config';
 
 export async function getStaticPaths() {
@@ -87,6 +87,7 @@ const jsonLd = [
           <div class="get">
             <StoreButtons game={game} campaign={`web-${game.id}`} />
             {d.links.web && <a class="btn btn-accent" href={d.links.web}>Play free in your browser <span aria-hidden="true">→</span></a>}
+            {playUrl(game) && <a class="btn btn-accent" href={playUrl(game)} data-event="playable_open" data-game={game.id}>▶ Try it now in your browser</a>}
           </div>
           <button type="button" class="share" data-share={url} data-title={d.title}>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>

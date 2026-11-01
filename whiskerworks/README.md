@@ -94,7 +94,7 @@ landing page, a place in search, the sitemap and the home page picker.
 - **Pinned bar:** every series site shows a "🎮 Play our games · free" bar with the icons of the games that are out,
   featured game first (`packages/brand/promo.ts`).
 - **Popup:** a "Try our games, free" popup features the featured game. It shows once a day per visitor, 5 s after they
-  find their name or after 40 s on the page, never on arrival.
+  find their name or after 20 s on the page, never on arrival.
 - **Player panel card:** when someone opens their own panel (after a name search, `?u=`), a "From the same team · Pollen Path · Play free" card is added under their buttons.
 - **Smart links:**
   - Android → Google Play.
@@ -106,6 +106,26 @@ landing page, a place in search, the sitemap and the home page picker.
   studio; the 5 series update by themselves.
 - **Studio banner:** the studio site shows a top banner for the featured game that is out (`AnnounceBar.astro`).
 - **GA4 events:** `promo_click` (game, placement `promo_bar` / `promo_popup`, store, device) and `promo_popup_view`.
+
+## Browser demos ("play before you install")
+
+The ad playables from the ads-creator repo (pistolz/playables) run on the studio site as free demos:
+`/games/pollen-path/play/` (EN + FR), `/games/honey-trails/play/` and `/games/call-it/play/`.
+
+- **Where they are linked:**
+  - the "▶ Try it now in your browser" button on the game page and on the home page feature;
+  - `play` in `/api/games.json`, used by the series popup ("Or try it right now in your browser").
+- **PLAY / INSTALL button inside a demo:** it opens the visitor's own store.
+  - Android → Google Play.
+  - iPhone → App Store, or a "coming soon to iPhone" message if the game is Android-only.
+  - Desktop → the store page.
+- **GA4 events:** `playable_start` and `playable_install_click`.
+- **Adding or refreshing a demo:**
+  1. Run `node apps/studio/scripts/import-playables.mjs /path/to/playables/ads-creator` (the zips to use are listed at
+     the top of the script).
+  2. Add `playable: [en]` (or `[en, fr]`) to the game's Markdown file.
+- **Security policy:** PixiJS needs `unsafe-eval`, so `/playables/*` gets its own policy in
+  `apps/studio/public/_headers`. The rest of the site keeps the strict one.
 
 ## Google Analytics 4
 

@@ -18,6 +18,7 @@ colors:
 - '#6fbdf1'
 - '#3c83dd'
 motif: hex
+playable: [en]
 featured: false
 order: 2
 links:

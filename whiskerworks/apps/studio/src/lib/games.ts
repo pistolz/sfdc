@@ -70,3 +70,6 @@ export const slugify = (s: string) => s.toLowerCase().normalize('NFD').replace(/
 export function appStoreId(url: string): string | null {
   return url.match(/id(\d{6,})/)?.[1] ?? null;
 }
+
+/** URL of a game's in-browser demo page, or null. */
+export const playUrl = (g: Game) => (g.data.playable.length ? `/games/${g.id}/play/` : null);

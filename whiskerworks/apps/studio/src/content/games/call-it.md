@@ -18,6 +18,7 @@ colors:
 - '#648fde'
 - '#f07539'
 motif: orbit
+playable: [en]
 featured: false
 order: 3
 links:
