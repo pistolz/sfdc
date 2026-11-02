@@ -1,0 +1,516 @@
+{
+  "day": 2,
+  "mode": "daily",
+  "theme": "day",
+  "brand": "THE COMMENT MARINA",
+  "followers": 1312,
+  "yachts": [
+    {
+      "name": "@mia_official",
+      "new": true,
+      "country": "us",
+      "hull": "#e8b84a",
+      "accent": "#11151f",
+      "extras": [
+        "helipad"
+      ]
+    },
+    {
+      "name": "@nadia_77",
+      "new": true,
+      "country": "ma"
+    },
+    {
+      "name": "@sofia_sun",
+      "new": true,
+      "country": "it",
+      "hull": "#e11d48",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@adam_wave",
+      "new": true,
+      "country": "tn",
+      "extras": [
+        "pool"
+      ]
+    },
+    {
+      "name": "@yanis_official",
+      "new": true,
+      "country": "fr",
+      "hull": "#11151f",
+      "accent": "#e8b84a",
+      "extras": [
+        "helipad"
+      ]
+    },
+    {
+      "name": "@max_official",
+      "new": true,
+      "country": "ma",
+      "hull": "#11151f",
+      "accent": "#e8b84a",
+      "extras": [
+        "pool",
+        "helipad"
+      ]
+    },
+    {
+      "name": "@nova.ocean",
+      "new": true,
+      "country": "de"
+    },
+    {
+      "name": "@emma_official",
+      "new": true,
+      "country": "it"
+    },
+    {
+      "name": "@noah_boss",
+      "new": true,
+      "country": "fr"
+    },
+    {
+      "name": "@lea.ocean",
+      "new": true,
+      "country": "ma",
+      "hull": "#e11d48",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@lea.drive",
+      "new": true,
+      "country": "gb",
+      "extras": [
+        "lights"
+      ]
+    },
+    {
+      "name": "@omar.blue",
+      "new": true,
+      "country": "es",
+      "hull": "#ec4899",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@sam.sea",
+      "new": true,
+      "country": "it",
+      "hull": "#e11d48",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@lina.ocean",
+      "new": true,
+      "country": "pt",
+      "hull": "#10b981",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@noah.drive",
+      "new": true,
+      "country": "ph",
+      "hull": "#ec4899",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@lea_22",
+      "new": true,
+      "country": "ng"
+    },
+    {
+      "name": "@lucas.drive",
+      "new": true,
+      "country": "pt",
+      "hull": "#10b981",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@zara.blue",
+      "new": true,
+      "country": "pt",
+      "hull": "#10b981",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@emma_wave",
+      "new": true,
+      "country": "ma"
+    },
+    {
+      "name": "@ali_official",
+      "new": true,
+      "country": "ng"
+    },
+    {
+      "name": "@nadia.vibes",
+      "new": true,
+      "country": "gb",
+      "extras": [
+        "lights"
+      ]
+    },
+    {
+      "name": "@jade.blue",
+      "new": true,
+      "country": "ma"
+    },
+    {
+      "name": "@kai_boss",
+      "new": true,
+      "country": "de"
+    },
+    {
+      "name": "@zara.life",
+      "new": true,
+      "country": "ca"
+    },
+    {
+      "name": "@ines_boss",
+      "new": true,
+      "country": "sa",
+      "hull": "#ffffff",
+      "accent": "#ffffff",
+      "extras": [
+        "helipad"
+      ]
+    },
+    {
+      "name": "@ines.sea",
+      "new": true,
+      "country": "br"
+    },
+    {
+      "name": "@adam.drive",
+      "new": true,
+      "country": "co",
+      "hull": "#facc15",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@max.life",
+      "new": true,
+      "country": "it",
+      "hull": "#e11d48",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@amir_wave",
+      "new": true,
+      "country": "br",
+      "hull": "#11151f",
+      "accent": "#e8b84a"
+    },
+    {
+      "name": "@luna_jr",
+      "new": true,
+      "country": "pt",
+      "hull": "#10b981",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@ines_wave",
+      "new": true,
+      "country": "gb",
+      "extras": [
+        "lights"
+      ]
+    },
+    {
+      "name": "@leo_22",
+      "new": true,
+      "country": "de"
+    },
+    {
+      "name": "@jade.ocean",
+      "new": true,
+      "country": "ma"
+    },
+    {
+      "name": "@kai_jr",
+      "new": true,
+      "country": "tr"
+    },
+    {
+      "name": "@sam_x",
+      "new": true,
+      "country": "co",
+      "hull": "#facc15",
+      "accent": "#ffffff",
+      "request": "YELLOW",
+      "featured": true
+    },
+    {
+      "name": "@ines.drive",
+      "new": true,
+      "country": "fr",
+      "hull": "#e11d48",
+      "accent": "#ffffff",
+      "extras": [
+        "pool"
+      ]
+    },
+    {
+      "name": "@amir_77",
+      "new": true,
+      "country": "sn",
+      "extras": [
+        "jetski"
+      ]
+    },
+    {
+      "name": "@rayan.sea",
+      "new": true,
+      "country": "tr"
+    },
+    {
+      "name": "@lucas_jr",
+      "new": true,
+      "country": "it"
+    },
+    {
+      "name": "@sky_wave",
+      "new": true,
+      "country": "eg"
+    },
+    {
+      "name": "@jade_77",
+      "new": true,
+      "country": "co",
+      "hull": "#facc15",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@nadia.drive",
+      "new": true,
+      "country": "tn",
+      "extras": [
+        "pool"
+      ]
+    },
+    {
+      "name": "@sky.sea",
+      "new": true,
+      "country": "br"
+    },
+    {
+      "name": "@adam_x",
+      "new": true,
+      "country": "de"
+    },
+    {
+      "name": "@nadia.blue",
+      "new": true,
+      "country": "tn",
+      "extras": [
+        "pool"
+      ]
+    },
+    {
+      "name": "@nadia_wave",
+      "new": true,
+      "country": "tn",
+      "extras": [
+        "pool"
+      ]
+    },
+    {
+      "name": "@mia_boss",
+      "new": true,
+      "country": "ma",
+      "hull": "#e11d48",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@kai.07",
+      "new": true,
+      "country": "it"
+    },
+    {
+      "name": "@sam_official",
+      "new": true,
+      "country": "tn",
+      "extras": [
+        "pool"
+      ]
+    },
+    {
+      "name": "@adam.blue",
+      "new": true,
+      "country": "ca"
+    },
+    {
+      "name": "@leo.life",
+      "new": true,
+      "country": "br",
+      "hull": "#11151f",
+      "accent": "#e8b84a",
+      "request": "BLACK",
+      "featured": true
+    },
+    {
+      "name": "@max.drive",
+      "new": true,
+      "country": "mx",
+      "hull": "#11151f",
+      "accent": "#e8b84a",
+      "request": "BLACK · GOLD",
+      "featured": true
+    },
+    {
+      "name": "@ali_boss",
+      "new": true,
+      "country": "fr"
+    },
+    {
+      "name": "@sara_wave",
+      "new": true,
+      "country": "be"
+    },
+    {
+      "name": "@lucas.blue",
+      "new": true,
+      "country": "it",
+      "hull": "#e11d48",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@ryan_jr",
+      "new": true,
+      "country": "es",
+      "hull": "#ec4899",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@jade.07",
+      "new": true,
+      "country": "us"
+    },
+    {
+      "name": "@ines.ocean",
+      "new": true,
+      "country": "ca"
+    },
+    {
+      "name": "@ali_22",
+      "new": true,
+      "country": "ar",
+      "hull": "#1d4ed8",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@ines_jr",
+      "new": true,
+      "country": "mx",
+      "hull": "#11151f",
+      "accent": "#e8b84a",
+      "request": "BLACK · GOLD",
+      "featured": true
+    },
+    {
+      "name": "@luna.ocean",
+      "new": true,
+      "country": "dz"
+    },
+    {
+      "name": "@sky_x",
+      "new": true,
+      "country": "ma",
+      "hull": "#e11d48",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@adam_official",
+      "new": true,
+      "country": "ar",
+      "hull": "#1d4ed8",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@lea_77",
+      "new": true,
+      "country": "ph",
+      "hull": "#ec4899",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@rayan.07",
+      "new": true,
+      "country": "eg"
+    },
+    {
+      "name": "@sofia.blue",
+      "new": true,
+      "country": "us"
+    },
+    {
+      "name": "@maya_77",
+      "new": true,
+      "country": "fr",
+      "hull": "#e11d48",
+      "accent": "#ffffff",
+      "extras": [
+        "pool"
+      ]
+    },
+    {
+      "name": "@sofia_22",
+      "new": true,
+      "country": "fr",
+      "hull": "#11151f",
+      "accent": "#e8b84a",
+      "extras": [
+        "helipad"
+      ]
+    },
+    {
+      "name": "@ryan.blue",
+      "new": true,
+      "country": "sa",
+      "hull": "#ffffff",
+      "accent": "#ffffff",
+      "extras": [
+        "helipad"
+      ]
+    },
+    {
+      "name": "@kai_77",
+      "new": true,
+      "country": "ar",
+      "hull": "#1d4ed8",
+      "accent": "#ffffff"
+    },
+    {
+      "name": "@hugo_jr",
+      "new": true,
+      "country": "sa",
+      "hull": "#ffffff",
+      "accent": "#ffffff",
+      "extras": [
+        "helipad"
+      ]
+    },
+    {
+      "name": "@nadia_jr",
+      "new": true,
+      "country": "ng"
+    }
+  ],
+  "vip": {
+    "name": "@max_official",
+    "country": "ma",
+    "likes": 1840,
+    "request": "BLACK · GOLD · POOL · HELIPAD",
+    "extras": [
+      "pool",
+      "helipad"
+    ],
+    "hull": "#11151f",
+    "accent": "#e8b84a"
+  },
+  "text": {
+    "next": "MOST LIKED COMMENT = TOMORROW'S VIP"
+  },
+  "seed": 7
+}

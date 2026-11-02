@@ -1,0 +1,18 @@
+{
+  "day": 1,
+  "mode": "intro",
+  "theme": "day",
+  "brand": "THE COMMENT MARINA",
+  "subtitle": "AN EMPTY MARINA",
+  "followers": 0,
+  "yachts": [],
+  "demo": { "name": "@your.name", "country": "un", "hull": "#f7f5ef", "accent": "#1d4ed8", "extras": [] },
+  "text": {
+    "ruleSub": "WITH YOUR NAME ON IT",
+    "vipSub": "= TODAY'S VIP SUPERYACHT",
+    "vipTag": "YOUR NAME HERE",
+    "ctaSub": "YOUR NAME + YOUR COUNTRY",
+    "next": "DAY 02 · YOUR YACHT ARRIVES"
+  },
+  "seed": 7
+}

@@ -1,0 +1,127 @@
+@font-face {
+  font-family: "Lilita One";
+  src: url("/node_modules/@fontsource/lilita-one/files/lilita-one-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Nunito";
+  src: url("/node_modules/@fontsource/nunito/files/nunito-latin-800-normal.woff2") format("woff2");
+  font-weight: 800;
+}
+@font-face {
+  font-family: "Nunito";
+  src: url("/node_modules/@fontsource/nunito/files/nunito-latin-900-normal.woff2") format("woff2");
+  font-weight: 900;
+}
+
+html, body { margin: 0; padding: 0; background: #0b1020; overflow: hidden; }
+
+#stage {
+  position: relative;
+  width: 1080px;
+  height: 1920px;
+  overflow: hidden;
+  transform-origin: 0 0;
+}
+#gl { position: absolute; inset: 0; width: 1080px; height: 1920px; display: block; }
+#overlay { position: absolute; inset: 0; pointer-events: none; font-family: "Nunito", sans-serif; }
+
+/* ---------- generic animated block ---------- */
+.el { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; will-change: transform, opacity; }
+
+/* Outlined display text (outline built from shadows: same look on every OS) */
+.display {
+  font-family: "Lilita One", sans-serif;
+  color: #fff;
+  letter-spacing: 1px;
+  line-height: 0.95;
+  --o: #10182b;
+  text-shadow:
+    0 6px 0 var(--o), 0 -6px 0 var(--o), 6px 0 0 var(--o), -6px 0 0 var(--o),
+    4px 4px 0 var(--o), -4px 4px 0 var(--o), 4px -4px 0 var(--o), -4px -4px 0 var(--o),
+    0 14px 0 var(--o), 0 18px 24px rgba(0,0,0,.45);
+}
+.yellow { color: #ffd23f; }
+.gold { color: #ffcf4a; }
+
+.header {
+  position: absolute; left: 0; right: 0; top: 92px;
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+  transform-origin: 50% 0;
+}
+.header > * { opacity: 0; }
+.brand { font-size: 64px; }
+.day { font-size: 232px; margin-top: 4px; }
+.live { margin-top: 26px; }
+.pill-live {
+  display: inline-flex; align-items: center; gap: 14px;
+  background: #10182b; color: #fff; font-weight: 900; font-size: 34px;
+  padding: 10px 28px 10px 22px; border-radius: 40px; letter-spacing: 2px;
+  box-shadow: 0 6px 0 rgba(0,0,0,.25);
+}
+.pill-live .dot { width: 22px; height: 22px; border-radius: 50%; background: #ff3b3b; box-shadow: 0 0 14px #ff3b3b; }
+.subtitle { margin-top: 22px; font-size: 58px; }
+.counter { margin-top: 22px; }
+
+.rule { top: 1110px; font-size: 112px; }
+.rule .eq { color: #fff; }
+.rule-sub { top: 1250px; font-size: 56px; }
+
+.caption { top: 1110px; font-size: 88px; }
+.caption-sub { top: 1250px; font-size: 56px; }
+
+.cta { top: 1090px; font-size: 84px; }
+.cta-sub { top: 1205px; font-size: 54px; }
+.next { top: 1310px; display: flex; justify-content: center; }
+.pill-next {
+  background: #ffd23f; color: #10182b; font-weight: 900; font-size: 42px;
+  padding: 14px 36px; border-radius: 44px; letter-spacing: 1px;
+  box-shadow: 0 8px 0 #10182b;
+}
+
+/* counter panel */
+.counter-box {
+  display: inline-flex; align-items: center; gap: 18px;
+  background: rgba(16, 24, 43, .88); color: #fff; border-radius: 36px;
+  padding: 14px 34px; font-weight: 900; font-size: 46px;
+  box-shadow: 0 8px 0 rgba(0,0,0,.25);
+}
+.counter-box .num { font-family: "Lilita One"; font-size: 64px; color: #ffd23f; letter-spacing: 1px; }
+.counter-box .plus { font-size: 34px; color: #7dffa8; }
+.counter-box svg { width: 56px; height: 56px; }
+
+/* name pills attached to yachts */
+.tag {
+  position: absolute; left: 0; top: 0; opacity: 0;
+  transform-origin: 50% 100%;
+}
+.tag-inner {
+  display: flex; flex-direction: column; align-items: center;
+  transform: translate(-50%, -100%);
+}
+.tag-pill {
+  display: inline-flex; align-items: center; gap: 14px; white-space: nowrap;
+  background: #fff; color: #10182b; font-weight: 900; font-size: 40px;
+  padding: 10px 26px 10px 14px; border-radius: 40px;
+  box-shadow: 0 8px 0 rgba(16,24,43,.35);
+}
+.tag-pill img { height: 40px; border-radius: 6px; box-shadow: 0 0 0 2px rgba(0,0,0,.08); }
+.tag-badge {
+  background: #10182b; color: #fff; font-size: 24px; font-weight: 900;
+  padding: 4px 12px; border-radius: 16px; letter-spacing: 1px;
+}
+.tag-req {
+  margin-top: 10px; background: #ffd23f; color: #10182b; font-size: 28px; font-weight: 900;
+  padding: 6px 18px; border-radius: 20px; white-space: nowrap;
+}
+.tag-stem { width: 6px; height: 46px; background: #fff; border-radius: 3px; margin-top: -2px; box-shadow: 0 4px 0 rgba(16,24,43,.25); }
+.tag.vip .tag-pill { background: linear-gradient(180deg, #ffe58a, #f2b43a); }
+.tag.vip .tag-badge { background: #10182b; color: #ffd23f; }
+.tag.vip .tag-stem { background: #f2b43a; }
+
+.icon-inline { display: inline-block; vertical-align: -0.12em; height: 0.9em; }
+
+/* cover / thumbnail rule block */
+.cover { top: 1080px; }
+.rule-cover { font-size: 112px; }
+.rule-cover-sub { font-size: 58px; margin-top: 24px; }
