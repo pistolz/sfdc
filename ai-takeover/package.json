@@ -1,0 +1,19 @@
+{
+  "name": "ai-takeover",
+  "version": "1.0.0",
+  "private": true,
+  "description": "2D survival-story video generator: 200 days until AI controls Earth.",
+  "type": "module",
+  "scripts": {
+    "voice": "node scripts/voice.mjs",
+    "render": "node scripts/render.mjs",
+    "preview": "node scripts/serve.mjs",
+    "next-part": "node scripts/next-part.mjs"
+  },
+  "dependencies": {
+    "@fontsource/lilita-one": "5.3.0",
+    "@fontsource/nunito": "5.2.7",
+    "ffmpeg-static": "5.2.0",
+    "puppeteer": "24.10.0"
+  }
+}

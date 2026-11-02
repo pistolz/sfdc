@@ -1,0 +1,126 @@
+{
+  "series": "AI TAKEOVER",
+  "part": 2,
+  "voice": {
+    "name": "en-US-AndrewNeural",
+    "rate": "+6%"
+  },
+  "start": {
+    "days": 10,
+    "budget": 295000,
+    "budgetVisible": true,
+    "features": [
+      "house",
+      "basement",
+      "bunker",
+      "solar",
+      "power",
+      "food",
+      "water",
+      "farm"
+    ]
+  },
+  "history": [
+    {
+      "part": 1,
+      "question": "Would you open the door, or leave them outside?",
+      "winner": "open",
+      "results": [
+        {
+          "id": "open",
+          "label": "OPEN THE DOOR",
+          "votes": 6,
+          "percent": 60,
+          "winner": true
+        },
+        {
+          "id": "leave",
+          "label": "LEAVE THEM OUTSIDE",
+          "votes": 4,
+          "percent": 40,
+          "winner": false
+        }
+      ]
+    }
+  ],
+  "coverTime": 1.5,
+  "cover": {
+    "html": "<div class=\"cover-part\">PART 2</div><div class=\"t\">YOU CHOSE:<br><span class=\"y\">OPEN THE DOOR</span></div>"
+  },
+  "beats": [
+    {
+      "id": "01",
+      "scene": "recap",
+      "args": {
+        "results": [
+          {
+            "id": "open",
+            "label": "OPEN THE DOOR",
+            "votes": 6,
+            "percent": 60,
+            "winner": true
+          },
+          {
+            "id": "leave",
+            "label": "LEAVE THEM OUTSIDE",
+            "votes": 4,
+            "percent": 40,
+            "winner": false
+          }
+        ]
+      },
+      "say": "In part 1, you voted. 60 percent of you chose to open the door.",
+      "keys": [
+        {
+          "at": "you voted",
+          "slot": "top",
+          "style": "white",
+          "show": "YOU VOTED"
+        },
+        {
+          "at": "chose",
+          "slot": "bottom",
+          "style": "stamp-green",
+          "show": "OPEN THE DOOR"
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "scene": "xsection",
+      "args": {
+        "focus": "overview",
+        "night": true,
+        "hero": "living"
+      },
+      "say": "TODO: write what happens after \"OPEN THE DOOR\". Every sentence becomes one beat like in part 1.",
+      "keys": []
+    }
+  ],
+  "choice": {
+    "question": "TODO: the next question?",
+    "options": [
+      {
+        "id": "a",
+        "label": "OPTION A",
+        "short": "A",
+        "color": "green",
+        "match": [
+          "option a",
+          " a "
+        ]
+      },
+      {
+        "id": "b",
+        "label": "OPTION B",
+        "short": "B",
+        "color": "red",
+        "match": [
+          "option b",
+          " b "
+        ]
+      }
+    ]
+  },
+  "endHold": 3
+}

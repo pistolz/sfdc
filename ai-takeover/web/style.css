@@ -1,0 +1,72 @@
+@font-face { font-family: "Lilita One"; src: url("/node_modules/@fontsource/lilita-one/files/lilita-one-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Nunito"; src: url("/node_modules/@fontsource/nunito/files/nunito-latin-800-normal.woff2") format("woff2"); font-weight: 800; }
+@font-face { font-family: "Nunito"; src: url("/node_modules/@fontsource/nunito/files/nunito-latin-900-normal.woff2") format("woff2"); font-weight: 900; }
+
+html, body { margin: 0; background: #05070f; overflow: hidden; }
+#stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; transform-origin: 0 0; }
+#gl { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+#overlay { position: absolute; inset: 0; pointer-events: none; font-family: "Nunito", sans-serif; }
+
+/* ---------- HUD ---------- */
+.hud {
+  position: absolute; top: 90px; padding: 14px 26px 16px; border-radius: 26px;
+  background: rgba(13, 20, 36, .88); color: #fff; box-shadow: 0 8px 0 rgba(0,0,0,.25);
+  border: 4px solid rgba(34, 211, 238, .55); transition: none;
+}
+.hud-days { left: 40px; }
+.hud-budget { right: 40px; text-align: right; }
+.hud-label { font-weight: 900; font-size: 22px; letter-spacing: 2px; color: #9fb3d9; }
+.hud-value { font-family: "Lilita One"; font-size: 72px; line-height: 1; margin-top: 6px; color: #22d3ee; }
+.hud-value.money { color: #4ade80; }
+.hud-days.danger { border-color: #ef4444; }
+.hud-days.danger .hud-value { color: #ff5a5a; }
+.spend { position: absolute; right: 18px; top: 128px; font-family: "Lilita One"; font-size: 54px; color: #ff4d4d; opacity: 0;
+  text-shadow: 0 4px 0 #10182b, 0 -3px 0 #10182b, 3px 0 0 #10182b, -3px 0 0 #10182b; transform-origin: 100% 0; }
+.series { position: absolute; left: 0; right: 0; top: 40px; text-align: center; font-weight: 900; font-size: 24px; letter-spacing: 4px; color: rgba(255,255,255,.75); }
+
+/* ---------- keywords ---------- */
+.key { position: absolute; left: 40px; right: 40px; text-align: center; opacity: 0; transform-origin: 50% 50%; }
+.key span {
+  display: inline-block; font-family: "Lilita One"; line-height: 1.02; color: #fff; --o: #10182b;
+  text-shadow: 0 6px 0 var(--o), 0 -6px 0 var(--o), 6px 0 0 var(--o), -6px 0 0 var(--o),
+    4px 4px 0 var(--o), -4px 4px 0 var(--o), 4px -4px 0 var(--o), -4px -4px 0 var(--o), 0 14px 0 var(--o), 0 18px 26px rgba(0,0,0,.5);
+}
+.slot-top { top: 300px; }
+.slot-upper { top: 470px; }
+.slot-center { top: 860px; }
+.slot-lower { top: 1290px; }
+.slot-bottom { top: 1440px; }
+.style-white span { font-size: 92px; }
+.style-big span { font-size: 132px; }
+.style-yellow span { font-size: 92px; color: #ffd23f; }
+.style-cyan span { font-size: 92px; color: #22d3ee; }
+.style-red span { font-size: 92px; color: #ff5a5a; }
+.style-green span { font-size: 92px; color: #4ade80; }
+.style-small span { font-size: 64px; }
+.style-stamp-red span, .style-stamp-green span {
+  font-size: 84px; padding: 10px 36px 16px; border-radius: 18px; text-shadow: none; color: #fff;
+  border: 8px solid #fff; box-shadow: 0 10px 0 rgba(0,0,0,.3);
+}
+.style-stamp-red span { background: #e23b3b; }
+.style-stamp-green span { background: #16a34a; }
+.style-tag span {
+  font-size: 54px; color: #10182b; background: #fff; padding: 12px 30px 16px; border-radius: 26px; text-shadow: none;
+  box-shadow: 0 8px 0 rgba(16,24,43,.4);
+}
+.key .y { color: #ffd23f; } .key .c { color: #22d3ee; } .key .r { color: #ff5a5a; } .key .g { color: #4ade80; }
+
+/* ---------- end call-to-action ---------- */
+.cta { position: absolute; left: 0; right: 0; top: 1470px; text-align: center; opacity: 0; }
+.cta-title { font-family: "Lilita One"; font-size: 64px; color: #fff; text-shadow: 0 5px 0 #10182b, 0 -4px 0 #10182b, 4px 0 0 #10182b, -4px 0 0 #10182b; }
+.cta-opts { margin-top: 26px; display: flex; justify-content: center; align-items: center; gap: 18px; }
+.opt { font-family: "Lilita One"; font-size: 54px; color: #fff; padding: 12px 30px 16px; border-radius: 22px; border: 6px solid #fff; box-shadow: 0 8px 0 rgba(0,0,0,.3); }
+.opt.green { background: #16a34a; } .opt.red { background: #e23b3b; } .opt.blue { background: #2563eb; }
+.or { font-weight: 900; font-size: 40px; color: #fff; }
+.cta-next { margin-top: 30px; display: inline-block; background: #ffd23f; color: #10182b; font-weight: 900; font-size: 40px; padding: 12px 30px; border-radius: 40px; box-shadow: 0 8px 0 #10182b; }
+
+/* ---------- cover ---------- */
+.cover { position: absolute; left: 0; right: 0; top: 1180px; text-align: center; }
+.cover-part { display: inline-block; background: #e23b3b; color: #fff; font-weight: 900; font-size: 48px; padding: 8px 30px; border-radius: 30px; letter-spacing: 3px; }
+.cover-title, .cover .t { font-family: "Lilita One"; font-size: 120px; line-height: 1; color: #fff; margin-top: 18px;
+  text-shadow: 0 7px 0 #10182b, 0 -6px 0 #10182b, 6px 0 0 #10182b, -6px 0 0 #10182b, 0 16px 24px rgba(0,0,0,.5); }
+.cover .t .c { color: #22d3ee; } .cover .t .y { color: #ffd23f; }
