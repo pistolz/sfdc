@@ -1,0 +1,16 @@
+{
+  "day": 1,
+  "mode": "intro",
+  "brand": "SKY FLEET",
+  "followers": 0,
+  "yachts": [],
+  "demo": { "name": "@your.name", "country": "un" },
+  "text": {
+    "subtitle": "AN EMPTY SKY",
+    "ruleSub": "WITH YOUR NAME ON IT",
+    "vipSub": "= TODAY'S GOLDEN JET",
+    "vipTag": "YOUR NAME HERE",
+    "ctaSub": "YOUR NAME + YOUR COUNTRY",
+    "next": "DAY 02 · YOUR JET TAKES OFF"
+  }
+}
