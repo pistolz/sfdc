@@ -1,13 +1,16 @@
 {
-  "series": "AI TAKEOVER",
+  "series": "GAIA PROTOCOL",
   "part": 2,
   "voice": {
     "name": "en-US-AndrewNeural",
-    "rate": "+6%"
+    "rate": "+4%",
+    "pitch": "-4Hz"
   },
+  "style": "ai",
+  "hudDaysLabel": "DAYS UNTIL EXTINCTION",
   "start": {
     "days": 10,
-    "budget": 295000,
+    "budget": 280000,
     "budgetVisible": true,
     "features": [
       "house",
@@ -15,27 +18,68 @@
       "bunker",
       "solar",
       "power",
-      "food",
-      "water",
-      "farm"
+      "farm",
+      "water"
+    ],
+    "wall": [
+      "@kevin_88",
+      "@sara.sky",
+      "@amir_x",
+      "@lina.07",
+      "@noah_jr",
+      "@tom.wave",
+      "@maya_sun",
+      "@ryan.dev",
+      "@jade_22",
+      "@eva.blue"
     ]
   },
+  "commenters": [
+    {
+      "name": "@kevin_88",
+      "text": "HELP them!! we need to stop it"
+    },
+    {
+      "name": "@sara.sky",
+      "text": "hide. never trust a radio signal"
+    },
+    {
+      "name": "@maya_sun",
+      "text": "help the scientists"
+    },
+    {
+      "name": "@noah_jr",
+      "text": "help obviously"
+    },
+    {
+      "name": "@eva.blue",
+      "text": "help"
+    },
+    {
+      "name": "@ryan.dev",
+      "text": "hide 100%"
+    },
+    {
+      "name": "@amir_x",
+      "text": "help"
+    }
+  ],
   "history": [
     {
       "part": 1,
-      "question": "Would you open the door, or leave them outside?",
-      "winner": "open",
+      "question": "Help the scientists, or stay hidden?",
+      "winner": "help",
       "results": [
         {
-          "id": "open",
-          "label": "OPEN THE DOOR",
+          "id": "help",
+          "label": "HELP THEM",
           "votes": 6,
           "percent": 60,
           "winner": true
         },
         {
-          "id": "leave",
-          "label": "LEAVE THEM OUTSIDE",
+          "id": "hide",
+          "label": "STAY HIDDEN",
           "votes": 4,
           "percent": 40,
           "winner": false
@@ -45,7 +89,7 @@
   ],
   "coverTime": 1.5,
   "cover": {
-    "html": "<div class=\"cover-part\">PART 2</div><div class=\"t\">YOU CHOSE:<br><span class=\"y\">OPEN THE DOOR</span></div>"
+    "html": "<div class=\"cover-part\">PART 2</div><div class=\"t\">YOU CHOSE:<br><span class=\"y\">HELP THEM</span></div>"
   },
   "beats": [
     {
@@ -54,22 +98,22 @@
       "args": {
         "results": [
           {
-            "id": "open",
-            "label": "OPEN THE DOOR",
+            "id": "help",
+            "label": "HELP THEM",
             "votes": 6,
             "percent": 60,
             "winner": true
           },
           {
-            "id": "leave",
-            "label": "LEAVE THEM OUTSIDE",
+            "id": "hide",
+            "label": "STAY HIDDEN",
             "votes": 4,
             "percent": 40,
             "winner": false
           }
         ]
       },
-      "say": "In part 1, you voted. 60 percent of you chose to open the door.",
+      "say": "In part 1, you voted. 60 percent of you chose to help them.",
       "keys": [
         {
           "at": "you voted",
@@ -81,19 +125,32 @@
           "at": "chose",
           "slot": "bottom",
           "style": "stamp-green",
-          "show": "OPEN THE DOOR"
+          "show": "HELP THEM"
         }
       ]
     },
     {
       "id": "02",
-      "scene": "xsection",
+      "scene": "wall",
+      "say": "Everyone who voted now has their name on the bunker wall.",
+      "keys": [
+        {
+          "at": "Everyone",
+          "slot": "top",
+          "style": "white",
+          "show": "YOUR NAMES ARE ON THE WALL"
+        }
+      ]
+    },
+    {
+      "id": "03",
+      "scene": "bunkerai",
       "args": {
         "focus": "overview",
         "night": true,
         "hero": "living"
       },
-      "say": "TODO: write what happens after \"OPEN THE DOOR\". Every sentence becomes one beat like in part 1.",
+      "say": "TODO: write what happens after \"HELP THEM\". Every sentence becomes one beat like in part 1.",
       "keys": []
     }
   ],

@@ -336,16 +336,16 @@ export const SCENES = {
 
   // "Last time, 68% of you chose…" — recap of the previous vote (part 2+)
   recap(ctx, p) {
-    sky(ctx, ['#111833', '#26305e']);
+    sky(ctx, ['#02050d', '#0b1636']);
     const opts = p.args.results || [];
     const grow = ease(clamp((p.lt - 0.6) / 1.4));
     opts.forEach((o, i) => {
       const y = 820 + i * 260;
       fillRR(ctx, 100, y, 880, 180, 30, 'rgba(255,255,255,0.08)');
       const w = 880 * (o.percent / 100) * grow;
-      if (w > 1) fillRR(ctx, 100, y, Math.max(60, w), 180, 30, o.winner ? C.green : '#64748b');
-      text(ctx, o.label, 140, y + 62, 46, '#ffffff', { font: 'Lilita One', weight: 400, align: 'left' });
-      text(ctx, `${Math.round(o.percent * grow)}%`, 940, y + 120, 64, '#ffffff', { font: 'Lilita One', weight: 400, align: 'right' });
+      if (w > 1) fillRR(ctx, 100, y, Math.max(60, w), 180, 30, o.winner ? '#16c784' : '#475569');
+      text(ctx, o.label, 140, y + 62, 46, '#ffffff', { font: 'Chakra Petch', weight: 700, align: 'left' });
+      text(ctx, `${Math.round(o.percent * grow)}%`, 940, y + 120, 64, '#ffffff', { font: 'Chakra Petch', weight: 700, align: 'right' });
       text(ctx, `${(o.votes || 0).toLocaleString('en-US')} votes`, 140, y + 132, 30, 'rgba(255,255,255,0.8)', { align: 'left' });
     });
   },

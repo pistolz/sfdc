@@ -1,6 +1,6 @@
-# AI TAKEOVER : série interactive 🤖
+# GAIA PROTOCOL : série interactive 🤖
 
-Générateur de vidéos pour la série « Dans 200 jours, l'IA contrôle la Terre ». Chaque partie se termine par un choix, les spectateurs votent en commentaire, et le résultat décide de la partie suivante.
+Générateur de vidéos pour la série « Dans 200 jours, une IA va éteindre l'humanité… et elle pense nous sauver ». Chaque partie se termine par un choix, les spectateurs votent en commentaire, et le résultat décide de la partie suivante.
 
 - Animation 2D en aplats, format vertical **1080×1920 MP4**, plus une **miniature PNG**
 - HUD permanent : **jours restants** et **budget** qui baisse à chaque achat (avec un « ka-ching »)
@@ -29,7 +29,9 @@ npm run voice  -- --episode episodes/part1.json
 npm run render -- --episode episodes/part1.json
 ```
 
-Résultat : `out/part1.mp4` (environ 2 min 20) et `out/part1_cover.png`.
+Résultat : `out/part1.mp4` (environ 1 minute) et `out/part1_cover.png`.
+
+La phrase de GAIA (« Stay calm. I am saving the planet. ») utilise une autre voix, définie dans le plan `12` (`"voice"`).
 
 - `npm run voice` crée une piste audio par phrase dans `out/voice/part1/` et mesure sa durée. Relance-le seulement si tu changes le texte (les phrases inchangées sont réutilisées).
 - Changer de voix : `npm run voice -- --episode episodes/part1.json --voice en-US-GuyNeural --rate +10%` (liste des voix : `edge-tts --list-voices`).
@@ -47,11 +49,13 @@ Aperçu dans le navigateur : `npm run preview`.
    npm run next-part -- --from episodes/part1.json --comments data/part1-comments.csv
    ```
 
-   Ou, si tu as compté toi-même : `--votes open=1834,leave=912`.
+   Ou, si tu as compté toi-même : `--votes help=1834,hide=912` (sans les noms des votants dans ce cas).
 
    Ça crée `episodes/part2.json` avec :
    - l'**état de l'histoire** repris de la partie 1 : jour 10, $295,000, tout ce qui a été construit
-   - un **premier plan de résultats** : « In part 1, you voted. 68 percent of you chose to open the door. » avec les barres de pourcentage
+   - un **premier plan de résultats** : « In part 1, you voted. 60 percent of you chose to help them. » avec les barres de pourcentage
+   - un plan **mur des noms** : les pseudos de tous les votants gravés sur le mur du bunker
+   - les commentaires les plus likés deviennent la liste `commenters` (la scène où GAIA scanne les commentaires)
    - un plan `TODO` à remplacer par le script de la suite, et le **nouveau choix** à la fin
 
 3. Écris la suite (ou envoie le résultat du vote à Claude pour qu'il l'écrive), puis `npm run voice` et `npm run render` sur `episodes/part2.json`.
@@ -77,7 +81,10 @@ Chaque plan (`beat`) de `episodes/partN.json` correspond à une phrase de la voi
 - `at` = le mot de la phrase où l'action se produit (calé automatiquement sur la voix)
 - `events` : `spend` (dépense), `build` (`house`, `basement`, `bunker`, `solar`, `power`, `food`, `water`, `farm`), `days` (change le compteur), `showBudget`
 - `keys` = texte à l'écran ; `slot` : `top`, `upper`, `center`, `lower`, `bottom` ; `style` : `big`, `white`, `yellow`, `cyan`, `red`, `green`, `tag`, `stamp-red`, `stamp-green`
-- `scene` : `globe`, `lab`, `screens`, `devices`, `cityai`, `hero`, `daycard`, `xsection` (le bunker en coupe, `focus` : `surface`, `basement`, `bunker`, `solar`, `power`, `food`, `water`, `farm`, `overview`), `news`, `griddown`, `blackout`, `chaos`, `cctv`, `family`, `noicons`, `phone`, `choice`, `recap`, `ai`
+- `scene` (style IA) : `hook`, `boot`, `verdict`, `shutdown`, `mission`, `comments` (les pseudos de `commenters`), `bunkerai`, `message`, `radio`, `radar`, `decision`, `wall` (les noms des votants), `recap`
+- `scene` (autres) : `globe`, `lab`, `screens`, `devices`, `cityai`, `hero`, `daycard`, `xsection` (le bunker en coupe, `focus` : `surface`, `basement`, `bunker`, `solar`, `power`, `food`, `water`, `farm`, `overview`), `news`, `griddown`, `blackout`, `chaos`, `cctv`, `family`, `noicons`, `phone`, `choice`, `recap`, `ai`
+- `glitchAt` (optionnel) : un mot de la phrase où l'image « buggue »
+- `voice` (optionnel, par plan) : `{ "name": "en-US-AvaNeural", "rate": "-12%", "pitch": "-10Hz" }`
 - `sfx` (optionnel) : `alarm`, `glitch`, `beep`, `heartbeat`
 - `choice` (à la fin du fichier) : la question, les options et les mots-clés pour compter les votes (anglais, français, espagnol)
 

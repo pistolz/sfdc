@@ -66,7 +66,8 @@ for (const b of ep.beats) {
     file = own;
     console.log(`[${b.id}] your recording: ${path.relative(ROOT, own)}`);
   } else {
-    const hash = crypto.createHash('sha1').update(`${voiceName}|${rate}|${b.say}`).digest('hex').slice(0, 12);
+    const vName = b.voice?.name || voiceName, vRate = b.voice?.rate || rate, vPitch = b.voice?.pitch || ep.voice?.pitch || '+0Hz';
+    const hash = crypto.createHash('sha1').update(`${vName}|${vRate}|${vPitch}|${b.say}`).digest('hex').slice(0, 12);
     file = path.join(outDir, `${b.id}.mp3`);
     if (old[b.id]?.hash === hash && fs.existsSync(file) && fs.statSync(file).size > 0) {
       timings[b.id] = old[b.id];
@@ -80,7 +81,7 @@ for (const b of ep.beats) {
       process.exit(1);
     }
     const [cmd, pre] = tts;
-    const r = spawnSync(cmd, [...pre, '--voice', voiceName, `--rate=${rate}`, '--text', b.say, '--write-media', file], { encoding: 'utf8', shell: process.platform === 'win32' && cmd === 'edge-tts' ? false : false });
+    const r = spawnSync(cmd, [...pre, '--voice', vName, `--rate=${vRate}`, `--pitch=${vPitch}`, '--text', b.say, '--write-media', file], { encoding: 'utf8' });
     if (r.status !== 0 || !fs.existsSync(file) || fs.statSync(file).size === 0) {
       console.error(`[${b.id}] edge-tts failed:\n${r.stderr || r.stdout}`);
       process.exit(1);

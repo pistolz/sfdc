@@ -70,3 +70,47 @@ html, body { margin: 0; background: #05070f; overflow: hidden; }
 .cover-title, .cover .t { font-family: "Lilita One"; font-size: 120px; line-height: 1; color: #fff; margin-top: 18px;
   text-shadow: 0 7px 0 #10182b, 0 -6px 0 #10182b, 6px 0 0 #10182b, -6px 0 0 #10182b, 0 16px 24px rgba(0,0,0,.5); }
 .cover .t .c { color: #22d3ee; } .cover .t .y { color: #ffd23f; }
+
+/* =================== AI style (episode "style": "ai") =================== */
+@font-face { font-family: "Chakra Petch"; src: url("/node_modules/@fontsource/chakra-petch/files/chakra-petch-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "Chakra Petch"; src: url("/node_modules/@fontsource/chakra-petch/files/chakra-petch-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "Orbitron"; src: url("/node_modules/@fontsource/orbitron/files/orbitron-latin-900-normal.woff2") format("woff2"); font-weight: 900; }
+@font-face { font-family: "Space Mono"; src: url("/node_modules/@fontsource/space-mono/files/space-mono-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+
+.style-ai .hud {
+  border-radius: 6px; background: rgba(3, 10, 24, .82); border: 2px solid rgba(34,229,255,.45);
+  box-shadow: 0 0 24px rgba(34,229,255,.25), inset 0 0 18px rgba(34,229,255,.08);
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+}
+.style-ai .hud-label { font-family: "Chakra Petch"; font-weight: 700; font-size: 22px; letter-spacing: 3px; color: #7fe9ff; }
+.style-ai .hud-value { font-family: "Orbitron"; font-weight: 900; font-size: 64px; color: #22e5ff; text-shadow: 0 0 18px rgba(34,229,255,.7); }
+.style-ai .hud-value.money { color: #3dff9a; text-shadow: 0 0 18px rgba(61,255,154,.6); }
+.style-ai .hud-days.danger { border-color: #ff3355; box-shadow: 0 0 24px rgba(255,51,85,.4); }
+.style-ai .hud-days.danger .hud-value { color: #ff3355; text-shadow: 0 0 18px rgba(255,51,85,.8); }
+.style-ai .spend { font-family: "Orbitron"; font-weight: 900; font-size: 44px; color: #ff3355; text-shadow: 0 0 14px rgba(255,51,85,.8); }
+.style-ai .series { font-family: "Chakra Petch"; font-weight: 700; color: rgba(127,233,255,.8); letter-spacing: 6px; }
+
+.style-ai .key span {
+  font-family: "Chakra Petch"; font-weight: 700; letter-spacing: 1px; --o: #020611;
+  text-shadow: 0 5px 0 var(--o), 0 -5px 0 var(--o), 5px 0 0 var(--o), -5px 0 0 var(--o),
+    4px 4px 0 var(--o), -4px 4px 0 var(--o), 4px -4px 0 var(--o), -4px -4px 0 var(--o), 0 0 30px rgba(34,229,255,.45);
+}
+.style-ai .style-big span { font-family: "Orbitron"; font-weight: 900; font-size: 112px; color: #ff3355; text-shadow: 0 6px 0 #020611, 0 -6px 0 #020611, 6px 0 0 #020611, -6px 0 0 #020611, 0 0 40px rgba(255,51,85,.8); }
+.style-ai .style-cyan span { color: #22e5ff; }
+.style-ai .style-red span { color: #ff3355; }
+.style-ai .style-green span { color: #3dff9a; }
+.style-ai .style-stamp-red span, .style-ai .style-stamp-green span {
+  font-family: "Orbitron"; font-weight: 900; font-size: 64px; border-radius: 4px; border-width: 4px; text-shadow: none;
+}
+.style-ai .style-stamp-red span { background: rgba(255,51,85,.92); box-shadow: 0 0 40px rgba(255,51,85,.7); }
+.style-ai .style-stamp-green span { background: rgba(22,163,74,.95); box-shadow: 0 0 40px rgba(61,255,154,.6); }
+.style-ai .style-tag span {
+  font-family: "Chakra Petch"; font-size: 50px; color: #22e5ff; background: rgba(3,10,24,.88); border: 2px solid #22e5ff;
+  border-radius: 4px; box-shadow: 0 0 24px rgba(34,229,255,.4); text-shadow: none;
+}
+.style-ai .cta-title { font-family: "Chakra Petch"; font-weight: 700; color: #fff; }
+.style-ai .opt { font-family: "Orbitron"; font-weight: 900; border-radius: 6px; border-width: 4px; }
+.style-ai .cta-next { font-family: "Chakra Petch"; font-weight: 700; background: #22e5ff; color: #020611; border-radius: 6px; box-shadow: 0 0 30px rgba(34,229,255,.6); }
+.style-ai .cover-part { font-family: "Chakra Petch"; font-weight: 700; background: #ff3355; border-radius: 6px; }
+.style-ai .cover .t { font-family: "Orbitron"; font-weight: 900; font-size: 92px; line-height: 1.08; }
+.style-ai .cover .t .c { color: #22e5ff; } .style-ai .cover .t .r { color: #ff3355; }

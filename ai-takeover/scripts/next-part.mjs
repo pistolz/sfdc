@@ -47,6 +47,7 @@ const options = prev.choice.options;
 
 // ------------------------------------------------------------- count votes
 const counts = Object.fromEntries(options.map((o) => [o.id, 0]));
+const voters = [];
 if (args.votes) {
   for (const kv of String(args.votes).split(',')) { const [k, v] = kv.split('='); if (k in counts) counts[k] = Number(v) || 0; }
 } else if (args.comments) {
@@ -54,12 +55,14 @@ if (args.votes) {
   let ignored = 0;
   for (const r of parseCsv(fs.readFileSync(path.resolve(args.comments), 'utf8'))) {
     const user = (r.username || r.user || '').toLowerCase().replace(/^@/, '');
-    const txt = ' ' + (r.comment || r.text || '').toLowerCase() + ' ';
+    const raw = (r.comment || r.text || '').trim();
+    const txt = ' ' + raw.toLowerCase() + ' ';
     if (!user || seen.has(user)) continue;
     const hits = options.filter((o) => o.match.some((m) => txt.includes(m.toLowerCase())));
     if (hits.length !== 1) { ignored++; continue; }
     seen.add(user);
     counts[hits[0].id]++;
+    voters.push({ name: '@' + user, text: raw.slice(0, 34), vote: hits[0].id, likes: Number(r.likes || 0) || 0 });
   }
   console.log(`Comments without a clear vote (ignored): ${ignored}`);
 } else {
@@ -86,7 +89,10 @@ const next = {
   series: prev.series,
   part,
   voice: prev.voice,
-  start: { days, budget, budgetVisible: true, features: [...features] },
+  style: prev.style,
+  hudDaysLabel: prev.hudDaysLabel,
+  start: { days, budget, budgetVisible: true, features: [...features], wall: [...new Set([...(prev.start?.wall || []), ...voters.map((v) => v.name)])] },
+  commenters: [...voters].sort((a, b) => b.likes - a.likes).slice(0, 7).map(({ name, text }) => ({ name, text })),
   history: [...(prev.history || []), { part: prev.part || 1, question: prev.choice.question, winner: winner.id, results }],
   coverTime: 1.5,
   cover: { html: `<div class="cover-part">PART ${part}</div><div class="t">YOU CHOSE:<br><span class="y">${winner.label}</span></div>` },
@@ -99,8 +105,13 @@ const next = {
         { at: 'chose', slot: 'bottom', style: winner.color === 'red' ? 'stamp-red' : 'stamp-green', show: winner.label },
       ],
     },
+    ...(voters.length ? [{
+      id: '02', scene: 'wall',
+      say: 'Everyone who voted now has their name on the bunker wall.',
+      keys: [{ at: 'Everyone', slot: 'top', style: 'white', show: 'YOUR NAMES ARE ON THE WALL' }],
+    }] : []),
     {
-      id: '02', scene: 'xsection', args: { focus: 'overview', night: true, hero: 'living' },
+      id: '03', scene: 'bunkerai', args: { focus: 'overview', night: true, hero: 'living' },
       say: `TODO: write what happens after "${winner.label}". Every sentence becomes one beat like in part ${part - 1}.`,
       keys: [],
     },

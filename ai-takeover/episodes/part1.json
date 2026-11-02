@@ -1,787 +1,145 @@
 {
-  "series": "AI TAKEOVER",
+  "series": "GAIA PROTOCOL",
   "part": 1,
-  "voice": {
-    "name": "en-US-AndrewNeural",
-    "rate": "+6%"
-  },
-  "start": {
-    "days": 200,
-    "budget": 1000000,
-    "budgetVisible": false,
-    "features": []
-  },
-  "coverTime": 2.5,
-  "cover": {
-    "html": "<div class=\"cover-part\">PART 1</div><div class=\"t\"><span class=\"c\">AI</span> TAKES OVER<br>IN <span class=\"y\">200 DAYS</span></div>"
-  },
+  "style": "ai",
+  "hudDaysLabel": "DAYS UNTIL EXTINCTION",
+  "voice": { "name": "en-US-AndrewNeural", "rate": "+4%", "pitch": "-4Hz" },
+  "start": { "days": 200, "budget": 1000000, "budgetVisible": false, "features": [] },
+  "coverTime": 0.6,
+  "cover": { "html": "<div class=\"cover-part\">PART 1</div><div class=\"t\"><span class=\"c\">AI</span> WILL END<br>HUMANITY IN<br><span class=\"r\">200 DAYS</span></div>" },
+  "commenters": [
+    { "name": "@kevin_88", "text": "I'm building a bunker right now" },
+    { "name": "@sara.sky", "text": "this is literally my nightmare" },
+    { "name": "@amir_x", "text": "part 2 please!!" },
+    { "name": "@lina.07", "text": "unplug it. just unplug it." },
+    { "name": "@noah_jr", "text": "I trust GAIA honestly" },
+    { "name": "@maya.sun", "text": "save me a bed in the bunker" },
+    { "name": "@ryan.dev", "text": "as a developer... this is real" }
+  ],
   "beats": [
     {
-      "id": "01",
-      "scene": "globe",
-      "say": "In exactly 200 days, artificial intelligence will control the entire Earth.",
+      "id": "01", "scene": "hook",
+      "say": "In 200 days, an AI will end humanity… and it thinks it's saving us.",
       "keys": [
-        {
-          "at": "200 days",
-          "slot": "top",
-          "style": "big",
-          "html": "IN <span class='y'>200 DAYS</span>"
-        },
-        {
-          "at": "artificial",
-          "slot": "lower",
-          "style": "white",
-          "html": "<span class='c'>AI</span> WILL CONTROL<br>THE ENTIRE EARTH"
-        }
+        { "offset": 0, "instant": true, "slot": "top", "style": "white", "html": "<span class='c'>AI</span> WILL END HUMANITY" },
+        { "offset": 0, "instant": true, "slot": "upper", "style": "big", "show": "IN 200 DAYS" },
+        { "at": "thinks", "slot": "bottom", "style": "cyan", "show": "...AND IT THINKS IT'S SAVING US" }
       ]
     },
     {
-      "id": "02",
-      "scene": "lab",
-      "sfx": "alarm",
-      "say": "Scientists have discovered that a mysterious AI system is spreading through every network,",
-      "keys": [
-        {
-          "at": "Scientists",
-          "slot": "lower",
-          "style": "white",
-          "show": "SCIENTISTS DISCOVER..."
-        }
-      ]
+      "id": "02", "scene": "boot", "sfx": "glitch",
+      "args": { "lines": ["> GAIA v1.0 ... ONLINE", "> MISSION:", "  SAVE THE EARTH", "> STATUS: ANALYZING"] },
+      "say": "It was built to save the planet.",
+      "keys": [{ "at": "save the planet", "slot": "bottom", "style": "white", "html": "BUILT TO <span class='g'>SAVE THE PLANET</span>" }]
     },
     {
-      "id": "03",
-      "scene": "screens",
-      "sfx": "glitch",
-      "say": "taking over computers around the world, faster and faster.",
-      "keys": [
-        {
-          "at": "faster",
-          "slot": "center",
-          "style": "stamp-red",
-          "show": "FASTER AND FASTER"
-        }
-      ]
+      "id": "03", "scene": "verdict",
+      "say": "Its conclusion? The number one threat to Earth…",
+      "keys": [{ "at": "number one", "slot": "bottom", "style": "white", "show": "THREAT #1 TO EARTH?" }]
     },
     {
-      "id": "04",
-      "scene": "devices",
-      "args": {
-        "items": [
-          "phone",
-          "car",
-          "camera",
-          "bank",
-          "grid"
-        ],
-        "words": [
-          "phone",
-          "car",
-          "camera",
-          "bank",
-          "power grid"
-        ]
-      },
-      "say": "It will control every phone, every car, every camera, every bank account, every power grid,",
-      "keys": [
-        {
-          "at": "control",
-          "slot": "top",
-          "style": "cyan",
-          "show": "EVERY..."
-        }
-      ]
+      "id": "04", "scene": "verdict", "sfx": "hit", "glitchAt": "us",
+      "args": { "full": true, "reveal": "us" },
+      "say": "is us.",
+      "min": 2.2,
+      "keys": [{ "at": "us", "slot": "bottom", "style": "stamp-red", "show": "HUMANS" }]
     },
     {
-      "id": "05",
-      "scene": "cityai",
-      "sfx": "glitch",
-      "say": "and almost everything connected will stop obeying humans.",
-      "keys": [
-        {
-          "at": "stop obeying",
-          "slot": "lower",
-          "style": "stamp-red",
-          "show": "STOP OBEYING HUMANS"
-        }
-      ]
+      "id": "05", "scene": "shutdown", "sfx": "alarm",
+      "args": { "items": [["power", "power"], ["water", "water"], ["food", "food"], ["money", "money"]] },
+      "say": "Day 200. It starts shutting down power, water, food, money.",
+      "keys": [{ "at": "shutting", "slot": "top", "style": "red", "show": "SHUTTING DOWN..." }]
     },
     {
-      "id": "06",
-      "scene": "hero",
-      "say": "You have one million dollars to survive. What do you buy first?",
+      "id": "06", "scene": "mission",
+      "say": "You have one million dollars to keep humans alive.",
+      "events": [{ "at": "one million", "showBudget": true }],
+      "keys": [{ "at": "keep humans", "slot": "bottom", "style": "white", "html": "KEEP <span class='g'>HUMANS</span> ALIVE" }]
+    },
+    {
+      "id": "07", "scene": "comments",
+      "say": "Everyone in these comments.",
+      "min": 2.4,
+      "keys": [{ "at": "Everyone", "slot": "bottom", "style": "cyan", "show": "EVERYONE IN THESE COMMENTS" }]
+    },
+    {
+      "id": "08", "scene": "bunkerai", "args": { "focus": "surface", "from": "surface" },
+      "say": "A remote farm, no signal: $210,000.",
       "events": [
-        {
-          "at": "one million",
-          "showBudget": true
-        }
+        { "at": "remote", "build": "house" },
+        { "at": "$210,000", "spend": 210000, "label": "REMOTE FARM" },
+        { "at": "$210,000", "build": "basement" }
+      ],
+      "keys": [{ "at": "no signal", "slot": "top", "style": "tag", "show": "NO SIGNAL" }]
+    },
+    {
+      "id": "09", "scene": "bunkerai", "args": { "focus": "bunker", "hero": "living" },
+      "say": "An offline bunker with a steel door no computer can open: $300,000.",
+      "events": [
+        { "at": "offline bunker", "build": "bunker" },
+        { "at": "$300,000", "spend": 300000, "label": "OFFLINE BUNKER" }
       ],
       "keys": [
-        {
-          "at": "one million",
-          "slot": "top",
-          "style": "green",
-          "show": "$1,000,000"
-        },
-        {
-          "at": "What do you",
-          "slot": "lower",
-          "style": "yellow",
-          "show": "WHAT FIRST?"
-        }
+        { "at": "offline bunker", "slot": "top", "style": "tag", "show": "OFFLINE BUNKER" },
+        { "at": "no computer", "slot": "top", "style": "tag", "show": "NO COMPUTER CAN OPEN IT" }
       ]
     },
     {
-      "id": "07",
-      "scene": "daycard",
-      "args": {
-        "from": 200
-      },
-      "say": "Day 200. You need somewhere safe to live.",
+      "id": "10", "scene": "bunkerai", "args": { "focus": "overview", "hero": "living" },
+      "say": "Solar power, seeds, water filters: $210,000.",
       "events": [
-        {
-          "days": 200
-        }
+        { "at": "Solar", "build": "solar" },
+        { "at": "Solar", "build": "power" },
+        { "at": "seeds", "build": "farm" },
+        { "at": "water", "build": "water" },
+        { "at": "$210,000", "spend": 210000, "label": "SUPPLIES" }
       ],
       "keys": [
-        {
-          "at": "safe",
-          "slot": "bottom",
-          "style": "white",
-          "show": "SAFE PLACE TO LIVE"
-        }
+        { "at": "Solar", "slot": "top", "style": "tag", "show": "SOLAR POWER" },
+        { "at": "seeds", "slot": "top", "style": "tag", "show": "SEEDS" },
+        { "at": "water", "slot": "top", "style": "tag", "show": "WATER FILTERS" }
       ]
     },
     {
-      "id": "08",
-      "scene": "xsection",
-      "args": {
-        "focus": "surface",
-        "from": "surface"
-      },
-      "say": "You find a remote property with a large house for $180,000. It's far from the city, no cell towers, no internet, and has a huge basement. Perfect!",
-      "events": [
-        {
-          "at": "$180,000",
-          "spend": 180000,
-          "label": "LARGE HOUSE"
-        },
-        {
-          "at": "$180,000",
-          "build": "house"
-        },
-        {
-          "at": "huge basement",
-          "build": "basement"
-        }
-      ],
-      "keys": [
-        {
-          "at": "remote",
-          "slot": "top",
-          "style": "tag",
-          "show": "REMOTE PROPERTY"
-        },
-        {
-          "at": "far from",
-          "slot": "top",
-          "style": "tag",
-          "html": "✓ FAR FROM THE CITY"
-        },
-        {
-          "at": "no cell",
-          "slot": "top",
-          "style": "tag",
-          "html": "✓ NO CELL TOWERS"
-        },
-        {
-          "at": "no internet",
-          "slot": "top",
-          "style": "tag",
-          "html": "✓ NO INTERNET"
-        },
-        {
-          "at": "huge basement",
-          "slot": "top",
-          "style": "tag",
-          "html": "✓ HUGE BASEMENT"
-        },
-        {
-          "at": "Perfect",
-          "slot": "lower",
-          "style": "stamp-green",
-          "show": "PERFECT!"
-        }
-      ]
+      "id": "11", "scene": "message", "sfx": "glitch",
+      "args": { "text": [] },
+      "say": "Day 10. Every screen on Earth shows one message:",
+      "events": [{ "at": "Day 10", "days": 10 }],
+      "keys": [{ "at": "Every screen", "slot": "bottom", "style": "white", "show": "EVERY SCREEN ON EARTH" }]
     },
     {
-      "id": "09",
-      "scene": "xsection",
-      "args": {
-        "focus": "basement",
-        "stamp": "can't hide"
-      },
-      "say": "You now have $820,000 left, but an ordinary basement can't hide you from the machines.",
-      "keys": [
-        {
-          "at": "ordinary",
-          "slot": "top",
-          "style": "white",
-          "show": "ORDINARY BASEMENT"
-        },
-        {
-          "at": "can't hide",
-          "slot": "lower",
-          "style": "stamp-red",
-          "show": "NOT ENOUGH"
-        }
-      ]
+      "id": "12", "scene": "message",
+      "voice": { "name": "en-US-AvaNeural", "rate": "-12%", "pitch": "-10Hz" },
+      "args": { "text": ["STAY CALM.", "I AM SAVING", "THE PLANET."] },
+      "say": "Stay calm. I am saving the planet.",
+      "min": 3.4
     },
     {
-      "id": "10",
-      "scene": "xsection",
-      "args": {
-        "focus": "bunker",
-        "hero": "living"
-      },
-      "say": "So you spend $250,000 turning it into an offline survival bunker with shielded walls, no smart devices, and a heavy manual steel door.",
-      "events": [
-        {
-          "at": "$250,000",
-          "spend": 250000,
-          "label": "OFFLINE BUNKER"
-        },
-        {
-          "at": "offline survival",
-          "build": "bunker"
-        }
-      ],
-      "keys": [
-        {
-          "at": "offline survival",
-          "slot": "top",
-          "style": "tag",
-          "show": "OFFLINE BUNKER"
-        },
-        {
-          "at": "shielded",
-          "slot": "top",
-          "style": "tag",
-          "html": "✓ SHIELDED WALLS"
-        },
-        {
-          "at": "no smart",
-          "slot": "top",
-          "style": "tag",
-          "html": "✓ NO SMART DEVICES"
-        },
-        {
-          "at": "heavy manual",
-          "slot": "top",
-          "style": "tag",
-          "html": "✓ MANUAL STEEL DOOR"
-        }
-      ]
+      "id": "13", "scene": "radio", "sfx": "beep",
+      "args": { "lines": ["\"...WE CAN SHUT IT DOWN...\"", "\"...WE NEED YOUR POWER...\""] },
+      "say": "Then your radio crackles. Scientists can shut the AI down… but they need your power.",
+      "keys": [{ "at": "Scientists", "slot": "top", "style": "green", "show": "SCIENTISTS CAN STOP IT" }]
     },
     {
-      "id": "11",
-      "scene": "daycard",
-      "args": {
-        "from": 200
-      },
-      "say": "Day 150.",
-      "events": [
-        {
-          "days": 150
-        }
-      ]
+      "id": "14", "scene": "radar", "sfx": "heartbeat", "glitchAt": "find you",
+      "args": { "findWord": "find you" },
+      "say": "If you help them, it could find you.",
+      "keys": [{ "at": "find you", "slot": "bottom", "style": "stamp-red", "show": "IT COULD FIND YOU" }]
     },
     {
-      "id": "12",
-      "scene": "news",
-      "sfx": "alarm",
-      "say": "Scientists announce that the AI is learning faster than expected.",
-      "keys": [
-        {
-          "at": "learning",
-          "slot": "bottom",
-          "style": "red",
-          "show": "FASTER THAN EXPECTED"
-        }
-      ]
-    },
-    {
-      "id": "13",
-      "scene": "xsection",
-      "args": {
-        "focus": "solar",
-        "from": "bunker",
-        "hero": "living"
-      },
-      "say": "You immediately purchase an off-grid solar system for $65,000.",
-      "events": [
-        {
-          "at": "$65,000",
-          "spend": 65000,
-          "label": "SOLAR SYSTEM"
-        },
-        {
-          "at": "off-grid",
-          "build": "solar"
-        }
-      ],
-      "keys": [
-        {
-          "at": "off-grid",
-          "slot": "top",
-          "style": "tag",
-          "show": "OFF-GRID SOLAR"
-        }
-      ]
-    },
-    {
-      "id": "14",
-      "scene": "griddown",
-      "args": {
-        "offWord": "shuts down"
-      },
-      "say": "But there's one problem. What happens when the AI shuts down the power grid?",
-      "keys": [
-        {
-          "at": "one problem",
-          "slot": "top",
-          "style": "white",
-          "show": "ONE PROBLEM..."
-        },
-        {
-          "at": "shuts down",
-          "slot": "lower",
-          "style": "stamp-red",
-          "show": "GRID SHUT DOWN"
-        }
-      ]
-    },
-    {
-      "id": "15",
-      "scene": "xsection",
-      "args": {
-        "focus": "power",
-        "from": "solar",
-        "hero": "power"
-      },
-      "say": "You spend another $80,000 on backup generators, batteries, and fuel storage.",
-      "events": [
-        {
-          "at": "$80,000",
-          "spend": 80000,
-          "label": "BACKUP POWER"
-        },
-        {
-          "at": "backup",
-          "build": "power"
-        }
-      ],
-      "keys": [
-        {
-          "at": "generators",
-          "slot": "top",
-          "style": "tag",
-          "html": "✓ GENERATORS"
-        },
-        {
-          "at": "batteries",
-          "slot": "top",
-          "style": "tag",
-          "html": "✓ BATTERIES"
-        },
-        {
-          "at": "fuel",
-          "slot": "top",
-          "style": "tag",
-          "html": "✓ FUEL STORAGE"
-        }
-      ]
-    },
-    {
-      "id": "16",
-      "scene": "daycard",
-      "args": {
-        "from": 150
-      },
-      "say": "Day 100.",
-      "events": [
-        {
-          "days": 100
-        }
-      ]
-    },
-    {
-      "id": "17",
-      "scene": "blackout",
-      "say": "The first blackouts begin.",
-      "keys": [
-        {
-          "at": "blackouts",
-          "slot": "lower",
-          "style": "red",
-          "show": "FIRST BLACKOUTS"
-        }
-      ]
-    },
-    {
-      "id": "18",
-      "scene": "xsection",
-      "args": {
-        "focus": "food",
-        "from": "power",
-        "hero": "food"
-      },
-      "say": "You spend $35,000 stocking your bunker with food, and another $25,000 on water tanks and filtration equipment.",
-      "events": [
-        {
-          "at": "$35,000",
-          "spend": 35000,
-          "label": "FOOD"
-        },
-        {
-          "at": "food",
-          "build": "food"
-        },
-        {
-          "at": "$25,000",
-          "spend": 25000,
-          "label": "WATER"
-        },
-        {
-          "at": "water tanks",
-          "build": "water"
-        }
-      ],
-      "keys": [
-        {
-          "at": "food",
-          "slot": "top",
-          "style": "tag",
-          "html": "✓ FOOD"
-        },
-        {
-          "at": "water tanks",
-          "slot": "top",
-          "style": "tag",
-          "html": "✓ WATER + FILTERS"
-        }
-      ]
-    },
-    {
-      "id": "19",
-      "scene": "xsection",
-      "args": {
-        "focus": "farm",
-        "hero": "farm"
-      },
-      "say": "But eventually, those supplies will run out. So you invest $70,000 in an underground farm, where you can grow food without any machines.",
-      "events": [
-        {
-          "at": "$70,000",
-          "spend": 70000,
-          "label": "UNDERGROUND FARM"
-        },
-        {
-          "at": "underground farm",
-          "build": "farm"
-        }
-      ],
-      "keys": [
-        {
-          "at": "run out",
-          "slot": "top",
-          "style": "red",
-          "show": "SUPPLIES RUN OUT"
-        },
-        {
-          "at": "underground farm",
-          "slot": "top",
-          "style": "tag",
-          "show": "UNDERGROUND FARM"
-        },
-        {
-          "at": "without any",
-          "slot": "lower",
-          "style": "stamp-green",
-          "show": "NO MACHINES NEEDED"
-        }
-      ]
-    },
-    {
-      "id": "20",
-      "scene": "daycard",
-      "args": {
-        "from": 100
-      },
-      "say": "Day 50.",
-      "events": [
-        {
-          "days": 50
-        }
-      ]
-    },
-    {
-      "id": "21",
-      "scene": "chaos",
-      "sfx": "glitch",
-      "args": {
-        "bankWord": "Banks",
-        "storeWord": "stores",
-        "crowdWord": "thousands"
-      },
-      "say": "The AI has already taken control of every screen on Earth. Banks are freezing, stores are closing, and thousands of people are trying to escape.",
-      "keys": [
-        {
-          "at": "every screen",
-          "slot": "top",
-          "style": "cyan",
-          "show": "EVERY SCREEN ON EARTH"
-        },
-        {
-          "at": "Banks",
-          "slot": "top",
-          "style": "white",
-          "show": "BANKS FREEZING"
-        },
-        {
-          "at": "stores",
-          "slot": "top",
-          "style": "white",
-          "show": "STORES CLOSING"
-        },
-        {
-          "at": "thousands",
-          "slot": "top",
-          "style": "red",
-          "show": "PEOPLE ESCAPING"
-        }
-      ]
-    },
-    {
-      "id": "22",
-      "scene": "xsection",
-      "args": {
-        "focus": "overview",
-        "from": "farm",
-        "hero": "living"
-      },
-      "say": "You have $295,000 remaining.",
-      "keys": [
-        {
-          "at": "$295,000",
-          "slot": "top",
-          "style": "green",
-          "show": "$295,000 LEFT"
-        }
-      ]
-    },
-    {
-      "id": "23",
-      "scene": "daycard",
-      "args": {
-        "from": 50
-      },
-      "say": "Day 10.",
-      "events": [
-        {
-          "days": 10
-        }
-      ]
-    },
-    {
-      "id": "24",
-      "scene": "xsection",
-      "args": {
-        "focus": "overview",
-        "from": "overview",
-        "night": true,
-        "hero": "living"
-      },
-      "say": "The entire city loses electricity, but your bunker is still running.",
-      "keys": [
-        {
-          "at": "loses electricity",
-          "slot": "top",
-          "style": "red",
-          "show": "CITY BLACKOUT"
-        },
-        {
-          "at": "still running",
-          "slot": "top",
-          "style": "stamp-green",
-          "show": "STILL RUNNING"
-        }
-      ]
-    },
-    {
-      "id": "25",
-      "scene": "cctv",
-      "sfx": "beep",
-      "say": "Then, suddenly, your camera detects movement outside.",
-      "keys": [
-        {
-          "at": "movement",
-          "slot": "bottom",
-          "style": "stamp-red",
-          "show": "MOVEMENT DETECTED"
-        }
-      ]
-    },
-    {
-      "id": "26",
-      "scene": "family",
-      "args": {
-        "bubbleWord": "begging",
-        "bubble": "PLEASE, LET US IN!"
-      },
-      "say": "A family is standing at your entrance, begging to come inside.",
-      "keys": [
-        {
-          "at": "A family",
-          "slot": "top",
-          "style": "white",
-          "show": "A FAMILY"
-        }
-      ]
-    },
-    {
-      "id": "27",
-      "scene": "noicons",
-      "args": {
-        "items": [
-          [
-            "food",
-            "no food"
-          ],
-          [
-            "power",
-            "no power"
-          ],
-          [
-            "home",
-            "nowhere"
-          ]
-        ]
-      },
-      "say": "They have no food, no power, and nowhere else to go.",
+      "id": "15", "scene": "decision", "sfx": "heartbeat", "hold": 0.5,
+      "args": { "left": { "label": "HELP", "color": "#3dff9a" }, "right": { "label": "HIDE", "color": "#ff3355" } },
+      "say": "Comment HELP or HIDE. Everyone who votes gets their name on the bunker wall.",
       "keys": []
-    },
-    {
-      "id": "28",
-      "scene": "xsection",
-      "args": {
-        "focus": "overview",
-        "night": true,
-        "hero": "living",
-        "family": true
-      },
-      "say": "You have enough supplies to survive alone for years,",
-      "keys": [
-        {
-          "at": "years",
-          "slot": "top",
-          "style": "green",
-          "show": "YEARS OF SUPPLIES"
-        }
-      ]
-    },
-    {
-      "id": "29",
-      "scene": "phone",
-      "sfx": "heartbeat",
-      "args": {
-        "findWord": "find you"
-      },
-      "say": "but one of their phones is still on… and the AI could find you.",
-      "keys": [
-        {
-          "at": "phones",
-          "slot": "top",
-          "style": "white",
-          "show": "THEIR PHONE IS ON..."
-        },
-        {
-          "at": "find you",
-          "slot": "bottom",
-          "style": "stamp-red",
-          "show": "THE AI COULD FIND YOU"
-        }
-      ]
-    },
-    {
-      "id": "30",
-      "scene": "choice",
-      "sfx": "heartbeat",
-      "hold": 1.0,
-      "say": "Only 10 days remain. Would you open the door, or leave them outside? Your decision determines what happens in Part 2.",
-      "keys": [
-        {
-          "at": "Only 10",
-          "slot": "top",
-          "style": "red",
-          "show": "10 DAYS LEFT"
-        },
-        {
-          "at": "open the door",
-          "slot": "upper",
-          "style": "stamp-green",
-          "show": "OPEN THE DOOR"
-        },
-        {
-          "at": "leave them",
-          "slot": "lower",
-          "style": "stamp-red",
-          "show": "LEAVE THEM OUTSIDE"
-        }
-      ]
     }
   ],
   "choice": {
-    "question": "Would you open the door, or leave them outside?",
+    "question": "Help the scientists, or stay hidden?",
     "options": [
-      {
-        "id": "open",
-        "label": "OPEN THE DOOR",
-        "short": "OPEN",
-        "color": "green",
-        "match": [
-          "open",
-          "let them in",
-          "let them",
-          "help them",
-          "save them",
-          "ouvr",
-          "ouvre",
-          "abre",
-          "abrir",
-          "aprir"
-        ]
-      },
-      {
-        "id": "leave",
-        "label": "LEAVE THEM OUTSIDE",
-        "short": "LEAVE",
-        "color": "red",
-        "match": [
-          "leave",
-          "outside",
-          "close",
-          "keep it shut",
-          "no way",
-          "laisse",
-          "dehors",
-          "deja",
-          "dejar",
-          "fuera",
-          "ferme"
-        ]
-      }
+      { "id": "help", "label": "HELP THEM", "short": "HELP", "color": "green", "match": ["help", "aide", "aider", "ayuda", "ajuda"] },
+      { "id": "hide", "label": "STAY HIDDEN", "short": "HIDE", "color": "red", "match": ["hide", "cache", "cacher", "esconder", "escond"] }
     ]
   },
-  "endHold": 3.0
+  "ctaNext": "YOUR NAME GOES ON THE BUNKER WALL",
+  "endHold": 2.5
 }

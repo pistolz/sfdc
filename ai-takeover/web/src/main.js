@@ -1,6 +1,9 @@
 // Timing engine: turns an episode file (+ optional voice timings) into a
 // deterministic renderFrame(t). Beats last as long as their voice-over.
-import { SCENES } from './scenes.js';
+import { SCENES as BASE } from './scenes.js';
+import { AI_SCENES } from './scenes-ai.js';
+import { scanlines, glitch } from './ai.js';
+const SCENES = { ...BASE, ...AI_SCENES };
 import { clamp, backOut, easeOut } from './draw.js';
 
 const W = 1080, H = 1920;
@@ -23,7 +26,7 @@ async function init() {
     if (r.ok) timings = await r.json();
   } catch { /* no voice yet */ }
 
-  await Promise.all(['400 64px "Lilita One"', '900 64px Nunito', '800 64px Nunito'].map((f) => document.fonts.load(f)));
+  await Promise.all(['400 64px "Lilita One"', '900 64px Nunito', '800 64px Nunito', '700 64px "Chakra Petch"', '600 64px "Chakra Petch"', '900 64px Orbitron', '700 64px "Space Mono"'].map((f) => document.fonts.load(f)));
 
   // ------------------------------------------------------------ timeline
   let t0 = 0;
@@ -33,7 +36,9 @@ async function init() {
     const voice = timings[b.id]?.duration ?? words / WORDS_PER_SEC;
     const dur = Math.max(b.min ?? 1.6, LEAD + voice + GAP + (b.hold ?? 0));
     const beat = { ...b, index: i, start: t0, dur, voiceDur: voice, args: { ...(b.args || {}) } };
-    if (b.scene === 'xsection') {
+    if (b.scene === 'comments' && !beat.args.names) beat.args.names = ep.commenters || [];
+    if (b.scene === 'wall' && !beat.args.names) beat.args.names = ep.start?.wall || [];
+    if (b.scene === 'xsection' || b.scene === 'bunkerai') {
       if (beat.args.from == null) beat.args.from = lastFocus || beat.args.focus;
       lastFocus = beat.args.focus;
     }
@@ -102,9 +107,11 @@ async function init() {
 
   // ------------------------------------------------------------ overlay DOM
   const overlay = document.getElementById('overlay');
+  if (ep.style) document.body.classList.add('style-' + ep.style);
   overlay.innerHTML = `
     <div class="hud hud-days"><div class="hud-label">${esc(ep.hudDaysLabel || 'DAYS UNTIL AI TAKEOVER')}</div><div class="hud-value" id="days"></div></div>
     <div class="hud hud-budget"><div class="hud-label">BUDGET</div><div class="hud-value money" id="budget"></div><div class="spend" id="spend"></div></div>
+    <div class="hud-strip" id="strip"></div>
     <div class="series" id="series">${esc(ep.series || 'AI TAKEOVER')} · PART ${ep.part || 1}</div>
     <div class="cta" id="cta"></div>`;
   const elDays = overlay.querySelector('#days');
@@ -116,7 +123,7 @@ async function init() {
   if (ep.choice) {
     elCta.innerHTML = `<div class="cta-title">COMMENT YOUR CHOICE</div>
       <div class="cta-opts">${ep.choice.options.map((o) => `<span class="opt ${o.color || ''}">${esc(o.short || o.label)}</span>`).join('<span class="or">or</span>')}</div>
-      <div class="cta-next">PART ${(ep.part || 1) + 1} DEPENDS ON YOU</div>`;
+      <div class="cta-next">${esc(ep.ctaNext || `PART ${(ep.part || 1) + 1} DEPENDS ON YOU`)}</div>`;
   }
 
   const keyEls = [];
@@ -127,7 +134,7 @@ async function init() {
       el.innerHTML = `<span>${k.html || esc(k.show)}</span>`;
       overlay.appendChild(el);
       const lt = keyTime(b, k.at) ?? (k.offset ?? 0);
-      keyEls.push({ el, beat: b, slot: k.slot || 'lower', tIn: b.start + lt, tOut: b.start + b.dur + (k.carry ?? 0), j });
+      keyEls.push({ el, beat: b, slot: k.slot || 'lower', tIn: b.start + lt, tOut: b.start + b.dur + (k.carry ?? 0), j, instant: !!k.instant });
     });
   });
   // a key is replaced by the next key in the same slot
@@ -168,7 +175,14 @@ async function init() {
     }
     (SCENES[b.scene] || SCENES.ai)(ctx, p);
     ctx.restore();
-    if (changed && lt < 0.18) { ctx.fillStyle = `rgba(255,255,255,${0.35 * (1 - lt / 0.18)})`; ctx.fillRect(0, 0, W, H); }
+    if (ep.style !== 'ai' && changed && lt < 0.18) { ctx.fillStyle = `rgba(255,255,255,${0.35 * (1 - lt / 0.18)})`; ctx.fillRect(0, 0, W, H); }
+    if (ep.style === 'ai') {
+      // AI look: glitch on every cut (and on demand), scanlines + grain everywhere
+      let g = changed && b.index > 0 ? clamp(1 - lt / 0.22) : 0;
+      if (b.glitchAt) { const kt = keyTime(b, b.glitchAt); if (kt != null) g = Math.max(g, clamp(1 - Math.abs(lt - kt) / 0.25)); }
+      glitch(ctx, canvas, t, g);
+      scanlines(ctx, t);
+    }
     // vignette
     const g = ctx.createRadialGradient(540, 960, 500, 540, 960, 1200);
     g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,0.35)');
@@ -189,7 +203,7 @@ async function init() {
 
     for (const k of keyEls) {
       if (t < k.tIn || t > k.tOut + 0.2) { k.el.style.opacity = '0'; continue; }
-      const a = clamp((t - k.tIn) / 0.3);
+      const a = k.instant ? 1 : clamp((t - k.tIn) / 0.3);
       const out = clamp((t - k.tOut) / 0.2);
       k.el.style.opacity = String(Math.min(1, a * 2) * (1 - out));
       const rot = k.el.classList.contains('style-stamp-red') || k.el.classList.contains('style-stamp-green') ? -6 : 0;

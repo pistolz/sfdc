@@ -11,8 +11,11 @@
     "next-part": "node scripts/next-part.mjs"
   },
   "dependencies": {
+    "@fontsource/chakra-petch": "5.3.0",
     "@fontsource/lilita-one": "5.3.0",
     "@fontsource/nunito": "5.2.7",
+    "@fontsource/orbitron": "5.3.0",
+    "@fontsource/space-mono": "5.3.0",
     "ffmpeg-static": "5.2.0",
     "puppeteer": "24.10.0"
   }
