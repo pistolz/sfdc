@@ -570,11 +570,21 @@ const InstancedSpheres: React.FC<{ count: number; mat: THREE.Material; geo: THRE
 
 const ZERO = new THREE.Matrix4().makeScale(0, 0, 0);
 
-export const Village: React.FC<{ t: number; night: number }> = ({ t }) => {
+export type VillageOpts = {
+  hideBao?: boolean;
+  hideCrowd?: boolean;
+  hideGhosts?: boolean;
+  hideEyes?: boolean;
+  hideGiant?: boolean;
+  windowGlow?: number; // override of the window emission
+  fireT?: number; // time used for fire/flame flicker (Day 02 keeps the Day 01 end state alive)
+};
+export const Village: React.FC<{ t: number; night: number } & VillageOpts> = ({ t, hideBao, hideCrowd, hideGhosts, hideEyes, hideGiant, windowGlow, fireT }) => {
+  const tf = fireT ?? t;
   const m4 = new THREE.Matrix4();
   const q0 = new THREE.Quaternion();
   const bao = baoPos(t);
-  const winI = winGlow.evaluate(t);
+  const winI = windowGlow ?? winGlow.evaluate(t);
   MAT.window.emissiveIntensity = winI;
 
   // felled tree
@@ -628,7 +638,7 @@ export const Village: React.FC<{ t: number; night: number }> = ({ t }) => {
       ))}
       {FLAMES.map((f, i) => {
         const k = popScale(t, T.fire);
-        const fl = t > T.fire ? 1 + 0.8 * 0.5 * fnoise((t * FPS) / 3, f.seed) : 1;
+        const fl = t > T.fire ? 1 + 0.8 * 0.5 * fnoise((tf * FPS) / 3, f.seed) : 1;
         return k > 0.0005 ? <mesh key={`fl${i}`} geometry={f.geo} material={MAT.flame} position={f.pos} scale={[k, k, k * fl]} /> : null;
       })}
       {STEAMER.map((s, i) => (
@@ -650,25 +660,25 @@ export const Village: React.FC<{ t: number; night: number }> = ({ t }) => {
         ) : null;
       })}
       {/* ghost houses */}
-      {(() => {
+      {!hideGhosts && (() => {
         const k = popScale(t, T_HOUSE - 0.1) * unpopScale(t, M.threat[0] - 0.4);
         return k > 0.0005 ? <mesh geometry={ghostGeo} material={MAT.ghost} position={[9, -7, 0]} rotation={[0, 0, 0.4]} scale={k} /> : null;
       })()}
-      {CTA_POS.map(([x, y], i) => {
+      {!hideGhosts && CTA_POS.map(([x, y], i) => {
         const k = popScale(t, T_CTA + 0.15 * i);
         return k > 0.0005 ? <mesh key={`g${i}`} geometry={ghostGeo} material={MAT.ghost} position={[x, y, 0]} rotation={[0, 0, Math.atan2(y, x) + Math.PI / 2]} scale={k} /> : null;
       })}
       {/* crowd */}
-      {CROWD.map((c, i) => {
+      {!hideCrowd && CROWD.map((c, i) => {
         const s = c.sc.evaluate(t);
         if (s <= 0.001) return null;
         const [x, y] = c.path.evaluate(t);
         return <Dumpling key={`c${i}`} t={t} color={c.color} r={c.rad} anim={c.anim} position={[x, y, 0]} scale={s} />;
       })}
       {/* Mayor Bao */}
-      <Dumpling t={t} color={[1.0, 0.8, 0.52]} r={1.4} hat anim={BAO_ANIM} position={[bao[0], bao[1], 0]} shake />
+      {!hideBao && <Dumpling t={t} color={[1.0, 0.8, 0.52]} r={1.4} hat anim={BAO_ANIM} position={[bao[0], bao[1], 0]} shake />}
       {/* hungry eyes */}
-      {EYES.map((e, i) => {
+      {!hideEyes && EYES.map((e, i) => {
         const zs = e.zs.evaluate(t);
         const xs = e.xs.evaluate(t);
         if (xs <= 0.001) return null;
@@ -682,16 +692,16 @@ export const Village: React.FC<{ t: number; night: number }> = ({ t }) => {
           );
         });
       })}
-      {EYES.filter((e) => e.light).map((e, i) => {
+      {!hideEyes && EYES.filter((e) => e.light).map((e, i) => {
         const w = eyeEnergy.evaluate(t);
         return w > 0.5 ? (
           <pointLight key={`el${i}`} position={[e.x * 0.95, e.y * 0.95, e.z + 0.5]} color={lin(1.0, 0.15, 0.08)} intensity={(w / (4 * Math.PI)) * 0.3} decay={2} distance={22} />
         ) : null;
       })}
       {/* fire light (450 W point) */}
-      <pointLight position={[FX, FY, 1.2]} color={lin(1.0, 0.55, 0.2)} intensity={(fireLightW(t) / (4 * Math.PI)) * 0.45} decay={2} distance={0} />
+      <pointLight position={[FX, FY, 1.2]} color={lin(1.0, 0.55, 0.2)} intensity={(fireLightW(tf) / (4 * Math.PI)) * 0.45} decay={2} distance={0} />
       {/* giant chopstick hand: shadow only */}
-      <group position={[gx, gy, 70]}>
+      <group position={[gx, gy, 70]} visible={!hideGiant}>
         {[-1, 1].map((sx) => (
           <mesh key={sx} geometry={BOX_C} material={MAT.shadowOnly} position={[sx * 9, 0, 0]} rotation={[0, 0, sx * 0.06]} scale={[3.2, 150, 3.0]} castShadow />
         ))}

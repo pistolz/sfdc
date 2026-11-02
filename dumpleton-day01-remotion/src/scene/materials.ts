@@ -68,7 +68,7 @@ export const topMixMaterial = (top: THREE.Color, params: THREE.MeshStandardMater
 attribute float aTop;
 varying float vTop;
 uniform float uShake; uniform float uTime;
-${shake ? "attribute float aPhase;" : ""}`,
+${shake ? "attribute float aPhase; attribute float aCut;" : ""}`,
       )
       .replace(
         "#include <begin_vertex>",
@@ -77,6 +77,8 @@ vTop = aTop;
 ${
   shake
     ? `// giant beat: whole tree rocks around its base (noise on rotation x/y, strength 0.2)
+  // Day 02: trees felled to make room for the village (aCut = time, -1 = never)
+  if (aCut > 0.0) transformed *= 1.0 - clamp((uTime - aCut) / 0.35, 0.0, 1.0);
   float sh = uShake;
   if (sh > 0.0) {
     float ph = aPhase;
@@ -102,6 +104,29 @@ diffuseColor.rgb = mix(diffuseColor.rgb, uTop, vTop);`,
       );
   };
   m.customProgramCacheKey = () => (shake ? "topmix-shake" : "topmix");
+  return m;
+};
+
+/** shadow-pass twin of the shaking/felling ring-tree shader (so cut trees stop casting shadows) */
+export const ringDepthMaterial = (uniforms: { uShake: { value: number }; uTime: { value: number } }) => {
+  const m = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking });
+  m.onBeforeCompile = (sh) => {
+    Object.assign(sh.uniforms, uniforms);
+    sh.vertexShader = sh.vertexShader
+      .replace("#include <common>", "#include <common>\nuniform float uShake; uniform float uTime; attribute float aPhase; attribute float aCut;")
+      .replace(
+        "#include <begin_vertex>",
+        `#include <begin_vertex>
+  if (aCut > 0.0) transformed *= 1.0 - clamp((uTime - aCut) / 0.35, 0.0, 1.0);
+  if (uShake > 0.0) {
+    float ax = uShake * (0.6*sin(uTime*7.1+aPhase) + 0.4*sin(uTime*12.7+aPhase*2.3));
+    float ay = uShake * (0.6*sin(uTime*6.3+aPhase*1.7) + 0.4*sin(uTime*11.3+aPhase*0.7));
+    transformed.x += ax * transformed.z;
+    transformed.y += ay * transformed.z;
+  }`,
+      );
+  };
+  m.customProgramCacheKey = () => "ring-depth";
   return m;
 };
 

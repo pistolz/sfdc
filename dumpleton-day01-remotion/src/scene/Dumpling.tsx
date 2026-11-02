@@ -7,7 +7,7 @@ import { std } from "./materials";
 
 // Body geometry (scene.py make_dumpling): icosphere sub 3, pinched pleated top, flattened bottom.
 const bodyCache = new Map<number, THREE.BufferGeometry>();
-const bodyGeometry = (r: number) => {
+export const bodyGeometry = (r: number) => {
   const c = bodyCache.get(r);
   if (c) return c;
   let g: THREE.BufferGeometry = new THREE.IcosahedronGeometry(r, 7);
@@ -57,7 +57,7 @@ const hatMat = std([0.12, 0.1, 0.14], 0.4, { flatShading: true });
 const bandMat = std([0.95, 0.25, 0.3], 0.4, { flatShading: true });
 
 const bodyMatCache = new Map<string, THREE.Material>();
-const bodyMat = (c: [number, number, number]) => {
+export const bodyMat = (c: [number, number, number]) => {
   const k = c.join(",");
   let m = bodyMatCache.get(k);
   if (!m) {
@@ -108,7 +108,8 @@ export const Dumpling: React.FC<{
   scale?: number;
   shake?: boolean;
   visible?: boolean;
-}> = ({ t, color, r, hat, anim, position, scale = 1, shake, visible = true }) => {
+  children?: React.ReactNode; // accessories that hop with the body (Day 02 helmets, shields, hats)
+}> = ({ t, color, r, hat, anim, position, scale = 1, shake, visible = true, children }) => {
   const geo = useMemo(() => bodyGeometry(r), [r]);
   const mat = useMemo(() => bodyMat(color), [color]);
   if (!visible || scale <= 0.001) return null;
@@ -141,6 +142,7 @@ export const Dumpling: React.FC<{
             <mesh geometry={CYL_BASE} material={bandMat} position={[0, 0, r * 1.42]} scale={[r * 0.28, r * 0.28, r * 0.08]} />
           </group>
         ) : null}
+        {children}
       </group>
     </group>
   );

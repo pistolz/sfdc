@@ -14,7 +14,7 @@ const FONTS: [string, string, string][] = [
   ["Barlow Condensed", "fonts/BarlowCondensed-ExtraBold.ttf", "800"],
 ];
 let fontsPromise: Promise<void> | null = null;
-const loadFonts = () =>
+export const loadFonts = () =>
   (fontsPromise ??= Promise.all(
     FONTS.map(async ([family, file, weight]) => {
       const f = new FontFace(family, `url(${staticFile(file)})`, { weight });

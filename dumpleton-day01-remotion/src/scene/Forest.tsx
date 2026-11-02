@@ -3,7 +3,7 @@ import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js
 import { useLayoutEffect, useMemo } from "react";
 import { rng } from "../timeline";
 import { CLEAR_R, height, lin, noiseFac, riverX, treeOk } from "./world";
-import { bakeTop, std, topMixMaterial } from "./materials";
+import { bakeTop, ringDepthMaterial, std, topMixMaterial } from "./materials";
 
 // ---------------------------------------------------------------------------------------------
 // "Puff pine" prototypes (scene.py make_pine): trunk cone + 3–4 squashed icospheres.
@@ -119,6 +119,8 @@ export const foliageMaterial = (cls: number, shake: boolean) => {
   return m;
 };
 export const trunkMaterial = std([0.45, 0.28, 0.18], 0.8);
+// ring trees: trunk shares the shake/fell vertex code (aTop = 0 on trunk vertices)
+const trunkShakeMaterial = topMixMaterial(lin(0.45, 0.28, 0.18), { color: lin(0.45, 0.28, 0.18), roughness: 0.8 }, true);
 export const treeColor = (cls: number, u: number) => {
   const ramp = RAMPS[cls];
   return lin(...ramp[Math.min(ramp.length - 1, Math.floor(u * ramp.length))]);
@@ -167,7 +169,9 @@ const buildScatter = () => {
 let SCATTER: ReturnType<typeof buildScatter> | null = null;
 export const getScatter = () => (SCATTER ??= buildScatter());
 
-type Batch = { key: string; geo: THREE.BufferGeometry; mats: THREE.Material | THREE.Material[]; trees: Tree[]; shadow: boolean; shake: boolean };
+type Batch = { key: string; geo: THREE.BufferGeometry; mats: THREE.Material | THREE.Material[]; trees: Tree[]; shadow: boolean; shake: boolean; cut?: number[] };
+/** Day 02: fell the ring trees inside `radius` between t0 and t1 (ordered from the centre outwards). */
+export type ForestCut = { radius: number; at: (x: number, y: number, rr: number, jitter: number) => number };
 
 const TreeBatch: React.FC<{ b: Batch; shakeAmp: number; time: number }> = ({ b, shakeAmp, time }) => {
   const mesh = useMemo(() => {
@@ -183,7 +187,12 @@ const TreeBatch: React.FC<{ b: Batch; shakeAmp: number; time: number }> = ({ b, 
       m.setColorAt(i, treeColor(PROTOS[t.v].cls, t.cu));
       ph[i] = t.ph;
     });
-    if (b.shake) b.geo.setAttribute("aPhase", new THREE.InstancedBufferAttribute(ph, 1));
+    if (b.shake) {
+      b.geo.setAttribute("aPhase", new THREE.InstancedBufferAttribute(ph, 1));
+      b.geo.setAttribute("aCut", new THREE.InstancedBufferAttribute(new Float32Array(b.cut ?? b.trees.map(() => -1)), 1));
+      const fol = (Array.isArray(b.mats) ? b.mats[0] : b.mats) as THREE.Material;
+      m.customDepthMaterial = ringDepthMaterial(fol.userData.uniforms);
+    }
     m.instanceMatrix.needsUpdate = true;
     if (m.instanceColor) m.instanceColor.needsUpdate = true;
     m.computeBoundingSphere();
@@ -205,7 +214,7 @@ const TreeBatch: React.FC<{ b: Batch; shakeAmp: number; time: number }> = ({ b, 
   return <primitive object={mesh} />;
 };
 
-export const Forest: React.FC<{ shakeAmp: number; time: number }> = ({ shakeAmp, time }) => {
+export const Forest: React.FC<{ shakeAmp: number; time: number; cut?: ForestCut }> = ({ shakeAmp, time, cut }) => {
   const batches = useMemo(() => {
     const { ring, pts } = getScatter();
     const out: Batch[] = [];
@@ -213,7 +222,12 @@ export const Forest: React.FC<{ shakeAmp: number; time: number }> = ({ shakeAmp,
     for (let v = 0; v < 4; v++) {
       const trees = ring.filter((t) => t.v === v);
       const geo = makePineGeometry(v, 3).clone();
-      out.push({ key: `ring${v}`, geo, mats: [foliageMaterial(PROTOS[v].cls, true), trunkMaterial], trees, shadow: true, shake: true });
+      const cutT = trees.map((t) => {
+        const rr = Math.hypot(t.x, t.y);
+        if (!cut || rr > cut.radius) return -1;
+        return cut.at(t.x, t.y, rr, t.ph % 1);
+      });
+      out.push({ key: `ring${v}${cut ? "c" : ""}`, geo, mats: [foliageMaterial(PROTOS[v].cls, true), trunkShakeMaterial], trees, shadow: true, shake: true, cut: cutT });
     }
     // mid trees (40..150 m): detail 1, chunked 75 m; far trees (>150 m): detail 0, crown only, chunked 350 m
     const chunks = new Map<string, Tree[]>();
@@ -235,7 +249,8 @@ export const Forest: React.FC<{ shakeAmp: number; time: number }> = ({ shakeAmp,
       }
     }
     return out;
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cut]);
   return (
     <group>
       {batches.map((b) => (

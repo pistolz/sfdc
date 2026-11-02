@@ -1,4 +1,4 @@
-# Dumpleton — Day 01 · Remotion + Three.js recreation
+# Dumpleton — Day 01 + Day 02 · Remotion + Three.js
 
 Recreation of the Blender reel *Dumpleton — Day 01* with **Remotion 4 + React Three Fiber (`@remotion/three`)**.
 Composition `Day01`: **1080×1920, 30 fps, 2568 frames (85.6 s)**, soundtrack `public/final_mix.wav`.
@@ -35,6 +35,29 @@ GPU notes:
 - `--timeout=240000`: the first frame in each tab compiles the shaders and builds about 48k trees, which can take longer than Remotion's default 30 s.
 - Faster preview render (3D rendered at half resolution, no MSAA; HUD stays sharp):
   `npx remotion render Day01 out/preview.mp4 --codec=h264 --crf=20 --gl=angle --props='{"msaa":0,"renderScale":0.5}'`
+
+## Day 02 (`Day02` composition — 1080×1920, 30 fps, 3377 frames = 112.55 s)
+
+```powershell
+npx remotion still Day02 out/d2_400.png --frame=400 --gl=angle
+npx remotion render Day02 out/day02.mp4 --codec=h264 --crf=16 --gl=angle --concurrency=2 --timeout=240000
+# fast preview: add  --props='{"msaa":0,"renderScale":0.5}'
+```
+
+The soundtrack is `public/day02_mix.wav` (your `day02_mix_v6.m4a`). Word timings in `src/data/timeline_day02.json` were measured on that mix with Whisper, and the text was replaced by the official script, so spellings are Lizz, Vip3r, Sea Sphinx, Iker, Counterpart, Avnish, Carly. Every Day 02 event is keyed to a word in `src/day02/timeline02.ts` (`B.*`).
+
+Day 02 continues from the last frame of Day 01: it opens on the same sky shot, and the Day 01 cabin, campfire, steamer and bunting are all still there.
+- **Opening:** tilt down to the river, where three bamboo-steamer **boats** come downstream with 50 dumplings each. The crowd (150 instanced dumplings) gets off at the dock and walks into the village. The trees on the dock side are cleared while the boats come in.
+- **Characters:** Bao (top hat), **Lizz** (pink knight helmet), **Vip3r** (white armour + big white shield), **Sunny** (witch hat), and 6 knights for the charge.
+- **HUD:** RULE #3 NOBODY WALKS ALONE. Counters go 1 → 273 dumplings and 273 → 250 houses. HUNGRY GIANT goes 099 → 098, then "HUNGRY GIANTS ×2".
+- **Casino:** Sea Sphinx's most-liked comment card, the forest felled out to 40 m, the "build orders" panel (casino 150 / north wall 40), then the casino: red and gold, dome, neon sign, chasing bulbs, dice.
+- **Builds:** north wall, Iker's turret, Counterpart's cannons, Jordan's lab (glowing flask), Avnish's telescope, and ~57 houses popping while the crowd arrives and during the sunset time-lapse.
+- **Night:** red eyes in the south treeline, then 40 chili imps advance from the south. Torches light up and the 23 southern houses burn. Bao, Lizz, Vip3r and the knights push the imps back and they run. The burned houses collapse.
+- **Morning:** smoking ruins, −23 houses, Carly's stone house still standing, 98 days left.
+- **CTA:** ghost houses on the ruins, then the vote card with BAKERY? / BRIDGE? / SOUTH WALL? and matching ghost previews in 3D.
+- **End:** back to the opening sky frame (loop). "…wait. There are two of them": two pairs of giant red eyes appear above the mountains.
+
+Day 02 files are in `src/day02/` (timeline02, camera02, light02, Village02, Scene02, HUD02, Day02). They reuse the shared world/post/HUD modules. `node scripts/stills.mjs Day02 0 400 1500` renders a contact sheet.
 
 ## How it is built
 

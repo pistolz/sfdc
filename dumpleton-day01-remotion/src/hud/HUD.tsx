@@ -26,30 +26,30 @@ import PROJ from "../data/proj.json";
 
 const W = 1080;
 const H = 1920;
-type XY = [number, number] | null;
+export type XY = [number, number] | null;
 const ANCHORS = (PROJ as unknown as { anchors: Record<string, XY>[] }).anchors;
 
 export const ANTON = "Anton";
 export const BARLOW = "Barlow Condensed";
-const f_bar = (size: number, w: "ExtraBold" | "Bold" | "SemiBold" | "Medium" = "ExtraBold") => ({
+export const f_bar = (size: number, w: "ExtraBold" | "Bold" | "SemiBold" | "Medium" = "ExtraBold") => ({
   fontFamily: BARLOW,
   fontWeight: w === "ExtraBold" ? 800 : w === "Bold" ? 700 : w === "SemiBold" ? 600 : 500,
   fontSize: size,
 });
-const f_anton = (size: number) => ({ fontFamily: ANTON, fontWeight: 400, fontSize: size });
+export const f_anton = (size: number) => ({ fontFamily: ANTON, fontWeight: 400, fontSize: size });
 
 // text measurement (Pillow textlength equivalent)
 let ctx: CanvasRenderingContext2D | null = null;
-const measure = (s: string, f: { fontFamily: string; fontWeight: number; fontSize: number }) => {
+export const measure = (s: string, f: { fontFamily: string; fontWeight: number; fontSize: number }) => {
   if (!ctx) ctx = document.createElement("canvas").getContext("2d");
   if (!ctx) return s.length * f.fontSize * 0.5;
   ctx.font = `${f.fontWeight} ${f.fontSize}px "${f.fontFamily}"`;
   return ctx.measureText(s).width;
 };
-const rgba = (r: number, g: number, b: number, a = 255) => `rgba(${r},${g},${b},${(a / 255).toFixed(3)})`;
+export const rgba = (r: number, g: number, b: number, a = 255) => `rgba(${r},${g},${b},${(a / 255).toFixed(3)})`;
 
 type Anchor = "mm" | "lm" | "rm";
-const Txt: React.FC<{
+export const Txt: React.FC<{
   x: number;
   y: number;
   s: string;
@@ -74,7 +74,7 @@ const Txt: React.FC<{
     {s}
   </text>
 );
-const RRect: React.FC<{ box: [number, number, number, number]; r: number; fill: string; outline?: string; width?: number }> = ({
+export const RRect: React.FC<{ box: [number, number, number, number]; r: number; fill: string; outline?: string; width?: number }> = ({
   box,
   r,
   fill,
@@ -177,7 +177,7 @@ const Subtitles: React.FC<{ t: number }> = ({ t }) => {
 };
 
 // ---------------------------------------------------------------- odometer (rolling digits)
-const Odometer: React.FC<{ x: number; y: number; val: number; font: ReturnType<typeof f_bar>; color: string; h: number; stroke: number; id: string }> = ({
+export const Odometer: React.FC<{ x: number; y: number; val: number; font: ReturnType<typeof f_bar>; color: string; h: number; stroke: number; id: string }> = ({
   x,
   y,
   val,
@@ -400,7 +400,7 @@ const RuleBanner: React.FC<{ t: number }> = ({ t }) => {
 };
 
 // ---------------------------------------------------------------- tracked tags
-const Tag: React.FC<{ xy: XY | undefined; label: string; col: [number, number, number]; alpha?: number; scale?: number }> = ({ xy, label, col, alpha = 1, scale = 1 }) => {
+export const Tag: React.FC<{ xy: XY | undefined; label: string; col: [number, number, number]; alpha?: number; scale?: number }> = ({ xy, label, col, alpha = 1, scale = 1 }) => {
   if (!xy) return null;
   let [x, y] = xy;
   if (!(-100 < x && x < W + 100 && -100 < y && y < H + 100)) return null;
