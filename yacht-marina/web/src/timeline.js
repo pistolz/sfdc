@@ -201,7 +201,7 @@ function dailyPlan(ctx) {
       in: tVip0 + 2.5, out: tEnd0 + 0.2,
     });
     plan.captions.push(
-      { cls: 'caption display', html: `${ICON_CROWN} <span class="gold">VIP</span> OF THE DAY`, in: tVip0 + 0.3, out: tEnd0 },
+      { cls: 'caption-low display', html: `${ICON_CROWN} <span class="gold">VIP</span> OF THE DAY`, in: tVip0 + 0.3, out: tEnd0 },
     );
     plan.audio.push({ t: tVip0 - 0.4, type: 'horn' }, { t: tVip0 + 0.3, type: 'shimmer' }, { t: tVip0 + 2.5, type: 'pop', pitch: 1.3 }, { t: tVip0 + 2.6, type: 'chime' });
   }

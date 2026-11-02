@@ -125,3 +125,4 @@ html, body { margin: 0; padding: 0; background: #0b1020; overflow: hidden; }
 .cover { top: 1080px; }
 .rule-cover { font-size: 112px; }
 .rule-cover-sub { font-size: 58px; margin-top: 24px; }
+.caption-low { top: 1420px; font-size: 88px; }
