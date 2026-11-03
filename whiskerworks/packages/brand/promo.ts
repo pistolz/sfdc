@@ -117,6 +117,8 @@ export async function initPromo(series: string): Promise<void> {
   const eligible = () => !shown && Date.now() - last > DAY;
   const open = (reason: string) => {
     if (!eligible()) return;
+    // Never on top of the cookie consent screen: try again once the visitor has chosen.
+    if (document.documentElement.classList.contains("wwc-open")) { window.setTimeout(() => open(reason), 4000); return; }
     shown = true;
     try { localStorage.setItem(POPUP_KEY, String(Date.now())); } catch { /* ignore */ }
     const l = link(featured, "promo_popup");

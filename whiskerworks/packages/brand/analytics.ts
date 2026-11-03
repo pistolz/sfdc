@@ -1,3 +1,4 @@
+import { initConsent } from "./consent";
 /**
  * Shared Google Analytics 4 for the live-series microsites (Consent Mode v2, Law 25 / GDPR friendly).
  * Enabled only when VITE_GA4_ID is set at build time. Nothing is stored until the visitor accepts.
@@ -40,7 +41,7 @@ export function initAnalytics(series: string): void {
   s.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
   document.head.appendChild(s);
 
-  if (!stored) showBanner(gtag);
+  initConsent();
 
   // Deep-link changes → events (every app updates the URL when something is selected).
   let last = '';
@@ -61,27 +62,4 @@ export function initAnalytics(series: string): void {
     const a = (e.target as HTMLElement).closest?.('a');
     if (a && a.host && a.host !== location.host) window.wwTrack?.('outbound_click', { link_url: a.href, link_domain: a.host });
   });
-}
-
-function showBanner(gtag: Gtag): void {
-  const box = document.createElement('div');
-  box.setAttribute('role', 'dialog');
-  box.setAttribute('aria-label', 'Cookie preferences');
-  box.style.cssText =
-    'position:fixed;z-index:9999;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));max-width:420px;margin:0 auto;padding:14px 16px;' +
-    'background:#fff8ee;color:#1a1424;border:2px solid #1a1424;border-radius:16px;box-shadow:5px 5px 0 #1a1424;font:500 14px/1.45 Figtree,system-ui,sans-serif;';
-  box.innerHTML =
-    '<p style="margin:0 0 10px"><b>Cookies?</b> We’d like to count visits with Google Analytics. Nothing is stored unless you say yes. ' +
-    '<a href="https://whiskerworks.games/privacy/" style="color:#a43d00;font-weight:700">Privacy</a></p>' +
-    '<div style="display:flex;gap:8px;justify-content:flex-end">' +
-    '<button data-c="denied" style="min-height:40px;padding:0 14px;border-radius:999px;border:2px solid #1a1424;background:#fff8ee;font-weight:700;cursor:pointer">No thanks</button>' +
-    '<button data-c="granted" style="min-height:40px;padding:0 14px;border-radius:999px;border:2px solid #1a1424;background:#ff7a2f;font-weight:800;cursor:pointer">Accept</button></div>';
-  box.addEventListener('click', (e) => {
-    const c = (e.target as HTMLElement).closest('button')?.dataset.c;
-    if (!c) return;
-    try { localStorage.setItem(KEY, c); } catch { /* ignore */ }
-    gtag('consent', 'update', { analytics_storage: c });
-    box.remove();
-  });
-  document.body.appendChild(box);
 }

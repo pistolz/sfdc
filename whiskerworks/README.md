@@ -138,7 +138,7 @@ GA4 is ready on all 6 sites but **off until you set an ID**:
 
 Use one GA4 property with the same ID everywhere; each event carries the `series` name.
 
-- Consent Mode v2: nothing is stored until the visitor clicks **Accept** on the banner (Québec Law 25 / GDPR).
+- Consent Mode v2 with a full-screen consent manager (`packages/brand/consent.ts`, OneTrust/Fandom style): "I Accept" or "Show preferences" (Allow All, per-category toggles, Reject All, Confirm My Choices). Nothing is stored until the visitor accepts. The choice applies to all WhiskerWorks sites on that device.
   A "Cookie preferences" link in the studio footer reopens it.
 - **Studio events:** `store_click` (store + game), `search`, `filter_games`, `series_find`, `share`, `outbound_click`.
 - **Series events:** `find_name` (someone looked up a handle), `select_item`, `outbound_click`.
