@@ -1,0 +1,9 @@
+{
+  "name": "living-picture",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Turns a still illustration into a looping 'living picture' video (flowing water, petals, butterflies, sparkles, slow camera).",
+  "type": "module",
+  "scripts": { "render": "node scripts/render.mjs", "preview": "node scripts/serve.mjs" },
+  "dependencies": { "ffmpeg-static": "5.2.0", "puppeteer": "24.10.0" }
+}

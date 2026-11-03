@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080">
+<title>Living Picture</title>
+<style>
+  html, body { margin: 0; background: #000; overflow: hidden; }
+  #stage { position: relative; width: 1080px; height: 1920px; transform-origin: 0 0; }
+  canvas { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+</style>
+</head>
+<body>
+<div id="stage"><canvas id="gl" width="1080" height="1920"></canvas><canvas id="fx" width="1080" height="1920"></canvas></div>
+<script type="module">
+// "Living picture": a still illustration made to feel alive, as a perfect loop.
+//  - slow camera drift (loops)
+//  - flowing, sparkling water (detected from the image colours: light blue areas)
+//  - falling petals, butterflies, twinkles, soft sun glow
+// Every motion uses whole cycles of the loop period, so the last frame joins the first.
+const P = new URLSearchParams(location.search);
+const W = 1080, H = 1920;
+const LOOP = Number(P.get('loop') || 12);
+const TAU = Math.PI * 2, w = TAU / LOOP;
+const OPT = {
+  water: Number(P.get('water') ?? 1),     // water flow strength
+  petals: Number(P.get('petals') ?? 46),  // number of petals
+  butterflies: Number(P.get('butterflies') ?? 4),
+  zoom: Number(P.get('zoom') ?? 0.035),   // camera breathing amount
+};
+
+const img = new Image();
+img.src = '/' + (P.get('image') || 'images/puppy-garden.png').replace(/^\/+/, '');
+await img.decode();
+
+// ------------------------------------------------------------------ WebGL: image + water
+const gl = document.getElementById('gl').getContext('webgl2', { preserveDrawingBuffer: true, antialias: false });
+const vs = `#version 300 es
+in vec2 p; out vec2 v; void main(){ v = p * 0.5 + 0.5; v.y = 1.0 - v.y; gl_Position = vec4(p, 0, 1); }`;
+const fs = `#version 300 es
+precision highp float;
+in vec2 v; out vec4 o;
+uniform sampler2D img; uniform float t, w, waterAmt, zoom; uniform vec2 texel, imgAspectFix;
+float waterMask(vec2 uv){
+  vec3 c = texture(img, uv).rgb;
+  float mx = max(c.r, max(c.g, c.b)), mn = min(c.r, min(c.g, c.b));
+  float sat = (mx - mn) / max(mx, 1e-3);
+  // light sky-blue / turquoise: blue dominant over red, bright, a bit saturated
+  float m = smoothstep(0.06, 0.16, c.b - c.r) * smoothstep(-0.10, 0.02, c.b - c.g + 0.06) * smoothstep(0.45, 0.6, mx) * smoothstep(0.12, 0.25, sat);
+  return m;
+}
+void main(){
+  // loop-safe camera drift
+  float s = 1.0 + zoom + zoom * 0.6 * sin(w * t);
+  vec2 off = vec2(0.010 * sin(w * t), 0.016 * sin(w * t + 1.3));
+  vec2 uv = (v - 0.5) / s + 0.5 + off * zoom * 20.0;
+  uv = (uv - 0.5) * imgAspectFix + 0.5;
+  // soft water mask (5 taps)
+  float m = waterMask(uv) * 0.4;
+  m += (waterMask(uv + vec2(texel.x * 3.0, 0)) + waterMask(uv - vec2(texel.x * 3.0, 0)) + waterMask(uv + vec2(0, texel.y * 3.0)) + waterMask(uv - vec2(0, texel.y * 3.0))) * 0.15;
+  m *= waterAmt;
+  // flowing ripples (integer multiples of w keep the loop seamless)
+  float a = sin(uv.y * 240.0 - w * 6.0 * t + sin(uv.x * 70.0 + w * 2.0 * t) * 1.5);
+  float b = sin(uv.x * 190.0 + w * 4.0 * t + sin(uv.y * 90.0) * 1.2);
+  vec2 d = vec2(a * 0.0016 + b * 0.0009, a * 0.0011) * m;
+  vec3 col = texture(img, uv + d).rgb;
+  // glints on the water surface
+  float g = pow(max(0.0, sin(uv.x * 420.0 + sin(uv.y * 300.0) * 2.0 + w * 3.0 * t) * sin(uv.y * 360.0 - w * 5.0 * t)), 24.0);
+  col += vec3(1.0) * g * 0.55 * m;
+  col = mix(col, col * vec3(1.02, 1.04, 1.08) + 0.03, 0.25 * m * (0.5 + 0.5 * a));
+  o = vec4(col, 1.0);
+}`;
+function sh(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; }
+const prog = gl.createProgram();
+gl.attachShader(prog, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(prog); gl.useProgram(prog);
+const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+const loc = gl.getAttribLocation(prog, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
+gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, gl.NONE);
+gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+gl.generateMipmap(gl.TEXTURE_2D);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+for (const k of [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T]) gl.texParameteri(gl.TEXTURE_2D, k, gl.CLAMP_TO_EDGE);
+const U = (n) => gl.getUniformLocation(prog, n);
+gl.uniform1f(U('w'), w); gl.uniform1f(U('waterAmt'), OPT.water); gl.uniform1f(U('zoom'), OPT.zoom);
+gl.uniform2f(U('texel'), 1 / img.width, 1 / img.height);
+// cover-fit the image into 9:16
+const ia = img.width / img.height, oa = W / H;
+gl.uniform2f(U('imgAspectFix'), ia > oa ? oa / ia : 1, ia > oa ? 1 : ia / oa);
+gl.viewport(0, 0, W, H);
+
+// ------------------------------------------------------------------ 2D overlay: petals, butterflies, twinkles
+const fx = document.getElementById('fx').getContext('2d');
+function rand(seed) { let a = seed >>> 0; return () => { a = (a + 0x6d2b79f5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+const R = rand(42);
+const PETAL_COLS = ['#ffc9dc', '#ffe0ea', '#ffffff', '#f7b6d0', '#fff1c9', '#e9d5ff'];
+const petals = Array.from({ length: OPT.petals }, () => ({
+  x0: R() * W, y0: R() * (H + 200), laps: 1 + Math.floor(R() * 2), sway: 30 + R() * 60, sm: 1 + Math.floor(R() * 3),
+  ph: R() * TAU, size: 9 + R() * 12, col: PETAL_COLS[Math.floor(R() * PETAL_COLS.length)], spin: (R() < 0.5 ? -1 : 1) * (1 + Math.floor(R() * 3)), drift: (R() - 0.3) * 1,
+}));
+const flies = Array.from({ length: OPT.butterflies }, (_, i) => ({
+  cx: 150 + R() * 780, cy: 300 + R() * 1300, rx: 90 + R() * 180, ry: 60 + R() * 140, mx: 1 + (i % 2), my: 1 + ((i + 1) % 3), ph: R() * TAU,
+  col: ['#ffd23f', '#8ecbff', '#ff9ec7', '#c4b5fd'][i % 4], size: 1.4 + R() * 0.6,
+}));
+const twinkles = Array.from({ length: 34 }, () => ({ x: R() * W, y: R() * H, m: 1 + Math.floor(R() * 4), ph: R() * TAU, s: 6 + R() * 10 }));
+
+function petal(x, y, s, rot, col) {
+  fx.save(); fx.translate(x, y); fx.rotate(rot); fx.scale(1, 0.55 + 0.45 * Math.abs(Math.cos(rot * 1.7)));
+  fx.fillStyle = col; fx.globalAlpha = 0.92;
+  fx.beginPath(); fx.moveTo(0, -s); fx.bezierCurveTo(s * 0.9, -s * 0.6, s * 0.7, s * 0.7, 0, s); fx.bezierCurveTo(-s * 0.7, s * 0.7, -s * 0.9, -s * 0.6, 0, -s); fx.fill();
+  fx.globalAlpha = 0.35; fx.fillStyle = '#ffffff'; fx.beginPath(); fx.ellipse(-s * 0.15, -s * 0.2, s * 0.18, s * 0.45, 0.3, 0, TAU); fx.fill();
+  fx.restore();
+}
+function butterfly(x, y, s, flap, dir, col) {
+  fx.save(); fx.translate(x, y); fx.scale(s * dir, s);
+  const k = 0.25 + 0.75 * Math.abs(Math.cos(flap));
+  fx.fillStyle = col; fx.strokeStyle = '#5b3a29'; fx.lineWidth = 2;
+  for (const side of [-1, 1]) {
+    fx.save(); fx.scale(side * k, 1);
+    fx.beginPath(); fx.ellipse(12, -8, 14, 11, -0.5, 0, TAU); fx.fill(); fx.stroke();
+    fx.beginPath(); fx.ellipse(10, 9, 9, 8, 0.5, 0, TAU); fx.fill(); fx.stroke();
+    fx.restore();
+  }
+  fx.fillStyle = '#5b3a29'; fx.beginPath(); fx.ellipse(0, 0, 3, 13, 0, 0, TAU); fx.fill();
+  fx.restore();
+}
+
+function renderFrame(t) {
+  gl.uniform1f(U('t'), t);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+  fx.clearRect(0, 0, W, H);
+  // soft sun glow
+  const glowA = 0.10 + 0.05 * Math.sin(w * t);
+  const g = fx.createRadialGradient(900, 120, 20, 900, 120, 900);
+  g.addColorStop(0, `rgba(255,244,214,${glowA * 2})`); g.addColorStop(1, 'rgba(255,244,214,0)');
+  fx.fillStyle = g; fx.fillRect(0, 0, W, H);
+  // twinkles
+  for (const s of twinkles) {
+    const a = Math.max(0, Math.sin(w * s.m * t + s.ph)); if (a < 0.05) continue;
+    fx.save(); fx.translate(s.x, s.y); fx.globalAlpha = a * 0.9; fx.fillStyle = '#ffffff';
+    const r = s.s * (0.5 + 0.5 * a);
+    fx.beginPath(); fx.moveTo(0, -r); fx.lineTo(r * 0.22, -r * 0.22); fx.lineTo(r, 0); fx.lineTo(r * 0.22, r * 0.22); fx.lineTo(0, r); fx.lineTo(-r * 0.22, r * 0.22); fx.lineTo(-r, 0); fx.lineTo(-r * 0.22, -r * 0.22); fx.closePath(); fx.fill();
+    fx.restore();
+  }
+  // butterflies (Lissajous paths, whole cycles per loop)
+  for (const b of flies) {
+    const a1 = w * b.mx * t + b.ph, a2 = w * b.my * t + b.ph * 1.3;
+    const x = b.cx + Math.cos(a1) * b.rx, y = b.cy + Math.sin(a2) * b.ry;
+    const dx = -Math.sin(a1) * b.mx;
+    butterfly(x, y, b.size, w * 48 * t + b.ph, dx >= 0 ? 1 : -1, b.col);
+  }
+  // falling petals (each travels a whole number of screen heights per loop)
+  const span = H + 200;
+  for (const p of petals) {
+    const y = ((p.y0 + (t / LOOP) * span * p.laps) % span) - 100;
+    const x = ((p.x0 + Math.sin(w * p.sm * t + p.ph) * p.sway + (y / span) * 120 * p.drift) % (W + 60) + W + 60) % (W + 60) - 30;
+    petal(x, y, p.size, w * p.spin * t + p.ph, p.col);
+  }
+  fx.globalAlpha = 1;
+}
+
+window.__lp = { ready: true, duration: LOOP, renderFrame, renderer: (() => { const e = gl.getExtension('WEBGL_debug_renderer_info'); return e ? gl.getParameter(e.UNMASKED_RENDERER_WEBGL) : 'WebGL'; })() };
+
+if (!P.has('render')) {
+  const stage = document.getElementById('stage');
+  const fit = () => { stage.style.transform = `scale(${Math.min(innerWidth / W, innerHeight / H)})`; };
+  fit(); addEventListener('resize', fit);
+  const s0 = performance.now();
+  const loop = () => { renderFrame(((performance.now() - s0) / 1000) % LOOP); requestAnimationFrame(loop); }; loop();
+}
+</script>
+</body>
+</html>
