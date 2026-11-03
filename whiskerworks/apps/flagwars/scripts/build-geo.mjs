@@ -98,6 +98,13 @@ for (const f of fc.features) {
   byCode.get(key).features.push(f);
 }
 
+// Sovereign states missing from world-atlas 50m: a tiny square at the capital (forced to one hex below).
+const EXTRA_STATES = { TV: [179.19, -8.52] };
+for (const [code, [lon, lat]] of Object.entries(EXTRA_STATES)) {
+  if (byCode.has(code)) continue;
+  const d = 0.05, ring = [[lon - d, lat - d], [lon - d, lat + d], [lon + d, lat + d], [lon + d, lat - d], [lon - d, lat - d]];
+  byCode.set(code, { code, features: [{ type: "Feature", properties: { name: code }, geometry: { type: "Polygon", coordinates: [ring] } }] });
+}
 const list = [...byCode.values()];
 const shapes = []; // { ci, f, bbox }
 list.forEach((c, ci) => {

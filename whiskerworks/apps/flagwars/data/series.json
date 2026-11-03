@@ -1,7 +1,7 @@
 {
   "name": "Flag Wars",
   "tagline": "1 comment = 1 flag. Who conquers the world?",
-  "day": 2,
+  "day": 4,
   "rules": {
     "levelSteps": [
       9,
@@ -13,7 +13,7 @@
     ]
   },
   "links": {
-    "latestEpisode": "https://www.instagram.com/reel/DfFEx6xxAzg/",
+    "latestEpisode": "https://www.instagram.com/reel/DfQJmTtqjby/",
     "instagram": "https://www.instagram.com/ads_noads/",
     "tiktok": "",
     "youtube": ""
@@ -33,7 +33,27 @@
       "date": "2026-10-30",
       "title": "Day 2: 305 flags, 94 countries in one night. Who leads?",
       "summary": "Yesterday 1 flag, today 305 flags across 94 countries. India leads with 20 flags and reaches LV2. Top 3: India 20, Czechia 17, United States 14. Italy, Romania, Germany and Poland also reach LV2. Canada at 7/10. 101 countries still unclaimed. Which country next?",
-      "links": {}
+      "links": {
+        "instagram": "https://www.instagram.com/reel/DfIf7TLKYwJ/"
+      }
+    },
+    {
+      "day": 3,
+      "date": "2026-11-01",
+      "title": "Day 3: 537 flags. The world fills up",
+      "summary": "231 new flags in one day. India leads, the United States and Czechia fight for #2. Which country next?",
+      "links": {
+        "instagram": "https://www.instagram.com/reel/DfM6sNIRFFv/"
+      }
+    },
+    {
+      "day": 4,
+      "date": "2026-11-02",
+      "title": "Day 4: Germany vs Romania tied 19-19",
+      "summary": "118 countries claimed, 77 still open. USA took #2 from Czechia. New founders: Cuba, Puerto Rico, Saint Vincent and the Grenadines, Bolivia, Luxembourg, Burkina Faso, Thailand, Mongolia, Palau, Tuvalu. Who wins tomorrow?",
+      "links": {
+        "instagram": "https://www.instagram.com/reel/DfQJmTtqjby/"
+      }
     }
   ]
 }
