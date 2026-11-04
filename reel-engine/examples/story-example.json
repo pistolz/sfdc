@@ -1,0 +1,68 @@
+{
+  "series": "LAST ISLAND",
+  "part": 1,
+  "style": "story",
+  "voice": { "name": "en-US-AndrewNeural", "rate": "+4%" },
+  "hud": { "days": { "label": "DAYS UNTIL ERUPTION" }, "budget": { "label": "SUPPLIES" } },
+  "start": { "days": 30, "budget": 5000, "budgetVisible": false },
+  "cover": { "html": "<div class=\"cover-part\">PART 1</div><div class=\"t\">THE VOLCANO<br>ERUPTS IN <span class=\"y\">30 DAYS</span></div>" },
+  "coverTime": 0.5,
+  "beats": [
+    {
+      "id": "01", "scene": "compose",
+      "say": "In 30 days, the volcano on your island will erupt… and the last boat leaves tonight.",
+      "args": { "camera": { "from": [540, 960, 1], "to": [540, 1000, 1.08] }, "layers": [
+        { "type": "bg", "preset": "sunset" },
+        { "type": "emoji", "char": "🌋", "x": 540, "y": 1060, "size": 760, "anim": "none", "loop": "breathe" },
+        { "type": "particles", "preset": "embers" },
+        { "type": "ground", "preset": "water", "y": 1460 },
+        { "type": "emoji", "char": "⛵", "x": 840, "y": 1470, "size": 200, "at": "last boat", "anim": "right", "loop": "bob" }
+      ] },
+      "keys": [
+        { "offset": 0, "instant": true, "slot": "top", "style": "white", "html": "THE VOLCANO ERUPTS" },
+        { "offset": 0, "instant": true, "slot": "upper", "style": "big", "html": "IN <span class='y'>30 DAYS</span>" }
+      ]
+    },
+    {
+      "id": "02", "scene": "compose",
+      "say": "You have 5,000 dollars of supplies, and one question: stay and fight, or run?",
+      "events": [{ "at": "5,000", "showBudget": true }],
+      "args": { "layers": [
+        { "type": "bg", "preset": "dusk" },
+        { "type": "ground", "preset": "sand", "y": 1450 },
+        { "type": "person", "x": 540, "y": 1460, "s": 1.1, "mood": "worried", "look": { "top": "#ef4444" } },
+        { "type": "emoji", "char": "🎒", "x": 300, "y": 1000, "size": 170, "at": "supplies", "loop": "float" },
+        { "type": "emoji", "char": "💧", "x": 780, "y": 980, "size": 150, "at": "supplies", "loop": "float", "delay": 0.2 },
+        { "type": "emoji", "char": "🔦", "x": 540, "y": 820, "size": 150, "at": "supplies", "loop": "float" }
+      ] },
+      "keys": [{ "at": "stay", "slot": "lower", "style": "white", "speaker": "#f5c542", "html": "STAY OR <span class='y'>RUN?</span>" }]
+    },
+    {
+      "id": "03", "scene": "compose",
+      "say": "Day 30. The ground starts shaking.",
+      "events": [{ "at": "Day 30", "days": 30 }],
+      "args": { "camera": { "shake": "shaking" }, "layers": [
+        { "type": "bg", "preset": "storm" },
+        { "type": "house", "x": 540, "y": 1400, "w": 460 },
+        { "type": "ground", "preset": "dirt", "y": 1400 },
+        { "type": "clock", "x": 70, "y": 360, "day": "DAY 30", "time": "4:12 AM", "place": "PORT VILLAGE", "anim": "fade" },
+        { "type": "particles", "preset": "ash" }
+      ] },
+      "keys": [{ "at": "shaking", "slot": "lower", "style": "stamp-red", "show": "EARTHQUAKE" }]
+    },
+    {
+      "id": "04", "scene": "compose", "hold": 0.6,
+      "say": "Comment 1, 2 or 3. The votes decide part 2.",
+      "args": { "layers": [
+        { "type": "bg", "preset": "night" },
+        { "type": "choices", "x": 540, "y": 980, "options": [ { "label": "BUILD A RAFT", "color": "green" }, { "label": "CLIMB THE VOLCANO", "color": "yellow" }, { "label": "STEAL THE BOAT", "color": "red" } ] }
+      ] }
+    }
+  ],
+  "choice": { "question": "Raft, volcano or boat?", "options": [
+    { "id": "raft", "label": "BUILD A RAFT", "short": "1", "color": "green", "match": [" 1", "raft", "radeau"] },
+    { "id": "climb", "label": "CLIMB THE VOLCANO", "short": "2", "color": "yellow", "match": [" 2", "climb", "volcan"] },
+    { "id": "steal", "label": "STEAL THE BOAT", "short": "3", "color": "red", "match": [" 3", "steal", "boat", "bateau"] }
+  ] },
+  "endHold": 2.0
+}
