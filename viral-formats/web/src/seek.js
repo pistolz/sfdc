@@ -18,23 +18,43 @@ function dot(ctx, x, y, r, c) { ctx.fillStyle = c; ctx.beginPath(); ctx.arc(x, y
 
 // ------------------------------------------------------------------ critters
 const CAT_COLORS = { grey: ['#9aa0aa', '#7d838e'], black: ['#3a3640', '#2a2630'], white: ['#f4f1ea', '#d8d3c8'], cream: ['#f1d9a8', '#d9bd86'], tabby: ['#b8865a', '#94683f'], orange: ['#f08a32', '#d06c1c'] };
-export function cat(ctx, x, y, s, color = 'grey', { hat = false, sit = true, flip = false } = {}) {
+/** Cat with idle motion. anim: { t, ph, hop (bool), sp } → tail wag, blink, head tilt, ear twitch, and (if hop) a little jump on the spot. */
+export function cat(ctx, x, y, s, color = 'grey', { hat = false, flip = false, anim = null } = {}) {
   const [c, cs] = CAT_COLORS[color] || CAT_COLORS.grey;
-  ctx.save(); ctx.translate(x, y); ctx.scale(flip ? -s : s, s);
-  // tail
-  ctx.strokeStyle = INK; ctx.lineWidth = 7; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(8, -4); ctx.quadraticCurveTo(22, -6, 18, -20); ctx.stroke();
+  const t = anim?.t ?? 0, ph = anim?.ph ?? 0, sp = anim?.sp ?? 1;
+  // jump on the spot: crouch → leap → land with squash
+  let jy = 0, sq = 1;
+  if (anim?.hop) {
+    const per = 2.6 + (ph % 1.7), u = ((t + ph * 3) % per) / per, J = 0.22; // the jump takes J of the period
+    if (u < 0.06) sq = 1 - 0.18 * Math.sin(Math.PI * u / 0.06);                // crouch
+    else if (u < 0.06 + J) { const k = (u - 0.06) / J; jy = -Math.sin(Math.PI * k) * 26; sq = 1 + 0.12 * Math.sin(Math.PI * k); }
+    else if (u < 0.06 + J + 0.05) sq = 1 - 0.15 * Math.sin(Math.PI * (u - 0.06 - J) / 0.05); // land
+  }
+  const wag = anim ? Math.sin(t * 5.5 * sp + ph * 7) * 0.55 : 0;
+  const tilt = anim ? Math.sin(t * 1.3 * sp + ph * 5) * 0.13 : 0;
+  const blink = anim ? ((t * sp + ph * 11) % (3.2 + (ph % 1.3))) < 0.13 : false;
+  const twitch = anim ? (((t + ph * 13) % 4.1) < 0.18 ? 0.35 : 0) : 0;
+  ctx.save(); ctx.translate(x, y);
+  if (jy) { ctx.fillStyle = 'rgba(0,0,0,0.18)'; ctx.beginPath(); ctx.ellipse(0, 0, 11 * s * (1 + jy / 60), 3 * s, 0, 0, TAU); ctx.fill(); }
+  ctx.translate(0, jy * s); ctx.scale(flip ? -s : s, s * sq); ctx.scale(1 / Math.sqrt(sq), 1);
+  // tail (wags around its base)
+  const tx = 18 + Math.sin(wag) * 8, ty = -20 + (1 - Math.cos(wag)) * 6, cx2 = 22 + Math.sin(wag) * 4;
+  ctx.strokeStyle = INK; ctx.lineWidth = 7; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(8, -4); ctx.quadraticCurveTo(cx2, -6, tx, ty); ctx.stroke();
   ctx.strokeStyle = c; ctx.lineWidth = 4; ctx.stroke();
   shape(ctx, ellP(0, -8, 11, 9), c, { line: 1.8 });                          // body
-  shape(ctx, ellP(0, -20, 10, 8.5), c, { line: 1.8 });                       // head
-  for (const sd of [-1, 1]) shape(ctx, polyP([[sd * 9, -24], [sd * 7, -33], [sd * 2, -27]]), c, { line: 1.6 });
+  ctx.save(); ctx.translate(0, -14); ctx.rotate(tilt); ctx.translate(0, 14);   // head group
+  shape(ctx, ellP(0, -20, 10, 8.5), c, { line: 1.8 });
+  for (const sd of [-1, 1]) { ctx.save(); if (sd > 0 && twitch) { ctx.translate(5, -27); ctx.rotate(twitch); ctx.translate(-5, 27); } shape(ctx, polyP([[sd * 9, -24], [sd * 7, -33], [sd * 2, -27]]), c, { line: 1.6 }); ctx.restore(); }
   if (color === 'tabby' || color === 'orange') { ctx.strokeStyle = cs; ctx.lineWidth = 1.6; for (const xx of [-3, 0, 3]) { ctx.beginPath(); ctx.moveTo(xx, -28); ctx.lineTo(xx, -24); ctx.stroke(); } }
-  dot(ctx, -3.6, -20, 1.5, '#1c1418'); dot(ctx, 3.6, -20, 1.5, '#1c1418'); dot(ctx, 0, -17.4, 1, '#e88a9a');
+  if (blink) { ctx.strokeStyle = '#1c1418'; ctx.lineWidth = 1.3; ctx.beginPath(); ctx.moveTo(-5.2, -20); ctx.lineTo(-2, -20); ctx.moveTo(2, -20); ctx.lineTo(5.2, -20); ctx.stroke(); }
+  else { dot(ctx, -3.6, -20, 1.5, '#1c1418'); dot(ctx, 3.6, -20, 1.5, '#1c1418'); }
+  dot(ctx, 0, -17.4, 1, '#e88a9a');
   ctx.fillStyle = 'rgba(255,140,150,0.45)'; ctx.beginPath(); ctx.ellipse(-6, -17, 2, 1.2, 0, 0, TAU); ctx.ellipse(6, -17, 2, 1.2, 0, 0, TAU); ctx.fill();
   if (hat) { // tiny pumpkin hat
     shape(ctx, ellP(0, -30, 7, 4.6), '#f6a12e', { line: 1.4 }); ctx.strokeStyle = '#c96f12'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, -34); ctx.lineTo(0, -26); ctx.moveTo(-3.5, -33.5); ctx.quadraticCurveTo(-5, -30, -3.5, -26.5); ctx.moveTo(3.5, -33.5); ctx.quadraticCurveTo(5, -30, 3.5, -26.5); ctx.stroke();
     ctx.strokeStyle = '#4f7a2a'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, -34); ctx.lineTo(1.5, -37.5); ctx.stroke();
   }
-  ctx.restore();
+  ctx.restore(); ctx.restore();
 }
 function bunny(ctx, x, y, s, c = '#f6f3ee', hat = false) {
   ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
@@ -228,6 +248,7 @@ export async function create(stage, opts = {}) {
   // choose the hiding spot: never dead centre, never at the very edge
   const candidates = all.map((s, i) => [s, i]).filter(([s]) => s[0] > 110 && s[0] < 940 && s[1] > 470 && s[1] < 1480 && Math.hypot(s[0] - 540, s[1] - 960) > 180);
   const [tgt, tIdx] = candidates[Math.floor(R() * candidates.length)];
+  const cats = [];
   const critters = ['bunny', 'mouse', 'frog', 'owl', 'chick', 'hedgehog', 'cat', 'cat', 'fox', 'bunnyHat'];
   all.forEach(([x, y, s, inside], i) => {
     if (i === tIdx) return;
@@ -236,7 +257,7 @@ export async function create(stage, opts = {}) {
     if (r < 0.5) item(b, kinds[Math.floor(R() * kinds.length)], x, y, s, R);
     else {
       const c = critters[Math.floor(R() * critters.length)];
-      if (c === 'cat') cat(b, x, y, s, ['grey', 'black', 'white', 'cream', 'tabby', 'orange'][Math.floor(R() * 6)], { flip: R() < 0.5 });
+      if (c === 'cat') cats.push({ x, y, s, color: ['grey', 'black', 'white', 'cream', 'tabby', 'orange'][Math.floor(R() * 6)], flip: R() < 0.5, ph: R() * 10, hop: R() < 0.35, sp: 0.8 + R() * 0.5 });
       else if (c === 'bunny') bunny(b, x, y, s); else if (c === 'bunnyHat') bunny(b, x, y, s, '#f6f3ee', true);
       else if (c === 'mouse') mouse(b, x, y, s); else if (c === 'frog') frog(b, x, y, s); else if (c === 'owl') owl(b, x, y, s);
       else if (c === 'chick') chick(b, x, y, s); else if (c === 'fox') fox(b, x, y, s); else hedgehog(b, x, y, s);
@@ -244,7 +265,8 @@ export async function create(stage, opts = {}) {
   });
   // decoys that look close: orange cats WITHOUT hat, other cats WITH hat
   // (already mixed in above); the target:
-  cat(b, tgt[0], tgt[1], tgt[2], 'orange', { hat: true, flip: R() < 0.5 });
+  cats.push({ x: tgt[0], y: tgt[1], s: tgt[2], color: 'orange', hat: true, flip: R() < 0.5, ph: R() * 10, hop: opts.targetHop ? true : R() < 0.35, sp: 0.8 + R() * 0.5 });
+  cats.sort((p, q) => p.y - q.y);
   // string lights across the top
   for (const yy of [200, 1210]) { b.strokeStyle = '#3b2418'; b.lineWidth = 2; b.beginPath(); for (let x = 0; x <= 1080; x += 20) b.lineTo(x, yy + Math.sin(x / 1080 * Math.PI * 3) * 26); b.stroke();
     for (let x = 10; x < 1080; x += 36) { const y = yy + Math.sin(x / 1080 * Math.PI * 3) * 26 + 8; dot(b, x, y, 6, ['#ffd46a', '#ff8a8a', '#8ad0ff', '#b8f08a'][Math.floor(x / 36) % 4]); twinkles.push({ x, y, c: '255,230,160', r: 9, ph: x, sp: 2.4 }); } }
@@ -259,17 +281,18 @@ export async function create(stage, opts = {}) {
     const box = (w, y) => { c.fillStyle = '#ffffff'; c.strokeStyle = '#1e1a22'; c.lineWidth = 4; c.beginPath(); c.roundRect(540 - w / 2 - 24, y - 38, w + 48, 76, 18); c.fill(); c.stroke(); };
     box(w1, 280); box(w2, 360);
     c.fillStyle = '#1e1a22'; c.textAlign = 'center'; c.fillText(l1, 540, 283); c.textAlign = 'left'; c.fillText(l2, 540 - w2 / 2, 363);
-    cat(c, 540 + w2 / 2 - 28, 386, 1.45, 'orange', { hat: true });
+    cat(c, 540 + w2 / 2 - 28, 386, 1.45, 'orange', { hat: true, anim: { t: c.__t || 0, ph: 0.3, hop: false } });
     c.restore();
   }
 
   const duration = Number(opts.dur || 12);
   function renderFrame(t) {
     ctx.drawImage(base, 0, 0);
+    for (const k of cats) cat(ctx, k.x, k.y, k.s, k.color, { hat: k.hat, flip: k.flip, anim: { t, ph: k.ph, hop: k.hop, sp: k.sp } });
     ctx.save(); ctx.globalCompositeOperation = 'lighter';
     for (const w of twinkles) { const a = 0.25 + 0.25 * Math.sin(t * w.sp + w.ph); if (a <= 0) continue; const g = ctx.createRadialGradient(w.x, w.y, 0, w.x, w.y, w.r * 2.4); g.addColorStop(0, `rgba(${w.c},${a})`); g.addColorStop(1, `rgba(${w.c},0)`); ctx.fillStyle = g; ctx.fillRect(w.x - w.r * 2.4, w.y - w.r * 2.4, w.r * 4.8, w.r * 4.8); }
     ctx.restore();
-    sticker(ctx);
+    ctx.__t = t; sticker(ctx);
     if (opts.reveal) { ctx.strokeStyle = '#ff2d4a'; ctx.lineWidth = 8; ctx.beginPath(); ctx.arc(tgt[0], tgt[1] - 18 * tgt[2], 46, 0, TAU); ctx.stroke(); }
   }
   renderFrame(0);
