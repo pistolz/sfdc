@@ -109,8 +109,18 @@ async function init() {
   // ------------------------------------------------------------ audio cues
   const audio = [];
   const voice = [];
+  const TYPERS = { 'ed-prompt': 22, 'ed-bubble': 18, 'ed-code': 40, 'ed-comment': 9 };
   beats.forEach((b, i) => {
-    if (i > 0 && beats[i - 1].scene !== b.scene) audio.push({ t: b.start, type: 'whoosh' });
+    if (ep.style === 'editorial') {
+      if (i > 0) audio.push({ t: b.start, type: 'swish' });
+      for (const L of b.args?.layers || []) {
+        const lt = L.at != null ? (keyTime(b, L.at) ?? 0) : (L.delay ?? 0);
+        if (TYPERS[L.type]) {
+          const chars = L.type === 'ed-code' ? (L.lines || []).join('').length : String(L.text || L.keyword || '').length;
+          audio.push({ t: b.start + lt + 0.1, type: 'keys', dur: Math.min(2.5, chars / TYPERS[L.type]) });
+        } else if (!['bg', 'ed-header', 'ed-headline', 'ed-paper', 'ed-qmarks'].includes(L.type)) audio.push({ t: b.start + lt, type: 'softpop' });
+      }
+    } else if (i > 0 && beats[i - 1].scene !== b.scene) audio.push({ t: b.start, type: 'whoosh' });
     voice.push({ id: b.id, t: b.start + LEAD });
     if (b.sfx) audio.push({ t: b.start, type: b.sfx });
     for (const k of b.keys || []) {
@@ -180,7 +190,7 @@ async function init() {
     const lt = t - b.start;
     const st = stateAt(t);
     const p = {
-      t, lt, d: b.dur, u: clamp(lt / b.dur), st, args: b.args, beat: b,
+      t, lt, d: b.dur, u: clamp(lt / b.dur), st, args: b.args, beat: b, style: ep.style,
       key: (w) => keyTime(b, w),
     };
     ctx.save();
@@ -189,7 +199,7 @@ async function init() {
     const prev = beats[b.index - 1];
     // a new cut: scene type changes, or a compose beat that is not marked "continue": true
     const changed = !prev || prev.scene !== b.scene || (b.scene === 'compose' && !b.continue);
-    if (changed) {
+    if (changed && ep.style !== 'editorial') {
       const k = clamp(lt / 0.32);
       const s = 1.07 - 0.07 * easeOut(k);
       ctx.translate(540, 960); ctx.scale(s, s); ctx.translate(-540, -960);
@@ -198,7 +208,7 @@ async function init() {
     ctx.restore();
     if (ep.style !== 'ai' && ep.style !== 'editorial' && changed && lt < 0.18) { ctx.fillStyle = `rgba(255,255,255,${0.35 * (1 - lt / 0.18)})`; ctx.fillRect(0, 0, W, H); }
     if (ep.style === 'editorial' && ep.mascot !== false) {
-      drawLayers(ctx, p, [{ type: 'ed-mascot', x: ep.mascot?.x ?? 950, y: ep.mascot?.y ?? 1700, anim: 'none', loop: 'bob', color: ep.mascot?.color, mood: b.mascotMood }]);
+      if (b.mascot !== false) drawLayers(ctx, p, [{ type: 'ed-mascot', x: b.mascotX ?? ep.mascot?.x ?? 735, y: b.mascotY ?? ep.mascot?.y ?? 1360, anim: 'none', loop: 'bob', color: ep.mascot?.color, mood: b.mascotMood }]);
     }
     if (ep.style === 'ai') {
       // AI look: glitch on every cut (and on demand), scanlines + grain everywhere
@@ -247,6 +257,7 @@ async function init() {
     ready: true, duration, name,
     audio: audio.sort((a, b) => a.t - b.t),
     voice,
+    bed: ep.music ?? (ep.style === 'editorial' ? 'none' : 'drone'),
     beats: beats.map((b) => ({ id: b.id, start: b.start, dur: b.dur, say: b.say })),
     hasVoice: Object.keys(timings).length > 0,
     renderer: 'Canvas 2D',
@@ -258,7 +269,7 @@ async function init() {
         const p0 = { t: 0, lt: 0, d: 1, u: 0, st: stateAt(0), args: {}, beat: beats[0], key: () => null };
         ctx.clearRect(0, 0, W, H);
         drawLayers(ctx, p0, [{ type: 'bg', preset: 'paper' }]);
-        if (ep.mascot !== false) drawLayers(ctx, p0, [{ type: 'ed-mascot', x: 900, y: 1500, s: 2, anim: 'none', color: ep.mascot?.color }]);
+        if (ep.mascot !== false) drawLayers(ctx, p0, [{ type: 'ed-mascot', x: 800, y: 1400, s: 1.6, anim: 'none', color: ep.mascot?.color }]);
       }
       const c = document.createElement('div');
       coverEl = c;

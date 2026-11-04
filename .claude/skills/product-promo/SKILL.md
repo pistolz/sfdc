@@ -37,16 +37,17 @@ Each beat's headline uses `*…*` around the 1–3 words to stress (red italic).
 
 ## 3. Build → `promos/<slug>/promo.json`
 
-Read `reference/layers.md` and copy the pattern of `examples/promo-example.json`:
-- `"style": "editorial"`, `"mascot": { "color": "#f03828" }`, every beat `scene: "compose"`.
-- Every beat: `bg` paper → `ed-header` (`// 0N · section`, right label + red value) → `ed-headline` (the spoken sentence, revealed word by word) → **one** visual in the middle (y 950–1400): `ed-sticker`, `ed-bubble`(+`ed-qmarks`), `ed-check`, `ed-steps`, `ed-terminal`, `ed-stat`, `ed-phone`/`ed-image` (user screenshots), `number`+`ed-pill`, `emoji`.
-- Last beat: `ed-comment` with the keyword (+ optional `ed-pill` "LINK IN BIO").
-- Keep lots of empty space; one idea per screen; keep y > 1540 free (mascot only).
+Read `reference/layers.md` (editorial section) and copy the pattern of `examples/promo-example.json` exactly — it reproduces the measured layout of pro "tech creator" reels:
+- `"style": "editorial"`, `"mascot": { "color": "#c55a40" }`, every beat `scene: "compose"`, beats are not cut (paper, header and mascot stay; content settles in).
+- Every beat: `bg` paper → `ed-header` (`// 0N · section` + right label + red value that changes: OBJECTION 1/3, BUILD 4/5, VIEWS 2.04M…) → `ed-headline` (= the spoken sentence, `*accent*` on 1–3 words) → **one visual group** centred between y 520 and 1240: `ed-sticker` + `ed-folder`, `ed-code` → `ed-arrow` → `ed-phone`, `ed-prompt` + `ed-build` + `ed-phone`, `ed-qmarks` + `ed-bubble` (objections), `ed-big` + `ed-pill` + `ed-stat` (proof), `ed-steps` (APPROVED stamps), `ed-comment` + `ed-dm` (CTA).
+- Nothing below y 1240 except the mascot (735, 1360). Set `"mascotMood": "shock"` on objection beats, `"happy"` on the CTA.
+- Time each element to the word that names it (`"at"`), typing to `"typeAt"`; a beat that continues the previous visual can set `"continue": true` and repeat the same layer with `"anim": "none"`.
 - `cover.html`: `<div class="cover-part">PRODUCT</div><div class="t">Promise with <i>italic accent.</i></div>`.
+- For a product with an app or a website, put real screenshots in `assets/` and show them with `ed-phone` (`src`) or `ed-image`.
 
 ## 4. Check, voice, render, deliver
 
 1. Stills: `npm run render -- --episode promos/<slug>/promo.json --still 1,5,9,…` → Read them, fix overlaps.
-2. Voice: `pip install edge-tts`, `npm run voice -- --episode promos/<slug>/promo.json` (a calm, confident voice; `en-US-AndrewNeural` or `en-US-EmmaNeural`; own recordings in `voice/promo/<id>.mp3`).
+2. Voice: the voice is half of the "pro" feel. Best: record it or generate it with ElevenLabs, one file per beat in `voice/<episode>/<id>.mp3`. Free fallback: `pip install edge-tts`, `npm run voice -- --episode promos/<slug>/promo.json` (`en-US-AndrewNeural`, rate +6%).
 3. Render: `npm run render -- --episode promos/<slug>/promo.json` (`--encoder nvenc` on NVIDIA; sandbox draft `--scale 0.5 --fps 15`).
 4. Deliver the MP4 + cover, the commands for the user's machine, and **captions** for Instagram/TikTok/Shorts/Facebook: hook line, 2–4 short lines of value, "Comment KEYWORD and I'll DM you …", 3–6 hashtags. Remind them to set up the auto-DM for the keyword (e.g. ManyChat) before posting.

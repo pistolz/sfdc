@@ -91,26 +91,36 @@ Drawn in order (first = back). Canvas is 1080×1920. Common fields:
 | `choices` | `options: [{ label, color: green yellow red blue purple }]` — numbered options that light up in turn (episode ending) |
 | `clock` | day, time, place — game-style clock stamp (place it top-left below the HUD, e.g. x 70, y 360) |
 
-### Editorial (product promo)
+### Editorial (product promo) — measured on pro "tech creator" reels
+
+Layout rules (1080×1920): mono header at y≈290 · headline at x=132, y≈404 (2–3 lines max) · **one** visual group centred between y 520 and 1240 · the mascot sits centre-right at (735, 1360) on every beat · nothing below y 1500. Beats are **not cut**: paper, header and mascot stay, content swaps with a quick "settle" (slightly bigger → normal). Words fade from grey to ink while spoken.
+
 | type | fields |
 |---|---|
-| `bg` | `preset: "paper"` (off-white with faint grid) |
-| `ed-header` | left (`// 01 · the problem`), right (`VIEWS`), value (`2.04M`, red) — mono labels at the top |
-| `ed-headline` | text with `*italic red accent*`, revealed word by word while spoken. x 90, y 300, size 66, w 900, `pace` 0.85 |
-| `ed-caption` | text (mono, grey) |
-| `ed-pill` | text (red rounded label) |
-| `ed-sticker` | text (big chunky outlined title), size, rot |
-| `ed-terminal` | title, lines[] (string or `{text, color}`) typed, w, h, speed |
-| `ed-stat` | title, period, from, to, prefix, suffix, delta, at — dark insights card with a sparkline |
-| `ed-phone` | src (image path) or emoji/text/screen — phone mockup |
+| `bg` | `preset: "paper"` (off-white, faint 72 px grid) |
+| `ed-header` | left (`// 03 · made with code`), right (`CAMERAS`), value (`0`, red) |
+| `ed-headline` | text with `*italic red accent*`; revealed word by word over the voice (`pace` 0.92, `at`, `until`, `instant`) |
+| `ed-sticker` | text with `|` before the red word(s) (`ONE|SKILL`), size, rot, color — chunky outlined title with hard shadow |
+| `ed-folder` | label, w, `openAt` + `cards: [{ emoji, text }]` (cards fly out of the folder) |
+| `ed-code` | title (filename), label (`CODE` above), lines[] — syntax-highlighted, typed |
+| `ed-prompt` | title, text, `typeAt` — one-line terminal "> idea … sent" |
+| `ed-build` | title (`building`), items [{ text, at }] — progress card that ticks items on words + red bar |
+| `ed-check` | same as ed-build with title `checklist` |
+| `ed-phone` | w, label (`REEL` above), `src` screenshot or title/emoji/top/bottom colours, `buttons: [{text, color}]`, `bars: true` |
+| `ed-arrow` | len — dashed animated arrow (between code → phone) |
 | `ed-image` | src, w, h — screenshot in a white card |
-| `ed-bubble` | badge (`FIRST`), n, small, text (typed) — "you might think…" objection bubble |
-| `ed-qmarks` | floating question marks around a bubble |
-| `ed-check` | items [{ text, at }] — checklist that ticks on words |
-| `ed-steps` | items [{ label, emoji, at, stamp: "word", stampText }] — 2–3 cards (e.g. Story / Look / Draft + APPROVED) |
+| `ed-pill` | text, `icon` (emoji), `crossed`, `red`, `mono: false` — neo-brutalist pill with hard shadow |
+| `ed-bubble` | badge (`FIRST`), n, small (`you might think`), text, `typeAt` — objection bubble, appears empty with a red cursor then types |
+| `ed-qmarks` | floating grey question marks (put it before ed-bubble, same x/y) |
+| `ed-stat` | title, period, `tiles: [{ label, value, prefix, suffix }]`, dates[], at — dark insights card with a spike chart |
+| `ed-big` | from, to, prefix, suffix, size, at — big ink number counting up |
+| `ed-steps` | items [{ label, emoji, at, stamp: "word", stampText }] — 2–3 brutal cards with APPROVED stamps |
 | `ed-stamp` | text, at, color |
-| `ed-comment` | keyword, at — comment field typing the keyword + big red keyword pill (CTA) |
-| `ed-mascot` | color, mood (added automatically bottom-right in editorial episodes) |
+| `ed-comment` | keyword, `typeAt` — comment field typing the keyword + big red keyword pill (CTA) |
+| `ed-dm` | handle, message, link, at — Instagram DM card |
+| `ed-mascot` | automatic; per beat `"mascotMood": "happy" | "shock" | "sad" | "wink"`, `"mascot": false` to hide |
+
+Sound in editorial: soft pops on appear, keyboard clicks while typing, a swish between beats, no music bed (add a trending sound in the app) — `"music": "drone"` to force the tension bed.
 
 Images (`src`) are paths relative to the engine folder, e.g. `assets/screenshot.png`.
 

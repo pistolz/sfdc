@@ -2,50 +2,330 @@
   "series": "FocusFlow",
   "part": 1,
   "style": "editorial",
-  "voice": { "name": "en-US-AndrewNeural", "rate": "+6%" },
-  "mascot": { "color": "#f03828" },
+  "voice": {
+    "name": "en-US-AndrewNeural",
+    "rate": "+6%"
+  },
+  "mascot": {
+    "color": "#c55a40"
+  },
   "coverTime": 0.4,
-  "cover": { "html": "<div class=\"cover-part\">FOCUSFLOW</div><div class=\"t\">Finish your work<br>in <i>half the time.</i></div>" },
+  "cover": {
+    "html": "<div class=\"cover-part\">FOCUSFLOW</div><div class=\"t\">Finish your to-do list<br>in <i>half the time.</i></div>"
+  },
   "beats": [
-    { "id": "01", "scene": "compose", "say": "This one app finishes your to-do list in half the time.",
-      "args": { "layers": [
-        { "type": "bg", "preset": "paper" },
-        { "type": "ed-header", "left": "// 01 · the app", "right": "TIME SAVED", "value": "-50%" },
-        { "type": "ed-headline", "text": "This one app finishes your to-do list in *half the time.*" },
-        { "type": "ed-sticker", "text": "FOCUSFLOW", "x": 540, "y": 1000, "size": 150 },
-        { "type": "emoji", "char": "⏱️", "x": 540, "y": 1280, "size": 220, "loop": "sway" }
-      ] } },
-    { "id": "02", "scene": "compose", "say": "First, you might think it's just another to-do app.",
-      "args": { "layers": [
-        { "type": "bg", "preset": "paper" },
-        { "type": "ed-header", "left": "// 02 · objection", "right": "OBJECTION", "value": "1/2" },
-        { "type": "ed-headline", "text": "First, you might think it's *just another to-do app.*" },
-        { "type": "ed-qmarks", "x": 540, "y": 1050 },
-        { "type": "ed-bubble", "x": 540, "y": 1050, "badge": "FIRST", "n": 1, "text": "just another app...", "at": "just another" }
-      ] } },
-    { "id": "03", "scene": "compose", "say": "It isn't. It plans your day, blocks distractions, and tells you what to do next.",
-      "args": { "layers": [
-        { "type": "bg", "preset": "paper" },
-        { "type": "ed-header", "left": "// 03 · how it works", "right": "STEPS", "value": "3" },
-        { "type": "ed-headline", "text": "It *plans your day,* blocks distractions, and tells you what to do next." },
-        { "type": "ed-check", "x": 540, "y": 1050, "items": [ { "text": "Plans your day", "at": "plans" }, { "text": "Blocks distractions", "at": "blocks" }, { "text": "Picks the next task", "at": "what to do" } ] }
-      ] } },
-    { "id": "04", "scene": "compose", "say": "Our users went from 3 hours of focus to 6.",
-      "args": { "layers": [
-        { "type": "bg", "preset": "paper" },
-        { "type": "ed-header", "left": "// 04 · the proof", "right": "FOCUS", "value": "2X" },
-        { "type": "ed-headline", "text": "Our users went from 3 hours of focus *to 6.*" },
-        { "type": "number", "style": "editorial", "x": 540, "y": 920, "from": 3, "to": 6, "suffix": " h", "size": 190, "at": "to 6", "anim": "none" },
-        { "type": "ed-pill", "x": 540, "y": 1060, "text": "DEEP FOCUS / DAY", "at": "to 6" },
-        { "type": "ed-stat", "x": 540, "y": 1380, "title": "Focus time", "from": 3, "to": 6, "suffix": " h", "delta": "+100% since week 1", "at": "went from" }
-      ] } },
-    { "id": "05", "scene": "compose", "say": "Comment FOCUS, and I'll send you a free month.",
-      "args": { "layers": [
-        { "type": "bg", "preset": "paper" },
-        { "type": "ed-header", "left": "// 05 · get it", "right": "COMMENT", "value": "FOCUS" },
-        { "type": "ed-headline", "text": "Comment *FOCUS,* and I'll send you a free month." },
-        { "type": "ed-comment", "x": 540, "y": 1000, "keyword": "FOCUS", "at": "Comment" }
-      ] } }
+    {
+      "id": "01",
+      "scene": "compose",
+      "say": "This one app finishes your to-do list in half the time.",
+      "args": {
+        "layers": [
+          {
+            "type": "bg",
+            "preset": "paper"
+          },
+          {
+            "type": "ed-header",
+            "left": "// 01 · one app",
+            "right": "TIME",
+            "value": "-50%"
+          },
+          {
+            "type": "ed-headline",
+            "text": "This one *app* finishes your to-do list in *half the time.*"
+          },
+          {
+            "type": "ed-sticker",
+            "text": "FOCUS|FLOW",
+            "x": 500,
+            "y": 760,
+            "size": 140
+          },
+          {
+            "type": "ed-phone",
+            "x": 500,
+            "y": 1010,
+            "w": 200,
+            "title": "TODAY",
+            "emoji": "✅",
+            "top": "#1d2b4a",
+            "bottom": "#0d0f1a",
+            "at": "to-do"
+          }
+        ]
+      }
+    },
+    {
+      "id": "02",
+      "scene": "compose",
+      "say": "First, you might think it's just another to-do app.",
+      "mascotMood": "shock",
+      "args": {
+        "layers": [
+          {
+            "type": "bg",
+            "preset": "paper"
+          },
+          {
+            "type": "ed-header",
+            "left": "// 02 · objection one",
+            "right": "OBJECTION",
+            "value": "1/2"
+          },
+          {
+            "type": "ed-headline",
+            "text": "First, you might think *it's just another to-do app.*"
+          },
+          {
+            "type": "ed-qmarks",
+            "x": 492,
+            "y": 900
+          },
+          {
+            "type": "ed-bubble",
+            "x": 492,
+            "y": 900,
+            "w": 690,
+            "h": 238,
+            "badge": "FIRST",
+            "n": 1,
+            "text": "just another app",
+            "typeAt": "just"
+          }
+        ]
+      }
+    },
+    {
+      "id": "03",
+      "scene": "compose",
+      "say": "It isn't. You type your whole day in one line.",
+      "args": {
+        "layers": [
+          {
+            "type": "bg",
+            "preset": "paper"
+          },
+          {
+            "type": "ed-header",
+            "left": "// 03 · one line in",
+            "right": "TASKS",
+            "value": "4"
+          },
+          {
+            "type": "ed-headline",
+            "text": "It isn't. You type your *whole day* in one line."
+          },
+          {
+            "type": "ed-prompt",
+            "x": 520,
+            "y": 760,
+            "w": 760,
+            "title": "focusflow — today",
+            "text": "deck, gym, call mom, taxes",
+            "speed": 20,
+            "typeAt": "You type"
+          }
+        ]
+      }
+    },
+    {
+      "id": "04",
+      "scene": "compose",
+      "say": "It plans everything, blocks distractions, and tells you what's next.",
+      "continue": true,
+      "args": {
+        "layers": [
+          {
+            "type": "bg",
+            "preset": "paper"
+          },
+          {
+            "type": "ed-header",
+            "left": "// 03 · one line in",
+            "right": "PLAN",
+            "value": "3/3"
+          },
+          {
+            "type": "ed-headline",
+            "text": "It *plans everything,* blocks distractions, and tells you what's next."
+          },
+          {
+            "type": "ed-prompt",
+            "x": 520,
+            "y": 760,
+            "w": 760,
+            "title": "focusflow — today",
+            "text": "deck, gym, call mom, taxes",
+            "anim": "none",
+            "speed": 400
+          },
+          {
+            "type": "ed-build",
+            "x": 330,
+            "y": 1000,
+            "w": 410,
+            "title": "planning",
+            "items": [
+              {
+                "text": "Plan the day",
+                "at": "plans"
+              },
+              {
+                "text": "Block distractions",
+                "at": "blocks"
+              },
+              {
+                "text": "Pick the next task",
+                "at": "what's next"
+              }
+            ]
+          },
+          {
+            "type": "ed-phone",
+            "x": 700,
+            "y": 980,
+            "w": 200,
+            "title": "NEXT",
+            "emoji": "📊",
+            "top": "#2a1d3d",
+            "bottom": "#120d1c",
+            "at": "what's next"
+          }
+        ]
+      }
+    },
+    {
+      "id": "05",
+      "scene": "compose",
+      "say": "Second, you might think setup takes hours.",
+      "mascotMood": "shock",
+      "args": {
+        "layers": [
+          {
+            "type": "bg",
+            "preset": "paper"
+          },
+          {
+            "type": "ed-header",
+            "left": "// 04 · objection two",
+            "right": "OBJECTION",
+            "value": "2/2"
+          },
+          {
+            "type": "ed-headline",
+            "text": "Second, you might think *setup takes hours.*"
+          },
+          {
+            "type": "ed-qmarks",
+            "x": 492,
+            "y": 900
+          },
+          {
+            "type": "ed-bubble",
+            "x": 492,
+            "y": 900,
+            "w": 690,
+            "h": 238,
+            "badge": "SECOND",
+            "n": 2,
+            "text": "setup takes hours",
+            "typeAt": "setup"
+          }
+        ]
+      }
+    },
+    {
+      "id": "06",
+      "scene": "compose",
+      "say": "It takes two minutes. You approve the plan, and you're done.",
+      "args": {
+        "layers": [
+          {
+            "type": "bg",
+            "preset": "paper"
+          },
+          {
+            "type": "ed-header",
+            "left": "// 05 · two minutes",
+            "right": "SETUP",
+            "value": "2 MIN"
+          },
+          {
+            "type": "ed-headline",
+            "text": "It takes *two minutes.* You approve the plan, and you're done."
+          },
+          {
+            "type": "ed-steps",
+            "x": 520,
+            "y": 920,
+            "w": 220,
+            "h": 300,
+            "items": [
+              {
+                "label": "Type",
+                "emoji": "⌨️",
+                "at": "takes",
+                "stamp": "approve",
+                "stampText": "DONE"
+              },
+              {
+                "label": "Plan",
+                "emoji": "🗓️",
+                "at": "two minutes",
+                "stamp": "approve"
+              },
+              {
+                "label": "Focus",
+                "emoji": "🎯",
+                "at": "approve",
+                "stamp": "done",
+                "stampText": "GO"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "07",
+      "scene": "compose",
+      "say": "Comment FOCUS, and I'll send you a free month.",
+      "mascotMood": "happy",
+      "args": {
+        "layers": [
+          {
+            "type": "bg",
+            "preset": "paper"
+          },
+          {
+            "type": "ed-header",
+            "left": "// 06 · get it",
+            "right": "COMMENT",
+            "value": "FOCUS"
+          },
+          {
+            "type": "ed-headline",
+            "text": "Comment *FOCUS,* and I'll send you a free month."
+          },
+          {
+            "type": "ed-comment",
+            "x": 520,
+            "y": 700,
+            "keyword": "FOCUS",
+            "typeAt": "Comment"
+          },
+          {
+            "type": "ed-dm",
+            "x": 520,
+            "y": 1040,
+            "handle": "focusflow",
+            "message": "Here's your free month:",
+            "link": "focusflow.app/free",
+            "at": "send"
+          }
+        ]
+      }
+    }
   ],
   "endHold": 1.5
 }

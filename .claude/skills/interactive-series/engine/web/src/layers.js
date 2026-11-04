@@ -11,6 +11,7 @@ import {
   tvFrame, noise, particles as snowParticles, fillRR, circle, text, rr, clamp, ease, easeOut, backOut, lerp, glow, rand, hash,
 } from './draw.js';
 import { AI, techBg, dataRain, gaiaEye, holoFrame, typed, drone, sysIcon } from './ai.js';
+import { ED_LAYERS, paper } from './editorial.js';
 
 // ------------------------------------------------------------------ emoji (Twemoji SVG, CC-BY 4.0)
 const emojiCache = new Map();
@@ -67,14 +68,14 @@ export const BG = {
 // ------------------------------------------------------------------ timing helpers
 function timing(p, L) {
   const tIn = L.at != null ? (p.key(L.at) ?? 0) : (L.delay ?? 0);
-  const dur = L.dur ?? 0.45;
+  const dur = L.dur ?? (p.style === 'editorial' ? 0.3 : 0.45);
   const k = clamp((p.lt - tIn) / dur);
   let outK = 0;
   if (L.out != null) { const to = typeof L.out === 'number' ? L.out : p.key(L.out); if (to != null) outK = clamp((p.lt - to) / 0.3); }
   return { k, outK, tIn, visible: p.lt >= tIn && outK < 1 };
 }
-function enter(ctx, L, k) {
-  const a = L.anim || 'pop';
+function enter(ctx, L, k, style) {
+  const a = L.anim || (style === 'editorial' ? 'settle' : 'pop');
   const e = easeOut(k);
   switch (a) {
     case 'fade': ctx.globalAlpha *= e; break;
@@ -85,6 +86,7 @@ function enter(ctx, L, k) {
     case 'drop': ctx.translate(0, -(1 - backOut(k, 1.6)) * 600); break;
     case 'grow': { const s = Math.max(0.001, e); ctx.scale(s, s); break; }
     case 'none': break;
+    case 'settle': { const e2 = easeOut(clamp(k * 1.4)); const s = 1.1 - 0.1 * e2; ctx.scale(s, s); ctx.globalAlpha *= clamp(k * 2.5); break; }
     default: { const s = Math.max(0.001, backOut(k)); ctx.scale(s, s); ctx.globalAlpha *= clamp(k * 3); }
   }
 }
@@ -181,6 +183,7 @@ const LAYERS = {
   // ---------- story / world
   bg(ctx, L, p) {
     const cols = L.colors || BG[L.preset] || BG.day;
+    if (L.preset === 'paper') { paper(ctx); return; }
     if (L.preset === 'tech') techBg(ctx, p.t, { grid: L.grid !== false });
     else sky(ctx, cols);
     if (L.preset === 'paper' || L.grid) { ctx.strokeStyle = ED.grid; ctx.lineWidth = 2; for (let x = 0; x <= 1080; x += 72) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 1920); ctx.stroke(); } for (let y = 0; y <= 1920; y += 72) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(1080, y); ctx.stroke(); } }
@@ -276,142 +279,19 @@ const LAYERS = {
     text(ctx, L.place || '', 0, 52, 26, '#ffffff', { font: 'Anton', weight: 400, align: 'left' });
   },
 
-  // ---------- editorial (product promo)
-  'ed-header'(ctx, L) {
-    ctx.translate(0, L.y ?? 190);
-    text(ctx, L.left || '', 90, 0, 30, ED.muted, { font: MONO, weight: 400, align: 'left' });
-    if (L.right) {
-      ctx.font = `400 30px "${MONO}"`; const rv = L.value || '';
-      const vw = ctx.measureText(rv).width;
-      text(ctx, rv, 990, 0, 30, ED.red, { font: MONO, weight: 400, align: 'right' });
-      text(ctx, L.right, 990 - vw - 20, 0, 30, ED.muted, { font: MONO, weight: 400, align: 'right' });
-    }
-  },
-  'ed-headline'(ctx, L, p) { headline(ctx, p, L); },
-  'ed-caption'(ctx, L) { text(ctx, L.text || '', L.align === 'center' ? 0 : -450, 0, L.size ?? 30, ED.muted, { font: MONO, weight: 400, align: L.align || 'left' }); },
-  'ed-pill'(ctx, L) {
-    ctx.font = `700 ${L.size ?? 38}px "${MONO}"`; const w = ctx.measureText(L.text || '').width + 50;
-    fillRR(ctx, -w / 2, -34, w, 68, 34, L.color || ED.red); text(ctx, L.text || '', 0, 2, L.size ?? 38, '#ffffff', { font: MONO, weight: 700 });
-  },
-  'ed-terminal'(ctx, L, p) {
-    const w = L.w ?? 800, h = L.h ?? 420;
-    edCard(ctx, -w / 2, -h / 2, w, h);
-    for (const [i, c] of ['#ff5f57', '#febc2e', '#28c840'].entries()) circle(ctx, -w / 2 + 40 + i * 30, -h / 2 + 36, 9, c);
-    if (L.title) text(ctx, L.title, 0, -h / 2 + 36, 24, '#8a8a8a', { font: MONO, weight: 400 });
-    let budget = (p.lt - (L.at != null ? (p.key(L.at) ?? 0) : 0.2)) * (L.speed ?? 30);
-    (L.lines || []).forEach((ln, i) => {
-      const s = typeof ln === 'string' ? ln : ln.text; const col = typeof ln === 'string' ? '#e8e8e8' : (ln.color || '#e8e8e8');
-      const n = Math.max(0, Math.min(s.length, Math.floor(budget)));
-      text(ctx, s.slice(0, n), -w / 2 + 40, -h / 2 + 100 + i * 52, L.size ?? 32, col, { font: MONO, weight: 400, align: 'left' });
-      if (budget > 0 && budget < s.length && Math.floor(p.t * 3) % 2 === 0) { ctx.font = `400 ${L.size ?? 32}px "${MONO}"`; ctx.fillStyle = '#e8e8e8'; ctx.fillRect(-w / 2 + 40 + ctx.measureText(s.slice(0, n)).width + 4, -h / 2 + 100 + i * 52 - 16, 16, 32); }
-      budget -= s.length + 6;
-    });
-  },
-  'ed-stat'(ctx, L, p) {
-    const w = L.w ?? 600, h = L.h ?? 420;
-    edCard(ctx, -w / 2, -h / 2, w, h);
-    text(ctx, L.title || 'Insights', -w / 2 + 36, -h / 2 + 50, 30, '#ffffff', { font: SANS, weight: 700, align: 'left' });
-    text(ctx, L.period || '30 days', w / 2 - 36, -h / 2 + 50, 26, '#a0a0a0', { font: SANS, weight: 700, align: 'right' });
-    const t0 = L.at != null ? (p.key(L.at) ?? 0) : 0;
-    const v = lerp(L.from ?? 0, L.to ?? 1000, easeOut(clamp((p.lt - t0) / 1.2)));
-    text(ctx, (L.prefix || '') + Math.round(v).toLocaleString('en-US') + (L.suffix || ''), -w / 2 + 36, -h / 2 + 130, 64, '#ffffff', { font: SANS, weight: 800, align: 'left' });
-    if (L.delta) text(ctx, L.delta, -w / 2 + 36, -h / 2 + 182, 24, '#3ddc84', { font: SANS, weight: 700, align: 'left' });
-    sparkline(ctx, -w / 2 + 36, -h / 2 + 210, w - 72, h - 250, clamp((p.lt - t0) / 1.4), '#ffffff', L.seed ?? 3);
-  },
-  'ed-phone'(ctx, L, p) {
-    const w = L.w ?? 380, h = w * 2.05;
-    edCard(ctx, -w / 2, -h / 2, w, h, '#111');
-    ctx.save(); rr(ctx, -w / 2 + 14, -h / 2 + 14, w - 28, h - 28, 30); ctx.clip();
-    const img = L.src ? imgCache.get(L.src) : null;
-    if (img) { const s = Math.max((w - 28) / img.width, (h - 28) / img.height); ctx.drawImage(img, -img.width * s / 2, -img.height * s / 2, img.width * s, img.height * s); }
-    else { ctx.fillStyle = L.screen || '#f4f4f0'; ctx.fillRect(-w / 2, -h / 2, w, h); if (L.emoji) drawEmoji(ctx, L.emoji, w * 0.5); if (L.text) text(ctx, L.text, 0, h * 0.3, 34, ED.ink, { font: SANS, weight: 800 }); }
-    ctx.restore();
-    fillRR(ctx, -50, -h / 2 + 22, 100, 24, 12, '#000');
-  },
-  'ed-image'(ctx, L) {
-    const img = L.src ? imgCache.get(L.src) : null; const w = L.w ?? 760; if (!img) return;
-    const h = L.h ?? w * img.height / img.width;
-    edCard(ctx, -w / 2 - 10, -h / 2 - 10, w + 20, h + 20, '#ffffff');
-    ctx.save(); rr(ctx, -w / 2, -h / 2, w, h, 20); ctx.clip(); ctx.drawImage(img, -w / 2, -h / 2, w, h); ctx.restore();
-  },
-  'ed-bubble'(ctx, L, p) {
-    const w = L.w ?? 720, h = L.h ?? 190;
-    ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.12)'; ctx.shadowBlur = 24; ctx.shadowOffsetY = 10;
-    fillRR(ctx, -w / 2, -h / 2, w, h, 26, '#ffffff', ED.ink, 5); ctx.restore();
-    ctx.fillStyle = '#ffffff'; ctx.strokeStyle = ED.ink; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(-w / 2 + 90, h / 2 - 2); ctx.lineTo(-w / 2 + 70, h / 2 + 50); ctx.lineTo(-w / 2 + 140, h / 2 - 2); ctx.fill(); ctx.stroke();
-    if (L.badge) { ctx.font = `700 26px "${MONO}"`; const bw = ctx.measureText(L.badge).width + 60; fillRR(ctx, -w / 2 - 10, -h / 2 - 30, bw, 52, 12, ED.red); circle(ctx, -w / 2 + 16, -h / 2 - 4, 14, '#ffffff'); text(ctx, String(L.n ?? 1), -w / 2 + 16, -h / 2 - 3, 22, ED.red, { font: MONO, weight: 700 }); text(ctx, L.badge, -w / 2 + 40, -h / 2 - 3, 26, '#ffffff', { font: MONO, weight: 700, align: 'left' }); }
-    text(ctx, L.small || 'you might think', -w / 2 + 40, -h / 2 + 50, 24, ED.muted, { font: MONO, weight: 400, align: 'left' });
-    const t0 = L.at != null ? (p.key(L.at) ?? 0) : 0;
-    const s = L.text || ''; const n = Math.floor((p.lt - t0) * 22);
-    text(ctx, s.slice(0, Math.max(0, n)) + ((Math.floor(p.t * 3) % 2 && n < s.length + 6) ? '|' : ''), -w / 2 + 40, 20, L.size ?? 50, ED.ink, { font: SANS, weight: 700, align: 'left' });
-  },
-  'ed-steps'(ctx, L, p) {
-    const items = L.items || []; const n = items.length; const w = L.w ?? 260, gap = 24, h = L.h ?? 320;
-    items.forEach((it, i) => {
-      const x = (i - (n - 1) / 2) * (w + gap);
-      const k = backOut(clamp((p.lt - (it.at != null ? (p.key(it.at) ?? 0) : i * 0.3)) / 0.4));
-      if (k <= 0) return;
-      ctx.save(); ctx.translate(x, 0); ctx.scale(k, k); ctx.rotate((i - 1) * 0.03);
-      ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.15)'; ctx.shadowBlur = 20; ctx.shadowOffsetY = 8; fillRR(ctx, -w / 2, -h / 2, w, h, 22, '#ffffff', ED.ink, 4); ctx.restore();
-      circle(ctx, -w / 2 + 36, -h / 2 + 38, 18, ED.ink); text(ctx, String(i + 1), -w / 2 + 36, -h / 2 + 39, 22, '#ffffff', { font: MONO, weight: 700 });
-      text(ctx, it.label || '', -w / 2 + 66, -h / 2 + 40, 30, ED.ink, { font: SANS, weight: 800, align: 'left' });
-      if (it.emoji) { ctx.save(); ctx.translate(0, 20); drawEmoji(ctx, it.emoji, w * 0.45); ctx.restore(); }
-      const st = it.stamp != null ? clamp((p.lt - (p.key(it.stamp) ?? 999)) / 0.3) : 0;
-      if (st > 0) { ctx.save(); ctx.translate(0, h / 2 - 60); ctx.rotate(-0.18); const s = 1.6 - 0.6 * backOut(st); ctx.scale(s, s); ctx.globalAlpha = clamp(st * 2); ctx.strokeStyle = ED.red; ctx.lineWidth = 5; ctx.strokeRect(-100, -30, 200, 60); text(ctx, it.stampText || 'APPROVED', 0, 2, 30, ED.red, { font: MONO, weight: 700 }); ctx.restore(); }
-      ctx.restore();
-    });
-  },
-  'ed-check'(ctx, L, p) {
-    // checklist that ticks items on spoken words
-    const items = L.items || []; const w = L.w ?? 760;
-    edCard(ctx, -w / 2, -40, w, items.length * 84 + 50);
-    items.forEach((it, i) => {
-      const s = typeof it === 'string' ? it : it.text; const at = typeof it === 'string' ? null : it.at;
-      const done = clamp((p.lt - (at != null ? (p.key(at) ?? 0) : 0.3 + i * 0.5)) / 0.3);
-      const y = 20 + i * 84;
-      circle(ctx, -w / 2 + 56, y, 22, done > 0 ? '#3ddc84' : null, done > 0 ? '#3ddc84' : '#666', 4);
-      if (done > 0) { ctx.strokeStyle = '#0f0f10'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(-w / 2 + 45, y); ctx.lineTo(-w / 2 + 54, y + 9); ctx.lineTo(-w / 2 + 68, y - 9); ctx.stroke(); }
-      text(ctx, s, -w / 2 + 100, y + 2, 34, done > 0 ? '#ffffff' : '#8a8a8a', { font: SANS, weight: 700, align: 'left' });
-    });
-  },
-  'ed-sticker'(ctx, L) {
-    // big chunky outlined title, like a sticker
-    const s = L.text || ''; const size = L.size ?? 120;
-    ctx.save(); ctx.rotate(L.rot ?? -0.04);
-    text(ctx, s, 6, 10, size, ED.ink, { font: 'Anton', weight: 400 });
-    text(ctx, s, 0, 0, size, '#ffffff', { font: 'Anton', weight: 400, stroke: ED.ink, lw: 12 });
-    ctx.restore();
-  },
-  'ed-stamp'(ctx, L, p) {
-    const k = clamp((p.lt - (p.key(L.at) ?? 0)) / 0.3); const s = 1.8 - 0.8 * backOut(k);
-    ctx.rotate(-0.14); ctx.scale(s, s); ctx.globalAlpha *= clamp(k * 2);
-    ctx.strokeStyle = L.color || ED.red; ctx.lineWidth = 8; ctx.font = `700 ${L.size ?? 64}px "${MONO}"`;
-    const w = ctx.measureText(L.text || '').width + 60; ctx.strokeRect(-w / 2, -50, w, 100);
-    text(ctx, L.text || 'APPROVED', 0, 4, L.size ?? 64, L.color || ED.red, { font: MONO, weight: 700 });
-  },
-  'ed-comment'(ctx, L, p) {
-    // Instagram-like comment field that types the keyword, then a red keyword pill pops
-    const w = L.w ?? 860;
-    fillRR(ctx, -w / 2, -45, w, 90, 45, '#ffffff', '#d8d8d2', 3);
-    circle(ctx, -w / 2 + 50, 0, 26, '#e3e3dd');
-    const t0 = L.at != null ? (p.key(L.at) ?? 0) : 0.2;
-    const s = L.keyword || 'PLAYBOOK'; const n = Math.floor((p.lt - t0) * 10);
-    text(ctx, n > 0 ? s.slice(0, n) : 'Add a comment…', -w / 2 + 96, 2, 36, n > 0 ? ED.ink : '#9a9a96', { font: SANS, weight: 700, align: 'left' });
-    const k = backOut(clamp((p.lt - t0 - s.length / 10 - 0.2) / 0.4));
-    if (k > 0) { ctx.save(); ctx.translate(0, 140); ctx.scale(k, k); ctx.font = `700 64px "${MONO}"`; const pw = ctx.measureText(s).width + 80; fillRR(ctx, -pw / 2, -50, pw, 100, 50, ED.red, '#ffffff', 6); text(ctx, s, 0, 4, 64, '#ffffff', { font: MONO, weight: 700 }); ctx.restore(); }
-  },
-  'ed-mascot'(ctx, L, p) { if (L.s) ctx.scale(L.s, L.s); mascot(ctx, p.t, L.color || ED.red, L.mood); },
-  'ed-qmarks'(ctx, L, p) { const R = rand(L.seed ?? 2); for (let i = 0; i < (L.n ?? 7); i++) { const x = (R() - 0.5) * 760, y = (R() - 0.5) * 460; ctx.globalAlpha = 0.25; text(ctx, '?', x + Math.sin(p.t * 1.3 + i) * 10, y + Math.cos(p.t + i) * 10, 48 + R() * 40, ED.muted, { font: SANS, weight: 800 }); } ctx.globalAlpha = 1; },
+  ...ED_LAYERS,
 };
 let p_t = 0;
 
 /** Draw every layer of a compose beat. */
 export function drawLayers(ctx, p, layers = []) {
   p_t = p.t;
+  p.emoji = drawEmoji;
+  p.image = (src) => imgCache.get(src);
   for (const L of layers) {
     const fn = LAYERS[L.type];
     if (!fn) continue;
-    const full = ['bg', 'particles', 'vignette', 'tint', 'mountains', 'ground', 'trees', 'city', 'ed-header', 'ed-headline'].includes(L.type);
+    const full = ['bg', 'particles', 'vignette', 'tint', 'mountains', 'ground', 'trees', 'city', 'ed-header', 'ed-headline', 'ed-paper'].includes(L.type);
     if (full) {
       const { visible, k, outK } = timing(p, L);
       if (!visible && (L.at != null || L.delay)) continue;
@@ -424,7 +304,7 @@ export function drawLayers(ctx, p, layers = []) {
     ctx.save();
     ctx.globalAlpha = (L.alpha ?? 1) * (1 - outK);
     ctx.translate(x, y);
-    enter(ctx, L, k);
+    enter(ctx, L, k, p.style);
     idle(ctx, L, p.t);
     if (L.rot) ctx.rotate(L.rot);
     if (L.flip) ctx.scale(-1, 1);

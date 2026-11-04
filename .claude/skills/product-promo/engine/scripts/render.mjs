@@ -102,7 +102,7 @@ try {
   const camQ = args.cam ? `&cam=${encodeURIComponent(args.cam)}` : '';
   await page.goto(`http://127.0.0.1:${port}/?render=1&episode=${encodeURIComponent(episode)}${camQ}`);
   await page.waitForFunction(() => window.__ep, { timeout: 0 });
-  const info = await page.evaluate(() => ({ ready: window.__ep.ready, error: window.__ep.error, duration: window.__ep.duration, renderer: window.__ep.renderer, audio: window.__ep.audio, voice: window.__ep.voice, hasVoice: window.__ep.hasVoice }));
+  const info = await page.evaluate(() => ({ ready: window.__ep.ready, error: window.__ep.error, duration: window.__ep.duration, renderer: window.__ep.renderer, audio: window.__ep.audio, voice: window.__ep.voice, bed: window.__ep.bed, hasVoice: window.__ep.hasVoice }));
   if (!info.ready) throw new Error(info.error);
   if (!info.hasVoice) console.warn('\n⚠  No voice-over found: the video will be timed on an estimate and have no narration.\n   Run first:  npm run voice -- --episode ' + episode + '\n');
 
@@ -118,7 +118,7 @@ try {
   const timings = fs.existsSync(timingsFile) ? JSON.parse(fs.readFileSync(timingsFile, 'utf8')) : {};
   const voice = info.voice.filter((v) => timings[v.id]).map((v) => ({ t: v.t - from, file: path.join(ROOT, timings[v.id].file) })).filter((v) => v.t > -60);
   const sfx = info.audio.map((e) => ({ ...e, t: e.t - from })).filter((e) => e.t > -2.5);
-  fs.writeFileSync(wavPath, renderAudio({ voice, sfx, duration: to - from }));
+  fs.writeFileSync(wavPath, renderAudio({ voice, sfx, duration: to - from, bed: info.bed }));
 
   const cdp = await page.createCDPSession();
   const grab = async () => {

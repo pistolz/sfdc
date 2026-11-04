@@ -1,0 +1,41 @@
+{
+  "series": "bench", "part": 1, "style": "editorial", "mascot": { "color": "#c9563c" },
+  "beats": [
+    { "id": "01", "scene": "compose", "say": "This one skill turns one idea into a whole series.",
+      "args": { "layers": [
+        { "type": "bg", "preset": "paper" },
+        { "type": "ed-header", "left": "// 01 · one skill", "right": "PARTS", "value": "0" },
+        { "type": "ed-headline", "text": "This one *skill*" , "pace": 0.3 },
+        { "type": "ed-sticker", "text": "ONE|SKILL", "x": 486, "y": 691, "size": 140, "color": "#151315" },
+        { "type": "ed-folder", "x": 490, "y": 1058, "w": 520, "label": "series-skill" }
+      ] } },
+    { "id": "02", "scene": "compose", "say": "No camera, no editing app, only code.",
+      "args": { "layers": [
+        { "type": "bg", "preset": "paper" },
+        { "type": "ed-header", "left": "// 03 · made with code", "right": "CAMERAS", "value": "0" },
+        { "type": "ed-headline", "text": "No camera,", "pace": 0.3 },
+        { "type": "ed-code", "x": 339, "y": 875, "w": 421, "title": "episode.mjs", "label": "CODE", "lines": ["scene('tall_grass')", "you.wake_up()", "narrate(line[1])", "vote('CUT IT FREE', 'RUN')", "render()"] },
+        { "type": "ed-arrow", "x": 572, "y": 879, "len": 70, "anim": "fade" },
+        { "type": "ed-phone", "x": 734, "y": 944, "w": 227, "label": "REEL", "title": "MY WORLD", "emoji": "🌾", "top": "#2d5a2a", "bottom": "#14301a" },
+        { "type": "ed-sticker", "text": "MADE WITH|CODE", "x": 346, "y": 1084, "size": 78 },
+        { "type": "ed-pill", "x": 222, "y": 1194, "text": "camera", "size": 26, "icon": "📷", "crossed": true }
+      ] } },
+    { "id": "03", "scene": "compose", "say": "It writes, voices, draws, adds music and ends each part on a vote.",
+      "args": { "layers": [
+        { "type": "bg", "preset": "paper" },
+        { "type": "ed-header", "left": "// 07 · one idea in", "right": "BUILD", "value": "4/5" },
+        { "type": "ed-headline", "text": "and ends each part on a *vote.*", "pace": 0.95 },
+        { "type": "ed-prompt", "x": 490, "y": 713, "w": 720, "title": "series-skill — ~/my-series", "text": "a kid locked in a mall overnight", "speed": 40 },
+        { "type": "ed-build", "x": 328, "y": 1037, "w": 400, "items": [ { "text": "Write the story", "at": "writes" }, { "text": "Voice every character", "at": "voices" }, { "text": "Draw every scene", "at": "draws" }, { "text": "Add the music", "at": "music" }, { "text": "End on a vote", "at": "vote" } ] },
+        { "type": "ed-phone", "x": 691, "y": 1033, "w": 233, "title": "HIDE OR RUN?", "buttons": [ { "text": "HIDE", "color": "#3fbf6a" }, { "text": "RUN", "color": "#ef3b2c" } ], "bars": true, "emoji": "🧍" }
+      ] } },
+    { "id": "04", "scene": "compose", "say": "Third, you might think it'll look like AI slop.", "mascotMood": "shock",
+      "args": { "layers": [
+        { "type": "bg", "preset": "paper" },
+        { "type": "ed-header", "left": "// 09 · objection three", "right": "OBJECTION", "value": "3/3" },
+        { "type": "ed-headline", "text": "Third, you might think *it'll look like AI slop.*" },
+        { "type": "ed-qmarks", "x": 492, "y": 907 },
+        { "type": "ed-bubble", "x": 492, "y": 907, "w": 687, "h": 238, "badge": "THIRD", "n": 3, "text": "it'll look like", "at": "it'll" }
+      ] } }
+  ]
+}

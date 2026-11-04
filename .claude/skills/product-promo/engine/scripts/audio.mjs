@@ -56,6 +56,22 @@ const SFX = {
   beep(L, R, s) {
     for (let b = 0; b < 3; b++) for (let i = 0; i < 0.1 * SR; i++) add(L, R, s + b * 0.25 * SR + i, Math.sin(2 * Math.PI * 1200 * i / SR) * 0.15);
   },
+  keys(L, R, s, rand, e) {
+    // keyboard typing: short filtered clicks for e.dur seconds
+    const dur = e?.dur ?? 1.0; let t = 0;
+    while (t < dur) {
+      const st = s + Math.floor(t * SR), n = Math.floor(0.018 * SR), f = 1800 + rand() * 1500, g = 0.10 + rand() * 0.06;
+      for (let i = 0; i < n; i++) { const env = Math.exp(-i / (0.004 * SR)); add(L, R, st + i, (rand() * 2 - 1) * env * g + Math.sin(2 * Math.PI * f * i / SR) * env * g * 0.4); }
+      t += 0.055 + rand() * 0.06;
+    }
+  },
+  softpop(L, R, s) {
+    for (let i = 0; i < 0.12 * SR; i++) { const t = i / SR; const f = 700 * Math.exp(-t * 18) + 260; add(L, R, s + i, Math.sin(2 * Math.PI * f * t) * Math.exp(-t * 32) * 0.22); }
+  },
+  swish(L, R, s, rand) {
+    const n = 0.28 * SR, bp = bandpass();
+    for (let i = 0; i < n; i++) { const u = i / n, env = Math.sin(Math.PI * u) ** 2; add(L, R, s + i, bp(rand() * 2 - 1, 1200 + 2500 * u, 1.2) * env * 0.12); }
+  },
   heartbeat(L, R, s) {
     for (let b = 0; b < 4; b++) for (const off of [0, 0.22]) {
       const st = s + Math.floor((b * 0.9 + off) * SR);
@@ -72,7 +88,7 @@ function decode(file) {
 }
 
 /** voice: [{t, file}] (absolute paths), sfx: [{t, type}] */
-export function renderAudio({ voice = [], sfx = [], duration }) {
+export function renderAudio({ voice = [], sfx = [], duration, bed = 'drone' }) {
   const N = Math.ceil((duration + 0.5) * SR);
   const L = new Float32Array(N), R = new Float32Array(N);
   const VL = new Float32Array(N), VR = new Float32Array(N);
@@ -83,7 +99,7 @@ export function renderAudio({ voice = [], sfx = [], duration }) {
     const s = Math.floor(v.t * SR);
     for (let i = 0; i < pcm.length / 2; i++) { const j = s + i; if (j >= 0 && j < N) { VL[j] += pcm[2 * i]; VR[j] += pcm[2 * i + 1]; } }
   }
-  for (const e of sfx) { const f = SFX[e.type]; if (f) f(L, R, Math.floor(e.t * SR), rand); }
+  for (const e of sfx) { const f = SFX[e.type]; if (f) f(L, R, Math.floor(e.t * SR), rand, e); }
 
   // tension drone, ducked under the voice
   const lp = lowpass(140);
@@ -94,7 +110,7 @@ export function renderAudio({ voice = [], sfx = [], duration }) {
     env = Math.max(vAmp, env * 0.9995);
     const duck = 1 - Math.min(0.6, env * 2);
     const drone = (Math.sin(2 * Math.PI * 55 * t) * 0.5 + Math.sin(2 * Math.PI * 82.4 * t) * 0.3 + lp(rand() * 2 - 1) * 2) * (0.6 + 0.4 * Math.sin(2 * Math.PI * 0.12 * t));
-    const d = drone * 0.06 * duck * Math.min(1, t / 1.5);
+    const d = bed === 'none' ? 0 : drone * 0.06 * duck * Math.min(1, t / 1.5);
     L[i] = L[i] * 0.8 * duck + d + VL[i] * 1.0;
     R[i] = R[i] * 0.8 * duck + d + VR[i] * 1.0;
   }
