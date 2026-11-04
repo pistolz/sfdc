@@ -174,3 +174,20 @@ Images (`src`) are paths relative to the engine folder, e.g. `assets/screenshot.
 - `wall` — names of voters (from `start.wall`).
 - `comments` — the AI scanning `commenters` and marking them PROTECTED (style ai).
 - `ai` style scenes (GAIA): hook boot verdict shutdown mission bunkerai message radio radar decision.
+
+## Fighter kit (original anime-battle universe) — `web/src/fighter.js`
+
+Realistic shōnen proportions (~7 heads, origin between the feet, ~1000 px tall at `s: 1`), cel shading, original cast.
+
+| Layer | Fields |
+|---|---|
+| `fight-bg` | `sky` dusk · storm · day · void, `horizon`, `crack` 0..1 or `crackAt` word |
+| `fighter` | `who` kairo · vexa (or a palette object), `pose` idle · ready · charge · beam · point · cross, `poseAt: [word, pose]`, `mood` calm · angry · shout · smirk · shock, `power` 0..1 or `powerAt` word (aura ramps up), `form` 0..1 or `transformAt` word (hair/eyes/aura change), `talk`, `lookX`, `beam: { chargeAt, fireAt, angle, color, width }` |
+| `fx-power` | power HUD: `from`, `to`, `countAt`, `dur`, `limit` (LIMIT BROKEN stamp), `name`, `color` |
+| `fx-rocks` | rocks lifting off the ground: `at`, `n`, `spread` |
+| `fx-focus` | anime focus lines: `alpha`, `inner`, `cx`, `cy`, `color` |
+| `fx-flash` | white flash on `at`, `dur` |
+| `fx-impact` | whole-frame shake on `at` (word or list), `power`, `dur` |
+
+Sound is automatic: `powerAt` → rumble, `transformAt` → boom, `beam` → charge + blast, `fx-impact` → boom.
+Example: `episodes/power-level-1.json` (Kairo vs Vexa, vote FINISH / SPARE).

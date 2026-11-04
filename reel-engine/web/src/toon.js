@@ -338,3 +338,6 @@ export function toonGym(ctx, horizon = 980) {
   const R = rand(9); ctx.strokeStyle = 'rgba(40,36,32,0.45)'; ctx.lineWidth = 4;
   for (let i = 0; i < 40; i++) { const z = R(); const y = horizon + Math.pow(z, 1.5) * (1920 - horizon); const x = R() * 1080, s = 0.3 + z * 1.6; ctx.beginPath(); ctx.roundRect(x - 80 * s, y - 30 * s, 160 * s, 60 * s, 20 * s); ctx.stroke(); }
 }
+
+// shared with fighter.js
+export { cel, capsule, ell, roundRect, poly, smoothShape, OUT };

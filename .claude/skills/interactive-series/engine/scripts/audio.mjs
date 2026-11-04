@@ -21,6 +21,25 @@ function bandpass() {
 const add = (L, R, i, l, r = l) => { if (i >= 0 && i < L.length) { L[i] += l; R[i] += r; } };
 
 const SFX = {
+  // ---- fighter kit
+  rumble(L, R, s, rand, e) { // power-up: low rumble + rising noise, e.dur seconds
+    const dur = e?.dur ?? 2.5, n = dur * SR, lp = lowpass(180), bp = bandpass();
+    for (let i = 0; i < n; i++) { const u = i / n, t = i / SR, env = Math.min(1, u * 4) * Math.min(1, (1 - u) * 8);
+      const v = lp(rand() * 2 - 1) * 2.2 * (0.4 + 0.6 * u) + Math.sin(2 * Math.PI * (38 + 20 * u) * t) * 0.35 + bp(rand() * 2 - 1, 300 + 2600 * u * u, 2) * 0.12 * u;
+      add(L, R, s + i, v * env * 0.5); }
+  },
+  boom(L, R, s, rand) { // big impact / transformation burst
+    const lp = lowpass(900);
+    for (let i = 0; i < 1.8 * SR; i++) { const t = i / SR; const v = Math.sin(2 * Math.PI * (40 + 90 * Math.exp(-t * 9)) * t) * Math.exp(-t * 2.6) * 0.8 + lp(rand() * 2 - 1) * Math.exp(-t * 3.5) * 0.7 + (rand() * 2 - 1) * Math.exp(-t * 30) * 0.3; add(L, R, s + i, v); }
+  },
+  charge(L, R, s, rand, e) { // energy gathering: rising whine + crackle
+    const dur = e?.dur ?? 1.2;
+    for (let i = 0; i < dur * SR; i++) { const t = i / SR, u = t / dur, f = 220 + 1400 * u * u; const v = (Math.sin(2 * Math.PI * f * t) * 0.10 + Math.sin(2 * Math.PI * f * 1.5 * t) * 0.05) * u + (rand() < 0.004 ? (rand() * 2 - 1) * 0.5 : 0); add(L, R, s + i, v, v * 0.9); }
+  },
+  blast(L, R, s, rand) { // beam fired: roaring noise
+    const lp = lowpass(1400), bp = bandpass();
+    for (let i = 0; i < 2.2 * SR; i++) { const t = i / SR, env = Math.min(1, t * 30) * Math.exp(-t * 1.3); const v = lp(rand() * 2 - 1) * 1.4 + bp(rand() * 2 - 1, 700, 0.8) * 0.6 + Math.sin(2 * Math.PI * 55 * t) * 0.4; add(L, R, s + i, v * env * 0.55); }
+  },
   whoosh(L, R, s, rand) {
     const n = 0.5 * SR, bp = bandpass(), bp2 = bandpass();
     for (let i = 0; i < n; i++) { const u = i / n, env = Math.sin(Math.PI * Math.pow(u, 0.6)) ** 2, f = 400 + 3000 * u; add(L, R, s + i, bp(rand() * 2 - 1, f, 1) * env * 0.35, bp2(rand() * 2 - 1, f * 1.1, 1) * env * 0.35); }

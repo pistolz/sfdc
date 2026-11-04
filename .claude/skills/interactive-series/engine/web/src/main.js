@@ -135,6 +135,17 @@ async function init() {
         } else if (!['bg', 'ed-header', 'ed-headline', 'ed-paper', 'ed-qmarks'].includes(L.type)) audio.push({ t: b.start + lt, type: 'softpop' });
       }
     } else if (i > 0 && beats[i - 1].scene !== b.scene) audio.push({ t: b.start, type: 'whoosh' });
+    // fighter kit cues
+    for (const L of b.args?.layers || []) {
+      const at = (w) => (w == null ? null : typeof w === 'number' ? w : keyTime(b, w));
+      if (L.type === 'fighter') {
+        if (L.powerAt != null) audio.push({ t: b.start + (at(L.powerAt) ?? 0), type: 'rumble', dur: Math.max(1.2, b.dur - (at(L.powerAt) ?? 0)) });
+        if (L.transformAt != null) audio.push({ t: b.start + (at(L.transformAt) ?? 0), type: 'boom' });
+        if (L.beam) { const c0 = at(L.beam.chargeAt) ?? 0, f0 = at(L.beam.fireAt); audio.push({ t: b.start + c0, type: 'charge', dur: Math.max(0.4, (f0 ?? c0 + 1.2) - c0) }); if (f0 != null) audio.push({ t: b.start + f0, type: 'blast' }); }
+      }
+      if (L.type === 'fx-impact' && !(b.args.layers.some((M) => M.transformAt || M.beam))) for (const w of [].concat(L.at)) audio.push({ t: b.start + (at(w) ?? 0), type: 'boom' });
+      if (L.type === 'ui-nametag' || L.type === 'fx-power') audio.push({ t: b.start + (at(L.at ?? L.countAt) ?? 0), type: 'swish' });
+    }
     voice.push({ id: b.id, t: b.start + LEAD });
     if (b.sfx) audio.push({ t: b.start, type: b.sfx });
     for (const k of b.keys || []) {

@@ -1,0 +1,600 @@
+{
+ "series": "POWER LEVEL",
+ "part": 1,
+ "style": "toon",
+ "voice": {
+  "name": "en-US-AndrewNeural",
+  "rate": "+6%",
+  "eleven": {
+   "id": "SOYHLrjzK2X1ezoPC6cr",
+   "model": "eleven_multilingual_v2",
+   "stability": 0.38,
+   "similarity": 0.8,
+   "style": 0.45,
+   "speed": 1.05
+  }
+ },
+ "music": {
+  "style": "epic",
+  "bpm": 112,
+  "gain": 0.95
+ },
+ "coverTime": 21.5,
+ "cover": {
+  "html": "<div class='cover-part'>PART 1</div><div class='t'>HIS LIMIT<br><span class='y'>JUST BROKE</span></div>"
+ },
+ "choice": {
+  "question": "Finish or spare?",
+  "options": [
+   {
+    "id": "finish",
+    "label": "FINISH HER",
+    "short": "1",
+    "color": "red",
+    "match": [
+     " 1",
+     "finish"
+    ]
+   },
+   {
+    "id": "spare",
+    "label": "SPARE HER",
+    "short": "2",
+    "color": "blue",
+    "match": [
+     " 2",
+     "spare"
+    ]
+   }
+  ]
+ },
+ "endHold": 1.6,
+ "beats": [
+  {
+   "id": "01",
+   "scene": "compose",
+   "say": "His power level is eight thousand. In thirty seconds, it breaks the scale.",
+   "args": {
+    "camera": {
+     "from": [
+      540,
+      1000,
+      1.0
+     ],
+     "to": [
+      540,
+      880,
+      1.22
+     ]
+    },
+    "layers": [
+     {
+      "type": "fight-bg",
+      "sky": "storm",
+      "horizon": 1180
+     },
+     {
+      "type": "fx-focus",
+      "alpha": 0.35,
+      "inner": 520,
+      "cy": 760
+     },
+     {
+      "type": "fighter",
+      "who": "kairo",
+      "pose": "ready",
+      "mood": "angry",
+      "x": 540,
+      "y": 1660,
+      "s": 1.0,
+      "power": 0.35,
+      "anim": "none"
+     },
+     {
+      "type": "fx-power",
+      "x": 130,
+      "y": 300,
+      "from": 7990,
+      "to": 8000,
+      "dur": 0.4,
+      "name": "KAIRO",
+      "anim": "none"
+     },
+     {
+      "type": "fx-impact",
+      "at": [
+       "scale"
+      ],
+      "power": 12,
+      "dur": 0.4
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "breaks the scale",
+     "slot": "lower",
+     "style": "white",
+     "html": "IT BREAKS<br><span class='y'>THE SCALE</span>"
+    }
+   ]
+  },
+  {
+   "id": "02",
+   "scene": "compose",
+   "say": "Vexa came to take his title. Her power? Nineteen thousand.",
+   "args": {
+    "layers": [
+     {
+      "type": "fight-bg",
+      "sky": "dusk",
+      "horizon": 1180
+     },
+     {
+      "type": "fighter",
+      "who": "vexa",
+      "pose": "point",
+      "mood": "smirk",
+      "x": 560,
+      "y": 1660,
+      "s": 1.0,
+      "power": 0.55,
+      "anim": "right"
+     },
+     {
+      "type": "ui-nametag",
+      "name": "Vexa",
+      "species": "Crimson Queen",
+      "level": 19,
+      "color": "#8a5cff",
+      "x": 700,
+      "y": 440,
+      "at": "vexa"
+     },
+     {
+      "type": "fx-power",
+      "x": 130,
+      "y": 300,
+      "from": 0,
+      "to": 19000,
+      "dur": 1.2,
+      "countAt": "nineteen",
+      "color": "#ff4a5a",
+      "name": "VEXA",
+      "at": "her power"
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "nineteen",
+     "slot": "lower",
+     "style": "white",
+     "html": "<span class='y'>19,000</span>"
+    }
+   ]
+  },
+  {
+   "id": "03",
+   "scene": "compose",
+   "say": "Kairo has one move left. They call it Ignition.",
+   "args": {
+    "camera": {
+     "from": [
+      540,
+      860,
+      1.35
+     ],
+     "to": [
+      540,
+      840,
+      1.5
+     ]
+    },
+    "layers": [
+     {
+      "type": "fight-bg",
+      "sky": "storm",
+      "horizon": 1180
+     },
+     {
+      "type": "fighter",
+      "who": "kairo",
+      "pose": "idle",
+      "mood": "calm",
+      "x": 540,
+      "y": 1660,
+      "s": 1.0,
+      "power": 0.2,
+      "anim": "none"
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "ignition",
+     "slot": "lower",
+     "style": "white",
+     "html": "<span class='y'>IGNITION</span>"
+    }
+   ]
+  },
+  {
+   "id": "04",
+   "scene": "compose",
+   "say": "He screams until the ground cracks...",
+   "args": {
+    "layers": [
+     {
+      "type": "fight-bg",
+      "sky": "storm",
+      "horizon": 1180,
+      "crackAt": "ground"
+     },
+     {
+      "type": "fx-focus",
+      "alpha": 0.5,
+      "inner": 460,
+      "cy": 1000
+     },
+     {
+      "type": "fx-rocks",
+      "x": 540,
+      "y": 1640,
+      "at": "screams",
+      "n": 11
+     },
+     {
+      "type": "fighter",
+      "who": "kairo",
+      "pose": "charge",
+      "x": 540,
+      "y": 1660,
+      "s": 1.0,
+      "powerAt": "screams",
+      "anim": "none",
+      "loop": "shake"
+     },
+     {
+      "type": "fx-power",
+      "x": 130,
+      "y": 300,
+      "from": 8000,
+      "to": 15500,
+      "dur": 2.2,
+      "countAt": "screams",
+      "name": "KAIRO",
+      "anim": "none"
+     },
+     {
+      "type": "fx-impact",
+      "at": [
+       "cracks"
+      ],
+      "power": 22,
+      "dur": 0.6
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "cracks",
+     "slot": "lower",
+     "style": "white",
+     "html": "THE GROUND<br><span class='y'>CRACKS</span>"
+    }
+   ]
+  },
+  {
+   "id": "05",
+   "scene": "compose",
+   "say": "and his limit breaks. Thirty-one thousand.",
+   "args": {
+    "camera": {
+     "from": [
+      540,
+      960,
+      1.0
+     ],
+     "to": [
+      540,
+      940,
+      1.06
+     ]
+    },
+    "layers": [
+     {
+      "type": "fight-bg",
+      "sky": "void",
+      "horizon": 1180,
+      "crack": 1
+     },
+     {
+      "type": "fx-focus",
+      "color": "#ffd6dc",
+      "alpha": 0.55,
+      "inner": 480,
+      "cy": 1000
+     },
+     {
+      "type": "fx-rocks",
+      "x": 540,
+      "y": 1640,
+      "n": 11
+     },
+     {
+      "type": "fighter",
+      "who": "kairo",
+      "pose": "charge",
+      "x": 540,
+      "y": 1660,
+      "s": 1.0,
+      "power": 1,
+      "transformAt": "breaks",
+      "anim": "none"
+     },
+     {
+      "type": "fx-power",
+      "x": 130,
+      "y": 300,
+      "from": 15500,
+      "to": 31000,
+      "dur": 1.4,
+      "countAt": "breaks",
+      "limit": 20000,
+      "color": "#ff3446",
+      "name": "KAIRO",
+      "anim": "none"
+     },
+     {
+      "type": "fx-flash",
+      "at": "breaks",
+      "dur": 0.5
+     },
+     {
+      "type": "fx-impact",
+      "at": [
+       "breaks"
+      ],
+      "power": 34,
+      "dur": 0.8
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "thirty-one",
+     "slot": "lower",
+     "style": "white",
+     "html": "<span class='y'>31,000</span>"
+    }
+   ]
+  },
+  {
+   "id": "06",
+   "scene": "compose",
+   "say": "Vexa stops smiling.",
+   "args": {
+    "camera": {
+     "from": [
+      540,
+      860,
+      1.35
+     ],
+     "to": [
+      540,
+      840,
+      1.5
+     ]
+    },
+    "layers": [
+     {
+      "type": "fight-bg",
+      "sky": "dusk",
+      "horizon": 1180
+     },
+     {
+      "type": "fighter",
+      "who": "vexa",
+      "pose": "cross",
+      "mood": "shock",
+      "x": 540,
+      "y": 1660,
+      "s": 1.0,
+      "power": 0.3,
+      "anim": "none",
+      "loop": "shake"
+     }
+    ]
+   }
+  },
+  {
+   "id": "07",
+   "scene": "compose",
+   "say": "One final strike.",
+   "args": {
+    "layers": [
+     {
+      "type": "fight-bg",
+      "sky": "void",
+      "horizon": 1180,
+      "crack": 1
+     },
+     {
+      "type": "fx-focus",
+      "color": "#ffd6dc",
+      "alpha": 0.45,
+      "inner": 420,
+      "cx": 700,
+      "cy": 900
+     },
+     {
+      "type": "fighter",
+      "who": "kairo",
+      "pose": "beam",
+      "mood": "shout",
+      "x": 380,
+      "y": 1660,
+      "s": 1.0,
+      "power": 1,
+      "form": 1,
+      "anim": "none",
+      "beam": {
+       "chargeAt": "one",
+       "fireAt": "strike",
+       "angle": 0
+      }
+     },
+     {
+      "type": "fx-flash",
+      "at": "strike",
+      "dur": 0.4
+     },
+     {
+      "type": "fx-impact",
+      "at": [
+       "strike"
+      ],
+      "power": 30,
+      "dur": 0.9
+     }
+    ]
+   },
+   "hold": 1.0
+  },
+  {
+   "id": "08",
+   "scene": "compose",
+   "say": "But Vexa is still standing.",
+   "args": {
+    "camera": {
+     "from": [
+      540,
+      900,
+      1.15
+     ],
+     "to": [
+      540,
+      880,
+      1.25
+     ]
+    },
+    "layers": [
+     {
+      "type": "fight-bg",
+      "sky": "void",
+      "horizon": 1180,
+      "crack": 1
+     },
+     {
+      "type": "fx-focus",
+      "alpha": 0.3,
+      "inner": 520
+     },
+     {
+      "type": "fighter",
+      "who": "vexa",
+      "pose": "ready",
+      "mood": "angry",
+      "x": 540,
+      "y": 1660,
+      "s": 1.0,
+      "power": 0.85,
+      "anim": "up"
+     },
+     {
+      "type": "fx-impact",
+      "at": [
+       "standing"
+      ],
+      "power": 14,
+      "dur": 0.4
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "still standing",
+     "slot": "lower",
+     "style": "white",
+     "html": "STILL<br><span class='y'>STANDING</span>"
+    }
+   ]
+  },
+  {
+   "id": "09",
+   "scene": "compose",
+   "say": "Does Kairo finish her, or spare her? Comment one or two.",
+   "hold": 1.2,
+   "args": {
+    "layers": [
+     {
+      "type": "fight-bg",
+      "sky": "dusk",
+      "horizon": 1180,
+      "crack": 1
+     },
+     {
+      "type": "blur",
+      "color": "rgba(20,10,30,0.35)"
+     },
+     {
+      "type": "fighter",
+      "who": "kairo",
+      "pose": "idle",
+      "mood": "angry",
+      "x": 300,
+      "y": 1600,
+      "s": 0.82,
+      "power": 0.6,
+      "form": 1,
+      "anim": "none"
+     },
+     {
+      "type": "fighter",
+      "who": "vexa",
+      "pose": "cross",
+      "mood": "angry",
+      "x": 790,
+      "y": 1600,
+      "s": 0.82,
+      "power": 0.25,
+      "anim": "none",
+      "flip": true
+     },
+     {
+      "type": "ui-choices",
+      "x": 540,
+      "y": 560,
+      "w": 640,
+      "at": "finish",
+      "header": "YOUR VOTE = PART 2",
+      "options": [
+       {
+        "label": "Finish her",
+        "color": "red"
+       },
+       {
+        "label": "Spare her",
+        "color": "blue"
+       }
+      ]
+     }
+    ],
+    "camera": {
+     "from": [
+      540,
+      960,
+      1.0
+     ],
+     "to": [
+      540,
+      940,
+      1.06
+     ]
+    }
+   },
+   "keys": []
+  }
+ ]
+}

@@ -14,6 +14,7 @@ import { AI, techBg, dataRain, gaiaEye, holoFrame, typed, drone, sysIcon } from 
 import { ED_LAYERS, paper } from './editorial.js';
 import { UI_LAYERS } from './gameui.js';
 import { PROMO_LAYERS } from './promo.js';
+import { FIGHT_LAYERS, frameShake } from './fighter.js';
 import { toonPerson, toonCreature, toonSky, toonHills, toonHedge, toonField, toonRoom, toonGym } from './toon.js';
 const TOON_LAYERS = {
   'toon-sky'(ctx, L, p) { toonSky(ctx, p.t, L.preset || 'sunset', L.horizon ?? 820); },
@@ -306,6 +307,7 @@ const LAYERS = {
   ...UI_LAYERS,
   ...PROMO_LAYERS,
   ...TOON_LAYERS,
+  ...FIGHT_LAYERS,
 };
 let p_t = 0;
 
@@ -314,10 +316,12 @@ export function drawLayers(ctx, p, layers = []) {
   p_t = p.t;
   p.emoji = drawEmoji;
   p.image = (src) => imgCache.get(src);
+  const [shx, shy] = frameShake(p, layers);
+  ctx.save(); if (shx || shy) { ctx.translate(shx, shy); ctx.scale(1.04, 1.04); ctx.translate(-21.6, -38.4); }
   for (const L of layers) {
     const fn = LAYERS[L.type];
     if (!fn) continue;
-    const full = ['bg', 'particles', 'vignette', 'tint', 'mountains', 'ground', 'trees', 'city', 'ed-header', 'ed-headline', 'ed-paper', 'toon-sky', 'toon-hills', 'toon-hedge', 'toon-field', 'toon-room', 'toon-gym', 'blur'].includes(L.type);
+    const full = ['bg', 'particles', 'vignette', 'tint', 'mountains', 'ground', 'trees', 'city', 'ed-header', 'ed-headline', 'ed-paper', 'toon-sky', 'toon-hills', 'toon-hedge', 'toon-field', 'toon-room', 'toon-gym', 'blur', 'fight-bg', 'fx-focus', 'fx-flash'].includes(L.type);
     if (full) {
       const { visible, k, outK } = timing(p, L);
       if (!visible && (L.at != null || L.delay)) continue;
@@ -337,6 +341,7 @@ export function drawLayers(ctx, p, layers = []) {
     fn(ctx, L, p);
     ctx.restore();
   }
+  ctx.restore();
 }
 
 export const LAYER_TYPES = Object.keys(LAYERS);
