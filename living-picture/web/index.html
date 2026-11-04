@@ -40,7 +40,39 @@ in vec2 p; out vec2 v; void main(){ v = p * 0.5 + 0.5; v.y = 1.0 - v.y; gl_Posit
 const fs = `#version 300 es
 precision highp float;
 in vec2 v; out vec4 o;
-uniform sampler2D img; uniform float t, w, waterAmt, zoom; uniform vec2 texel, imgAspectFix;
+uniform sampler2D img; uniform float t, w, waterAmt, zoom; uniform vec2 texel, imgAspectFix, imgSize;
+#define MAXR 128
+uniform vec4 rigA[MAXR]; // x, y, radius (image px), type (0 tilt, 1 bob, 2 breathe, 3 wave)
+uniform vec4 rigB[MAXR]; // amplitude, cycles per loop, phase, unused
+uniform int rigCount;
+vec2 rot(vec2 p, float a){ float c = cos(a), s = sin(a); return vec2(c * p.x - s * p.y, s * p.x + c * p.y); }
+// Character puppetry: small soft-edged warps around each rig point (inverse mapping).
+vec2 puppet(vec2 ip){
+  vec2 disp = vec2(0.0);
+  for (int i = 0; i < MAXR; i++) {
+    if (i >= rigCount) break;
+    vec4 A = rigA[i], B = rigB[i];
+    vec2 d = ip - A.xy; float dist = length(d);
+    if (dist > A.z) continue;
+    float k = 1.0 - smoothstep(A.z * 0.45, A.z, dist);
+    float s = sin(w * B.y * t + B.z);
+    int type = int(A.w + 0.5);
+    if (type == 0) {        // head tilt around the neck
+      vec2 pv = A.xy + vec2(0.0, A.z * 0.6);
+      disp += (pv + rot(ip - pv, -B.x * s * k)) - ip;
+    } else if (type == 1) { // little hop
+      float hop = max(0.0, s);
+      disp += vec2(0.0, B.x * hop * k) + vec2(0.0, -B.x * 0.4 * (1.0 - hop) * k * 0.0);
+    } else if (type == 2) { // breathing (scale from the bottom)
+      vec2 pv = A.xy + vec2(0.0, A.z * 0.7);
+      disp += (pv + (ip - pv) / (1.0 + B.x * (0.5 + 0.5 * s) * k)) - ip;
+    } else {                // paw wave around the shoulder
+      vec2 pv = A.xy + vec2(-A.z * 0.6, A.z * 0.7);
+      disp += (pv + rot(ip - pv, -B.x * s * k)) - ip;
+    }
+  }
+  return disp;
+}
 float waterMask(vec2 uv){
   vec3 c = texture(img, uv).rgb;
   float mx = max(c.r, max(c.g, c.b)), mn = min(c.r, min(c.g, c.b));
@@ -55,6 +87,7 @@ void main(){
   vec2 off = vec2(0.010 * sin(w * t), 0.016 * sin(w * t + 1.3));
   vec2 uv = (v - 0.5) / s + 0.5 + off * zoom * 20.0;
   uv = (uv - 0.5) * imgAspectFix + 0.5;
+  if (rigCount > 0) { vec2 ip = uv * imgSize; uv = (ip + puppet(ip)) / imgSize; }
   // soft water mask (5 taps)
   float m = waterMask(uv) * 0.4;
   m += (waterMask(uv + vec2(texel.x * 3.0, 0)) + waterMask(uv - vec2(texel.x * 3.0, 0)) + waterMask(uv + vec2(0, texel.y * 3.0)) + waterMask(uv - vec2(0, texel.y * 3.0))) * 0.15;
@@ -86,6 +119,23 @@ for (const k of [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T]) gl.texParameteri(gl.TEXT
 const U = (n) => gl.getUniformLocation(prog, n);
 gl.uniform1f(U('w'), w); gl.uniform1f(U('waterAmt'), OPT.water); gl.uniform1f(U('zoom'), OPT.zoom);
 gl.uniform2f(U('texel'), 1 / img.width, 1 / img.height);
+gl.uniform2f(U('imgSize'), img.width, img.height);
+// optional puppet rig: images/<name>.rig.json (or ?rig=path). ?rig=none disables it.
+const TYPES = { tilt: 0, bob: 1, breathe: 2, wave: 3 };
+let rigs = [];
+const rigPath = P.get('rig') || img.src.replace(location.origin, '').replace(/\.[^./]+$/, '.rig.json');
+if (P.get('rig') !== 'none') {
+  try { const r = await fetch(rigPath.startsWith('/') ? rigPath : '/' + rigPath); if (r.ok) rigs = (await r.json()).rigs || []; } catch { /* no rig */ }
+}
+function uploadRigs() {
+  const A = new Float32Array(128 * 4), B = new Float32Array(128 * 4);
+  rigs.slice(0, 128).forEach((g, i) => {
+    A.set([g.x, g.y, g.r, TYPES[g.type] ?? 0], i * 4);
+    B.set([g.amp ?? 0.08, g.m ?? 3, g.ph ?? 0, 0], i * 4);
+  });
+  gl.uniform4fv(U('rigA'), A); gl.uniform4fv(U('rigB'), B); gl.uniform1i(U('rigCount'), Math.min(128, rigs.length));
+}
+uploadRigs();
 // cover-fit the image into 9:16
 const ia = img.width / img.height, oa = W / H;
 gl.uniform2f(U('imgAspectFix'), ia > oa ? oa / ia : 1, ia > oa ? 1 : ia / oa);
@@ -160,9 +210,41 @@ function renderFrame(t) {
     petal(x, y, p.size, w * p.spin * t + p.ph, p.col);
   }
   fx.globalAlpha = 1;
+  if (window.__drawRigs) window.__drawRigs();
 }
 
 window.__lp = { ready: true, duration: LOOP, renderFrame, renderer: (() => { const e = gl.getExtension('WEBGL_debug_renderer_info'); return e ? gl.getParameter(e.UNMASKED_RENDERER_WEBGL) : 'WebGL'; })() };
+
+// Rig editor: open the preview with &edit=1, click on characters.
+//   click = head tilt · shift+click = hop · alt+click = breathing · ctrl/cmd+click = paw wave
+//   backspace = remove last · C = copy the JSON (save it as images/<name>.rig.json)
+if (P.has('edit') && !P.has('render')) {
+  const st = document.getElementById('stage');
+  const toImg = (e) => {
+    const r = st.getBoundingClientRect(), sx = (e.clientX - r.left) / r.width, sy = (e.clientY - r.top) / r.height;
+    const fit = ia > oa ? [oa / ia, 1] : [1, ia / oa];
+    return [((sx - 0.5) * fit[0] + 0.5) * img.width, ((sy - 0.5) * fit[1] + 0.5) * img.height];
+  };
+  OPT.zoom = 0; gl.uniform1f(U('zoom'), 0);
+  st.addEventListener('click', (e) => {
+    const [x, y] = toImg(e);
+    const type = e.ctrlKey || e.metaKey ? 'wave' : e.shiftKey ? 'bob' : e.altKey ? 'breathe' : 'tilt';
+    rigs.push({ x: Math.round(x), y: Math.round(y), r: type === 'wave' ? 16 : type === 'bob' ? 44 : 36, type, amp: { tilt: 0.09, bob: 3.2, breathe: 0.03, wave: 0.35 }[type], m: type === 'wave' ? 7 : type === 'bob' ? 5 : 3, ph: Math.round(Math.random() * 628) / 100 });
+    uploadRigs();
+  });
+  addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace') { rigs.pop(); uploadRigs(); }
+    if (e.key === 'c') { navigator.clipboard.writeText(JSON.stringify({ rigs }, null, 0)); console.log('Rig copied:', rigs.length, 'points'); }
+  });
+  window.__drawRigs = () => {
+    const fit = ia > oa ? [oa / ia, 1] : [1, ia / oa];
+    for (const g of rigs) {
+      const x = ((g.x / img.width - 0.5) / fit[0] + 0.5) * W, y = ((g.y / img.height - 0.5) / fit[1] + 0.5) * H;
+      fx.strokeStyle = { tilt: '#ff3b6b', bob: '#3bb2ff', breathe: '#3ddc84', wave: '#ffd23f' }[g.type]; fx.lineWidth = 3;
+      fx.beginPath(); fx.arc(x, y, g.r * W / (img.width / fit[0]), 0, TAU); fx.stroke();
+    }
+  };
+}
 
 if (!P.has('render')) {
   const stage = document.getElementById('stage');
