@@ -15,3 +15,11 @@ No spoilers in the comments… just say "FOUND" ✅
 Tag the friend who'll never find it 👀
 #findthecat #hiddenobjects #puzzle #cozy #seekandfind #brainteaser
 Sound: soft cozy acoustic / autumn music in the app.
+
+## Only 1% can find the 5 royal bees 👑 (The Hive Tree)
+Only 1% can find the 5 royal bees 👑🐝
+Look in every room: honey bar, dance floor, story time, nap cells, flower shop…
+How many did you find? Comment your number 👇 (no spoilers!)
+Tag the friend who'll only find 3 😏
+#findthebee #bees #cute #seekandfind #hiddenobjects #puzzle #kawaii #cozy
+Sound: playful cute / lo-fi music in the app.
