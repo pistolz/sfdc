@@ -432,22 +432,43 @@ export function fxFocus(ctx, t, { color = '#ffffff', alpha = 0.7, inner = 420, n
   ctx.restore();
 }
 /** Power-level HUD: slanted panel, counting digits, glow, "LIMIT BROKEN" stamp past `limit`. */
-export function fxPower(ctx, t, { value = 0, label = 'POWER LEVEL', color = '#4fb4ff', limit = null, broke = 0, name = '' } = {}) {
+export function fxPower(ctx, t, { value = 0, label = 'POWER LEVEL', color = '#4fb4ff', limit = null, broke = 0, name = '', unit = '', sub = '', str = null } = {}) {
   ctx.save();
-  ctx.fillStyle = 'rgba(8,8,18,0.82)'; ctx.beginPath(); ctx.moveTo(-20, -90); ctx.lineTo(560, -90); ctx.lineTo(600, 70); ctx.lineTo(20, 70); ctx.closePath(); ctx.fill();
+  const H2 = sub ? 70 + 64 : 70;
+  ctx.fillStyle = 'rgba(8,8,18,0.84)'; ctx.beginPath(); ctx.moveTo(-20, -90); ctx.lineTo(760, -90); ctx.lineTo(800, H2); ctx.lineTo(20, H2); ctx.closePath(); ctx.fill();
   ctx.strokeStyle = color; ctx.lineWidth = 5; ctx.stroke();
-  ctx.fillStyle = color; ctx.fillRect(-20, -90, 14, 160);
+  ctx.fillStyle = color; ctx.fillRect(-20, -90, 14, 90 + H2);
   text(ctx, (name ? name + ' · ' : '') + label, 22, -56, 30, color, { font: 'Oswald', weight: 600, align: 'left' });
   const jitter = broke > 0 ? Math.sin(t * 70) * 4 : 0;
+  const s0 = str ?? (Math.round(value).toLocaleString('en-US') + (unit ? ' ' + unit : ''));
+  ctx.font = '400 104px Anton'; const tw = ctx.measureText(s0).width; const fs = Math.min(104, 104 * 730 / Math.max(1, tw));
   ctx.save(); ctx.shadowColor = color; ctx.shadowBlur = 26;
-  text(ctx, Math.round(value).toLocaleString('en-US'), 22 + jitter, 14, 104, '#ffffff', { font: 'Anton', weight: 400, align: 'left' });
+  text(ctx, s0, 22 + jitter, 14, fs, '#ffffff', { font: 'Anton', weight: 400, align: 'left' });
   ctx.restore();
+  if (sub) { ctx.fillStyle = color; ctx.fillRect(22, 74, 6, 46); text(ctx, sub.toUpperCase(), 44, 98, 40, '#ffd84a', { font: 'Oswald', weight: 700, align: 'left' }); }
   if (broke > 0) {
-    ctx.save(); ctx.translate(420, -100); ctx.rotate(-0.12); const s = 1 + 0.4 * (1 - easeOut(broke)); ctx.scale(s, s); ctx.globalAlpha = clamp(broke * 3);
+    ctx.save(); ctx.translate(600, -100); ctx.rotate(-0.12); const s = 1 + 0.4 * (1 - easeOut(broke)); ctx.scale(s, s); ctx.globalAlpha = clamp(broke * 3);
     ctx.fillStyle = '#ff2d4a'; ctx.beginPath(); ctx.roundRect(-150, -34, 300, 68, 8); ctx.fill();
     text(ctx, 'LIMIT BROKEN', 0, 3, 42, '#ffffff', { font: 'Anton', weight: 400 });
     ctx.restore();
   }
+  ctx.restore();
+}
+/** A huge glowing sun with a flickering corona (energy scale finale). */
+export function fxSun(ctx, t, { r = 360 } = {}) {
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  const g = ctx.createRadialGradient(0, 0, r * 0.2, 0, 0, r * 2.6); g.addColorStop(0, 'rgba(255,240,200,0.9)'); g.addColorStop(0.35, 'rgba(255,170,60,0.55)'); g.addColorStop(1, 'rgba(255,90,20,0)');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, r * 2.6, 0, Math.PI * 2); ctx.fill();
+  // corona flames
+  const pts = []; const N = 48;
+  for (let i = 0; i < N; i++) { const a = (i / N) * Math.PI * 2, f = 0.5 + 0.5 * Math.sin(t * 5 + i * 2.3) * Math.sin(t * 2.1 + i); pts.push([Math.cos(a) * r * (i % 2 ? 1.02 : 1.08 + 0.12 * f), Math.sin(a) * r * (i % 2 ? 1.02 : 1.08 + 0.12 * f)]); }
+  ctx.fillStyle = 'rgba(255,150,40,0.6)'; ctx.fill(smoothShape(pts));
+  ctx.restore();
+  const g2 = ctx.createRadialGradient(-r * 0.25, -r * 0.25, r * 0.1, 0, 0, r); g2.addColorStop(0, '#fffbe6'); g2.addColorStop(0.5, '#ffd25a'); g2.addColorStop(1, '#ff8a1f');
+  ctx.fillStyle = g2; ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fill();
+  // granulation / sunspots
+  ctx.save(); ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.clip(); const R = rand(5);
+  for (let i = 0; i < 40; i++) { ctx.fillStyle = `rgba(255,${120 + R() * 60 | 0},20,${0.12 + R() * 0.12})`; ctx.beginPath(); ctx.ellipse((R() - 0.5) * 2 * r, (R() - 0.5) * 2 * r, 30 + R() * 60, 14 + R() * 30, R() * 3, 0, Math.PI * 2); ctx.fill(); }
   ctx.restore();
 }
 
@@ -484,10 +505,14 @@ export const FIGHT_LAYERS = {
   'fx-impact'() { /* handled in drawLayers: whole-frame shake */ },
   'fx-power'(ctx, L, p) {
     const t0 = keyT(p, L.countAt ?? L.at), k = ease3(clamp((p.lt - t0) / (L.dur ?? 1.6)));
-    const v = lerp(L.from ?? 0, L.to ?? 9000, k) + (k < 1 ? hash(Math.floor(p.t * 30)) * (L.to ?? 9000) * 0.01 : 0);
-    const broke = L.limit != null && v >= L.limit ? clamp((p.lt - t0 - (L.dur ?? 1.6) * invE((L.limit - (L.from ?? 0)) / ((L.to ?? 9000) - (L.from ?? 0)))) / 0.4) : 0;
-    fxPower(ctx, p.t, { value: v, label: L.label || 'POWER LEVEL', color: L.color || '#4fb4ff', limit: L.limit, broke, name: L.name || '' });
+    const f0 = L.from ?? 0, f1 = L.to ?? 9000;
+    // log counting for huge jumps (exponential feel), linear otherwise
+    const v = L.log && f0 > 0 ? f0 * Math.pow(f1 / f0, k) : lerp(f0, f1, k) + (k < 1 ? hash(Math.floor(p.t * 30)) * f1 * 0.01 : 0);
+    const broke = L.limit != null && v >= L.limit ? clamp((p.lt - t0 - (L.dur ?? 1.6) * (L.log ? Math.log(L.limit / f0) / Math.log(f1 / f0) : invE((L.limit - f0) / (f1 - f0)))) / 0.4) : 0;
+    const subOn = L.sub && (L.subAt == null || p.lt >= keyT(p, L.subAt));
+    fxPower(ctx, p.t, { value: v, label: L.label || 'POWER LEVEL', color: L.color || '#4fb4ff', limit: L.limit, broke, name: L.name || '', unit: L.unit || '', sub: subOn ? L.sub : '', str: L.text && k >= 1 ? L.text : null });
   },
+  'fx-sun'(ctx, L, p) { if (L.s) ctx.scale(L.s, L.s); fxSun(ctx, p.t, { r: L.r ?? 360 }); },
 };
 const ease3 = (x) => 1 - Math.pow(1 - x, 3);
 const invE = (y) => 1 - Math.cbrt(1 - clamp(y));

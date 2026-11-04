@@ -46,6 +46,9 @@ ep.beats.forEach((b, bi) => {
   for (const L of layers) {
     for (const f of ['at', 'typeAt', 'until', 'hpAt', 'raise', 'openAt', 'countAt', 'out']) if (typeof L[f] === 'string') check(L[f], `${L.type}.${f}`);
     if (L.move?.at) check(L.move.at, `${L.type}.move.at`);
+    if (Array.isArray(L.at)) L.at.forEach((w) => check(w, `${L.type}.at`));
+    for (const f of ['powerAt', 'transformAt', 'crackAt', 'subAt']) if (typeof L[f] === 'string') check(L[f], `${L.type}.${f}`);
+    if (L.beam) { check(L.beam.chargeAt, 'beam.chargeAt'); check(L.beam.fireAt, 'beam.fireAt'); }
     for (const it of L.items || []) if (it && typeof it === 'object') { check(it.at, `${L.type}.items.at`); check(it.stamp, `${L.type}.items.stamp`); }
     for (const side of ['left', 'right']) for (const it of L[side]?.items || []) if (it && typeof it === 'object') check(it.at, `${L.type}.${side}.at`);
     if (L.type === 'ed-headline') {
@@ -64,7 +67,7 @@ ep.beats.forEach((b, bi) => {
   }
   if (bi === 0) {
     if (words(say) > 16) warn('WARN', where, `hook is ${words(say)} words: aim for ≤ 14 so it is understood in 3 s`);
-    const late = layers.filter((L) => !['bg', 'ed-header', 'ed-headline', 'ed-paper', 'toon-sky', 'toon-hills', 'toon-field'].includes(L.type) && L.at && sayL.indexOf(L.at.toLowerCase()) > say.length * 0.4);
+    const late = layers.filter((L) => !['bg', 'ed-header', 'ed-headline', 'ed-paper', 'toon-sky', 'toon-hills', 'toon-field'].includes(L.type) && typeof L.at === 'string' && sayL.indexOf(L.at.toLowerCase()) > say.length * 0.4);
     if (late.length && !layers.some((L) => !L.at && !['bg', 'ed-header', 'ed-headline'].includes(L.type))) warn('WARN', where, 'nothing visual on frame 1 besides text: put the main visual on screen at 0 s');
   }
   if (bi > 0) {
