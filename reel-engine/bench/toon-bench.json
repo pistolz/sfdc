@@ -1,0 +1,395 @@
+{
+ "series": "bench",
+ "part": 1,
+ "style": "toon",
+ "beats": [
+  {
+   "id": "01",
+   "scene": "compose",
+   "say": "Tonight, the man who's been following you finally shows his face.",
+   "args": {
+    "layers": [
+     {
+      "type": "toon-sky",
+      "preset": "sunset",
+      "horizon": 1500
+     },
+     {
+      "type": "toon-hills",
+      "horizon": 1500,
+      "color": "#3a2350"
+     },
+     {
+      "type": "toon-person",
+      "look": "stranger",
+      "x": 520,
+      "y": 2150,
+      "s": 2.6,
+      "shadowFace": true,
+      "raise": "been",
+      "anim": "none"
+     },
+     {
+      "type": "toon-creature",
+      "kind": "stinger",
+      "x": 880,
+      "y": 760,
+      "s": 0.45,
+      "anim": "none"
+     },
+     {
+      "type": "ui-clock",
+      "x": 152,
+      "y": 300,
+      "day": "DAY 2",
+      "time": "6:42",
+      "ampm": "PM",
+      "place": "Route 22",
+      "anim": "none"
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "been",
+     "slot": "lower",
+     "style": "white",
+     "html": "BEEN<br><span class='y'>FOLLOWING YOU</span>"
+    }
+   ]
+  },
+  {
+   "id": "02",
+   "scene": "compose",
+   "say": "He walks toward you, into the last of the light.",
+   "args": {
+    "camera": {
+     "from": [
+      540,
+      960,
+      1
+     ],
+     "to": [
+      540,
+      940,
+      1.05
+     ]
+    },
+    "layers": [
+     {
+      "type": "toon-sky",
+      "preset": "sunset",
+      "horizon": 640
+     },
+     {
+      "type": "toon-hills",
+      "horizon": 640,
+      "color": "#2e1d45"
+     },
+     {
+      "type": "toon-field",
+      "horizon": 640,
+      "tall": true,
+      "path": {
+       "vx": 470,
+       "top": 40,
+       "bx": 520,
+       "bottom": 600
+      }
+     },
+     {
+      "type": "toon-person",
+      "look": "stranger",
+      "x": 450,
+      "y": 1080,
+      "s": 0.62,
+      "shadowFace": true,
+      "anim": "none",
+      "move": {
+       "to": [
+        460,
+        1140
+       ],
+       "dur": 4
+      }
+     },
+     {
+      "type": "toon-creature",
+      "kind": "stinger",
+      "x": 470,
+      "y": 520,
+      "s": 0.4,
+      "anim": "none"
+     },
+     {
+      "type": "toon-person",
+      "look": "hero",
+      "view": "back",
+      "x": 900,
+      "y": 2250,
+      "s": 2.1,
+      "anim": "none"
+     },
+     {
+      "type": "toon-creature",
+      "kind": "emberkit",
+      "x": 700,
+      "y": 1640,
+      "s": 1.1,
+      "anim": "none"
+     },
+     {
+      "type": "ui-clock",
+      "x": 152,
+      "y": 300,
+      "day": "DAY 2",
+      "time": "6:42",
+      "ampm": "PM",
+      "place": "Route 22",
+      "anim": "none"
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "into",
+     "slot": "lower",
+     "style": "white",
+     "html": "INTO THE<br><span class='y'>LAST OF THE LIGHT,</span>"
+    }
+   ]
+  },
+  {
+   "id": "03",
+   "scene": "compose",
+   "say": "Go, Emberkit! Switching costs your turn.",
+   "args": {
+    "layers": [
+     {
+      "type": "toon-sky",
+      "preset": "sunset",
+      "horizon": 700
+     },
+     {
+      "type": "toon-hedge",
+      "y": 640,
+      "color": "#2b2340"
+     },
+     {
+      "type": "toon-field",
+      "horizon": 700,
+      "colors": [
+       "#86a35a",
+       "#6b8c48",
+       "#4f7037"
+      ],
+      "path": {
+       "vx": 470,
+       "top": 60,
+       "bx": 380,
+       "bottom": 300
+      },
+      "blur": false
+     },
+     {
+      "type": "ui-platform",
+      "x": 760,
+      "y": 780,
+      "w": 420,
+      "anim": "none"
+     },
+     {
+      "type": "toon-creature",
+      "kind": "stinger",
+      "x": 760,
+      "y": 700,
+      "s": 0.85,
+      "anim": "none"
+     },
+     {
+      "type": "toon-person",
+      "look": "stranger",
+      "x": 940,
+      "y": 760,
+      "s": 0.32,
+      "shadowFace": true,
+      "anim": "none"
+     },
+     {
+      "type": "ui-platform",
+      "x": 400,
+      "y": 965,
+      "w": 360,
+      "anim": "none"
+     },
+     {
+      "type": "toon-creature",
+      "kind": "emberkit",
+      "x": 420,
+      "y": 950,
+      "s": 0.6,
+      "at": "Go",
+      "anim": "pop"
+     },
+     {
+      "type": "toon-person",
+      "look": "hero",
+      "view": "back",
+      "x": 215,
+      "y": 1420,
+      "s": 0.95,
+      "anim": "none"
+     },
+     {
+      "type": "ui-hpbox",
+      "x": 345,
+      "y": 383,
+      "w": 430,
+      "name": "Stinger",
+      "level": 20,
+      "hp": [
+       40,
+       40
+      ],
+      "types": [
+       {
+        "text": "bug",
+        "color": "#9aaa2a"
+       },
+       {
+        "text": "poison",
+        "color": "#8f3fa6"
+       }
+      ],
+      "anim": "none"
+     },
+     {
+      "type": "ui-hpbox",
+      "x": 740,
+      "y": 838,
+      "w": 440,
+      "name": "Emberkit",
+      "level": 12,
+      "hp": [
+       32,
+       32
+      ],
+      "player": true,
+      "exp": 0.45,
+      "at": "Go"
+     },
+     {
+      "type": "ui-dialog",
+      "x": 490,
+      "y": 1066,
+      "w": 734,
+      "h": 180,
+      "text": "Go! EMBERKIT!",
+      "anim": "none"
+     },
+     {
+      "type": "ui-tip",
+      "x": 538,
+      "y": 1318,
+      "w": 640,
+      "label": "Trainer tip",
+      "n": 1,
+      "title": "Switching *costs\nyour turn.*",
+      "sub": "Whatever comes in takes the hit.",
+      "at": "Switching"
+     },
+     {
+      "type": "ui-clock",
+      "compact": true,
+      "x": 935,
+      "y": 312,
+      "day": "Day 2",
+      "time": "6:42",
+      "ampm": "PM",
+      "place": "Route 22",
+      "anim": "none"
+     }
+    ]
+   }
+  },
+  {
+   "id": "04",
+   "scene": "compose",
+   "say": "Ask about Silas, ask the way home, or ask her to train you? Comment 1, 2 or 3.",
+   "args": {
+    "layers": [
+     {
+      "type": "toon-gym",
+      "horizon": 1380
+     },
+     {
+      "type": "blur",
+      "color": "rgba(40,30,20,0.25)"
+     },
+     {
+      "type": "toon-person",
+      "look": "hero",
+      "x": 430,
+      "y": 1950,
+      "s": 1.25,
+      "mood": "happy",
+      "anim": "none"
+     },
+     {
+      "type": "toon-person",
+      "look": "girl",
+      "x": 730,
+      "y": 1950,
+      "s": 1.25,
+      "mood": "smirk",
+      "anim": "none"
+     },
+     {
+      "type": "toon-creature",
+      "kind": "bubbit",
+      "x": 300,
+      "y": 1720,
+      "s": 1.0,
+      "anim": "none"
+     },
+     {
+      "type": "toon-creature",
+      "kind": "woolly",
+      "x": 180,
+      "y": 1400,
+      "s": 0.9,
+      "anim": "none"
+     },
+     {
+      "type": "ui-daycard",
+      "x": 540,
+      "y": 470,
+      "kicker": "*SKY WORLD* · DAY 3",
+      "big": "DAY 3",
+      "anim": "none"
+     },
+     {
+      "type": "ui-choices",
+      "x": 540,
+      "y": 820,
+      "w": 640,
+      "options": [
+       {
+        "label": "Ask about Silas",
+        "color": "green"
+       },
+       {
+        "label": "Ask the way home",
+        "color": "yellow"
+       },
+       {
+        "label": "Ask her to train you",
+        "color": "red"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

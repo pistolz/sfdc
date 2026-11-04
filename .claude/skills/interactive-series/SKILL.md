@@ -40,19 +40,26 @@ Rules that make these videos get pushed by the algorithm (retention first):
 
 ## 4. Build the episode → `series/<slug>/part1.json`
 
-Read `reference/layers.md` (episode format + every layer type) and look at `examples/story-example.json`.
-- `scene: "compose"` for every beat; compose each frame from `bg` + `ground`/`city`/`mountains` + characters (`person`) + props (`emoji`, any emoji works) + `particles`.
-- Time every appearance to a word of `say` with `"at"`. Use `camera` for slow push-ins and `shake` on impacts.
-- Captions = `keys`: 2–5 words, the keyword in `<span class='y'>`. Stamps (`stamp-red`) for reveals.
-- HUD: `events` with `days`, `showBudget`, `spend`.
-- A second character's line can use another `voice`, and a coloured `speaker` bar on its caption.
-- Last beat: a `choices` layer + the `choice` block (options with `match` keywords in several languages for vote counting).
-- `cover.html`: the hook in 2–3 lines with the number in `<span class="y">`.
+Read `reference/layers.md` (episode format, then the **Toon series look** section) and start from `examples/toon-example.json` — it reproduces the measured layout of pro interactive-series episodes.
+- `"style": "toon"`; every beat `scene: "compose"`.
+- **Shot vocabulary** (alternate them, a new shot every 2–5 s):
+  1. *Vote recap* (part 2+): field background + `ui-vote` with last part's results.
+  2. *Establishing / wide*: `toon-sky` + `toon-hills` + `toon-field` (`path`, `tall`) with a small character far away and the hero from behind in the foreground (`view: "back"`, s≈2.1) + `ui-clock`.
+  3. *Dramatic close-up*: one character at s≈2.6–3 (y≈2150–2500), `shadowFace` / `raise` / `mood`, `talk: true` when they speak, `ui-speaker` name badge.
+  4. *Battle / action*: `toon-hedge` + field + `ui-platform`s + creatures + hero from behind + `ui-hpbox` ×2 + `ui-dialog` + `ui-hit` + compact `ui-clock`; `hpTo`/`hpAt` to drain HP on a word.
+  5. *Explainer*: `ui-tip` card with a real rule/fact of your world (viewers learn → they watch longer).
+  6. *Ending*: `toon-gym`/`toon-room` + `blur` + characters + `ui-daycard` (`PART N+1`) + `ui-choices` (2–3 options) + the `choice` block.
+- Captions (`keys`): 2 lines, keyword in `<span class='y'>`, `slot: "lower"`; a coloured `speaker` bar when a character talks.
+- Characters: build the cast from `look` presets or custom colours; creatures are original (`emberkit`, `bubbit`, `stinger`, `woolly`) — never use existing franchise characters. Give creatures **viewers' names** with `ui-nametag` (pick them from the comments).
+- Second character voice: `"voice": {...}` on their beats.
+- `cover.html`: `<div class="cover-part">PART N</div><div class="t">LINE 1<br><span class="y">KEY LINE</span></div>` over a dramatic close-up (`coverTime`).
+- The older generic styles (`story` with emoji props, `ai`) still work for other genres.
 
 ## 5. Check before rendering
 
 1. `npm run render -- --episode series/<slug>/part1.json --still 0.3,<t2>,<t3>…` → look at every PNG (Read them). Fix overlaps, empty frames, text outside the safe zone (keep y > 1540 and the right edge free).
 2. Show the user 3–4 stills (cover + key moments) as a second approval if they want to validate the look.
+3. Be honest about quality: the UI and backgrounds match pro episodes closely; drawn characters are simpler than hand-illustrated ones. For a hero shot, the user can supply a PNG illustration (`ed-image`/`src`) to place in a beat.
 
 ## 6. Voice, render, deliver
 

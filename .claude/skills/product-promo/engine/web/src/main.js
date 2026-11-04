@@ -44,7 +44,7 @@ async function init() {
     if (r.ok) timings = await r.json();
   } catch { /* no voice yet */ }
 
-  await Promise.all(['400 64px "Lilita One"', '900 64px Nunito', '800 64px Nunito', '700 64px "Chakra Petch"', '600 64px "Chakra Petch"', '900 64px Orbitron', '700 64px "Space Mono"', '400 64px Anton', '800 64px "Plus Jakarta Sans"', '700 64px "Plus Jakarta Sans"', 'italic 400 64px "Instrument Serif"', '400 64px "JetBrains Mono"', '700 64px "JetBrains Mono"'].map((f) => document.fonts.load(f)));
+  await Promise.all(['400 64px "Lilita One"', '900 64px Nunito', '800 64px Nunito', '700 64px "Chakra Petch"', '600 64px "Chakra Petch"', '900 64px Orbitron', '700 64px "Space Mono"', '400 64px Anton', '800 64px "Plus Jakarta Sans"', '700 64px "Plus Jakarta Sans"', 'italic 400 64px "Instrument Serif"', '400 64px "JetBrains Mono"', '700 64px "JetBrains Mono"', '700 64px Oswald', '600 64px Oswald', '500 64px Oswald'].map((f) => document.fonts.load(f)));
   { const { em, im } = collectAssets(ep); await Promise.all([preloadEmoji(em), preloadImages(im)]); }
 
   // ------------------------------------------------------------ timeline

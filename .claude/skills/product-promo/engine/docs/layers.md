@@ -122,6 +122,33 @@ Layout rules (1080×1920): mono header at y≈290 · headline at x=132, y≈404 
 
 Sound in editorial: soft pops on appear, keyboard clicks while typing, a swish between beats, no music bed (add a trending sound in the app) — `"music": "drone"` to force the tension bed.
 
+
+### Toon series look (`"style": "toon"`) — measured on pro interactive-series episodes
+
+Captions: Oswald, white + `<span class='y'>yellow</span>` keyword, 2 lines max, `slot: "lower"` (y≈1215) — no HUD boxes, no series label; use `ui-clock` instead.
+
+| type | fields |
+|---|---|
+| `toon-sky` | preset: sunset · dusk · day · night; horizon (y) — gradient, sun glow, stars, drifting cloud strips |
+| `toon-hills` | horizon, color — silhouette hills |
+| `toon-hedge` | y, color — dark rounded bushes (battle backdrop) |
+| `toon-field` | horizon, `tall` (long grass), `path: { vx, top, bx, bottom }`, colors[3], blur — perspective grass field with depth of field |
+| `toon-room` | interior (wall, floor tiles, warm light) · `toon-gym`: stone walls, banners, stone floor |
+| `toon-person` | `look`: hero · girl · stranger (or custom colours {skin, hair, top, pants, shoe, hat, coat, long}), `view`: front/back, `mood`: neutral happy angry sad shock smirk, `talk: true` (mouth moves while the beat is spoken), `raise: "word"` (raises the right arm), `wave`, `armL`/`armR`: [shoulder°, elbow°], `headTilt`, `shadowFace` (hat shadow), `noHat`, s (1 ≈ 640 px tall; 2.6 = dramatic close-up with y≈2150) |
+| `toon-creature` | `kind`: emberkit (fire fox) · bubbit (water blob) · stinger (wasp) · woolly (fluffy) — original creatures with idle hop/blink |
+| `ui-clock` | day, time, ampm, place — big stacked clock at x 152, y 300; `compact: true` → one line top-right (x 935, y 312) in battles |
+| `ui-speaker` | text — name badge on a character's chest |
+| `ui-hpbox` | name, level, hp: [cur, max], `hpTo` + `hpAt: "word"` (HP drains), types: [{text, color}], `player: true` (shows numbers + EXP), status — enemy box at (345, 383), player box at (740, 838) |
+| `ui-platform` | w, color — battle ground ellipse |
+| `ui-dialog` | text (\n for 2 lines), typeAt, w 734, h 180 at (490, 1066) — typed battle message + blinking red ▼ |
+| `ui-hit` | at — white impact burst |
+| `ui-tip` | label (`Trainer tip`), n, title with `*yellow*` (can span lines), sub — info card at (540, 1240) |
+| `ui-nametag` | name, level, species, color — creature nickname tag (use voters' names!) |
+| `ui-vote` | title, options [{label, percent}], countAt — results card for the first beat of a part |
+| `ui-choices` | options [{label, color: green yellow red blue}], header, `comment: false` — lit-up numbered choices + "COMMENT 1·2·3" |
+| `ui-daycard` | kicker (`*SERIES* · DAY 3`), big (`DAY 3` / `PART 3`), sub (`FOLLOW FOR PART 3`), red |
+| `blur` | color — translucent veil over the background (fake depth of field) |
+
 Images (`src`) are paths relative to the engine folder, e.g. `assets/screenshot.png`.
 
 ## Other scenes

@@ -12,6 +12,28 @@ import {
 } from './draw.js';
 import { AI, techBg, dataRain, gaiaEye, holoFrame, typed, drone, sysIcon } from './ai.js';
 import { ED_LAYERS, paper } from './editorial.js';
+import { UI_LAYERS } from './gameui.js';
+import { toonPerson, toonCreature, toonSky, toonHills, toonHedge, toonField, toonRoom, toonGym } from './toon.js';
+const TOON_LAYERS = {
+  'toon-sky'(ctx, L, p) { toonSky(ctx, p.t, L.preset || 'sunset', L.horizon ?? 820); },
+  'toon-hills'(ctx, L) { toonHills(ctx, L.horizon ?? 820, L.color || '#3a2350', L.seed ?? 2); },
+  'toon-hedge'(ctx, L) { toonHedge(ctx, L.y ?? 760, L.color || '#2c2440', L.seed ?? 4); },
+  'toon-field'(ctx, L, p) { toonField(ctx, p.t, { horizon: L.horizon ?? 820, colors: L.colors, path: L.path, tall: L.tall, seed: L.seed ?? 5, blur: L.blur !== false }); },
+  'toon-room'(ctx, L) { toonRoom(ctx, L); },
+  'toon-gym'(ctx, L) { toonGym(ctx, L.horizon ?? 980); },
+  'toon-person'(ctx, L, p) {
+    let talk = 0;
+    if (L.talk) { const s0 = 0.15, s1 = 0.15 + p.beat.voiceDur; if (p.lt > s0 && p.lt < s1) talk = 0.35 + 0.65 * Math.abs(Math.sin(p.lt * 11.3) * Math.sin(p.lt * 4.1 + 1)); }
+    const anim = (v) => (Array.isArray(v) && Array.isArray(v[0]) ? v[Math.floor(p.t * 2) % v.length] : v);
+    let armR = L.armR, armL = L.armL;
+    if (L.wave) armR = [150 + Math.sin(p.t * 9) * 18, 30];
+    if (L.raise != null) { const k = easeOut(clamp((p.lt - (p.key(L.raise) ?? 0)) / 0.5)); armR = [lerp(0, 160, k), lerp(0, 60, k)]; }
+    if (L.s) ctx.scale(L.s, L.s);
+    toonPerson(ctx, p.t, { look: L.look || 'hero', view: L.view, mood: L.mood, talk, armL: anim(armL), armR: anim(armR), headTilt: (L.headTilt || 0) + Math.sin(p.t * 1.3 + (L.x || 0)) * 0.02, lookX: L.lookX, phase: (L.x || 0) * 0.01, shadowFace: L.shadowFace, noHat: L.noHat });
+  },
+  'toon-creature'(ctx, L, p) { if (L.s) ctx.scale(L.s, L.s); toonCreature(ctx, p.t, L.kind || 'emberkit', { phase: (L.x || 0) * 0.01, idle: L.idle }); },
+  'blur'(ctx, L) { /* soft overlay to fake depth of field */ ctx.fillStyle = L.color || 'rgba(255,255,255,0.08)'; ctx.fillRect(0, 0, 1080, 1920); },
+};
 
 // ------------------------------------------------------------------ emoji (Twemoji SVG, CC-BY 4.0)
 const emojiCache = new Map();
@@ -280,6 +302,8 @@ const LAYERS = {
   },
 
   ...ED_LAYERS,
+  ...UI_LAYERS,
+  ...TOON_LAYERS,
 };
 let p_t = 0;
 
@@ -291,7 +315,7 @@ export function drawLayers(ctx, p, layers = []) {
   for (const L of layers) {
     const fn = LAYERS[L.type];
     if (!fn) continue;
-    const full = ['bg', 'particles', 'vignette', 'tint', 'mountains', 'ground', 'trees', 'city', 'ed-header', 'ed-headline', 'ed-paper'].includes(L.type);
+    const full = ['bg', 'particles', 'vignette', 'tint', 'mountains', 'ground', 'trees', 'city', 'ed-header', 'ed-headline', 'ed-paper', 'toon-sky', 'toon-hills', 'toon-hedge', 'toon-field', 'toon-room', 'toon-gym', 'blur'].includes(L.type);
     if (full) {
       const { visible, k, outK } = timing(p, L);
       if (!visible && (L.at != null || L.delay)) continue;

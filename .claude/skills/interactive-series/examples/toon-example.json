@@ -1,0 +1,616 @@
+{
+ "series": "NIGHT ROUTE",
+ "part": 2,
+ "style": "toon",
+ "voice": {
+  "name": "en-US-AndrewNeural",
+  "rate": "+4%"
+ },
+ "coverTime": 4.5,
+ "cover": {
+  "html": "<div class=\"cover-part\">PART 2</div><div class=\"t\">THE STRANGER<br><span class=\"y\">SAYS YOUR NAME</span></div>"
+ },
+ "beats": [
+  {
+   "id": "01",
+   "scene": "compose",
+   "say": "Last time, sixty-four percent of you chose to follow the stranger.",
+   "args": {
+    "layers": [
+     {
+      "type": "toon-sky",
+      "preset": "dusk",
+      "horizon": 1300
+     },
+     {
+      "type": "toon-hills",
+      "horizon": 1300,
+      "color": "#2e1d45"
+     },
+     {
+      "type": "toon-field",
+      "horizon": 1300,
+      "tall": true
+     },
+     {
+      "type": "ui-vote",
+      "x": 540,
+      "y": 900,
+      "w": 640,
+      "title": "Part 1 · Instagram vote",
+      "countAt": "sixty-four",
+      "options": [
+       {
+        "label": "Follow the stranger",
+        "percent": 64
+       },
+       {
+        "label": "Run home",
+        "percent": 27
+       },
+       {
+        "label": "Hide in the grass",
+        "percent": 9
+       }
+      ]
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "follow",
+     "slot": "lower",
+     "style": "white",
+     "html": "YOU CHOSE<br><span class='y'>FOLLOW HIM</span>"
+    }
+   ]
+  },
+  {
+   "id": "02",
+   "scene": "compose",
+   "say": "Tonight, the man in the hat finally stops walking.",
+   "args": {
+    "layers": [
+     {
+      "type": "toon-sky",
+      "preset": "sunset",
+      "horizon": 1500
+     },
+     {
+      "type": "toon-hills",
+      "horizon": 1500
+     },
+     {
+      "type": "toon-person",
+      "look": "stranger",
+      "x": 520,
+      "y": 2150,
+      "s": 2.6,
+      "shadowFace": true,
+      "raise": "stops",
+      "anim": "none"
+     },
+     {
+      "type": "toon-creature",
+      "kind": "stinger",
+      "x": 880,
+      "y": 760,
+      "s": 0.45,
+      "anim": "none"
+     },
+     {
+      "type": "ui-clock",
+      "x": 152,
+      "y": 300,
+      "day": "Day 2",
+      "time": "6:42",
+      "ampm": "PM",
+      "place": "Night Route",
+      "anim": "none"
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "finally",
+     "slot": "lower",
+     "style": "white",
+     "html": "FINALLY<br><span class='y'>STOPS WALKING</span>"
+    }
+   ]
+  },
+  {
+   "id": "03",
+   "scene": "compose",
+   "say": "He turns around, right in the middle of the path.",
+   "args": {
+    "camera": {
+     "from": [
+      540,
+      960,
+      1
+     ],
+     "to": [
+      520,
+      930,
+      1.06
+     ]
+    },
+    "layers": [
+     {
+      "type": "toon-sky",
+      "preset": "sunset",
+      "horizon": 640
+     },
+     {
+      "type": "toon-hills",
+      "horizon": 640,
+      "color": "#2e1d45"
+     },
+     {
+      "type": "toon-field",
+      "horizon": 640,
+      "tall": true,
+      "path": {
+       "vx": 470,
+       "top": 40,
+       "bx": 520,
+       "bottom": 600
+      }
+     },
+     {
+      "type": "toon-person",
+      "look": "stranger",
+      "x": 450,
+      "y": 1100,
+      "s": 0.62,
+      "shadowFace": true,
+      "anim": "none"
+     },
+     {
+      "type": "toon-person",
+      "look": "hero",
+      "view": "back",
+      "x": 900,
+      "y": 2250,
+      "s": 2.1,
+      "anim": "none"
+     },
+     {
+      "type": "toon-creature",
+      "kind": "emberkit",
+      "x": 700,
+      "y": 1640,
+      "s": 1.1,
+      "anim": "none"
+     },
+     {
+      "type": "ui-clock",
+      "x": 152,
+      "y": 300,
+      "day": "Day 2",
+      "time": "6:43",
+      "ampm": "PM",
+      "place": "Night Route",
+      "anim": "none"
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "middle",
+     "slot": "lower",
+     "style": "white",
+     "html": "IN THE MIDDLE<br><span class='y'>OF THE PATH.</span>"
+    }
+   ]
+  },
+  {
+   "id": "04",
+   "scene": "compose",
+   "say": "His Stinger attacks. Go, Emberkit!",
+   "args": {
+    "layers": [
+     {
+      "type": "toon-sky",
+      "preset": "sunset",
+      "horizon": 700
+     },
+     {
+      "type": "toon-hedge",
+      "y": 640
+     },
+     {
+      "type": "toon-field",
+      "horizon": 700,
+      "colors": [
+       "#86a35a",
+       "#6b8c48",
+       "#4f7037"
+      ],
+      "path": {
+       "vx": 470,
+       "top": 60,
+       "bx": 380,
+       "bottom": 300
+      },
+      "blur": false
+     },
+     {
+      "type": "ui-platform",
+      "x": 760,
+      "y": 780,
+      "w": 420,
+      "anim": "none"
+     },
+     {
+      "type": "toon-creature",
+      "kind": "stinger",
+      "x": 760,
+      "y": 700,
+      "s": 0.85,
+      "anim": "none"
+     },
+     {
+      "type": "toon-person",
+      "look": "stranger",
+      "x": 940,
+      "y": 760,
+      "s": 0.32,
+      "shadowFace": true,
+      "anim": "none"
+     },
+     {
+      "type": "ui-platform",
+      "x": 400,
+      "y": 965,
+      "w": 360,
+      "anim": "none"
+     },
+     {
+      "type": "toon-creature",
+      "kind": "emberkit",
+      "x": 420,
+      "y": 950,
+      "s": 0.6,
+      "at": "Go"
+     },
+     {
+      "type": "toon-person",
+      "look": "hero",
+      "view": "back",
+      "x": 215,
+      "y": 1420,
+      "s": 0.95,
+      "anim": "none"
+     },
+     {
+      "type": "ui-hpbox",
+      "x": 345,
+      "y": 383,
+      "w": 430,
+      "name": "Stinger",
+      "level": 20,
+      "hp": [
+       40,
+       40
+      ],
+      "types": [
+       {
+        "text": "bug",
+        "color": "#9aaa2a"
+       },
+       {
+        "text": "poison",
+        "color": "#8f3fa6"
+       }
+      ],
+      "anim": "none"
+     },
+     {
+      "type": "ui-hpbox",
+      "x": 740,
+      "y": 838,
+      "w": 440,
+      "name": "Emberkit",
+      "level": 12,
+      "hp": [
+       32,
+       32
+      ],
+      "hpTo": 21,
+      "hpAt": "attacks",
+      "player": true,
+      "exp": 0.45,
+      "at": "Go"
+     },
+     {
+      "type": "ui-hit",
+      "x": 420,
+      "y": 1000,
+      "at": "attacks"
+     },
+     {
+      "type": "ui-dialog",
+      "x": 490,
+      "y": 1066,
+      "w": 734,
+      "h": 180,
+      "text": "Go! EMBERKIT!",
+      "typeAt": "Go",
+      "anim": "none"
+     },
+     {
+      "type": "ui-clock",
+      "compact": true,
+      "x": 935,
+      "y": 312,
+      "day": "Day 2",
+      "time": "6:44",
+      "ampm": "PM",
+      "place": "Night Route",
+      "anim": "none"
+     }
+    ]
+   }
+  },
+  {
+   "id": "05",
+   "scene": "compose",
+   "say": "Fire beats bug. One hit, and it's over.",
+   "args": {
+    "layers": [
+     {
+      "type": "toon-sky",
+      "preset": "sunset",
+      "horizon": 700
+     },
+     {
+      "type": "toon-hedge",
+      "y": 640
+     },
+     {
+      "type": "toon-field",
+      "horizon": 700,
+      "colors": [
+       "#86a35a",
+       "#6b8c48",
+       "#4f7037"
+      ],
+      "blur": false
+     },
+     {
+      "type": "ui-platform",
+      "x": 760,
+      "y": 780,
+      "w": 420,
+      "anim": "none"
+     },
+     {
+      "type": "toon-creature",
+      "kind": "stinger",
+      "x": 760,
+      "y": 700,
+      "s": 0.85,
+      "anim": "none",
+      "loop": "shake"
+     },
+     {
+      "type": "ui-hit",
+      "x": 760,
+      "y": 560,
+      "at": "One hit"
+     },
+     {
+      "type": "ui-hpbox",
+      "x": 345,
+      "y": 383,
+      "w": 430,
+      "name": "Stinger",
+      "level": 20,
+      "hp": [
+       40,
+       40
+      ],
+      "hpTo": 0,
+      "hpAt": "One hit",
+      "types": [
+       {
+        "text": "bug",
+        "color": "#9aaa2a"
+       },
+       {
+        "text": "poison",
+        "color": "#8f3fa6"
+       }
+      ],
+      "anim": "none"
+     },
+     {
+      "type": "ui-tip",
+      "x": 540,
+      "y": 1240,
+      "w": 640,
+      "label": "Trainer tip",
+      "n": 2,
+      "title": "*Fire* beats *bug.*",
+      "sub": "Double damage, every time.",
+      "at": "Fire"
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "over",
+     "slot": "bottom",
+     "style": "white",
+     "html": "<span class='y'>IT'S OVER.</span>"
+    }
+   ]
+  },
+  {
+   "id": "06",
+   "scene": "compose",
+   "say": "Then he takes off his hat... and says your name.",
+   "voice": {
+    "name": "en-US-AndrewNeural",
+    "rate": "-6%"
+   },
+   "args": {
+    "camera": {
+     "from": [
+      540,
+      980,
+      1
+     ],
+     "to": [
+      540,
+      900,
+      1.12
+     ]
+    },
+    "layers": [
+     {
+      "type": "toon-sky",
+      "preset": "dusk",
+      "horizon": 1500
+     },
+     {
+      "type": "toon-hills",
+      "horizon": 1500
+     },
+     {
+      "type": "toon-person",
+      "look": "stranger",
+      "x": 540,
+      "y": 2500,
+      "s": 3.0,
+      "mood": "smirk",
+      "noHat": true,
+      "talk": true,
+      "anim": "none"
+     },
+     {
+      "type": "ui-speaker",
+      "text": "Silas",
+      "x": 540,
+      "y": 1330,
+      "at": "your name"
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "your name",
+     "slot": "lower",
+     "style": "white",
+     "speaker": "#9fb1d6",
+     "html": "HE KNOWS<br><span class='y'>YOUR NAME.</span>"
+    }
+   ]
+  },
+  {
+   "id": "07",
+   "scene": "compose",
+   "say": "Ask who he is, run home, or fight him again? Comment 1, 2 or 3.",
+   "hold": 1.0,
+   "args": {
+    "layers": [
+     {
+      "type": "toon-gym",
+      "horizon": 1380
+     },
+     {
+      "type": "blur",
+      "color": "rgba(40,30,20,0.25)"
+     },
+     {
+      "type": "toon-person",
+      "look": "hero",
+      "x": 430,
+      "y": 1950,
+      "s": 1.25,
+      "mood": "shock",
+      "anim": "none"
+     },
+     {
+      "type": "toon-creature",
+      "kind": "emberkit",
+      "x": 760,
+      "y": 1880,
+      "s": 1.1,
+      "anim": "none"
+     },
+     {
+      "type": "ui-daycard",
+      "x": 540,
+      "y": 470,
+      "kicker": "*NIGHT ROUTE* · PART 2",
+      "big": "PART 3",
+      "sub": "Follow for part 3",
+      "red": true,
+      "anim": "none"
+     },
+     {
+      "type": "ui-choices",
+      "x": 540,
+      "y": 900,
+      "w": 640,
+      "options": [
+       {
+        "label": "Ask who he is",
+        "color": "green"
+       },
+       {
+        "label": "Run home",
+        "color": "yellow"
+       },
+       {
+        "label": "Fight him again",
+        "color": "red"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "choice": {
+  "question": "Ask, run or fight?",
+  "options": [
+   {
+    "id": "ask",
+    "label": "ASK WHO HE IS",
+    "short": "1",
+    "color": "green",
+    "match": [
+     " 1",
+     "ask",
+     "who"
+    ]
+   },
+   {
+    "id": "run",
+    "label": "RUN HOME",
+    "short": "2",
+    "color": "yellow",
+    "match": [
+     " 2",
+     "run",
+     "home"
+    ]
+   },
+   {
+    "id": "fight",
+    "label": "FIGHT HIM AGAIN",
+    "short": "3",
+    "color": "red",
+    "match": [
+     " 3",
+     "fight"
+    ]
+   }
+  ]
+ },
+ "endHold": 2.0
+}
