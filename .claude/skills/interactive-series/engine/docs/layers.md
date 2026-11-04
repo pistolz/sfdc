@@ -118,7 +118,25 @@ Layout rules (1080×1920): mono header at y≈290 · headline at x=132, y≈404 
 | `ed-stamp` | text, at, color |
 | `ed-comment` | keyword, `typeAt` — comment field typing the keyword + big red keyword pill (CTA) |
 | `ed-dm` | handle, message, link, at — Instagram DM card |
+| `ed-product` | `src` (transparent PNG in assets/) or `emoji`, w, `glow` (rgba), `float`, `turn`, `shine`, `tilt` — hero product shot with shadow, float and light sweep |
+| `ed-callout` | `from: [x, y]` (point on the product), `to: [x, y]` (label), text, at — **absolute coordinates** |
+| `ed-price` | old, now, currency, per, note, at — struck old price → new price pop (real prices only) |
+| `ed-compare` | `left: { title, items: [{ text, at }] }`, `right: {…}`, w (≤ 800) — ✕ vs ✓ columns (without / with, them / us) |
+| `ed-beforeafter` | before, after (image paths), labels, at — wipe slider between two photos |
+| `ed-bars` | items [{ label, value, highlight }], prefix, suffix, at — bar chart (real numbers) |
+| `ed-review` | stars, text, author — a REAL customer review |
+| `ed-offer` | title, sub — red offer badge (real deadline only) |
+| `ed-fact` | value (`3x`), label, at — huge italic accent stat |
+| `ed-logo` | src or text, tagline, w |
 | `ed-mascot` | automatic; per beat `"mascotMood": "happy" | "shock" | "sad" | "wink"`, `"mascot": false` to hide |
+
+Brand theme (editorial): `"theme": { "accent": "#1f7aec", "accentSoft": "…", "paper": "#f4f1ea", "ink": "#111", "card": "#141414", "mascot": false | "#c55a40", "grid": false }` — the accent replaces red everywhere.
+
+Music: `"music": { "style": "tech" | "warm" | "tense" | "epic", "bpm": 104, "gain": 0.9 }` (an original bed made in code, ducked under the voice; default for editorial) · `"music": "none"` · `"music": "drone"`. Every render is mastered to −14 LUFS / −1.5 dBTP.
+
+Voice word timing: `npm run voice` stores exact word times (edge-tts word boundaries, or ElevenLabs `with-timestamps` when `"voice": { "eleven": { "id": "<voice id>" } }` and `ELEVENLABS_API_KEY` are set); `at`, headline reveal and typing then follow the real voice.
+
+QA: `npm run qa -- --episode <file>` → script checks (missing `at` words, long beats, hook length, CTA, typing too long, proof to verify) + every-frame safe-zone / empty-frame checks + `out/qa/<name>/sheet.jpg`. 0 errors before the final.
 
 Sound in editorial: soft pops on appear, keyboard clicks while typing, a swish between beats, no music bed (add a trending sound in the app) — `"music": "drone"` to force the tension bed.
 

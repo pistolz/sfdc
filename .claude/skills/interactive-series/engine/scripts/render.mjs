@@ -15,6 +15,7 @@
 //   --chrome <path>     use this Chrome/Chromium binary instead of Puppeteer's
 //   --from <s> --to <s> render only part of the episode (quick tests)
 //   --still <t,t,...>   only save still frames at these seconds (no video)
+//   --workers <n>       parallel render pages (default: min(4, CPU cores - 1))
 //   --scale <k>         render at k × 1080p (e.g. 0.5 for fast drafts)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -119,6 +120,17 @@ try {
   const voice = info.voice.filter((v) => timings[v.id]).map((v) => ({ t: v.t - from, file: path.join(ROOT, timings[v.id].file) })).filter((v) => v.t > -60);
   const sfx = info.audio.map((e) => ({ ...e, t: e.t - from })).filter((e) => e.t > -2.5);
   fs.writeFileSync(wavPath, renderAudio({ voice, sfx, duration: to - from, bed: info.bed }));
+  // loudness: two-pass EBU R128 normalisation to -14 LUFS / -1.5 dBTP (the social-media standard)
+  try {
+    const { spawnSync } = await import('node:child_process');
+    const m = spawnSync(ffmpegPath, ['-hide_banner', '-i', wavPath, '-af', 'loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json', '-f', 'null', '-'], { encoding: 'utf8' });
+    const js = JSON.parse((m.stderr || '').slice((m.stderr || '').lastIndexOf('{')));
+    if (Number.isFinite(Number(js.input_i))) {
+      const normPath = wavPath.replace(/\.wav$/, '_norm.wav');
+      const r = spawnSync(ffmpegPath, ['-y', '-hide_banner', '-loglevel', 'error', '-i', wavPath, '-af', `loudnorm=I=-14:TP=-1.5:LRA=11:measured_I=${js.input_i}:measured_TP=${js.input_tp}:measured_LRA=${js.input_lra}:measured_thresh=${js.input_thresh}:offset=${js.target_offset}:linear=true`, '-ar', '48000', normPath]);
+      if (r.status === 0) { fs.renameSync(normPath, wavPath); console.log(`Audio  → normalised from ${js.input_i} LUFS to -14 LUFS`); }
+    }
+  } catch (e) { console.warn('loudness normalisation skipped:', e.message); }
 
   const cdp = await page.createCDPSession();
   const grab = async () => {
@@ -144,32 +156,39 @@ try {
     await cleanup(0);
   }
 
-  const ff = spawn(ffmpegPath, [
-    '-y', '-hide_banner', '-loglevel', 'error',
-    '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'png', '-i', '-',
-    '-i', wavPath,
-    ...(scale !== 1 ? ['-vf', `scale=${Math.round(1080 * scale / 2) * 2}:${Math.round(1920 * scale / 2) * 2}`] : []),
-    ...ENCODERS[encoder],
-    '-pix_fmt', 'yuv420p', '-r', String(fps),
-    '-c:a', 'aac', '-b:a', '192k', '-shortest', '-movflags', '+faststart',
-    out,
-  ], { stdio: ['pipe', 'inherit', 'inherit'] });
-  const ffDone = new Promise((res, rej) => ff.on('close', (c) => (c === 0 ? res() : rej(new Error(`ffmpeg exited with code ${c}${encoder !== 'x264' ? ` (is your GPU encoder available? try --encoder x264)` : ''}`)))));
-
-  const t0 = Date.now();
-  for (let i = 0; i < frames; i++) {
-    const t = from + i / fps;
-    await page.evaluate((tt) => window.__ep.renderFrame(tt), t);
-    const png = await grab();
-    if (!ff.stdin.write(png)) await new Promise((r) => ff.stdin.once('drain', r));
-    if (i % 15 === 0 || i === frames - 1) {
-      const el = (Date.now() - t0) / 1000;
-      const eta = (el / (i + 1)) * (frames - i - 1);
-      process.stdout.write(`\rFrame ${i + 1}/${frames}  ${(((i + 1) / frames) * 100).toFixed(0)}%  ${(el / (i + 1) * 1000).toFixed(0)} ms/frame  ETA ${eta.toFixed(0)}s   `);
+  // ---- parallel render: N browser pages each encode a contiguous chunk, then the chunks are joined losslessly
+  const workers = Math.max(1, Math.min(Number(args.workers || Math.min(4, Math.max(1, os.cpus().length - 1))), Math.ceil(frames / 30)));
+  const vf = scale !== 1 ? ['-vf', `scale=${Math.round(1080 * scale / 2) * 2}:${Math.round(1920 * scale / 2) * 2}`] : [];
+  const url = page.url();
+  const chunks = [];
+  for (let w = 0; w < workers; w++) chunks.push([Math.floor((frames * w) / workers), Math.floor((frames * (w + 1)) / workers)]);
+  const partFiles = chunks.map((_, w) => out.replace(/\.mp4$/i, '') + `.part${w}.mp4`);
+  let done = 0; const t0 = Date.now();
+  const progress = () => { const el = (Date.now() - t0) / 1000; const eta = (el / Math.max(1, done)) * (frames - done); process.stdout.write(`\rFrame ${done}/${frames}  ${((done / frames) * 100).toFixed(0)}%  ${workers} worker(s)  ETA ${eta.toFixed(0)}s   `); };
+  await Promise.all(chunks.map(async ([fa, fb], w) => {
+    // one browser process per worker: background tabs of a single browser stop painting
+    let pg = page, cd = cdp, br = null;
+    if (w > 0) {
+      br = await puppeteer.launch({ headless: true, executablePath: args.chrome || process.env.CHROME_PATH || undefined, args: chromeArgs, defaultViewport: { width: 1080, height: 1920, deviceScaleFactor: scale }, protocolTimeout: 0 });
+      pg = await br.newPage();
+      await pg.goto(url); await pg.waitForFunction(() => window.__ep?.ready, { timeout: 0 });
+      cd = await pg.createCDPSession();
     }
-  }
-  ff.stdin.end();
-  await ffDone;
+    const ff = spawn(ffmpegPath, ['-y', '-hide_banner', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'png', '-i', '-', ...vf, ...ENCODERS[encoder], '-pix_fmt', 'yuv420p', '-r', String(fps), '-an', partFiles[w]], { stdio: ['pipe', 'inherit', 'inherit'] });
+    const ffDone = new Promise((res, rej) => ff.on('close', (c) => (c === 0 ? res() : rej(new Error(`ffmpeg exited with code ${c}${encoder !== 'x264' ? ' (is your GPU encoder available? try --encoder x264)' : ''}`)))));
+    for (let i = fa; i < fb; i++) {
+      await pg.evaluate((tt) => window.__ep.renderFrame(tt), from + i / fps);
+      const { data } = await cd.send('Page.captureScreenshot', { format: 'png', optimizeForSpeed: true, fromSurface: true });
+      if (!ff.stdin.write(Buffer.from(data, 'base64'))) await new Promise((r) => ff.stdin.once('drain', r));
+      done++; if (done % 15 === 0 || done === frames) progress();
+    }
+    ff.stdin.end(); await ffDone;
+    if (br) await br.close();
+  }));
+  const list = out.replace(/\.mp4$/i, '') + '.parts.txt';
+  fs.writeFileSync(list, partFiles.map((f) => `file '${path.basename(f)}'`).join('\n'));
+  await new Promise((res, rej) => spawn(ffmpegPath, ['-y', '-hide_banner', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', path.basename(list), '-i', wavPath, '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', '-movflags', '+faststart', out], { stdio: 'inherit', cwd: path.dirname(out) }).on('close', (c) => (c === 0 ? res() : rej(new Error('joining the chunks failed')))));
+  for (const f of [...partFiles, list]) fs.rmSync(f, { force: true });
   fs.unlinkSync(wavPath);
   console.log(`\n\nVideo  → ${path.relative(process.cwd(), out)}\n`);
   await cleanup(0);

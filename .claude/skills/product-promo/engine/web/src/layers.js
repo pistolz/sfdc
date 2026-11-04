@@ -13,6 +13,7 @@ import {
 import { AI, techBg, dataRain, gaiaEye, holoFrame, typed, drone, sysIcon } from './ai.js';
 import { ED_LAYERS, paper } from './editorial.js';
 import { UI_LAYERS } from './gameui.js';
+import { PROMO_LAYERS } from './promo.js';
 import { toonPerson, toonCreature, toonSky, toonHills, toonHedge, toonField, toonRoom, toonGym } from './toon.js';
 const TOON_LAYERS = {
   'toon-sky'(ctx, L, p) { toonSky(ctx, p.t, L.preset || 'sunset', L.horizon ?? 820); },
@@ -303,6 +304,7 @@ const LAYERS = {
 
   ...ED_LAYERS,
   ...UI_LAYERS,
+  ...PROMO_LAYERS,
   ...TOON_LAYERS,
 };
 let p_t = 0;

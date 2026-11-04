@@ -4,6 +4,7 @@ import { SCENES as BASE } from './scenes.js';
 import { AI_SCENES } from './scenes-ai.js';
 import { scanlines, glitch } from './ai.js';
 import { drawLayers, preloadEmoji, preloadImages, collectAssets } from './layers.js';
+import { applyTheme } from './promo.js';
 const SCENES = {
   ...BASE, ...AI_SCENES,
   // generic data-driven scene (see layers.js)
@@ -38,6 +39,9 @@ async function init() {
   const epPath = (params.get('episode') || 'episodes/part1.json').replace(/^\/+/, '');
   const ep = await (await fetch('/' + epPath)).json();
   const name = epPath.split('/').pop().replace(/\.json$/, '');
+  applyTheme(ep.theme || {});
+  if (ep.theme?.mascot === false) ep.mascot = false;
+  if (ep.theme?.mascot && typeof ep.theme.mascot === 'string') ep.mascot = { ...(ep.mascot || {}), color: ep.theme.mascot };
   let timings = {};
   try {
     const r = await fetch(`/out/voice/${name}/timings.json`, { cache: 'no-store' });
@@ -68,8 +72,18 @@ async function init() {
   const duration = t0 + END_HOLD;
 
   // where (local time) a word/phrase is spoken inside a beat, proportional to text position
+  const norm = (w) => String(w).toLowerCase().replace(/[^\p{L}\p{N}$%']+/gu, '');
   function keyTime(beat, phrase) {
     if (phrase == null) return null;
+    // exact: word timings from the voice step (edge-tts / ElevenLabs)
+    const words = timings[beat.id]?.words;
+    if (words?.length) {
+      const target = String(phrase).split(/\s+/).map(norm).filter(Boolean);
+      for (let k = 0; k + target.length <= words.length; k++) {
+        if (target.every((tw, j) => norm(words[k + j].w).startsWith(tw) || tw.startsWith(norm(words[k + j].w)) && norm(words[k + j].w).length > 2)) return LEAD + words[k].t;
+      }
+    }
+    // fallback: proportional to the position in the sentence
     const i = beat.say.toLowerCase().indexOf(String(phrase).toLowerCase());
     if (i < 0) return null;
     return LEAD + (i / beat.say.length) * beat.voiceDur;
@@ -192,6 +206,7 @@ async function init() {
     const p = {
       t, lt, d: b.dur, u: clamp(lt / b.dur), st, args: b.args, beat: b, style: ep.style,
       key: (w) => keyTime(b, w),
+      words: (timings[b.id]?.words || []).map((w) => ({ w: w.w, t: LEAD + w.t })),
     };
     ctx.save();
     ctx.clearRect(0, 0, W, H);
@@ -257,7 +272,7 @@ async function init() {
     ready: true, duration, name,
     audio: audio.sort((a, b) => a.t - b.t),
     voice,
-    bed: ep.music ?? (ep.style === 'editorial' ? 'none' : 'drone'),
+    bed: ep.music ?? (ep.style === 'editorial' ? { style: 'tech', bpm: 104, gain: 0.9 } : 'drone'),
     beats: beats.map((b) => ({ id: b.id, start: b.start, dur: b.dur, say: b.say })),
     hasVoice: Object.keys(timings).length > 0,
     renderer: 'Canvas 2D',

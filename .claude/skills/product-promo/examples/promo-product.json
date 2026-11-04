@@ -1,0 +1,238 @@
+{
+  "series": "LUMA bottle",
+  "part": 1,
+  "style": "editorial",
+  "voice": {
+    "name": "en-US-AndrewNeural",
+    "rate": "+6%"
+  },
+  "theme": {
+    "accent": "#1f7aec",
+    "mascot": false
+  },
+  "music": {
+    "style": "tech",
+    "bpm": 104
+  },
+  "coverTime": 0.4,
+  "cover": {
+    "html": "<div class=\"cover-part\">LUMA</div><div class=\"t\">The bottle that<br><i>reminds you to drink.</i></div>"
+  },
+  "beats": [
+    {
+      "id": "01",
+      "scene": "compose",
+      "say": "This bottle glows when you forget to drink.",
+      "args": {
+        "layers": [
+          {
+            "type": "bg",
+            "preset": "paper"
+          },
+          {
+            "type": "ed-header",
+            "left": "// 01 · meet luma",
+            "right": "GLOW",
+            "value": "ON"
+          },
+          {
+            "type": "ed-headline",
+            "text": "This bottle *glows* when you forget to drink."
+          },
+          {
+            "type": "ed-product",
+            "emoji": "🧴",
+            "x": 540,
+            "y": 960,
+            "w": 460,
+            "glow": "rgba(31,122,236,0.35)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "02",
+      "scene": "compose",
+      "say": "A sensor tracks every sip, and the ring lights up every hour.",
+      "continue": true,
+      "args": {
+        "layers": [
+          {
+            "type": "bg",
+            "preset": "paper"
+          },
+          {
+            "type": "ed-header",
+            "left": "// 02 · how it works",
+            "right": "FEATURES",
+            "value": "2"
+          },
+          {
+            "type": "ed-headline",
+            "text": "A sensor tracks *every sip,* and the ring lights up every hour."
+          },
+          {
+            "type": "ed-product",
+            "emoji": "🧴",
+            "x": 540,
+            "y": 960,
+            "w": 460,
+            "anim": "none"
+          },
+          {
+            "type": "ed-callout",
+            "from": [
+              500,
+              1040
+            ],
+            "to": [
+              700,
+              1220
+            ],
+            "text": "Sip sensor",
+            "at": "sensor"
+          },
+          {
+            "type": "ed-callout",
+            "from": [
+              560,
+              800
+            ],
+            "to": [
+              300,
+              640
+            ],
+            "text": "Glow ring",
+            "at": "ring"
+          }
+        ]
+      }
+    },
+    {
+      "id": "03",
+      "scene": "compose",
+      "say": "Without it, you guess. With it, you hit your goal every day.",
+      "args": {
+        "layers": [
+          {
+            "type": "bg",
+            "preset": "paper"
+          },
+          {
+            "type": "ed-header",
+            "left": "// 03 · the difference",
+            "right": "GOAL",
+            "value": "2L"
+          },
+          {
+            "type": "ed-headline",
+            "text": "Without it, you guess. With it, you *hit your goal* every day."
+          },
+          {
+            "type": "ed-compare",
+            "x": 540,
+            "y": 960,
+            "left": {
+              "title": "Without",
+              "items": [
+                {
+                  "text": "Forget to drink",
+                  "at": "guess"
+                },
+                {
+                  "text": "Tired at 3 pm",
+                  "at": "guess"
+                }
+              ]
+            },
+            "right": {
+              "title": "With Luma",
+              "items": [
+                {
+                  "text": "Hourly reminder",
+                  "at": "With it"
+                },
+                {
+                  "text": "Daily goal hit",
+                  "at": "goal"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "04",
+      "scene": "compose",
+      "say": "It's thirty nine dollars this week instead of fifty nine.",
+      "args": {
+        "layers": [
+          {
+            "type": "bg",
+            "preset": "paper"
+          },
+          {
+            "type": "ed-header",
+            "left": "// 04 · the price",
+            "right": "THIS WEEK",
+            "value": "-34%"
+          },
+          {
+            "type": "ed-headline",
+            "text": "It's *thirty nine dollars* this week instead of fifty nine."
+          },
+          {
+            "type": "ed-price",
+            "x": 540,
+            "y": 960,
+            "old": "59",
+            "now": "39",
+            "note": "THIS WEEK ONLY",
+            "at": "thirty"
+          }
+        ]
+      }
+    },
+    {
+      "id": "05",
+      "scene": "compose",
+      "say": "Comment LUMA and I'll send you the link.",
+      "args": {
+        "layers": [
+          {
+            "type": "bg",
+            "preset": "paper"
+          },
+          {
+            "type": "ed-header",
+            "left": "// 05 · get it",
+            "right": "COMMENT",
+            "value": "LUMA"
+          },
+          {
+            "type": "ed-headline",
+            "text": "Comment *LUMA* and I'll send you the link."
+          },
+          {
+            "type": "ed-comment",
+            "x": 540,
+            "y": 680,
+            "keyword": "LUMA",
+            "typeAt": "Comment"
+          },
+          {
+            "type": "ed-dm",
+            "x": 540,
+            "y": 1150,
+            "handle": "luma.bottle",
+            "message": "Here's your link:",
+            "link": "luma.example/shop",
+            "at": "send"
+          }
+        ]
+      }
+    }
+  ],
+  "endHold": 1.5
+}

@@ -55,13 +55,15 @@ export function headline(ctx, p, L) {
   const t0 = L.at != null ? (p.key(L.at) ?? 0) : 0.12;
   const t1 = L.until != null ? (p.key(L.until) ?? p.beat.voiceDur) : (p.beat.voiceDur * (L.pace ?? 0.92) + 0.12);
   const per = Math.max(0.05, (t1 - t0) / Math.max(1, tokens.length));
+  // exact reveal when the headline is the spoken sentence and word timings exist
+  const exact = !L.instant && L.at == null && p.words?.length === tokens.length ? p.words.map((w) => w.t) : null;
   let x = x0, y = y0;
   tokens.forEach((tk, i) => {
     const font = tk.it ? `italic 400 ${size * 1.16}px "${F.serif}"` : `700 ${size}px "${F.sans}"`;
     ctx.font = font;
     const w = ctx.measureText(tk.w).width, sp = ctx.measureText(' ').width;
     if (x + w - x0 > maxW && x > x0) { x = x0; y += lh; }
-    const k = L.instant ? 1 : clamp((p.lt - (t0 + i * per)) / 0.28);
+    const k = L.instant ? 1 : clamp((p.lt - (exact ? exact[i] : t0 + i * per)) / 0.28);
     if (k > 0) {
       ctx.globalAlpha = clamp(k * 1.6);
       ctx.fillStyle = tk.it ? lerpColor(ED.redSoft, L.accent || ED.red, k) : lerpColor(ED.ghost, L.color || ED.ink, k);

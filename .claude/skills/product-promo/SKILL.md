@@ -3,51 +3,30 @@ name: product-promo
 description: Turn a product, app, service or offer into a short vertical sales video (Reels / TikTok / Shorts) in a clean "editorial tech" style — off-white paper, bold sans headline with a red italic serif keyword, mono labels, dark UI cards, a small mascot — ending with a "Comment KEYWORD" call to action. Use when the user says "here is my product, make me a video to sell it", "promo video", "pub pour mon produit", "vidéo pour vendre". Writes the script (hook → objections → how it works → proof → CTA), builds it with code-drawn layers, adds voice-over, renders 1080×1920 MP4 + cover and writes the captions.
 ---
 
-# Product promo video: product → sales Reel
+# Product promo video: product → sales Reel, agency quality
 
-You make a 30–45 s vertical video that sells one product, in the **editorial tech** look: paper background `#EEEEE9` with a faint grid, black bold sans headline (Plus Jakarta Sans) with one *red italic serif* accent (Instrument Serif, `#F03828`), monospace labels (`// 03 · the proof`), dark rounded UI cards, a red mascot bottom-right. Everything is drawn by code with the engine bundled in this skill (`engine/`, see `reference/layers.md`).
+You make a 25–45 s vertical video that sells ONE product, in the editorial "tech creator" look measured on pro reels (paper + grid, bold headline with an accent italic word, mono labels, brutal cards, product shots, a mascot or none). Everything is drawn by code with the engine bundled in this skill (`engine/`). **Read `reference/playbook.md` first** (hooks, structures per product type, craft rules), then `reference/layers.md` (every layer, theme, music, QA).
 
-**Honesty rules**: use only facts the user gives you. Never invent numbers, testimonials, reviews, user counts or results. If a proof number is missing, use a non-numeric proof (a demo, a feature) or a clearly marked placeholder and tell the user. No fake "as seen on" logos.
+**Honesty rules**: use only facts the user gives you. Never invent numbers, reviews, testimonials, user counts, press logos, scarcity or deadlines. Missing proof → show a demo or a feature instead and say so.
 
-## 0. Set up the engine (once per working folder)
+## 0. Engine (once per working folder)
+1. If `./reel-engine/package.json` is missing, copy this skill's `engine/` folder to `./reel-engine`; `cd reel-engine && npm install` (sandbox without Chrome download: `PUPPETEER_SKIP_DOWNLOAD=true`, then `--chrome <path>` on every command).
+2. `pip install edge-tts` for the free voice (or the user's ElevenLabs key in the environment as `ELEVENLABS_API_KEY`, never printed or committed).
+3. Work in `reel-engine/promos/<slug>/`; put the user's assets (transparent product PNGs, screenshots, logo, before/after photos) in `reel-engine/assets/<slug>/`.
 
-1. If `./reel-engine/package.json` does not exist, copy this skill's `engine/` folder to `./reel-engine`.
-2. `cd reel-engine && npm install` (sandbox without Chrome download: `PUPPETEER_SKIP_DOWNLOAD=true`, then render with `--chrome <path>`).
-3. Put the user's screenshots / logo in `reel-engine/assets/` and work in `reel-engine/promos/<slug>/`.
+## 1. Brief → APPROVAL 1 (script)
+1. Collect the brief (playbook §1) in ONE short message; infer the rest from links/photos and state your assumptions.
+2. Pick the structure for the product type (playbook §3) and a hook formula (§2).
+3. Write `promos/<slug>/SCRIPT.md`: the brief recap, the beat table (# · spoken line · on-screen headline with `*accent*` · scene/layers · proof source), the CTA, the cover title, the brand theme.
+4. **Stop and show it.** Apply the user's changes. Skip the wait only if they said "just do it".
 
-## 1. Product brief (ask only what is missing, in one short message)
+## 2. Build → APPROVAL 2 (look)
+1. Write `promos/<slug>/promo.json` from `examples/promo-example.json` (app) or `examples/promo-product.json` (physical product): `"style": "editorial"`, `"theme"` (brand accent, mascot or not), `"music"`, `"voice"`, every beat `scene: "compose"` with `bg` paper → `ed-header` → `ed-headline` (= the spoken sentence) → ONE visual group between y 520 and 1240. Real product photos → `ed-product` / `ed-phone` (`src`) / `ed-image` / `ed-beforeafter`.
+2. `npm run voice -- --episode promos/<slug>/promo.json` (word timings) — if the network blocks it, continue with estimated timing and tell the user.
+3. `npm run qa -- --episode promos/<slug>/promo.json` → fix every ERROR and WARN; Read `out/qa/<name>/sheet.jpg` yourself (overlaps, empty moments, unreadable text).
+4. Render 4–5 stills of the key beats + the cover (`npm run render -- --episode … --still t1,t2,…`), **show them as the look test and wait**.
 
-- What it is and **who it is for** (one sentence).
-- **The one big promise** (time saved, money made, pain removed).
-- **3 key features** or steps of how it works.
-- **Real proof** if any: numbers, results, screenshots, demo.
-- **2–3 objections** buyers have ("too expensive", "another app", "looks AI").
-- **CTA**: comment keyword (one word, e.g. PLAYBOOK, FOCUS) + what they receive in DM, or "link in bio". Language (default English).
-
-## 2. Script (show it before building unless the user said "just do it")
-
-Structure, one sentence per beat, 80–120 words:
-1. **Hook (0–3 s)** — the promise in one line, keyword in italics: "This one app finishes your to-do list in *half the time.*"
-2. **Proof teaser** (optional, only real numbers).
-3. **Objections, numbered**: "First, you might think *it's just another app.*" → answer in one line with a visual (demo card, checklist, number).
-4. **How it works**: 3 steps / checklist / terminal / phone screen.
-5. **CTA**: "Comment *KEYWORD,* and I'll send you …" + "or tap the link in bio."
-
-Each beat's headline uses `*…*` around the 1–3 words to stress (red italic).
-
-## 3. Build → `promos/<slug>/promo.json`
-
-Read `reference/layers.md` (editorial section) and copy the pattern of `examples/promo-example.json` exactly — it reproduces the measured layout of pro "tech creator" reels:
-- `"style": "editorial"`, `"mascot": { "color": "#c55a40" }`, every beat `scene: "compose"`, beats are not cut (paper, header and mascot stay; content settles in).
-- Every beat: `bg` paper → `ed-header` (`// 0N · section` + right label + red value that changes: OBJECTION 1/3, BUILD 4/5, VIEWS 2.04M…) → `ed-headline` (= the spoken sentence, `*accent*` on 1–3 words) → **one visual group** centred between y 520 and 1240: `ed-sticker` + `ed-folder`, `ed-code` → `ed-arrow` → `ed-phone`, `ed-prompt` + `ed-build` + `ed-phone`, `ed-qmarks` + `ed-bubble` (objections), `ed-big` + `ed-pill` + `ed-stat` (proof), `ed-steps` (APPROVED stamps), `ed-comment` + `ed-dm` (CTA).
-- Nothing below y 1240 except the mascot (735, 1360). Set `"mascotMood": "shock"` on objection beats, `"happy"` on the CTA.
-- Time each element to the word that names it (`"at"`), typing to `"typeAt"`; a beat that continues the previous visual can set `"continue": true` and repeat the same layer with `"anim": "none"`.
-- `cover.html`: `<div class="cover-part">PRODUCT</div><div class="t">Promise with <i>italic accent.</i></div>`.
-- For a product with an app or a website, put real screenshots in `assets/` and show them with `ed-phone` (`src`) or `ed-image`.
-
-## 4. Check, voice, render, deliver
-
-1. Stills: `npm run render -- --episode promos/<slug>/promo.json --still 1,5,9,…` → Read them, fix overlaps.
-2. Voice: the voice is half of the "pro" feel. Best: record it or generate it with ElevenLabs, one file per beat in `voice/<episode>/<id>.mp3`. Free fallback: `pip install edge-tts`, `npm run voice -- --episode promos/<slug>/promo.json` (`en-US-AndrewNeural`, rate +6%).
-3. Render: `npm run render -- --episode promos/<slug>/promo.json` (`--encoder nvenc` on NVIDIA; sandbox draft `--scale 0.5 --fps 15`).
-4. Deliver the MP4 + cover, the commands for the user's machine, and **captions** for Instagram/TikTok/Shorts/Facebook: hook line, 2–4 short lines of value, "Comment KEYWORD and I'll DM you …", 3–6 hashtags. Remind them to set up the auto-DM for the keyword (e.g. ManyChat) before posting.
+## 3. Draft → APPROVAL 3 → final
+1. Draft: `npm run render -- --episode … --scale 0.5 --fps 15` → send it.
+2. After the OK: final `npm run render -- --episode …` (`--encoder nvenc` on NVIDIA; `--workers N` parallel pages). Output: MP4 (−14 LUFS) + cover PNG.
+3. Deliver: the video, the cover, the exact commands for the user's own machine, and **captions** for Instagram, TikTok, YouTube Shorts (title ≤ 100 chars + description) and Facebook: hook line, 2–4 value lines, "Comment KEYWORD and I'll DM you…", 3–6 hashtags; remind them to set up the keyword auto-DM (e.g. ManyChat) and to pin a comment.

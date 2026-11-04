@@ -80,6 +80,45 @@ const SFX = {
   },
 };
 
+// ------------------------------------------------------------------ original music bed (made in code)
+const NOTE = (n) => 440 * Math.pow(2, (n - 69) / 12);
+const PROGS = {
+  tech: { root: 57, chords: [[0, 3, 7], [-4, 0, 3], [3, 7, 10], [-2, 2, 5]] },      // Am F C G
+  warm: { root: 60, chords: [[0, 4, 7], [-3, 0, 4], [5, 9, 12], [7, 11, 14]] },     // C Am F G
+  tense: { root: 52, chords: [[0, 3, 7], [0, 3, 7], [-4, -1, 3], [-2, 1, 5]] },
+  epic: { root: 50, chords: [[0, 3, 7], [-4, 0, 3], [-7, -3, 0], [-2, 2, 5]] },
+};
+export function musicBed(N, { style = 'tech', bpm = 104, gain = 1 } = {}, rand) {
+  const L = new Float32Array(N), R = new Float32Array(N);
+  const prog = PROGS[style] || PROGS.tech;
+  const beat = 60 / bpm, bar = beat * 4;
+  const lp = lowpass(2400), lp2 = lowpass(900);
+  for (let i = 0; i < N; i++) {
+    const t = i / SR;
+    const ci = Math.floor(t / bar) % prog.chords.length, ch = prog.chords[ci];
+    const tb = t % beat, t8 = t % (beat / 2), tBar = t % bar;
+    let pad = 0;
+    for (const n of ch) { const f = NOTE(prog.root + n); pad += Math.sin(2 * Math.PI * f * t) * 0.05 + Math.sin(2 * Math.PI * f * 2.003 * t) * 0.015; }
+    pad *= 0.7 + 0.3 * Math.sin(2 * Math.PI * t / bar);
+    // plucked arpeggio on eighths
+    const step = Math.floor(t / (beat / 2)) % 8, an = ch[step % 3] + (step >= 4 ? 12 : 0);
+    const pf = NOTE(prog.root + 12 + an);
+    const pluck = (Math.sin(2 * Math.PI * pf * t8) + 0.3 * Math.sin(4 * Math.PI * pf * t8)) * Math.exp(-t8 * 9) * 0.08;
+    // bass on beats 1 and 3
+    const bt = tBar % (beat * 2), bass = Math.sin(2 * Math.PI * NOTE(prog.root - 12 + ch[0]) * bt) * Math.exp(-bt * 2.2) * 0.14;
+    // soft kick + hats (not for 'warm')
+    let drum = 0;
+    if (style !== 'warm') {
+      drum += Math.sin(2 * Math.PI * (50 + 80 * Math.exp(-tb * 30)) * tb) * Math.exp(-tb * 12) * 0.22;
+      drum += lp2(rand() * 2 - 1) * 0 + (rand() * 2 - 1) * Math.exp(-t8 * 60) * 0.03 * (Math.floor(t / (beat / 2)) % 2 ? 1 : 0.5);
+    }
+    const intro = Math.min(1, t / 1.2);
+    const v = lp(pad + pluck + bass + drum) * gain * intro;
+    L[i] = v * (1 + 0.15 * Math.sin(t * 0.7)); R[i] = v * (1 - 0.15 * Math.sin(t * 0.7));
+  }
+  return [L, R];
+}
+
 function decode(file) {
   const r = spawnSync(ffmpegPath, ['-v', 'error', '-i', file, '-f', 'f32le', '-ac', '2', '-ar', String(SR), '-'], { maxBuffer: 1 << 30 });
   if (r.status !== 0) throw new Error(`Cannot decode ${file}: ${r.stderr}`);
@@ -101,6 +140,8 @@ export function renderAudio({ voice = [], sfx = [], duration, bed = 'drone' }) {
   }
   for (const e of sfx) { const f = SFX[e.type]; if (f) f(L, R, Math.floor(e.t * SR), rand, e); }
 
+  // music bed (object = original track) ducked under the voice
+  const music = bed && typeof bed === 'object' ? musicBed(N, bed, rand) : null;
   // tension drone, ducked under the voice
   const lp = lowpass(140);
   let env = 0;
@@ -110,7 +151,8 @@ export function renderAudio({ voice = [], sfx = [], duration, bed = 'drone' }) {
     env = Math.max(vAmp, env * 0.9995);
     const duck = 1 - Math.min(0.6, env * 2);
     const drone = (Math.sin(2 * Math.PI * 55 * t) * 0.5 + Math.sin(2 * Math.PI * 82.4 * t) * 0.3 + lp(rand() * 2 - 1) * 2) * (0.6 + 0.4 * Math.sin(2 * Math.PI * 0.12 * t));
-    const d = bed === 'none' ? 0 : drone * 0.06 * duck * Math.min(1, t / 1.5);
+    const d = (bed === 'none' || music) ? 0 : drone * 0.06 * duck * Math.min(1, t / 1.5);
+    if (music) { const md = 1 - Math.min(0.55, env * 2.2); L[i] += music[0][i] * md; R[i] += music[1][i] * md; }
     L[i] = L[i] * 0.8 * duck + d + VL[i] * 1.0;
     R[i] = R[i] * 0.8 * duck + d + VR[i] * 1.0;
   }
