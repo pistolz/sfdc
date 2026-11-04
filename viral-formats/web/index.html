@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080">
+<title>Viral formats</title>
+<style>
+  @font-face { font-family: "JB"; src: url(/node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2) format("woff2"); font-weight: 500; }
+  @font-face { font-family: "JB"; src: url(/node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-700-normal.woff2) format("woff2"); font-weight: 700; }
+  @font-face { font-family: "Nunito"; src: url(/node_modules/@fontsource/nunito/files/nunito-latin-900-normal.woff2) format("woff2"); font-weight: 900; }
+  html, body { margin: 0; background: #000; overflow: hidden; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+  #stage canvas { position: absolute; inset: 0; width: 1080px; height: 1920px; display: block; }
+  .label { position: absolute; font-family: "JB", monospace; font-weight: 500; font-size: 30px; letter-spacing: 3px; color: rgba(235,238,245,0.92); text-transform: uppercase; }
+</style>
+<script type="importmap">
+{ "imports": { "three": "/node_modules/three/build/three.module.js", "three/addons/": "/node_modules/three/examples/jsm/" } }
+</script>
+</head>
+<body>
+<div id="stage"></div>
+<script type="module">
+  const q = new URLSearchParams(location.search);
+  const scene = q.get('scene') || 'dominoes';
+  await document.fonts.load('500 30px JB'); await document.fonts.load('900 40px Nunito');
+  const mod = await import(`./src/${scene}.js`);
+  const api = await mod.create(document.getElementById('stage'), Object.fromEntries(q));
+  window.__v = { ...api, ready: true };
+  if (!q.has('render')) { const t0 = performance.now(); const loop = () => { api.renderFrame(((performance.now() - t0) / 1000) % api.duration); requestAnimationFrame(loop); }; loop(); }
+</script>
+</body>
+</html>

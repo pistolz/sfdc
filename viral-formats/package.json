@@ -1,0 +1,17 @@
+{
+  "name": "viral-formats",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Code-only viral reel formats: 3D silhouette loop (Overthinker vs Doer) and seek-and-find scene.",
+  "scripts": {
+    "render": "node scripts/render.mjs"
+  },
+  "dependencies": {
+    "@fontsource/jetbrains-mono": "5.2.5",
+    "@fontsource/nunito": "5.2.7",
+    "ffmpeg-static": "5.2.0",
+    "puppeteer": "24.10.0",
+    "three": "0.170.0"
+  }
+}
