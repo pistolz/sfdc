@@ -1,0 +1,591 @@
+{
+ "series": "100 DAYS TO PAY RENT",
+ "part": 1,
+ "style": "toon",
+ "voice": {
+  "name": "en-US-AndrewNeural",
+  "rate": "+6%",
+  "eleven": {
+   "id": "iP95p4xoKVk53GoZ742B",
+   "model": "eleven_multilingual_v2",
+   "stability": 0.42,
+   "similarity": 0.8,
+   "style": 0.35,
+   "speed": 1.06
+  }
+ },
+ "music": {
+  "style": "warm",
+  "bpm": 100,
+  "gain": 0.8
+ },
+ "cover": {
+  "html": "<div class='cover-part'>DAY 1</div><div class='t'>$12 TO PAY<br><span class='y'>$3,000 RENT</span></div>"
+ },
+ "coverTime": 1.5,
+ "choice": {
+  "question": "Sell the console or deliver food?",
+  "options": [
+   {
+    "id": "sell",
+    "label": "SELL THE CONSOLE",
+    "short": "1",
+    "color": "yellow",
+    "match": [
+     " 1",
+     "sell",
+     "console"
+    ]
+   },
+   {
+    "id": "deliver",
+    "label": "DELIVER FOOD",
+    "short": "2",
+    "color": "green",
+    "match": [
+     " 2",
+     "deliver",
+     "food"
+    ]
+   }
+  ]
+ },
+ "endHold": 1.4,
+ "beats": [
+  {
+   "id": "01",
+   "say": "Leo has twelve dollars and a hundred days to pay three thousand in rent.",
+   "args": {
+    "camera": {
+     "from": [
+      540,
+      980,
+      1.0
+     ],
+     "to": [
+      540,
+      960,
+      1.06
+     ]
+    },
+    "layers": [
+     {
+      "type": "leo-room"
+     },
+     {
+      "type": "toon-person",
+      "look": "leo",
+      "x": 540,
+      "y": 1780,
+      "s": 1.55,
+      "anim": "none",
+      "mood": "sad"
+     },
+     {
+      "type": "prop",
+      "kind": "noodles",
+      "x": 820,
+      "y": 1620,
+      "s": 1.1,
+      "anim": "none"
+     },
+     {
+      "type": "prop",
+      "kind": "pizza",
+      "x": 260,
+      "y": 1700,
+      "s": 1.2,
+      "anim": "none"
+     },
+     {
+      "type": "money-hud",
+      "x": 125,
+      "y": 250,
+      "days": 100,
+      "bank": 12,
+      "goal": 3000,
+      "anim": "none"
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "twelve dollars",
+     "slot": "lower",
+     "style": "white",
+     "html": "$12 \u00b7 100 DAYS<br><span class='y'>$3,000 RENT</span>"
+    }
+   ],
+   "scene": "compose"
+  },
+  {
+   "id": "02",
+   "say": "And you decide every move.",
+   "args": {
+    "camera": {
+     "from": [
+      540,
+      1180,
+      1.5
+     ],
+     "to": [
+      540,
+      1160,
+      1.65
+     ]
+    },
+    "layers": [
+     {
+      "type": "leo-room"
+     },
+     {
+      "type": "toon-person",
+      "look": "leo",
+      "x": 540,
+      "y": 1780,
+      "s": 1.55,
+      "anim": "none",
+      "mood": "shock"
+     },
+     {
+      "type": "prop",
+      "kind": "noodles",
+      "x": 820,
+      "y": 1620,
+      "s": 1.1,
+      "anim": "none"
+     },
+     {
+      "type": "prop",
+      "kind": "pizza",
+      "x": 260,
+      "y": 1700,
+      "s": 1.2,
+      "anim": "none"
+     },
+     {
+      "type": "money-hud",
+      "x": 125,
+      "y": 250,
+      "days": 100,
+      "bank": 12,
+      "goal": 3000,
+      "anim": "none"
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "you decide",
+     "slot": "lower",
+     "style": "white",
+     "html": "YOU DECIDE<br><span class='y'>EVERY MOVE</span>"
+    }
+   ],
+   "scene": "compose"
+  },
+  {
+   "id": "03",
+   "say": "This note came this morning. Pay up, or he's out.",
+   "args": {
+    "layers": [
+     {
+      "type": "leo-room"
+     },
+     {
+      "type": "toon-person",
+      "look": "leo",
+      "x": 540,
+      "y": 2000,
+      "s": 1.5,
+      "anim": "none",
+      "mood": "shock"
+     },
+     {
+      "type": "prop",
+      "kind": "letter",
+      "x": 540,
+      "y": 760,
+      "s": 1.15,
+      "anim": "drop",
+      "loop": "sway"
+     },
+     {
+      "type": "money-hud",
+      "x": 125,
+      "y": 250,
+      "days": 100,
+      "bank": 12,
+      "goal": 3000,
+      "anim": "none"
+     },
+     {
+      "type": "fx-impact",
+      "at": [
+       "out"
+      ],
+      "power": 14,
+      "dur": 0.35
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "out",
+     "slot": "lower",
+     "style": "white",
+     "html": "PAY UP<br><span class='y'>OR HE'S OUT</span>"
+    }
+   ],
+   "scene": "compose"
+  },
+  {
+   "id": "04",
+   "say": "His bank app? Twelve dollars.",
+   "args": {
+    "camera": {
+     "from": [
+      540,
+      960,
+      1.0
+     ],
+     "to": [
+      540,
+      950,
+      1.08
+     ]
+    },
+    "layers": [
+     {
+      "type": "leo-room"
+     },
+     {
+      "type": "blur",
+      "color": "rgba(10,10,25,0.45)"
+     },
+     {
+      "type": "prop",
+      "kind": "phone",
+      "x": 540,
+      "y": 900,
+      "s": 2.2,
+      "anim": "up",
+      "label": "$12.00"
+     },
+     {
+      "type": "money-hud",
+      "x": 125,
+      "y": 250,
+      "days": 100,
+      "bank": 12,
+      "goal": 3000,
+      "anim": "none"
+     }
+    ]
+   },
+   "scene": "compose"
+  },
+  {
+   "id": "05",
+   "say": "So Leo checks what he could sell.",
+   "args": {
+    "layers": [
+     {
+      "type": "leo-room"
+     },
+     {
+      "type": "toon-person",
+      "look": "leo",
+      "x": 540,
+      "y": 1780,
+      "s": 1.55,
+      "anim": "none",
+      "mood": "neutral",
+      "lookX": 0.8,
+      "armR": [
+       40,
+       40
+      ]
+     },
+     {
+      "type": "money-hud",
+      "x": 125,
+      "y": 250,
+      "days": 100,
+      "bank": 12,
+      "goal": 3000,
+      "anim": "none"
+     },
+     {
+      "type": "prop",
+      "kind": "console",
+      "x": 800,
+      "y": 1620,
+      "s": 0.9,
+      "at": "sell"
+     }
+    ]
+   },
+   "scene": "compose"
+  },
+  {
+   "id": "06",
+   "say": "His old game console could get around a hundred and fifty dollars.",
+   "args": {
+    "camera": {
+     "from": [
+      540,
+      960,
+      1.0
+     ],
+     "to": [
+      540,
+      940,
+      1.08
+     ]
+    },
+    "layers": [
+     {
+      "type": "leo-room"
+     },
+     {
+      "type": "blur",
+      "color": "rgba(10,10,25,0.35)"
+     },
+     {
+      "type": "prop",
+      "kind": "console",
+      "x": 560,
+      "y": 960,
+      "s": 1.6,
+      "anim": "pop",
+      "price": "$150",
+      "priceAt": "hundred",
+      "tagX": 120,
+      "tagY": -170
+     },
+     {
+      "type": "money-hud",
+      "x": 125,
+      "y": 250,
+      "days": 100,
+      "bank": 12,
+      "goal": 3000,
+      "anim": "none"
+     }
+    ]
+   },
+   "keys": [
+    {
+     "at": "hundred",
+     "slot": "lower",
+     "style": "white",
+     "html": "<span class='y'>~$150</span>"
+    }
+   ],
+   "scene": "compose"
+  },
+  {
+   "id": "07",
+   "say": "But it was the last gift from his dad.",
+   "args": {
+    "camera": {
+     "from": [
+      540,
+      1180,
+      1.6
+     ],
+     "to": [
+      540,
+      1160,
+      1.75
+     ]
+    },
+    "layers": [
+     {
+      "type": "leo-room"
+     },
+     {
+      "type": "toon-person",
+      "look": "leo",
+      "x": 540,
+      "y": 1780,
+      "s": 1.55,
+      "anim": "none",
+      "mood": "sad",
+      "headTilt": -0.08
+     },
+     {
+      "type": "prop",
+      "kind": "console",
+      "x": 800,
+      "y": 1620,
+      "s": 0.9,
+      "anim": "none"
+     }
+    ]
+   },
+   "scene": "compose"
+  },
+  {
+   "id": "08",
+   "say": "Or he keeps it, and starts delivering food tonight.",
+   "args": {
+    "layers": [
+     {
+      "type": "leo-room"
+     },
+     {
+      "type": "toon-person",
+      "look": "leo",
+      "x": 400,
+      "y": 1780,
+      "s": 1.55,
+      "anim": "none",
+      "mood": "smirk",
+      "raise": "delivering"
+     },
+     {
+      "type": "prop",
+      "kind": "bag",
+      "x": 800,
+      "y": 1300,
+      "s": 1.1,
+      "at": "delivering",
+      "anim": "drop"
+     },
+     {
+      "type": "money-hud",
+      "x": 125,
+      "y": 250,
+      "days": 100,
+      "bank": 12,
+      "goal": 3000,
+      "anim": "none"
+     }
+    ]
+   },
+   "scene": "compose"
+  },
+  {
+   "id": "09",
+   "say": "Sell the console, or deliver food?",
+   "args": {
+    "layers": [
+     {
+      "type": "leo-room"
+     },
+     {
+      "type": "blur",
+      "color": "rgba(10,10,25,0.35)"
+     },
+     {
+      "type": "toon-person",
+      "look": "leo",
+      "x": 540,
+      "y": 1900,
+      "s": 1.3,
+      "anim": "none",
+      "mood": "neutral"
+     },
+     {
+      "type": "money-hud",
+      "x": 125,
+      "y": 250,
+      "days": 100,
+      "bank": 12,
+      "goal": 3000,
+      "anim": "none"
+     },
+     {
+      "type": "ui-choices",
+      "x": 540,
+      "y": 820,
+      "w": 700,
+      "at": "sell",
+      "header": "YOUR VOTE = DAY 2",
+      "options": [
+       {
+        "label": "Sell the console",
+        "color": "yellow"
+       },
+       {
+        "label": "Deliver food",
+        "color": "green"
+       }
+      ],
+      "comment": false
+     }
+    ]
+   },
+   "keys": [],
+   "scene": "compose"
+  },
+  {
+   "id": "10",
+   "say": "Comment one or two. Your vote decides day two.",
+   "hold": 1.0,
+   "args": {
+    "layers": [
+     {
+      "type": "leo-room"
+     },
+     {
+      "type": "blur",
+      "color": "rgba(10,10,25,0.35)"
+     },
+     {
+      "type": "toon-person",
+      "look": "leo",
+      "x": 540,
+      "y": 1900,
+      "s": 1.3,
+      "anim": "none",
+      "mood": "neutral"
+     },
+     {
+      "type": "money-hud",
+      "x": 125,
+      "y": 250,
+      "days": 100,
+      "bank": 12,
+      "goal": 3000,
+      "anim": "none"
+     },
+     {
+      "type": "ui-choices",
+      "x": 540,
+      "y": 820,
+      "w": 700,
+      "header": "YOUR VOTE = DAY 2",
+      "options": [
+       {
+        "label": "Sell the console",
+        "color": "yellow"
+       },
+       {
+        "label": "Deliver food",
+        "color": "green"
+       }
+      ],
+      "delay": 0
+     }
+    ],
+    "camera": {
+     "from": [
+      540,
+      960,
+      1.0
+     ],
+     "to": [
+      540,
+      900,
+      1.08
+     ]
+    }
+   },
+   "keys": [],
+   "scene": "compose"
+  }
+ ]
+}

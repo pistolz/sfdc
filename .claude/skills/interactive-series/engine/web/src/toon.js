@@ -40,6 +40,7 @@ function smoothShape(pts) {
 
 // ------------------------------------------------------------------ palettes
 export const LOOKS = {
+  leo: { skin: '#e9b896', skinS: '#cf9473', hair: '#5a3a26', hairS: '#3e2718', top: '#8a8f9c', topS: '#6e7380', pants: '#2f3442', pantsS: '#222632', shoe: '#e8e4dc', shoeS: '#bdb8ae', band: '#6e7380', strings: '#d8dbe2', stain: 'rgba(120,80,40,0.55)' },
   hero: { skin: '#f6caa8', skinS: '#e3a684', hair: '#4a3026', hairS: '#33201a', top: '#26324f', topS: '#1a2440', pants: '#3e5174', pantsS: '#2c3a58', shoe: '#f2f2f2', shoeS: '#c9ccd4', band: '#d8443b', strings: '#e9e9ee' },
   girl: { skin: '#f7cfb0', skinS: '#e6ab8a', hair: '#7a4528', hairS: '#5a3019', top: '#4f7a3b', topS: '#3b5e2b', pants: '#4a3a33', pantsS: '#382b25', shoe: '#7a4b2a', shoeS: '#5a361d', band: '#c9a35a', strings: '#efe6d4', long: true },
   stranger: { skin: '#e9b896', skinS: '#cf9473', hair: '#1f1b22', hairS: '#121014', top: '#8a5530', topS: '#6a3f22', pants: '#3a3030', pantsS: '#2a2222', shoe: '#2a2222', shoeS: '#1a1515', band: '#5a4632', strings: '#c9d2e6', coat: true, hat: '#4a3528' },
@@ -86,6 +87,7 @@ export function toonPerson(ctx, t, o = {}) {
       ctx.strokeStyle = c.strings; ctx.lineWidth = 6; ctx.lineCap = 'round';
       for (const s of [-1, 1]) { ctx.beginPath(); ctx.moveTo(s * 20, -362); ctx.lineTo(s * 24, -300); ctx.stroke(); circle(ctx, s * 24, -296, 5, c.strings); }
       cel(ctx, roundRect(-70, -275, 140, 58, 18), c.topS, null, { line: true });
+      if (c.stain) { ctx.fillStyle = c.stain; for (const [sx2, sy2, r2] of [[-50, -330, 16], [40, -250, 12], [62, -360, 9], [-20, -228, 8]]) { ctx.beginPath(); ctx.ellipse(sx2, sy2, r2 * 1.3, r2, 0.4, 0, Math.PI * 2); ctx.fill(); } }
     }
   } else {
     cel(ctx, smoothShape([[-80, -400], [80, -400], [70, -330], [0, -300], [-70, -330]]), c.topS, null); // hood on the back
