@@ -23,3 +23,17 @@ How many did you find? Comment your number 👇 (no spoilers!)
 Tag the friend who'll only find 3 😏
 #findthebee #bees #cute #seekandfind #hiddenobjects #puzzle #kawaii #cozy
 Sound: playful cute / lo-fi music in the app.
+
+## Sister Survival Scoops — Day 1 (send-first)
+Did you know buying your sister🍦
+🍦ICE CREAM 🍦🍦eveny week helps
+You live longer🤝🫶
+
+…because she can't kill you while she's eating 🙂
+
+Brothers: send this to her 📤
+Sisters: send it to him 👀
+No 🍦 back in 24h? …run. 🏃
+
+#siblings #sister #brother #icecream #siblinglove #funny #relatable #sarcasm
+Sound: cute/trending upbeat sound in the app.
