@@ -1,7 +1,7 @@
 {
   "name": "Flag Wars",
   "tagline": "1 comment = 1 flag. Who conquers the world?",
-  "day": 4,
+  "day": 5,
   "rules": {
     "levelSteps": [
       9,
@@ -13,7 +13,7 @@
     ]
   },
   "links": {
-    "latestEpisode": "https://www.instagram.com/reel/DfQJmTtqjby/",
+    "latestEpisode": "https://www.instagram.com/reel/DfYMJS_R-a1/",
     "instagram": "https://www.instagram.com/ads_noads/",
     "tiktok": "",
     "youtube": ""
@@ -53,6 +53,15 @@
       "summary": "118 countries claimed, 77 still open. USA took #2 from Czechia. New founders: Cuba, Puerto Rico, Saint Vincent and the Grenadines, Bolivia, Luxembourg, Burkina Faso, Thailand, Mongolia, Palau, Tuvalu. Who wins tomorrow?",
       "links": {
         "instagram": "https://www.instagram.com/reel/DfQJmTtqjby/"
+      }
+    },
+    {
+      "day": 5,
+      "date": "2026-11-05",
+      "title": "Day 5: Canada vs Romania tied 19-19",
+      "summary": "132 countries claimed, 63 still open. Germany won yesterday 22\u201319. 16 new founders from El Salvador to Kiribati. Who wins tomorrow?",
+      "links": {
+        "instagram": "https://www.instagram.com/reel/DfYMJS_R-a1/"
       }
     }
   ]
