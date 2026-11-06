@@ -316,5 +316,45 @@
     "day": 2,
     "ts": "2026-11-01T13:39:34.771Z",
     "source": "manual"
+  },
+  {
+    "id": "18143444830524501",
+    "handle": "pranithparajuli",
+    "club": "barcelona",
+    "day": 3,
+    "ts": "2026-11-01T06:58:46+0000",
+    "source": "import"
+  },
+  {
+    "id": "18141745864722613",
+    "handle": "pranithparajuli",
+    "club": "barcelona",
+    "day": 3,
+    "ts": "2026-11-01T06:58:54+0000",
+    "source": "import"
+  },
+  {
+    "id": "18292739677294611",
+    "handle": "pranithparajuli",
+    "club": "barcelona",
+    "day": 3,
+    "ts": "2026-11-01T06:59:00+0000",
+    "source": "import"
+  },
+  {
+    "id": "18060247766561730",
+    "handle": "young._.adam",
+    "club": "real-madrid",
+    "day": 3,
+    "ts": "2026-11-02T17:14:56+0000",
+    "source": "import"
+  },
+  {
+    "id": "17971872566980675",
+    "handle": "hellrider_dk_417",
+    "club": "real-madrid",
+    "day": 3,
+    "ts": "2026-11-04T14:24:59+0000",
+    "source": "import"
   }
 ]

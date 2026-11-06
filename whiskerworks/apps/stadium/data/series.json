@@ -2,7 +2,7 @@
   "name": "Stadium Builder",
   "tagline": "1 club = 1 stand. Build the biggest stadium in the world.",
   "rule": "1 club = 1 stand",
-  "day": 2,
+  "day": 3,
   "rules": {
     "foundingSeats": 500,
     "seatsPerComment": 100,
@@ -36,7 +36,7 @@
     ]
   },
   "links": {
-    "latestEpisode": "https://www.instagram.com/reel/DfGCHIdxy_v/",
+    "latestEpisode": "https://www.instagram.com/reel/DfVxnk7xzOD/",
     "instagram": "https://www.instagram.com/ads_noads/",
     "tiktok": "",
     "youtube": ""
@@ -57,6 +57,15 @@
       "title": "Day 2: your comments built 32 stands ⚽ Level 2 unlocked",
       "summary": "You named 32 real clubs in 38 comments. Real Madrid and Barcelona lead with 700 seats each. Total: 16,600 seats, Level 2 Town stadium. Which club gets stand #33?",
       "links": {}
+    },
+    {
+      "day": 3,
+      "date": "2026-11-04",
+      "title": "Day 3: Barça pulls ahead ⚽ 17,100 seats",
+      "summary": "Five new comments: Barcelona +300, Real Madrid +200. Total 17,100 seats, Level 2 Town stadium, 32 clubs. Canada vs Romania wait — which club builds stand #33?",
+      "links": {
+        "instagram": "https://www.instagram.com/reel/DfVxnk7xzOD/"
+      }
     }
   ]
 }
