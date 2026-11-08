@@ -161,6 +161,15 @@ def vote_card(x, y, label, icon):
     s += icon + f'<text x="0" y="170" font-family="Nunito" font-weight="900" font-size="70" text-anchor="middle" fill="{ink}">{label}</text></g>'
     return s
 
+def phone_chat():
+    s = rect(190, 380, 700, 1220, '#17181d', 14, 80) + rect(225, 470, 630, 1040, '#e6ded0', 6, 24)
+    s += rect(430, 420, 220, 26, '#2b2d34', 0, 13)
+    s += rect(225, 470, 630, 130, '#f6f1e6', 0, 24) + path('M225 600H855', 'none', ink, 4)
+    s += ellipse(300, 535, 42, 42, '#d9a8c6', ink, 4) + f'<text x="300" y="550" font-family="Nunito" font-weight="900" font-size="36" text-anchor="middle" fill="{ink}">M</text>'
+    s += f'<text x="365" y="530" font-family="Nunito" font-weight="900" font-size="40" fill="{ink}">Margot ❤️‍🩹</text>'
+    s += f'<text x="365" y="570" font-family="Nunito" font-weight="800" font-size="26" fill="#8a7f6a">ex-wife · online</text>'
+    return s
+
 ART = {
     'defs': defs + NEWDEFS,
     'lobby': scene,                       # 600×1067, Gus removed
@@ -168,7 +177,7 @@ ART = {
     'closeBg': right,                     # x 604..1200 panel, head removed
     'motelNight': motel('night'), 'motelDawn': motel('dawn'),
     'neon': neon_sign(), 'neonDim': neon_sign((1, 0, 1, 1, 0), True),
-    'bulldozer': bulldozer(), 'phone': phone(), 'roach': roach_svg(),
+    'bulldozer': bulldozer(), 'phone': phone(), 'phoneChat': phone_chat(), 'roach': roach_svg(),
     'bathroom': bathroom(), 'floor': floor_bg(),
     'cardRoach': vote_card(0, 0, 'ROACHES', icon_roach(0, -60, 3.2)), 'cardToilet': vote_card(0, 0, 'TOILET', icon_toilet(0, -60, 1.6)),
 }
