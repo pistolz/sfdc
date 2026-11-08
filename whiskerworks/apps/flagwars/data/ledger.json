@@ -5414,5 +5414,581 @@
     "day": 5,
     "ts": "2026-11-03T03:19:08+0000",
     "source": "day04_reel"
+  },
+  {
+    "id": "17970214413191388",
+    "handle": "kadencado",
+    "country": "VN",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18123950540057861",
+    "handle": "sock_man_21",
+    "country": "US",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18345804622287115",
+    "handle": "sock_man_21",
+    "country": "US",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18499585183097802",
+    "handle": "sock_man_21",
+    "country": "US",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "17922695820444499",
+    "handle": "sock_man_21",
+    "country": "US",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18500528059103895",
+    "handle": "__glac.tic_._._",
+    "country": "IN",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "17910643182574621",
+    "handle": "young._.adam",
+    "country": "BW",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18484778305115641",
+    "handle": "unclefromtokyo",
+    "country": "HR",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18645419143020239",
+    "handle": "tanddjbenx",
+    "country": "IN",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18141143914723118",
+    "handle": "stephan.landry2015",
+    "country": "US",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18083489354718490",
+    "handle": "gingtoniccss",
+    "country": "BE",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "17910348648666524",
+    "handle": "vl_hlua",
+    "country": "IN",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18069114251795251",
+    "handle": "emilka.farna",
+    "country": "CZ",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18128718379924862",
+    "handle": "leojaloin",
+    "country": "FI",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "17964653127250391",
+    "handle": "pr.inc.e388",
+    "country": "NP",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "17910373551577811",
+    "handle": "bisxxz03",
+    "country": "ID",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "17956318194275293",
+    "handle": "shayan74424",
+    "country": "PK",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "17873030004648155",
+    "handle": "tstansum9",
+    "country": "RU",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18089111999702529",
+    "handle": "idk_asher.a",
+    "country": "PK",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18116565722601683",
+    "handle": "proivan2026new",
+    "country": "HK",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "17940826713393402",
+    "handle": "proivan2026new",
+    "country": "CN",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18104215349315232",
+    "handle": "shardups",
+    "country": "TV",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18111958838176590",
+    "handle": "oscarmyoli",
+    "country": "ZA",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "17915000145514641",
+    "handle": "noso_k67",
+    "country": "UA",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "17909536737330166",
+    "handle": "_znx_dev_106",
+    "country": "IN",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18385019269235444",
+    "handle": "_znx_dev_106",
+    "country": "IN",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18377503846210641",
+    "handle": "_znx_dev_106",
+    "country": "IN",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18095375135168863",
+    "handle": "_znx_dev_106",
+    "country": "IN",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "17971550327960343",
+    "handle": "_znx_dev_106",
+    "country": "IN",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18093783221285800",
+    "handle": "_znx_dev_106",
+    "country": "IN",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18118561607045215",
+    "handle": "_znx_dev_106",
+    "country": "IN",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18029474558872925",
+    "handle": "_znx_dev_106",
+    "country": "IN",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18071860370781395",
+    "handle": "kierangrahn_racing",
+    "country": "AE",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "17978944785141435",
+    "handle": "ripzooombie",
+    "country": "PK",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "17945868306090199",
+    "handle": "manoj.hole.96",
+    "country": "AU",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "18080776910735600",
+    "handle": "ronaldos071914",
+    "country": "PH",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "17913652563489576",
+    "handle": "m1nty_w0werz",
+    "country": "US",
+    "day": 6,
+    "ts": "",
+    "source": "day03_catchup"
+  },
+  {
+    "id": "17997954564028301",
+    "handle": "_tnm55_",
+    "country": "IQ",
+    "day": 6,
+    "ts": "2026-11-03T04:05:04+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "17907950175670409",
+    "handle": "dumitruandreioprea",
+    "country": "RO",
+    "day": 6,
+    "ts": "2026-11-03T05:35:14+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "17884788483529584",
+    "handle": "mbence1014",
+    "country": "HU",
+    "day": 6,
+    "ts": "2026-11-03T05:43:45+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18024910706716207",
+    "handle": "chhayakamble757",
+    "country": "IN",
+    "day": 6,
+    "ts": "2026-11-03T06:13:54+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18121768253532625",
+    "handle": "antoniswiecicki",
+    "country": "PL",
+    "day": 6,
+    "ts": "2026-11-03T09:33:39+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18083665490412660",
+    "handle": "mobz_vibez",
+    "country": "KE",
+    "day": 6,
+    "ts": "2026-11-03T11:06:10+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18113082113333440",
+    "handle": "bog5_sr",
+    "country": "RO",
+    "day": 6,
+    "ts": "2026-11-03T11:18:18+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "17911627677664046",
+    "handle": "bog5_sr",
+    "country": "RO",
+    "day": 6,
+    "ts": "2026-11-03T11:18:22+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18087052952326951",
+    "handle": "iamdancinggamer",
+    "country": "VE",
+    "day": 6,
+    "ts": "2026-11-03T12:30:45+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18113698526142532",
+    "handle": "not.sisoo_2403",
+    "country": "BG",
+    "day": 6,
+    "ts": "2026-11-03T13:26:45+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18091803215497371",
+    "handle": "hellrider_dk_417",
+    "country": "BY",
+    "day": 6,
+    "ts": "2026-11-03T14:02:00+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18032209301857293",
+    "handle": "hellrider_dk_417",
+    "country": "BY",
+    "day": 6,
+    "ts": "2026-11-03T14:02:57+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18100130252537934",
+    "handle": "miniature.food.ai",
+    "country": "PK",
+    "day": 6,
+    "ts": "2026-11-03T14:52:02+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18061252397555882",
+    "handle": "mari0_1314",
+    "country": "RO",
+    "day": 6,
+    "ts": "2026-11-03T15:32:44+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18037197221913141",
+    "handle": "nikail.b",
+    "country": "ZA",
+    "day": 6,
+    "ts": "2026-11-03T19:19:57+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18107157914202717",
+    "handle": "oscarmyoli",
+    "country": "ZA",
+    "day": 6,
+    "ts": "2026-11-04T04:01:14+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18126615997923550",
+    "handle": "taaviluoma",
+    "country": "FI",
+    "day": 6,
+    "ts": "2026-11-04T06:20:28+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18168686335479690",
+    "handle": "bhvx.footy",
+    "country": "BT",
+    "day": 6,
+    "ts": "2026-11-04T08:27:32+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18140647714558827",
+    "handle": "davidkarodo11",
+    "country": "CG",
+    "day": 6,
+    "ts": "2026-11-04T10:26:56+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18131841295691916",
+    "handle": "pranav_wagale28",
+    "country": "BT",
+    "day": 6,
+    "ts": "2026-11-04T13:42:50+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "17917817493521320",
+    "handle": "veeresh_kustagi_",
+    "country": "IN",
+    "day": 6,
+    "ts": "2026-11-04T13:49:14+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "17921123958262576",
+    "handle": "ffinsta_edwin",
+    "country": "NG",
+    "day": 6,
+    "ts": "2026-11-04T14:59:12+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18120014068972922",
+    "handle": "ozgurmirackucukkaya",
+    "country": "TR",
+    "day": 6,
+    "ts": "2026-11-04T16:59:57+0000",
+    "source": "day04_late"
+  },
+  {
+    "id": "18141797422539396",
+    "handle": "leo_spear_1",
+    "country": "PL",
+    "day": 6,
+    "ts": "2026-11-05T23:40:47+0000",
+    "source": "day05_reel"
+  },
+  {
+    "id": "18389281327224516",
+    "handle": "antventure12",
+    "country": "AU",
+    "day": 6,
+    "ts": "2026-11-05T23:42:49+0000",
+    "source": "day05_reel"
+  },
+  {
+    "id": "17940305682391783",
+    "handle": "kujako_bloxd",
+    "country": "JP",
+    "day": 6,
+    "ts": "2026-11-05T23:43:05+0000",
+    "source": "day05_reel"
+  },
+  {
+    "id": "18124333507980595",
+    "handle": "frankib2011",
+    "country": "IT",
+    "day": 6,
+    "ts": "2026-11-05T23:58:26+0000",
+    "source": "day05_reel"
+  },
+  {
+    "id": "17884394886628668",
+    "handle": "daniel0528dks",
+    "country": "CO",
+    "day": 6,
+    "ts": "2026-11-06T00:00:11+0000",
+    "source": "day05_reel"
+  },
+  {
+    "id": "18095020901191525",
+    "handle": "zachelsharif",
+    "country": "TO",
+    "day": 6,
+    "ts": "2026-11-06T00:12:00+0000",
+    "source": "day05_reel"
+  },
+  {
+    "id": "18115856048142786",
+    "handle": "j_o_s_u_t_o",
+    "country": "IN",
+    "day": 6,
+    "ts": "2026-11-06T00:18:58+0000",
+    "source": "day05_reel"
+  },
+  {
+    "id": "17944865136370561",
+    "handle": "stlvar.z",
+    "country": "GH",
+    "day": 6,
+    "ts": "2026-11-06T01:19:47+0000",
+    "source": "day05_reel"
+  },
+  {
+    "id": "17980203149940233",
+    "handle": "jayceeee.01",
+    "country": "PH",
+    "day": 6,
+    "ts": "2026-11-06T02:19:33+0000",
+    "source": "day05_reel"
+  },
+  {
+    "id": "18100082720435774",
+    "handle": "braxxzs0n",
+    "country": "HN",
+    "day": 6,
+    "ts": "2026-11-06T02:22:12+0000",
+    "source": "day05_reel"
+  },
+  {
+    "id": "18098685125444893",
+    "handle": "young._.adam",
+    "country": "BW",
+    "day": 6,
+    "ts": "2026-11-06T03:06:53+0000",
+    "source": "day05_reel"
+  },
+  {
+    "id": "18113939252236866",
+    "handle": "peterrojasquijano",
+    "country": "PA",
+    "day": 6,
+    "ts": "2026-11-06T03:49:40+0000",
+    "source": "day05_reel"
   }
 ]

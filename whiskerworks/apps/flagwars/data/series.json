@@ -1,7 +1,7 @@
 {
   "name": "Flag Wars",
   "tagline": "1 comment = 1 flag. Who conquers the world?",
-  "day": 5,
+  "day": 6,
   "rules": {
     "levelSteps": [
       9,
@@ -13,7 +13,7 @@
     ]
   },
   "links": {
-    "latestEpisode": "https://www.instagram.com/reel/DfYMJS_R-a1/",
+    "latestEpisode": "https://www.instagram.com/reel/DfbI30jxhJG/",
     "instagram": "https://www.instagram.com/ads_noads/",
     "tiktok": "",
     "youtube": ""
@@ -59,9 +59,18 @@
       "day": 5,
       "date": "2026-11-05",
       "title": "Day 5: Canada vs Romania tied 19-19",
-      "summary": "132 countries claimed, 63 still open. Germany won yesterday 22\u201319. 16 new founders from El Salvador to Kiribati. Who wins tomorrow?",
+      "summary": "132 countries claimed, 63 still open. Germany won yesterday 22–19. 16 new founders from El Salvador to Kiribati. Who wins tomorrow?",
       "links": {
         "instagram": "https://www.instagram.com/reel/DfYMJS_R-a1/"
+      }
+    },
+    {
+      "day": 6,
+      "date": "2026-11-06",
+      "title": "Day 6: Poland vs Pakistan tied 20-20",
+      "summary": "137 countries claimed, 58 still open. Romania won yesterday 23–19. India unlocked its CAPITAL at 100 flags. New founders: Croatia, Belarus, Venezuela, Congo, Tonga. Who wins tomorrow?",
+      "links": {
+        "instagram": "https://www.instagram.com/reel/DfbI30jxhJG/"
       }
     }
   ]
