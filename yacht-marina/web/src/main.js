@@ -23,6 +23,14 @@ const ACCENTS = ['#1d4ed8', '#0ea5e9', '#e11d48', '#10b981', '#f59e0b', '#7c3aed
 
 async function loadFlagTexture(cc) {
   if (!cc) return null;
+  if (cc === 'pirate') { // generic skull & crossbones (original drawing)
+    const c = document.createElement('canvas'); c.width = 160; c.height = 120; const g = c.getContext('2d');
+    g.fillStyle = '#111'; g.fillRect(0, 0, 160, 120); g.strokeStyle = '#f2efe6'; g.lineWidth = 12; g.lineCap = 'round';
+    g.beginPath(); g.moveTo(45, 95); g.lineTo(115, 40); g.moveTo(45, 40); g.lineTo(115, 95); g.stroke();
+    g.fillStyle = '#f2efe6'; g.beginPath(); g.arc(80, 50, 26, 0, 7); g.fill(); g.fillRect(66, 62, 28, 20);
+    g.fillStyle = '#111'; g.beginPath(); g.arc(70, 50, 7, 0, 7); g.arc(90, 50, 7, 0, 7); g.fill(); g.fillRect(77, 60, 6, 8);
+    const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; return tex;
+  }
   const img = new Image();
   img.src = flagUrl(cc);
   try { await img.decode(); } catch { return null; }

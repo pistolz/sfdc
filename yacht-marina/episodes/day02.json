@@ -1,0 +1,193 @@
+{
+  "day": 2,
+  "mode": "daily",
+  "theme": "day",
+  "brand": "THE COMMENT MARINA",
+  "followers": 34,
+  "yachts": [
+    {
+      "name": "ZUHAIB",
+      "new": true,
+      "extras": [
+        "jetski"
+      ],
+      "request": "@vaulted___shadow · JET SKI",
+      "featured": true,
+      "hull": "#0f172a",
+      "accent": "#22d3ee"
+    },
+    {
+      "name": "@damntft",
+      "new": true,
+      "country": "pirate",
+      "request": "@damntft · PIRATE FLAG",
+      "featured": true,
+      "hull": "#1c1917",
+      "accent": "#dc2626"
+    },
+    {
+      "name": "@crazyemoji47",
+      "new": true,
+      "extras": [
+        "golf"
+      ],
+      "request": "@crazyemoji47 · MINI-GOLF DECK",
+      "featured": true,
+      "hull": "#f7f5ef",
+      "accent": "#16a34a"
+    },
+    {
+      "name": "@perk.switxhy",
+      "new": true,
+      "extras": [
+        "security"
+      ],
+      "request": "@perk.switxhy · SECURITY",
+      "featured": true,
+      "hull": "#111827",
+      "accent": "#e5e7eb"
+    },
+    {
+      "name": "@ebrahem_omran98",
+      "new": true,
+      "country": "ly"
+    },
+    {
+      "name": "@itschristroi2003",
+      "new": true
+    },
+    {
+      "name": "SS MAX",
+      "new": true
+    },
+    {
+      "name": "@oncu.aral",
+      "new": true,
+      "country": "tr"
+    },
+    {
+      "name": "@a_r_i_s_e_ko",
+      "new": true,
+      "country": "bd"
+    },
+    {
+      "name": "@mn_aman_77",
+      "new": true
+    },
+    {
+      "name": "@nxneskp_29",
+      "new": true,
+      "country": "th"
+    },
+    {
+      "name": "@o1.mu2",
+      "new": true,
+      "country": "gb-eng"
+    },
+    {
+      "name": "@mrsaito_o",
+      "new": true,
+      "country": "in"
+    },
+    {
+      "name": "@deison_15_16",
+      "new": true,
+      "country": "hn"
+    },
+    {
+      "name": "@thakuraaditiya101",
+      "new": true
+    },
+    {
+      "name": "@shayan74424",
+      "new": true,
+      "country": "pk"
+    },
+    {
+      "name": "@lore_tumo_",
+      "new": true,
+      "country": "it"
+    },
+    {
+      "name": "@natronn3",
+      "new": true
+    },
+    {
+      "name": "@dayle_silva_64",
+      "new": true
+    },
+    {
+      "name": "@eurosafebeacon25",
+      "new": true
+    },
+    {
+      "name": "@o_0_",
+      "new": true
+    },
+    {
+      "name": "@benyamin_khan_1",
+      "new": true
+    },
+    {
+      "name": "@barrett_hockey",
+      "new": true
+    },
+    {
+      "name": "@michaelkomidvari",
+      "new": true
+    },
+    {
+      "name": "@roanleeuwenkamp",
+      "new": true
+    },
+    {
+      "name": "@chawa2003",
+      "new": true
+    },
+    {
+      "name": "@real_lann0",
+      "new": true
+    },
+    {
+      "name": "@itsyoboijap",
+      "new": true
+    },
+    {
+      "name": "@golu_bro_990",
+      "new": true
+    },
+    {
+      "name": "@luca_lackner",
+      "new": true
+    },
+    {
+      "name": "@maxzk3l",
+      "new": true
+    },
+    {
+      "name": "@pablota73",
+      "new": true
+    },
+    {
+      "name": "@pierceindaperkins",
+      "new": true
+    }
+  ],
+  "vip": {
+    "name": "EBRAHEM",
+    "country": "ly",
+    "likes": 8,
+    "request": "@ebrahem_omran98 · MOST LIKED",
+    "hull": "#11151f",
+    "accent": "#e8b84a",
+    "extras": [
+      "pool",
+      "helipad",
+      "lights"
+    ]
+  },
+  "text": {
+    "next": "MOST LIKED COMMENT = TOMORROW'S VIP"
+  },
+  "seed": 7
+}

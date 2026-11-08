@@ -160,6 +160,22 @@ function buildGeometry(look) {
     parts.push(g);
     parts.push(box(0.3, 0.2, 0.2, -L / 2 - 1.4, 0.35, W * 0.15, '#1d2a44'));
   }
+  if (extras.has('golf')) { // putting green on the fore deck + flag pin + ball
+    const gx = L * 0.28;
+    parts.push(box(L * 0.24, 0.08, W * 0.62, gx, 0.84, 0, '#5bbf4f'));
+    parts.push(cyl(0.09, 0.09, 0.02, gx + L * 0.06, 0.89, W * 0.1, '#1a1a1a', 10));
+    parts.push(box(0.04, 1.0, 0.04, gx + L * 0.06, 1.38, W * 0.1, '#f2f2f2'));
+    parts.push(box(0.04, 0.24, 0.34, gx + L * 0.06, 1.76, W * 0.1 + 0.17, '#e63946'));
+    parts.push(sphere(0.07, gx - L * 0.05, 0.92, -W * 0.1, '#ffffff', 8));
+  }
+  if (extras.has('security')) { // a guard standing on the bow: black suit, shades
+    const sx = L * 0.36, sy = 0.84;
+    parts.push(box(0.16, 0.5, 0.14, sx, sy + 0.25, -0.1, '#14161c')); parts.push(box(0.16, 0.5, 0.14, sx, sy + 0.25, 0.1, '#14161c'));
+    parts.push(box(0.34, 0.62, 0.5, sx, sy + 0.82, 0, '#14161c'));
+    parts.push(box(0.36, 0.2, 0.12, sx + 0.02, sy + 1.02, 0, '#f2f2f2'));
+    parts.push(sphere(0.2, sx, sy + 1.32, 0, '#c58c62', 10));
+    parts.push(box(0.1, 0.07, 0.36, sx + 0.17, sy + 1.36, 0, '#0b0b0b'));
+  }
   if (extras.has('lights')) {
     const palette = ['#ff4d6d', '#ffd23f', '#3ddc97', '#4dabff', '#c77dff'];
     const n = look.size === 'super' ? 22 : 12;
